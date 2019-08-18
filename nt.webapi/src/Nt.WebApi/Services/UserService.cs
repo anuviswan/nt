@@ -11,7 +11,7 @@ namespace Nt.WebApi.Services
     {
         private readonly IMongoCollection<UserDto> _users;
 
-        public UserService(INtDbDatabaseSettings settings)
+        public UserService(IUserDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);

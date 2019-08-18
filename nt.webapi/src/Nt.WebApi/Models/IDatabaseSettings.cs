@@ -5,14 +5,7 @@ using System.Threading.Tasks;
 
 namespace Nt.WebApi.Models
 {
-    public class NtDbDatabaseSettings:INtDbDatabaseSettings
-    {
-        public string CollectionName { get; set; }
-        public string ConnectionString { get; set; }
-        public string DatabaseName { get; set; }
-    }
-
-    public interface INtDbDatabaseSettings
+    public interface IDatabaseSettings
     {
         string CollectionName { get; set; }
         string ConnectionString { get; set; }

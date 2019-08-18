@@ -31,10 +31,9 @@ namespace Nt.WebApi
             services.AddDbContext<TodoContext>(opt =>
                  opt.UseInMemoryDatabase("TodoList"));
 
-            services.Configure<NtDbDatabaseSettings>(Configuration.GetSection(nameof(NtDbDatabaseSettings)));
+            services.Configure<UserDatabaseSettings>(Configuration.GetSection(nameof(UserDatabaseSettings)));
 
-            services.AddSingleton<INtDbDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<NtDbDatabaseSettings>>().Value);
+            services.AddSingleton<IUserDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserDatabaseSettings>>().Value);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
