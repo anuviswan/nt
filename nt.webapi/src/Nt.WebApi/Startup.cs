@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nt.WebApi.Models;
+using Nt.WebApi.Services;
 
 namespace Nt.WebApi
 {
@@ -29,7 +30,16 @@ namespace Nt.WebApi
         {
             services.AddDbContext<TodoContext>(opt =>
                  opt.UseInMemoryDatabase("TodoList"));
+
+            services.Configure<NtDbDatabaseSettings>(Configuration.GetSection(nameof(NtDbDatabaseSettings)));
+
+            services.AddSingleton<INtDbDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<NtDbDatabaseSettings>>().Value);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<UserService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
