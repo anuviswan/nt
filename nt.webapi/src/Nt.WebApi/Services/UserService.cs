@@ -29,7 +29,7 @@ namespace Nt.WebApi.Services
             return user;
         }
 
-        public void Update(string id, UserDto userIn) => _users.ReplaceOne(book => book.Id == id, userIn);
+        public void Update(string id, UserDto userIn) => _users.ReplaceOne(user => user.Id == id, userIn);
 
         public void Remove(UserDto userIn) =>
             _users.DeleteOne(book => book.Id == userIn.Id);
