@@ -20,13 +20,15 @@ namespace Nt.WebApi.Controllers
         [HttpGet]
         public ActionResult<List<UserDto>> Get() => _userService.Get();
 
-        public ActionResult<LoginDto> ValidateUser(string userName,string password)
+        [HttpPost]
+        [Route("ValidateUser")]
+        public ActionResult<LoginDto> ValidateUser(UserDto userDto)
         {
-            if(userName == "jia" && password == "anu")
+            if(userDto.UserName == "jia" && userDto.PassKey == "anu")
             {
                 return new LoginDto
                 {
-                    UserName = userName,
+                    UserName = userDto.UserName,
                     LoggedInTime = DateTime.Now.ToUniversalTime(),
                     Validated = true
                 };
