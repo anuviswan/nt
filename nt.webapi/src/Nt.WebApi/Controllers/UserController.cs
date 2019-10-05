@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Nt.WebApi.Exceptions;
 using Nt.WebApi.Models;
 using Nt.WebApi.Services;
+using System;
+using System.Collections.Generic;
 
 namespace Nt.WebApi.Controllers
 {
@@ -28,7 +28,7 @@ namespace Nt.WebApi.Controllers
             try
             {
                 var base64Key = Convert.FromBase64String(userDto.PassKey);
-                var passKey = System.Text.ASCIIEncoding.ASCII.GetString(base64Key);
+                var passKey = System.Text.Encoding.ASCII.GetString(base64Key);
                 var validUser = _userService.Validate(userDto.UserName, passKey);
                 return new LoginDto
                 {
@@ -41,7 +41,7 @@ namespace Nt.WebApi.Controllers
             catch (Exception ex) when (ex is InvalidUserException)
             {
 
-                return new LoginDto { Validated = false };
+                return new LoginDto { Validated = false,ErrorMessage = "Invalid Username or Password" };
             }
             
         }
