@@ -12,5 +12,7 @@ namespace Nt.WebApi.Models
         public string UserName { get; set; }
         [BsonElement("passKey")]
         public string PassKey { get; set; }
+        [BsonElement("displayName")]
+        public string DisplayName { get; set; }
     }
 }

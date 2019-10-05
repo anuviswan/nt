@@ -33,7 +33,8 @@ namespace Nt.WebApi.Controllers
                 return new LoginDto
                 {
                     LoggedInTime = DateTime.Now,
-                    UserName = validUser.UserName,
+                    Id = validUser.Id,
+                    DisplayName = validUser.DisplayName,
                     Validated = true
                 };
             }
