@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using Nt.WebApi.Exceptions;
 using Nt.WebApi.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,15 @@ namespace Nt.WebApi.Services
         public List<UserDto> Get() => _users.Find(user => true).ToList();
 
         public UserDto Get(string id) => _users.Find<UserDto>(user => user.Id == id).FirstOrDefault();
+
+        public UserDto Validate(string userName,string passKey)
+        {
+            var result = _users.Find<UserDto>(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));
+            if (result.Any())
+                return result.First();
+            else
+                throw new InvalidUserException();
+        }
 
         public UserDto Create(UserDto user)
         {

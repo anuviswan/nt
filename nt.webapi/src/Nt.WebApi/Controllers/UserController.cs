@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Nt.WebApi.Exceptions;
 using Nt.WebApi.Models;
 using Nt.WebApi.Services;
 
@@ -24,16 +25,24 @@ namespace Nt.WebApi.Controllers
         [Route("ValidateUser")]
         public ActionResult<LoginDto> ValidateUser(UserDto userDto)
         {
-            if(userDto.UserName == "jia" && userDto.PassKey == "anu")
+            try
             {
+                var base64Key = Convert.FromBase64String(userDto.PassKey);
+                var passKey = System.Text.ASCIIEncoding.ASCII.GetString(base64Key);
+                var validUser = _userService.Validate(userDto.UserName, passKey);
                 return new LoginDto
                 {
-                    UserName = userDto.UserName,
-                    LoggedInTime = DateTime.Now.ToUniversalTime(),
+                    LoggedInTime = DateTime.Now,
+                    UserName = validUser.UserName,
                     Validated = true
                 };
             }
-            return new LoginDto { Validated = false };
+            catch (Exception ex) when (ex is InvalidUserException)
+            {
+
+                return new LoginDto { Validated = false };
+            }
+            
         }
     }
 }
