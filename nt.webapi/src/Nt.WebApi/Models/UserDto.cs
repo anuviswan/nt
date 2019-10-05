@@ -1,12 +1,9 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Nt.WebApi.Interfaces;
 
 namespace Nt.WebApi.Models
 {
-    public class UserDto :BaseDto
+    public class UserDto :BaseDto,IErrorInfo
     {
         [BsonElement("userName")]
         public string UserName { get; set; }
@@ -14,5 +11,7 @@ namespace Nt.WebApi.Models
         public string PassKey { get; set; }
         [BsonElement("displayName")]
         public string DisplayName { get; set; }
+        [BsonIgnore]
+        public string ErrorMessage { get; set; }
     }
 }

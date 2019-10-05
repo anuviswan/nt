@@ -43,7 +43,23 @@ namespace Nt.WebApi.Controllers
 
                 return new LoginDto { Validated = false,ErrorMessage = "Invalid Username or Password" };
             }
-            
+        }
+
+        [HttpPost]
+        [Route("Register")]
+
+        public ActionResult<UserDto> CreateUser(UserDto user)
+        {
+            if (_userService.CheckIfUserExists(user.UserName))
+            {
+                user.ErrorMessage = "User already exists";
+                return user;
+            }
+            else
+            {
+                user.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+                return _userService.Create(user);
+            }
         }
     }
 }

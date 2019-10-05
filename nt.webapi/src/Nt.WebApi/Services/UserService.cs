@@ -24,6 +24,8 @@ namespace Nt.WebApi.Services
 
         public UserDto Get(string id) => _users.Find<UserDto>(user => user.Id == id).FirstOrDefault();
 
+        public bool CheckIfUserExists(string userName) => _users.Find<UserDto>(user => user.UserName.Equals(userName)).Any();
+
         public UserDto Validate(string userName,string passKey)
         {
             var result = _users.Find<UserDto>(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));
