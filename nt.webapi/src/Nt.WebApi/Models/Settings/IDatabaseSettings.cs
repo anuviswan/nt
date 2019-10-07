@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nt.WebApi.Models
+namespace Nt.WebApi.Models.Settings
 {
     public interface IDatabaseSettings
     {

@@ -1,5 +1,6 @@
 ﻿using Nt.WebApi.Interfaces.Repository;
 using Nt.WebApi.Models;
+using Nt.WebApi.Models.Settings;
 
 namespace Nt.WebApi.Interfaces.Services
 {

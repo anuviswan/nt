@@ -5,6 +5,7 @@ using Nt.WebApi.Interfaces.Services;
 using Nt.WebApi.Models;
 using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
+using Nt.WebApi.Models.Settings;
 using Nt.WebApi.Services;
 using System;
 using System.Collections.Generic;

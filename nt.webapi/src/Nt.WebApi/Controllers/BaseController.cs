@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Nt.WebApi.Models;
+using Nt.WebApi.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

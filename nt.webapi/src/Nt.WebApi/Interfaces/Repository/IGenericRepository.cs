@@ -1,4 +1,4 @@
-﻿using Nt.WebApi.Models;
+﻿using Nt.WebApi.Models.Settings;
 using System;
 using System.Collections.Generic;
 

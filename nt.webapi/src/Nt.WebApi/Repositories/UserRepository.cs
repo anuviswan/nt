@@ -2,6 +2,7 @@
 using Nt.WebApi.Exceptions;
 using Nt.WebApi.Interfaces.Services;
 using Nt.WebApi.Models;
+using Nt.WebApi.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

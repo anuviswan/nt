@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using Nt.WebApi.Interfaces;
 using Nt.WebApi.Interfaces.Repository;
-using Nt.WebApi.Models;
+using Nt.WebApi.Models.Settings;
 using System;
 using System.Collections.Generic;
 
