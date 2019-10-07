@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nt.WebApi.Exceptions;
 using Nt.WebApi.Interfaces.Services;
 using Nt.WebApi.Models;
+using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Services;
 using System;
@@ -25,30 +26,27 @@ namespace Nt.WebApi.Controllers
         public IEnumerable<UserProfileResponse> Get()
         {
             var result = _userService.Get();
-            return _mapper.Map<IEnumerable<UserProfileResponse>>(result);
+            return Mapper.Map<IEnumerable<UserProfileResponse>>(result);
         }
 
         [HttpPost]
         [Route("ValidateUser")]
-        public ActionResult<LoginDto> ValidateUser(UserEntity userDto)
+        public LoginResponse ValidateUser(LoginRequest loginRequest)
         {
             try
             {
-                var base64Key = Convert.FromBase64String(userDto.PassKey);
-                var passKey = System.Text.Encoding.ASCII.GetString(base64Key);
-                var validUser = _userService.ValidateUser(userDto.UserName, passKey);
-                return new LoginDto
-                {
-                    LoggedInTime = DateTime.Now,
-                    Id = validUser.Id,
-                    DisplayName = validUser.DisplayName,
-                    Validated = true
-                };
+                var userEntity = Mapper.Map<UserEntity>(loginRequest);
+                var base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(userEntity.PassKey));
+                var validUser = _userService.ValidateUser(userEntity.UserName, base64Key);
+                var result = Mapper.Map<LoginResponse>(validUser);
+                result.IsAuthenticated = true;
+                result.LoginTime = DateTime.UtcNow;
+                return result;
             }
             catch (Exception ex) when (ex is InvalidUserException)
             {
 
-                return new LoginDto { Validated = false,ErrorMessage = "Invalid Username or Password" };
+                return new LoginResponse { IsAuthenticated = false,ErrorMessage = "Invalid Username or Password" };
             }
         }
 

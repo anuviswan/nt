@@ -10,8 +10,10 @@ namespace Nt.WebApi.Controllers
 {
     public class BaseController:ControllerBase
     {
-        protected IMapper _mapper;
+        private IMapper _mapper;
         protected IDatabaseSettings _databaseSettings;
+
+        protected IMapper Mapper => _mapper;
         public BaseController(IMapper mapper, IDatabaseSettings databaseSettings)
         {
             _mapper = mapper;

@@ -14,9 +14,10 @@ namespace Nt.WebApi.Profiles
         public UserEntityProfile()
         {
             // TO UserEntity
-            CreateMap<LoginValidationRequest, UserEntity>();
+            CreateMap<LoginRequest, UserEntity>();
             // From UserEntity
             CreateMap<UserEntity, UserProfileResponse>();
+            CreateMap<UserEntity, LoginResponse>();
             
         }
     }
