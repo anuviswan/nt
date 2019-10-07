@@ -1,13 +1,9 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Nt.WebApi.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nt.WebApi.Models
 {
-    public class MovieDto : BaseEntity
+    public class MovieEntity : BaseEntity
     {
         [BsonElement("movieTitle")]
         public string Title { get; set; }
