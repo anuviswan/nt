@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nt.WebApi.Models
 {
-    public class MovieDto : BaseDto
+    public class MovieDto : BaseEntity
     {
         [BsonElement("movieTitle")]
         public string Title { get; set; }

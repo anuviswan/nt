@@ -3,7 +3,7 @@ using Nt.WebApi.Interfaces;
 
 namespace Nt.WebApi.Models
 {
-    public class UserDto :BaseDto,IErrorInfo
+    public class UserEntity :BaseEntity
     {
         [BsonElement("userName")]
         public string UserName { get; set; }
@@ -11,7 +11,6 @@ namespace Nt.WebApi.Models
         public string PassKey { get; set; }
         [BsonElement("displayName")]
         public string DisplayName { get; set; }
-        [BsonIgnore]
-        public string ErrorMessage { get; set; }
+
     }
 }

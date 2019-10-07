@@ -6,7 +6,7 @@ using Nt.WebApi.Interfaces;
 
 namespace Nt.WebApi.Models
 {
-    public class LoginDto:BaseDto,IErrorInfo
+    public class LoginDto:BaseEntity,IErrorInfo
     {
         public string DisplayName { get; set; }
         public DateTime LoggedInTime { get; set; }

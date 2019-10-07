@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Nt.WebApi.Exceptions;
+using Nt.WebApi.Interfaces.Services;
 using Nt.WebApi.Models;
+using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Services;
 using System;
 using System.Collections.Generic;
@@ -9,27 +12,31 @@ namespace Nt.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
-        private readonly UserService _userService;
+        private readonly IUserRepository _userService;
 
-        public UserController(UserService userService)
+        public UserController(IMapper mapper, IUserDatabaseSettings userDatabaseSettings,IUserRepository userRepository):base(mapper,userDatabaseSettings)
         {
-            _userService = userService;
+            _userService = userRepository;
         }
 
         [HttpGet]
-        public ActionResult<List<UserDto>> Get() => _userService.Get();
+        public IEnumerable<UserProfileResponse> Get()
+        {
+            var result = _userService.Get();
+            return _mapper.Map<IEnumerable<UserProfileResponse>>(result);
+        }
 
         [HttpPost]
         [Route("ValidateUser")]
-        public ActionResult<LoginDto> ValidateUser(UserDto userDto)
+        public ActionResult<LoginDto> ValidateUser(UserEntity userDto)
         {
             try
             {
                 var base64Key = Convert.FromBase64String(userDto.PassKey);
                 var passKey = System.Text.Encoding.ASCII.GetString(base64Key);
-                var validUser = _userService.Validate(userDto.UserName, passKey);
+                var validUser = _userService.ValidateUser(userDto.UserName, passKey);
                 return new LoginDto
                 {
                     LoggedInTime = DateTime.Now,
@@ -48,18 +55,19 @@ namespace Nt.WebApi.Controllers
         [HttpPost]
         [Route("Register")]
 
-        public ActionResult<UserDto> CreateUser(UserDto user)
+        public ActionResult<UserEntity> CreateUser(UserEntity user)
         {
-            if (_userService.CheckIfUserExists(user.UserName))
-            {
-                user.ErrorMessage = "User already exists";
-                return user;
-            }
-            else
-            {
-                user.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-                return _userService.Create(user);
-            }
+            //if (_userService.CheckIfUserExists(user.UserName))
+            //{
+            //    //user.ErrorMessage = "User already exists";
+            //    return user;
+            //}
+            //else
+            //{
+            //    user.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+            //    return _userService.Create(user);
+            //}
+            return default;
         }
     }
 }
