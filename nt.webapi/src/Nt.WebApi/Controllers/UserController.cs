@@ -53,19 +53,21 @@ namespace Nt.WebApi.Controllers
         [HttpPost]
         [Route("Register")]
 
-        public ActionResult<UserEntity> CreateUser(UserEntity user)
+        public CreateUserProfileResponse CreateUser(CreateUserProfileRequest user)
         {
-            //if (_userService.CheckIfUserExists(user.UserName))
-            //{
-            //    //user.ErrorMessage = "User already exists";
-            //    return user;
-            //}
-            //else
-            //{
-            //    user.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-            //    return _userService.Create(user);
-            //}
-            return default;
+            var userEntity = Mapper.Map<UserEntity>(user);
+            if (_userService.CheckIfUserExists(user.UserName))
+            {
+                var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
+                userReponse.ErrorMessage = "User already exists";
+                return userReponse;
+            }
+            else
+            {
+                userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+                var result = _userService.Create(userEntity);
+                return Mapper.Map<CreateUserProfileResponse>(result);
+            }
         }
     }
 }
