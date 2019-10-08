@@ -19,5 +19,6 @@ namespace Nt.WebApi.Controllers
         {
             _userService = movieRepository;
         }
+
     }
 }
