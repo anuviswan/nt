@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Nt.WebApi.Services;
 using Nt.WebApi.Interfaces.Services;
-using Nt.WebApi.Models.Settings;
+using Nt.WebApi.Repository.Repositories;
+using Nt.WebApi.Shared.Settings;
 
 namespace Nt.WebApi
 {

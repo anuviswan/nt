@@ -1,10 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Nt.WebApi.Interfaces;
 
-namespace Nt.WebApi.Models
+namespace Nt.WebApi.Shared.Entities
 {
-    public class BaseEntity:IBaseEntity
+    public class BaseEntity : IBaseEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

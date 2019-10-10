@@ -16,4 +16,13 @@
     <PackageReference Include="MongoDB.Driver" Version="2.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nt.WebApi.Repository\Nt.WebApi.Repository.csproj" />
+    <ProjectReference Include="..\Nt.WebApi.Shared\Nt.WebApi.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

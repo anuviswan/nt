@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nt.WebApi.Models.Settings
+namespace Nt.WebApi.Shared.Settings
 {
-    public class MovieDatabaseSettings : IUserDatabaseSettings
+    public class UserDatabaseSettings : IUserDatabaseSettings
     {
         public string CollectionName { get; set; }
         public string ConnectionString { get; set; }
@@ -13,7 +13,7 @@ namespace Nt.WebApi.Models.Settings
     }
 
 
-    public interface IMovieDatabaseSettings : IDatabaseSettings
+    public interface IUserDatabaseSettings : IDatabaseSettings
     {
 
     }

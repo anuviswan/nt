@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Nt.WebApi.Models
+namespace Nt.WebApi.Shared.Entities
 {
     public class MovieEntity : BaseEntity
     {

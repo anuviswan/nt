@@ -1,18 +1,18 @@
 ﻿using MongoDB.Driver;
-using Nt.WebApi.Exceptions;
 using Nt.WebApi.Interfaces.Services;
-using Nt.WebApi.Models;
-using Nt.WebApi.Models.Settings;
+using Nt.WebApi.Shared.Entities;
+using Nt.WebApi.Shared.Exceptions;
+using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nt.WebApi.Services
+namespace Nt.WebApi.Repository.Repositories
 {
-    public class UserRepository : GenericRepositoryService<UserEntity,IUserDatabaseSettings>, IUserRepository
+    public class UserRepository : GenericRepositoryService<UserEntity, IUserDatabaseSettings>, IUserRepository
     {
-        public UserRepository(IUserDatabaseSettings settings):base(settings)
+        public UserRepository(IUserDatabaseSettings settings) : base(settings)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Nt.WebApi.Services
 
         public bool CheckIfUserExists(string userName) => _dataCollection.Find<UserEntity>(user => user.UserName.Equals(userName)).Any();
 
-        public UserEntity ValidateUser(string userName,string passKey)
+        public UserEntity ValidateUser(string userName, string passKey)
         {
             var result = _dataCollection.Find<UserEntity>(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));
             if (result.Any())

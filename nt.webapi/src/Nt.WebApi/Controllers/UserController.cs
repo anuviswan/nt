@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Nt.WebApi.Exceptions;
 using Nt.WebApi.Interfaces.Services;
-using Nt.WebApi.Models;
 using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
-using Nt.WebApi.Models.Settings;
-using Nt.WebApi.Services;
+using Nt.WebApi.Shared.Entities;
+using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
 

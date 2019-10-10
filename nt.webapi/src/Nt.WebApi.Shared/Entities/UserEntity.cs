@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Nt.WebApi.Interfaces;
 
-namespace Nt.WebApi.Models
+namespace Nt.WebApi.Shared.Entities
 {
-    public class UserEntity :BaseEntity
+    public class UserEntity : BaseEntity
     {
         [BsonElement("userName")]
         public string UserName { get; set; }

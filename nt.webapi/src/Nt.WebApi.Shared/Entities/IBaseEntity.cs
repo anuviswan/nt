@@ -1,4 +1,4 @@
-﻿namespace Nt.WebApi.Interfaces
+﻿namespace Nt.WebApi.Shared.Entities
 {
     public interface IBaseEntity
     {

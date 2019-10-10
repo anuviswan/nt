@@ -1,13 +1,13 @@
 ﻿using MongoDB.Driver;
-using Nt.WebApi.Interfaces;
-using Nt.WebApi.Interfaces.Repository;
-using Nt.WebApi.Models.Settings;
+using Nt.WebApi.Shared.Entities;
+using Nt.WebApi.Shared.IRepositories;
+using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.WebApi.Services
+namespace Nt.WebApi.Repository.Repositories
 {
-    public class GenericRepositoryService<TEntity,TDataContext>:IGenericRepository<TEntity,TDataContext> where TEntity : class, IBaseEntity
+    public class GenericRepositoryService<TEntity, TDataContext> : IGenericRepository<TEntity, TDataContext> where TEntity : class, IBaseEntity
                                                                where TDataContext : IDatabaseSettings
     {
         protected readonly IMongoCollection<TEntity> _dataCollection;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Nt.WebApi.Models;
 using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
+using Nt.WebApi.Shared.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
