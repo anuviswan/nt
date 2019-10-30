@@ -27,7 +27,7 @@ namespace Nt.WebApi.Repository.Repositories
 
         public virtual IEnumerable<TEntity> Get()
         {
-            throw new NotImplementedException();
+            return _dataCollection.AsQueryable();
         }
 
         public virtual IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)

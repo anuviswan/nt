@@ -30,6 +30,14 @@ namespace Nt.WebApi.Controllers
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 
+        [HttpGet]
+        [Route("GetAll")]
+        public IEnumerable<MovieResponse> Get()
+        {
+            var result = _movieService.Get();
+            return Mapper.Map<IEnumerable<MovieResponse>>(result);
+        }
+
 
         [HttpPost]
         [Route("Create")]
