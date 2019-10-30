@@ -32,7 +32,7 @@ namespace Nt.WebApi.Repository.Repositories
 
         public virtual IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _dataCollection.AsQueryable();
         }
     }
 }
