@@ -22,6 +22,10 @@ namespace Nt.WebApi.Controllers
             _userService = userRepository;
         }
 
+        /// <summary>
+        /// Retrieve List of Users
+        /// </summary>
+        /// <returns>List Of Users</returns>
         [HttpGet]
         public IEnumerable<UserProfileResponse> Get()
         {
@@ -29,6 +33,11 @@ namespace Nt.WebApi.Controllers
             return Mapper.Map<IEnumerable<UserProfileResponse>>(result);
         }
 
+        /// <summary>
+        /// Validate User Login Request
+        /// </summary>
+        /// <param name="loginRequest">Includes UserName and Base 64 encoded password</param>
+        /// <returns>User Details if successfull login with IsAuthenticated Flag true. Invalid User with IsAuthenticated Flag false if validation fails</returns>
         [HttpPost]
         [Route("ValidateUser")]
         public LoginResponse ValidateUser(LoginRequest loginRequest)
@@ -49,6 +58,12 @@ namespace Nt.WebApi.Controllers
                 return new LoginResponse { IsAuthenticated = false,ErrorMessage = "Invalid Username or Password" };
             }
         }
+
+        /// <summary>
+        /// Creates a new User with the specified details
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
 
         [HttpPost]
         [Route("Register")]

@@ -23,6 +23,11 @@ namespace Nt.WebApi.Controllers
             _movieService = movieRepository;
         }
 
+        /// <summary>
+        /// Searches for Movies with the specified Movie Title
+        /// </summary>
+        /// <param name="movieName"></param>
+        /// <returns>List of Movies which contains specified keyword in Movie Title</returns>
         [HttpGet]
         public IEnumerable<MovieResponse> Search(string movieName)
         {
@@ -31,7 +36,7 @@ namespace Nt.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all movies
+        /// Retrieves all movies in the database
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -47,14 +52,15 @@ namespace Nt.WebApi.Controllers
         /// Creates new Movie with specified Title, Release Date and Director Name
         /// </summary>
         /// <param name="movie"></param>
-        /// <returns></returns>
+        /// <returns>Returns Movie Entity on successfull</returns>
         [HttpPost]
         [Route("Create")]
 
-        public MovieEntity Create(CreateMovieRequest movie)
+        public MovieResponse Create(CreateMovieRequest movie)
         {
             var movieEntity = Mapper.Map<MovieEntity>(movie);
-            return _movieService.Create(movieEntity);
+            var result = _movieService.Create(movieEntity);
+            return Mapper.Map<MovieResponse>(result);
         }
 
 
