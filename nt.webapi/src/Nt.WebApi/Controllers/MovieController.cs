@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
 using System;
@@ -13,12 +14,18 @@ namespace Nt.WebApi.Controllers
     [ApiController]
     public class MovieController : BaseController
     {
-        private readonly IMovieRepository _userService;
+        private readonly IMovieRepository _movieRepository;
 
         public MovieController(IMapper mapper, IMovieDatabaseSettings movieDatabaseSettings, IMovieRepository movieRepository) : base(mapper, movieDatabaseSettings)
         {
-            _userService = movieRepository;
+            _movieRepository = movieRepository;
         }
 
+        [HttpGet]
+        public IEnumerable<MovieResponse> Search(string movieName)
+        {
+            var result = _movieRepository.Get(x=>x.Title.Contains(movieName));
+            return Mapper.Map<IEnumerable<MovieResponse>>(result);
+        }
     }
 }
