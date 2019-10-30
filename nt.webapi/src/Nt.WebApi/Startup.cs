@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using Nt.WebApi.Repository.Repositories;
 using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
-
+using Swashbuckle.AspNetCore.Swagger;
 namespace Nt.WebApi
 {
     public class Startup
@@ -27,6 +27,14 @@ namespace Nt.WebApi
             ConfigureDatabaseSettings(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             ConfigureRepositories(services);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Example API",
+                    Version = "v1"
+                });
+            });
         }
 
         private void ConfigureRepositories(IServiceCollection services)
@@ -57,6 +65,11 @@ namespace Nt.WebApi
             }
 
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Example API v1");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvcWithDefaultRoute();
