@@ -26,10 +26,7 @@ namespace Nt.WebApi
             services.AddAutoMapper(typeof(Startup));
             ConfigureDatabaseSettings(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            
-            
-
+            ConfigureRepositories(services);
         }
 
         private void ConfigureRepositories(IServiceCollection services)
