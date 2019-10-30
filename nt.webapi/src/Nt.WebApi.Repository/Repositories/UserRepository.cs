@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
-using Nt.WebApi.Interfaces.Services;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.Exceptions;
+using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;

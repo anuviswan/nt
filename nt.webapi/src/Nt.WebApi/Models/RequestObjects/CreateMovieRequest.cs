@@ -10,6 +10,5 @@ namespace Nt.WebApi.Models.RequestObjects
         public string MovieName { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string Director { get; set; }
-        public string Language { get; set; }
     }
 }

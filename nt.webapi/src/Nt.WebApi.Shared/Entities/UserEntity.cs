@@ -1,5 +1,4 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Nt.WebApi.Interfaces;
 
 namespace Nt.WebApi.Shared.Entities
 {

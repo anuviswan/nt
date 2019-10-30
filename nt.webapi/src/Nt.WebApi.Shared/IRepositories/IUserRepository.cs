@@ -1,8 +1,7 @@
 ﻿using Nt.WebApi.Shared.Entities;
-using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
 
-namespace Nt.WebApi.Interfaces.Services
+namespace Nt.WebApi.Shared.IRepositories
 {
     public interface IUserRepository : IGenericRepository<UserEntity, IUserDatabaseSettings>
     {

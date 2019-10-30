@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Nt.WebApi.Exceptions;
-using Nt.WebApi.Interfaces.Services;
 using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Shared.Entities;
+using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
