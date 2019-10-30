@@ -30,6 +30,10 @@ namespace Nt.WebApi.Controllers
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 
+        /// <summary>
+        /// Retrieves all movies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetAll")]
         public IEnumerable<MovieResponse> Get()
@@ -39,10 +43,15 @@ namespace Nt.WebApi.Controllers
         }
 
 
+        /// <summary>
+        /// Creates new Movie with specified Title, Release Date and Director Name
+        /// </summary>
+        /// <param name="movie"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Create")]
 
-        public MovieEntity CreateUser(CreateMovieRequest movie)
+        public MovieEntity Create(CreateMovieRequest movie)
         {
             var movieEntity = Mapper.Map<MovieEntity>(movie);
             return _movieService.Create(movieEntity);
