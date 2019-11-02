@@ -72,7 +72,7 @@ namespace Nt.WebApi.Controllers
         public CreateUserProfileResponse CreateUser(CreateUserProfileRequest user)
         {
             var userEntity = Mapper.Map<UserEntity>(user);
-            if (_userService.CheckIfUserExists(user.UserName))
+            if (_userService.CheckIfUserExists(user.UserName.ToLower()))
             {
                 var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
                 userReponse.ErrorMessage = "User already exists";
@@ -80,6 +80,7 @@ namespace Nt.WebApi.Controllers
             }
             else
             {
+                userEntity.UserName = userEntity.UserName.ToLower();
                 userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
                 var result = _userService.Create(userEntity);
                 return Mapper.Map<CreateUserProfileResponse>(result);
