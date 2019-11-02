@@ -14,7 +14,7 @@ namespace Nt.WebApi.Profiles
                     .ForMember(dest => dest.DirectorName, opt => opt.MapFrom(src => src.Director)); 
             CreateMap<MovieEntity, MovieResponse>()
                      .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-                    .ForMember(dest => dest.Director, opt => opt.MapFrom(src => src.DirectorName)); ;
+                    .ForMember(dest => dest.Director, opt => opt.MapFrom(src => src.DirectorName)); 
 
         }
     }

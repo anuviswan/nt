@@ -6,13 +6,11 @@ namespace Nt.WebApi.Controllers
 {
     public class BaseController:ControllerBase
     {
-        protected IDatabaseSettings _databaseSettings;
 
         protected IMapper Mapper { get; }
-        public BaseController(IMapper mapper, IDatabaseSettings databaseSettings)
+        public BaseController(IMapper mapper)
         {
             Mapper = mapper;
-            _databaseSettings = databaseSettings;
         }
     }
 }

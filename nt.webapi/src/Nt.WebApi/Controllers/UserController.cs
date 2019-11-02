@@ -17,7 +17,7 @@ namespace Nt.WebApi.Controllers
     {
         private readonly IUserRepository _userService;
 
-        public UserController(IMapper mapper, IUserDatabaseSettings userDatabaseSettings,IUserRepository userRepository):base(mapper,userDatabaseSettings)
+        public UserController(IMapper mapper, IUserRepository userRepository):base(mapper)
         {
             _userService = userRepository;
         }
@@ -44,7 +44,8 @@ namespace Nt.WebApi.Controllers
         {
             try
             {
-                var userEntity = Mapper.Map<UserEntity>(loginRequest);
+                
+                UserEntity userEntity = Mapper.Map<UserEntity>(loginRequest);
                 var base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(userEntity.PassKey));
                 var validUser = _userService.ValidateUser(userEntity.UserName, base64Key);
                 var result = Mapper.Map<LoginResponse>(validUser);

@@ -18,7 +18,7 @@ namespace Nt.WebApi.Controllers
     {
         private readonly IMovieRepository _movieService;
 
-        public MovieController(IMapper mapper, IMovieDatabaseSettings movieDatabaseSettings, IMovieRepository movieRepository) : base(mapper, movieDatabaseSettings)
+        public MovieController(IMapper mapper, IMovieRepository movieRepository) : base(mapper)
         {
             _movieService = movieRepository;
         }
