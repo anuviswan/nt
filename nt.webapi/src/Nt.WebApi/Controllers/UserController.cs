@@ -44,7 +44,6 @@ namespace Nt.WebApi.Controllers
         {
             try
             {
-                
                 UserEntity userEntity = Mapper.Map<UserEntity>(loginRequest);
                 var base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(userEntity.PassKey));
                 var validUser = _userService.ValidateUser(userEntity.UserName, base64Key);

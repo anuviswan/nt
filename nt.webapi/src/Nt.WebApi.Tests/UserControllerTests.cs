@@ -10,6 +10,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Controller
 {
@@ -34,11 +35,17 @@ namespace Controller
         {
             _userEntityCollection = new List<UserEntity>
             {
-                new UserEntity { DisplayName = "John Doe", UserName = "johndoe" , PassKey = "test"},
-                new UserEntity { DisplayName = "David D", UserName = "davidd" , PassKey = "test"}
+                new UserEntity { DisplayName = "John Doe", UserName = "johndoe" , PassKey =  ToBase64("test")},
+                new UserEntity { DisplayName = "David D", UserName = "davidd" , PassKey = ToBase64("test")}
             };
         }
 
+        private string ToBase64(string source)
+        {
+            return Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(source));
+        }
+
+        
         [Test]
         public void GetAll_ShouldReturnMoreThanOne()
         {
@@ -127,6 +134,31 @@ namespace Controller
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
             Assert.AreEqual(userCount, _userEntityCollection.Count);
+
+        }
+
+
+        [Test]
+        public void ValidateUser_ValidUser_ShouldSucceed()
+        {
+            var random = new Random();
+            var userEntity = _userEntityCollection[random.Next(0, _userEntityCollection.Count - 1)];
+            var userCount = _userEntityCollection.Count;
+            var loginRequest = new LoginRequest
+            {
+                PassKey = userEntity.PassKey,
+                UserName = userEntity.UserName,
+
+            };
+            var mockRepository = new Mock<IUserRepository>();
+            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(),It.IsAny<string>()))
+                          .Returns(userEntity);
+            
+            var userController = new UserController(_mapper, mockRepository.Object);
+            var result = userController.ValidateUser(loginRequest);
+
+            Assert.IsTrue(result.IsAuthenticated);
+            Assert.IsTrue(string.IsNullOrEmpty(result.ErrorMessage));
 
         }
 
