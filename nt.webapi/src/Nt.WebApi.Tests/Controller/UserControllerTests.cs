@@ -3,7 +3,6 @@ using Moq;
 using Nt.WebApi.Controllers;
 using Nt.WebApi.Exceptions;
 using Nt.WebApi.Models.RequestObjects;
-using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Profiles;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.IRepositories;
@@ -11,9 +10,8 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Controller
+namespace Nt.WebApi.Tests.Controller
 {
     public class UserControllerTests
     {
@@ -46,7 +44,7 @@ namespace Controller
             return Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(source));
         }
 
-        
+
         [Test]
         public void GetAll_ShouldReturnMoreThanOne()
         {
@@ -77,7 +75,7 @@ namespace Controller
 
             var userController = new UserController(_mapper, mockRepository.Object);
             var result = userController.CreateUser(userProfile);
-            Assert.IsTrue(_userEntityCollection.Any(x=>x.UserName.Equals(userProfile.UserName,StringComparison.InvariantCultureIgnoreCase) && x.DisplayName.Equals(userProfile.DisplayName))); 
+            Assert.IsTrue(_userEntityCollection.Any(x => x.UserName.Equals(userProfile.UserName, StringComparison.InvariantCultureIgnoreCase) && x.DisplayName.Equals(userProfile.DisplayName)));
 
         }
 
@@ -119,7 +117,7 @@ namespace Controller
             var userProfile = new CreateUserProfileRequest
             {
                 DisplayName = userEntity.DisplayName,
-                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? (char.IsUpper(c) ?char.ToLower(c) : char.ToUpper(c)) : c).ToArray())
+                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c) : c).ToArray())
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.Get())
@@ -152,9 +150,9 @@ namespace Controller
 
             };
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(),It.IsAny<string>()))
+            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
                           .Returns(userEntity);
-            
+
             var userController = new UserController(_mapper, mockRepository.Object);
             var result = userController.ValidateUser(loginRequest);
 
@@ -195,7 +193,7 @@ namespace Controller
             var loginRequest = new LoginRequest
             {
                 PassKey = userEntity.PassKey,
-                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? (char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c)) : c).ToArray())
+                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c) : c).ToArray())
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
