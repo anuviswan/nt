@@ -186,5 +186,29 @@ namespace Controller
 
         }
 
+        [Test]
+        public void ValidateUser_CaseSensitiveValidUser_ShouldSucceed()
+        {
+            var random = new Random();
+            var userEntity = _userEntityCollection[random.Next(0, _userEntityCollection.Count - 1)];
+            var userCount = _userEntityCollection.Count;
+            var loginRequest = new LoginRequest
+            {
+                PassKey = userEntity.PassKey,
+                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? (char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c)) : c).ToArray())
+            };
+            var mockRepository = new Mock<IUserRepository>();
+            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
+                          .Returns(userEntity);
+
+            var userController = new UserController(_mapper, mockRepository.Object);
+            var result = userController.ValidateUser(loginRequest);
+
+            Assert.IsTrue(result.IsAuthenticated);
+            Assert.IsTrue(string.IsNullOrEmpty(result.ErrorMessage));
+
+        }
+
+
     }
 }
