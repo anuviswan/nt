@@ -1,6 +1,7 @@
 using AutoMapper;
 using Moq;
 using Nt.WebApi.Controllers;
+using Nt.WebApi.Exceptions;
 using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Profiles;
@@ -159,6 +160,29 @@ namespace Controller
 
             Assert.IsTrue(result.IsAuthenticated);
             Assert.IsTrue(string.IsNullOrEmpty(result.ErrorMessage));
+
+        }
+
+        [Test]
+        public void ValidateUser_InvalidUser_ShouldFail()
+        {
+            var random = new Random();
+            var userCount = _userEntityCollection.Count;
+            var loginRequest = new LoginRequest
+            {
+                PassKey = "invalid",
+                UserName = "invaliduser",
+
+            };
+            var mockRepository = new Mock<IUserRepository>();
+            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
+                          .Throws<InvalidUserException>();
+
+            var userController = new UserController(_mapper, mockRepository.Object);
+            var result = userController.ValidateUser(loginRequest);
+
+            Assert.IsFalse(result.IsAuthenticated);
+            Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
 
         }
 
