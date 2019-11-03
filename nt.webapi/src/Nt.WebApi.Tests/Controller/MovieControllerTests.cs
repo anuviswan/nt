@@ -1,12 +1,17 @@
 ﻿using AutoMapper;
+using Moq;
+using Nt.WebApi.Controllers;
 using Nt.WebApi.Profiles;
 using Nt.WebApi.Shared.Entities;
+using Nt.WebApi.Shared.IRepositories;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Nt.WebApi.Tests.Controller
 {
+    [TestFixture]
     public class MovieControllerTests
     {
         private List<MovieEntity> _movieCollection;
@@ -27,11 +32,27 @@ namespace Nt.WebApi.Tests.Controller
 
         private void InitliazeCollection()
         {
-            _movieCollection = new List<MovieEntity>
+            _movieCollection = Enumerable.Range(1, 10).Select(x => new MovieEntity
             {
-                new MovieEntity { Title = "Movie 1", DirectorName = "Director 1", ReleaseDate = DateTime.Now },
-                new MovieEntity { Title = "Movie 2", DirectorName = "Director 2", ReleaseDate = DateTime.Now }
-            };
+                DirectorName = $"Directory {x}",
+                ReleaseDate = DateTime.Now,
+                Title = $"Title {x}"
+            }).ToList();
+        }
+
+        [Test]
+        public void SearchMovie_ValidMovie_GetValidResult()
+        {
+            var random = new Random();
+            var movie = _movieCollection[random.Next(0, _movieCollection.Count - 1)];
+            var mockMovieRepository = new Mock<IMovieRepository>();
+
+            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
+                               .Returns<Func<MovieEntity, bool>>((predicate) => _movieCollection.Where(x => predicate(x)));
+            var movieController = new MovieController(_mapper,mockMovieRepository.Object);
+            var result = movieController.Search(movie.Title);
+
+            Assert.IsTrue(result.Any());
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Linq;
 
 namespace Nt.WebApi.Tests.Controller
 {
+    [TestFixture]
     public class UserControllerTests
     {
         private IMapper _mapper;
@@ -32,11 +33,13 @@ namespace Nt.WebApi.Tests.Controller
 
         private void InitliazeCollection()
         {
-            _userEntityCollection = new List<UserEntity>
+            _userEntityCollection = Enumerable.Range(1, 10).Select(x => new UserEntity
             {
-                new UserEntity { DisplayName = "John Doe", UserName = "johndoe" , PassKey =  ToBase64("test")},
-                new UserEntity { DisplayName = "David D", UserName = "davidd" , PassKey = ToBase64("test")}
-            };
+                DisplayName = $"User Name {x}",
+                UserName = $"username{x}",
+                PassKey = $"passKey{x}"
+            }).ToList();
+                
         }
 
         private string ToBase64(string source)
@@ -88,7 +91,8 @@ namespace Nt.WebApi.Tests.Controller
             var userProfile = new CreateUserProfileRequest
             {
                 DisplayName = userEntity.DisplayName,
-                UserName = userEntity.UserName
+                UserName = userEntity.UserName,
+                PassKey = userEntity.PassKey
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.Get())
@@ -117,7 +121,8 @@ namespace Nt.WebApi.Tests.Controller
             var userProfile = new CreateUserProfileRequest
             {
                 DisplayName = userEntity.DisplayName,
-                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c) : c).ToArray())
+                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c) : c).ToArray()),
+                PassKey = userEntity.PassKey
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.Get())
@@ -147,7 +152,6 @@ namespace Nt.WebApi.Tests.Controller
             {
                 PassKey = userEntity.PassKey,
                 UserName = userEntity.UserName,
-
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
