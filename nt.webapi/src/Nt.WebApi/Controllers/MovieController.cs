@@ -31,7 +31,7 @@ namespace Nt.WebApi.Controllers
         [HttpGet]
         public IEnumerable<MovieResponse> Search(string movieName)
         {
-            var result = _movieService.Get(x=>x.Title.Contains(movieName));
+            var result = _movieService.Get(x=>x.Title.Contains(movieName,StringComparison.InvariantCultureIgnoreCase));
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 

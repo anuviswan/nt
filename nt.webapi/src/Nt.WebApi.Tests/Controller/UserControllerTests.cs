@@ -6,6 +6,7 @@ using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Profiles;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.IRepositories;
+using Nt.WebApi.Tests.ExtensionMethods;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -42,10 +43,6 @@ namespace Nt.WebApi.Tests.Controller
                 
         }
 
-        private string ToBase64(string source)
-        {
-            return Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(source));
-        }
 
 
         [Test]
@@ -121,7 +118,7 @@ namespace Nt.WebApi.Tests.Controller
             var userProfile = new CreateUserProfileRequest
             {
                 DisplayName = userEntity.DisplayName,
-                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c) : c).ToArray()),
+                UserName = userEntity.UserName.ChangeCase(),
                 PassKey = userEntity.PassKey
             };
             var mockRepository = new Mock<IUserRepository>();
@@ -197,7 +194,7 @@ namespace Nt.WebApi.Tests.Controller
             var loginRequest = new LoginRequest
             {
                 PassKey = userEntity.PassKey,
-                UserName = new string(userEntity.UserName.Select(c => char.IsLetter(c) ? char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c) : c).ToArray())
+                UserName = userEntity.UserName.ChangeCase()
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
