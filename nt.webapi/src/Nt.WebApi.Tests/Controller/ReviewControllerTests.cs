@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Nt.WebApi.Shared.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Nt.WebApi.Tests.Controller
 {
-    class ReviewControllerTests
+    public class ReviewControllerTests
     {
+       
     }
 }

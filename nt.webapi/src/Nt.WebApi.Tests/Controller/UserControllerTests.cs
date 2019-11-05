@@ -15,10 +15,9 @@ using System.Linq;
 namespace Nt.WebApi.Tests.Controller
 {
     [TestFixture]
-    public class UserControllerTests
+    public class UserControllerTests : BaseControllerTests<IUserRepository,UserEntity>
     {
         private IMapper _mapper;
-        private List<UserEntity> _userEntityCollection;
         [SetUp]
         public void Setup()
         {
@@ -34,7 +33,7 @@ namespace Nt.WebApi.Tests.Controller
 
         private void InitliazeCollection()
         {
-            _userEntityCollection = Enumerable.Range(1, 10).Select(x => new UserEntity
+            EntityCollection = Enumerable.Range(1, 10).Select(x => new UserEntity
             {
                 DisplayName = $"User Name {x}",
                 UserName = $"username{x}",
@@ -49,7 +48,7 @@ namespace Nt.WebApi.Tests.Controller
         public void GetAll_ShouldReturnMoreThanOne()
         {
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.Get()).Returns(_userEntityCollection);
+            mockRepository.Setup(x => x.Get()).Returns(EntityCollection);
             var userController = new UserController(_mapper, mockRepository.Object);
 
             var result = userController.Get().ToList();
@@ -67,15 +66,15 @@ namespace Nt.WebApi.Tests.Controller
             };
             var expectedUserEntity = _mapper.Map<UserEntity>(userProfile);
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.Get()).Returns(_userEntityCollection);
+            mockRepository.Setup(x => x.Get()).Returns(EntityCollection);
             mockRepository.Setup(x => x.Create(It.IsAny<UserEntity>()))
-                            .Callback<UserEntity>((user) => _userEntityCollection.Add(user))
+                            .Callback<UserEntity>((user) => EntityCollection.Add(user))
                             .Returns(_mapper.Map<UserEntity>(userProfile));
-            mockRepository.Setup(x => x.CheckIfUserExists(userProfile.UserName)).Returns(_userEntityCollection.Any(x => x.UserName == userProfile.UserName));
+            mockRepository.Setup(x => x.CheckIfUserExists(userProfile.UserName)).Returns(EntityCollection.Any(x => x.UserName == userProfile.UserName));
 
             var userController = new UserController(_mapper, mockRepository.Object);
             var result = userController.CreateUser(userProfile);
-            Assert.IsTrue(_userEntityCollection.Any(x => x.UserName.Equals(userProfile.UserName, StringComparison.InvariantCultureIgnoreCase) && x.DisplayName.Equals(userProfile.DisplayName)));
+            Assert.IsTrue(EntityCollection.Any(x => x.UserName.Equals(userProfile.UserName, StringComparison.InvariantCultureIgnoreCase) && x.DisplayName.Equals(userProfile.DisplayName)));
 
         }
 
@@ -83,8 +82,8 @@ namespace Nt.WebApi.Tests.Controller
         public void CreateUser_ExistingUserName_ShouldNotAddUserToCollection()
         {
             var random = new Random();
-            var userEntity = _userEntityCollection[random.Next(0, _userEntityCollection.Count - 1)];
-            var userCount = _userEntityCollection.Count;
+            var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
+            var userCount = EntityCollection.Count;
             var userProfile = new CreateUserProfileRequest
             {
                 DisplayName = userEntity.DisplayName,
@@ -93,18 +92,18 @@ namespace Nt.WebApi.Tests.Controller
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.Get())
-                          .Returns(_userEntityCollection);
+                          .Returns(EntityCollection);
             mockRepository.Setup(x => x.Create(It.IsAny<UserEntity>()))
-                          .Callback<UserEntity>((user) => _userEntityCollection.Add(user))
+                          .Callback<UserEntity>((user) => EntityCollection.Add(user))
                           .Returns(_mapper.Map<UserEntity>(userEntity));
             mockRepository.Setup(x => x.CheckIfUserExists(userEntity.UserName))
-                          .Returns(_userEntityCollection.Any(x => x.UserName == userEntity.UserName));
+                          .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
 
             var userController = new UserController(_mapper, mockRepository.Object);
             var result = userController.CreateUser(userProfile);
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
-            Assert.AreEqual(userCount, _userEntityCollection.Count);
+            Assert.AreEqual(userCount, EntityCollection.Count);
 
         }
 
@@ -113,8 +112,8 @@ namespace Nt.WebApi.Tests.Controller
         public void CreateUser_CaseSensitiveUserName_ShouldNotAddUserToCollection()
         {
             var random = new Random();
-            var userEntity = _userEntityCollection[random.Next(0, _userEntityCollection.Count - 1)];
-            var userCount = _userEntityCollection.Count;
+            var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
+            var userCount = EntityCollection.Count;
             var userProfile = new CreateUserProfileRequest
             {
                 DisplayName = userEntity.DisplayName,
@@ -123,18 +122,18 @@ namespace Nt.WebApi.Tests.Controller
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.Get())
-                          .Returns(_userEntityCollection);
+                          .Returns(EntityCollection);
             mockRepository.Setup(x => x.Create(It.IsAny<UserEntity>()))
-                          .Callback<UserEntity>((user) => _userEntityCollection.Add(user))
+                          .Callback<UserEntity>((user) => EntityCollection.Add(user))
                           .Returns(_mapper.Map<UserEntity>(userEntity));
             mockRepository.Setup(x => x.CheckIfUserExists(userEntity.UserName))
-                          .Returns(_userEntityCollection.Any(x => x.UserName == userEntity.UserName));
+                          .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
 
             var userController = new UserController(_mapper, mockRepository.Object);
             var result = userController.CreateUser(userProfile);
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
-            Assert.AreEqual(userCount, _userEntityCollection.Count);
+            Assert.AreEqual(userCount, EntityCollection.Count);
 
         }
 
@@ -143,8 +142,8 @@ namespace Nt.WebApi.Tests.Controller
         public void ValidateUser_ValidUser_ShouldSucceed()
         {
             var random = new Random();
-            var userEntity = _userEntityCollection[random.Next(0, _userEntityCollection.Count - 1)];
-            var userCount = _userEntityCollection.Count;
+            var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
+            var userCount = EntityCollection.Count;
             var loginRequest = new LoginRequest
             {
                 PassKey = userEntity.PassKey,
@@ -166,7 +165,7 @@ namespace Nt.WebApi.Tests.Controller
         public void ValidateUser_InvalidUser_ShouldFail()
         {
             var random = new Random();
-            var userCount = _userEntityCollection.Count;
+            var userCount = EntityCollection.Count;
             var loginRequest = new LoginRequest
             {
                 PassKey = "invalid",
@@ -189,8 +188,8 @@ namespace Nt.WebApi.Tests.Controller
         public void ValidateUser_CaseSensitiveValidUser_ShouldSucceed()
         {
             var random = new Random();
-            var userEntity = _userEntityCollection[random.Next(0, _userEntityCollection.Count - 1)];
-            var userCount = _userEntityCollection.Count;
+            var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
+            var userCount = EntityCollection.Count;
             var loginRequest = new LoginRequest
             {
                 PassKey = userEntity.PassKey,
