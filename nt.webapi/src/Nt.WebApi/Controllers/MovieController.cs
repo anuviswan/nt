@@ -59,6 +59,12 @@ namespace Nt.WebApi.Controllers
         public MovieResponse Create(CreateMovieRequest movie)
         {
             var movieEntity = Mapper.Map<MovieEntity>(movie);
+            if(_movieService.Get(x=>x.Title.Equals(movieEntity.Title) && x.ReleaseDate.Equals(movieEntity.ReleaseDate)).Any())
+            {
+                var response = Mapper.Map<MovieResponse>(movieEntity);
+                response.ErrorMessage = "Movie with the same Title was released on same date. Verify if duplicate";
+                return response;
+            }
             var result = _movieService.Create(movieEntity);
             return Mapper.Map<MovieResponse>(result);
         }

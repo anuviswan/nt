@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Moq;
 using Nt.WebApi.Controllers;
+using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Profiles;
 using Nt.WebApi.Repository.Repositories;
 using Nt.WebApi.Shared.Entities;
@@ -15,22 +16,8 @@ namespace Nt.WebApi.Tests.Controller
     [TestFixture]
     public class MovieControllerTests:BaseControllerTests<MovieEntity> 
     {
-        private IMapper _mapper;
-        [SetUp]
-        public void Setup()
-        {
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MovieEntityProfile());
-                mc.AddProfile(new UserEntityProfile());
-            });
 
-            _mapper = mappingConfig.CreateMapper();
-            InitliazeCollection();
-        }
-
-
-        private void InitliazeCollection()
+        protected override void InitializeCollection()
         {
             EntityCollection = Enumerable.Range(1, 10).Select(x => new MovieEntity
             {
@@ -38,6 +25,45 @@ namespace Nt.WebApi.Tests.Controller
                 ReleaseDate = DateTime.Now,
                 Title = $"Title {x}"
             }).ToList();
+        }
+
+        [Test]
+        public void CreateMovie_ValidMovie_ShouldReturnSuccess()
+        {
+            var mockMovieRepository = new Mock<IMovieRepository>();
+            var movieRequest = new CreateMovieRequest { Director = "John Doe", MovieName = "John's World", ReleaseDate = new DateTime(2019, 1, 1) };
+            var countOfMovies = EntityCollection.Count;
+            mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
+                               .Returns<MovieEntity>((movie) => movie)
+                               .Callback<MovieEntity>((movie) => EntityCollection.Add(movie));
+            var movieController = new MovieController(Mapper, mockMovieRepository.Object);
+            var result = movieController.Create(movieRequest);
+
+            Assert.AreEqual(movieRequest.Director, result.Director);
+            Assert.AreEqual(movieRequest.MovieName, result.Title);
+            Assert.AreEqual(movieRequest.ReleaseDate, result.ReleaseDate);
+            Assert.IsTrue(EntityCollection.Count == countOfMovies + 1);
+            Assert.IsTrue(EntityCollection.Any(x => x.Title.Equals(movieRequest.MovieName) && x.DirectorName.Equals(movieRequest.Director) && x.ReleaseDate.Equals(movieRequest.ReleaseDate)));
+        }
+
+        [Test]
+        public void CreateMovie_ValidMovie_ShouldReturnFalse()
+        {
+            var random = new Random();
+            var mockMovieRepository = new Mock<IMovieRepository>();
+            var randomMovie = EntityCollection[random.Next(0, EntityCollection.Count)];
+            var movieRequest = Mapper.Map<CreateMovieRequest>(randomMovie);
+            var countOfMovies = EntityCollection.Count;
+            mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
+                               .Returns<MovieEntity>((movie) => movie);
+            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
+                              .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+
+            var movieController = new MovieController(Mapper, mockMovieRepository.Object);
+            var result = movieController.Create(movieRequest);
+
+            Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
+            Assert.IsTrue(EntityCollection.Count == countOfMovies);
         }
 
         [Test]
@@ -49,7 +75,7 @@ namespace Nt.WebApi.Tests.Controller
 
             mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
-            var movieController = new MovieController(_mapper,mockMovieRepository.Object);
+            var movieController = new MovieController(Mapper,mockMovieRepository.Object);
             var result = movieController.Search(movie.Title);
 
             Assert.IsTrue(result.Any());
@@ -64,7 +90,7 @@ namespace Nt.WebApi.Tests.Controller
 
             mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
-            var movieController = new MovieController(_mapper, mockMovieRepository.Object);
+            var movieController = new MovieController(Mapper, mockMovieRepository.Object);
             var result = movieController.Search(movie.Title.ChangeCase());
 
             Assert.IsTrue(result.Any());
@@ -79,7 +105,7 @@ namespace Nt.WebApi.Tests.Controller
 
             mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
-            var movieController = new MovieController(_mapper, mockMovieRepository.Object);
+            var movieController = new MovieController(Mapper, mockMovieRepository.Object);
             var result = movieController.Search(movie.Title);
 
             Assert.IsFalse(result.Any());
