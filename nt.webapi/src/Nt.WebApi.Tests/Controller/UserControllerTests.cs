@@ -15,7 +15,7 @@ using System.Linq;
 namespace Nt.WebApi.Tests.Controller
 {
     [TestFixture]
-    public class UserControllerTests : BaseControllerTests<IUserRepository,UserEntity>
+    public class UserControllerTests : BaseControllerTests<UserEntity>
     {
         private IMapper _mapper;
         [SetUp]

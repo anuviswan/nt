@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Nt.WebApi.Tests.Controller
 {
-    public class ReviewControllerTests
+    public class ReviewControllerTests 
     {
        
     }

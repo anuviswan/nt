@@ -13,7 +13,7 @@ using System.Linq;
 namespace Nt.WebApi.Tests.Controller
 {
     [TestFixture]
-    public class MovieControllerTests:BaseControllerTests<MovieRepository,MovieEntity> 
+    public class MovieControllerTests:BaseControllerTests<MovieEntity> 
     {
         private IMapper _mapper;
         [SetUp]
