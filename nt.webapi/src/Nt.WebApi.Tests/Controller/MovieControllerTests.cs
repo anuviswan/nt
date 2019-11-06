@@ -46,13 +46,35 @@ namespace Nt.WebApi.Tests.Controller
             Assert.IsTrue(EntityCollection.Any(x => x.Title.Equals(movieRequest.MovieName) && x.DirectorName.Equals(movieRequest.Director) && x.ReleaseDate.Equals(movieRequest.ReleaseDate)));
         }
 
+
         [Test]
-        public void CreateMovie_ValidMovie_ShouldReturnFalse()
+        public void CreateMovie_ExistingMovie_ShouldReturnFalse()
         {
             var random = new Random();
             var mockMovieRepository = new Mock<IMovieRepository>();
             var randomMovie = EntityCollection[random.Next(0, EntityCollection.Count)];
             var movieRequest = Mapper.Map<CreateMovieRequest>(randomMovie);
+            var countOfMovies = EntityCollection.Count;
+            mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
+                               .Returns<MovieEntity>((movie) => movie);
+            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
+                              .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+
+            var movieController = new MovieController(Mapper, mockMovieRepository.Object);
+            var result = movieController.Create(movieRequest);
+
+            Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
+            Assert.IsTrue(EntityCollection.Count == countOfMovies);
+        }
+
+
+        [Test]
+        public void CreateMovie_ExistingMovieWithDifferentTitleCasing_ShouldReturnFalse()
+        {
+            var random = new Random();
+            var mockMovieRepository = new Mock<IMovieRepository>();
+            var randomMovie = EntityCollection[random.Next(0, EntityCollection.Count)];
+            var movieRequest = new CreateMovieRequest { MovieName = randomMovie.Title.ChangeCase(), Director = randomMovie.DirectorName, ReleaseDate = randomMovie.ReleaseDate };
             var countOfMovies = EntityCollection.Count;
             mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
                                .Returns<MovieEntity>((movie) => movie);
