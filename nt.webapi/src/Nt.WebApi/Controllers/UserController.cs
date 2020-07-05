@@ -29,7 +29,7 @@ namespace Nt.WebApi.Controllers
         [HttpGet]
         public IEnumerable<UserProfileResponse> Get()
         {
-            var result = _userService.Get();
+            var result = _userService.GetAsync();
             return Mapper.Map<IEnumerable<UserProfileResponse>>(result);
         }
 
@@ -81,7 +81,7 @@ namespace Nt.WebApi.Controllers
             {
                 userEntity.UserName = userEntity.UserName.ToLower();
                 userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-                var result = _userService.Create(userEntity);
+                var result = _userService.CreateAsync(userEntity);
                 return Mapper.Map<CreateUserProfileResponse>(result);
             }
         }

@@ -10,6 +10,7 @@ using Nt.WebApi.Tests.ExtensionMethods;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nt.WebApi.Tests.Controller
 {
@@ -28,16 +29,16 @@ namespace Nt.WebApi.Tests.Controller
         }
 
         [Test]
-        public void CreateMovie_ValidMovie_ShouldReturnSuccess()
+        public async Task CreateMovie_ValidMovie_ShouldReturnSuccess()
         {
             var mockMovieRepository = new Mock<IMovieRepository>();
             var movieRequest = new CreateMovieRequest { Director = "John Doe", MovieName = "John's World", ReleaseDate = new DateTime(2019, 1, 1) };
             var countOfMovies = EntityCollection.Count;
-            mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
-                               .Returns<MovieEntity>((movie) => movie)
+            mockMovieRepository.Setup((x)=> x.CreateAsync(It.IsAny<MovieEntity>()))
+                               .Returns<MovieEntity>((movie) => Task.FromResult(movie))
                                .Callback<MovieEntity>((movie) => EntityCollection.Add(movie));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.Create(movieRequest);
+            var result = await movieController.Create(movieRequest);
 
             Assert.AreEqual(movieRequest.Director, result.Director);
             Assert.AreEqual(movieRequest.MovieName, result.Title);
@@ -48,20 +49,20 @@ namespace Nt.WebApi.Tests.Controller
 
 
         [Test]
-        public void CreateMovie_ExistingMovie_ShouldReturnFalse()
+        public async Task CreateMovie_ExistingMovie_ShouldReturnFalse()
         {
             var random = new Random();
             var mockMovieRepository = new Mock<IMovieRepository>();
             var randomMovie = EntityCollection[random.Next(0, EntityCollection.Count)];
             var movieRequest = Mapper.Map<CreateMovieRequest>(randomMovie);
             var countOfMovies = EntityCollection.Count;
-            mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
-                               .Returns<MovieEntity>((movie) => movie);
-            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
-                              .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+            mockMovieRepository.Setup(x => x.CreateAsync(It.IsAny<MovieEntity>()))
+                               .Returns<MovieEntity>((movie) => Task.FromResult(movie));
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
+                              .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
 
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.Create(movieRequest);
+            var result = await movieController.Create(movieRequest);
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
             Assert.IsTrue(EntityCollection.Count == countOfMovies);
@@ -69,20 +70,20 @@ namespace Nt.WebApi.Tests.Controller
 
 
         [Test]
-        public void CreateMovie_ExistingMovieWithDifferentTitleCasing_ShouldReturnFalse()
+        public async Task CreateMovie_ExistingMovieWithDifferentTitleCasing_ShouldReturnFalse()
         {
             var random = new Random();
             var mockMovieRepository = new Mock<IMovieRepository>();
             var randomMovie = EntityCollection[random.Next(0, EntityCollection.Count)];
             var movieRequest = new CreateMovieRequest { MovieName = randomMovie.Title.ChangeCase(), Director = randomMovie.DirectorName, ReleaseDate = randomMovie.ReleaseDate };
             var countOfMovies = EntityCollection.Count;
-            mockMovieRepository.Setup(x => x.Create(It.IsAny<MovieEntity>()))
-                               .Returns<MovieEntity>((movie) => movie);
-            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
-                              .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+            mockMovieRepository.Setup(x => x.CreateAsync(It.IsAny<MovieEntity>()))
+                               .Returns<MovieEntity>((movie) => Task.FromResult(movie));
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
+                              .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
 
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.Create(movieRequest);
+            var result = await movieController.Create(movieRequest);
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
             Assert.IsTrue(EntityCollection.Count == countOfMovies);
@@ -95,8 +96,8 @@ namespace Nt.WebApi.Tests.Controller
             var movie = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
             var mockMovieRepository = new Mock<IMovieRepository>();
 
-            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
-                               .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
+                               .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper,mockMovieRepository.Object);
             var result = movieController.Search(movie.Title);
 
@@ -110,8 +111,8 @@ namespace Nt.WebApi.Tests.Controller
             var movie = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
             var mockMovieRepository = new Mock<IMovieRepository>();
 
-            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
-                               .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
+                               .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
             var result = movieController.Search(movie.Title.ChangeCase());
 
@@ -125,8 +126,8 @@ namespace Nt.WebApi.Tests.Controller
             var movie = new MovieEntity { Title = "Random" };
             var mockMovieRepository = new Mock<IMovieRepository>();
 
-            mockMovieRepository.Setup(x => x.Get(It.IsAny<Func<MovieEntity, bool>>()))
-                               .Returns<Func<MovieEntity, bool>>((predicate) => EntityCollection.Where(x => predicate(x)));
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
+                               .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
             var result = movieController.Search(movie.Title);
 

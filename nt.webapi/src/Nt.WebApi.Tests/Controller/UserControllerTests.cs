@@ -11,6 +11,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nt.WebApi.Tests.Controller
 {
@@ -34,7 +35,7 @@ namespace Nt.WebApi.Tests.Controller
         public void GetAll_ShouldReturnMoreThanOne()
         {   
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.Get()).Returns(EntityCollection);
+            mockRepository.Setup(x => x.GetAsync()).Returns(Task.FromResult(EntityCollection.AsEnumerable()));
             var userController = new UserController(Mapper, mockRepository.Object);
 
             var result = userController.Get().ToList();
@@ -42,7 +43,7 @@ namespace Nt.WebApi.Tests.Controller
         }
 
         [Test]
-        public void CreateUser_NewUserName_ShouldAddUserToCollection()
+        public async Task CreateUser_NewUserName_ShouldAddUserToCollection()
         {
             var userProfile = new CreateUserProfileRequest
             {
@@ -52,10 +53,10 @@ namespace Nt.WebApi.Tests.Controller
             };
             var expectedUserEntity = Mapper.Map<UserEntity>(userProfile);
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.Get()).Returns(EntityCollection);
-            mockRepository.Setup(x => x.Create(It.IsAny<UserEntity>()))
+            mockRepository.Setup(x => x.GetAsync()).Returns(Task.FromResult(EntityCollection.AsEnumerable()));
+            mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                             .Callback<UserEntity>((user) => EntityCollection.Add(user))
-                            .Returns(Mapper.Map<UserEntity>(userProfile));
+                            .Returns(Task.FromResult(Mapper.Map<UserEntity>(userProfile)));
             mockRepository.Setup(x => x.CheckIfUserExists(userProfile.UserName)).Returns(EntityCollection.Any(x => x.UserName == userProfile.UserName));
 
             var userController = new UserController(Mapper, mockRepository.Object);
@@ -77,11 +78,11 @@ namespace Nt.WebApi.Tests.Controller
                 PassKey = userEntity.PassKey
             };
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.Get())
-                          .Returns(EntityCollection);
-            mockRepository.Setup(x => x.Create(It.IsAny<UserEntity>()))
+            mockRepository.Setup(x => x.GetAsync())
+                          .Returns(Task.FromResult(EntityCollection.AsEnumerable()));
+            mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                           .Callback<UserEntity>((user) => EntityCollection.Add(user))
-                          .Returns(Mapper.Map<UserEntity>(userEntity));
+                          .Returns(Task.FromResult(Mapper.Map<UserEntity>(userEntity)));
             mockRepository.Setup(x => x.CheckIfUserExists(userEntity.UserName))
                           .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
 
@@ -107,11 +108,11 @@ namespace Nt.WebApi.Tests.Controller
                 PassKey = userEntity.PassKey
             };
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.Get())
-                          .Returns(EntityCollection);
-            mockRepository.Setup(x => x.Create(It.IsAny<UserEntity>()))
+            mockRepository.Setup(x => x.GetAsync())
+                          .Returns(Task.FromResult(EntityCollection.AsEnumerable()));
+            mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                           .Callback<UserEntity>((user) => EntityCollection.Add(user))
-                          .Returns(Mapper.Map<UserEntity>(userEntity));
+                          .Returns(Task.FromResult(Mapper.Map<UserEntity>(userEntity)));
             mockRepository.Setup(x => x.CheckIfUserExists(userEntity.UserName))
                           .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
 

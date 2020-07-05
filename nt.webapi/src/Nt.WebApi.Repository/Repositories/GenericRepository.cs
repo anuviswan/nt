@@ -4,6 +4,7 @@ using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Nt.WebApi.Repository.Repositories
 {
@@ -19,20 +20,20 @@ namespace Nt.WebApi.Repository.Repositories
 
             _dataCollection = database.GetCollection<TEntity>(settings.CollectionName);
         }
-        public virtual TEntity Create(TEntity data)
+        public virtual async Task<TEntity> CreateAsync(TEntity data)
         {
-            _dataCollection.InsertOne(data);
+            await _dataCollection.InsertOneAsync(data);
             return data;
         }
 
-        public virtual IEnumerable<TEntity> Get()
+        public virtual async Task<IEnumerable<TEntity>> GetAsync()
         {
-            return _dataCollection.AsQueryable();
+            return await Task.FromResult(_dataCollection.AsQueryable());
         }
 
-        public virtual IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(Func<TEntity, bool> predicate)
         {
-            return _dataCollection.AsQueryable();
+            return await Task.FromResult(_dataCollection.AsQueryable());
         }
     }
 }

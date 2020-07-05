@@ -18,10 +18,8 @@ namespace Nt.WebApi.Controllers
     {
         private readonly IMovieRepository _movieService;
 
-        public MovieController(IMapper mapper, IMovieRepository movieRepository) : base(mapper)
-        {
-            _movieService = movieRepository;
-        }
+        public MovieController(IMapper mapper, IMovieRepository movieRepository) : base(mapper) => _movieService = movieRepository;
+
 
         /// <summary>
         /// Searches for Movies with the specified Movie Title
@@ -31,7 +29,7 @@ namespace Nt.WebApi.Controllers
         [HttpGet]
         public IEnumerable<MovieResponse> Search(string movieName)
         {
-            var result = _movieService.Get(x=>x.Title.Contains(movieName,StringComparison.InvariantCultureIgnoreCase));
+            var result = _movieService.GetAsync(x=>x.Title.Contains(movieName,StringComparison.InvariantCultureIgnoreCase));
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 
@@ -43,7 +41,7 @@ namespace Nt.WebApi.Controllers
         [Route("GetAll")]
         public IEnumerable<MovieResponse> Get()
         {
-            var result = _movieService.Get();
+            var result = _movieService.GetAsync();
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 
@@ -56,16 +54,17 @@ namespace Nt.WebApi.Controllers
         [HttpPost]
         [Route("Create")]
 
-        public MovieResponse Create(CreateMovieRequest movie)
+        public async Task<MovieResponse> Create(CreateMovieRequest movie)
         {
             var movieEntity = Mapper.Map<MovieEntity>(movie);
-            if(_movieService.Get(x=>x.Title.Equals(movieEntity.Title) && x.ReleaseDate.Equals(movieEntity.ReleaseDate)).Any())
+            var movies = await _movieService.GetAsync(x => x.Title.Equals(movieEntity.Title) && x.ReleaseDate.Equals(movieEntity.ReleaseDate));
+            if (movies.Any())
             {
                 var response = Mapper.Map<MovieResponse>(movieEntity);
                 response.ErrorMessage = "Movie with the same Title was released on same date. Verify if duplicate";
                 return response;
             }
-            var result = _movieService.Create(movieEntity);
+            var result = await _movieService.CreateAsync(movieEntity);
             return Mapper.Map<MovieResponse>(result);
         }
 

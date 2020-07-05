@@ -5,6 +5,7 @@ using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Shared.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nt.WebApi.Repository.Repositories
 {
@@ -14,7 +15,7 @@ namespace Nt.WebApi.Repository.Repositories
         {
         }
 
-        public override IEnumerable<UserEntity> Get() => _dataCollection.Find(user => true).ToList();
+        public override async Task<IEnumerable<UserEntity>> GetAsync() => (await _dataCollection.FindAsync(user => true)).ToEnumerable();
 
         public UserEntity Get(string id) => _dataCollection.Find<UserEntity>(user => user.Id == id).FirstOrDefault();
 
@@ -29,9 +30,9 @@ namespace Nt.WebApi.Repository.Repositories
                 throw new InvalidUserException();
         }
 
-        public override UserEntity Create(UserEntity user)
+        public override Task<UserEntity> CreateAsync(UserEntity user)
         {
-            return base.Create(user);
+            return base.CreateAsync(user);
         }
 
         public void Update(string id, UserEntity userIn) => _dataCollection.ReplaceOne(user => user.Id == id, userIn);
