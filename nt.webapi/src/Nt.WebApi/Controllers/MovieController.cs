@@ -56,7 +56,7 @@ namespace Nt.WebApi.Controllers
         public async Task<MovieResponse> Create(CreateMovieRequest movie)
         {
             var movieEntity = Mapper.Map<MovieEntity>(movie);
-            var movies = await _movieService.GetAsync(x => x.Title.Equals(movieEntity.Title) && x.ReleaseDate.Equals(movieEntity.ReleaseDate));
+            var movies = await _movieService.GetAsync(x => x.Title.Equals(movieEntity.Title,StringComparison.OrdinalIgnoreCase) && x.ReleaseDate.Year.Equals(movieEntity.ReleaseDate.Year));
             if (movies.Any())
             {
                 var response = Mapper.Map<MovieResponse>(movieEntity);
