@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi", "Nt.WebApi\Nt.WebApi.csproj", "{8E1BF638-190C-491F-8A67-BB35A2B294DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi", "nt.webapi\src\Nt.WebApi\Nt.WebApi.csproj", "{8E1BF638-190C-491F-8A67-BB35A2B294DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi.Repository", "Nt.WebApi.Repository\Nt.WebApi.Repository.csproj", "{88E0E19F-FC00-4A46-813F-89364A1E2235}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi.Repository", "nt.webapi\src\Nt.WebApi.Repository\Nt.WebApi.Repository.csproj", "{88E0E19F-FC00-4A46-813F-89364A1E2235}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi.Shared", "Nt.WebApi.Shared\Nt.WebApi.Shared.csproj", "{B634F2C8-A89F-4E78-BE32-B489025D3019}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi.Shared", "nt.webapi\src\Nt.WebApi.Shared\Nt.WebApi.Shared.csproj", "{B634F2C8-A89F-4E78-BE32-B489025D3019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.WebApi.Tests", "Nt.WebApi.Tests\Nt.WebApi.Tests.csproj", "{BB129938-80F0-49F8-BC35-DA198657B299}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.WebApi.Tests", "nt.webapi\src\Nt.WebApi.Tests\Nt.WebApi.Tests.csproj", "{BB129938-80F0-49F8-BC35-DA198657B299}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
