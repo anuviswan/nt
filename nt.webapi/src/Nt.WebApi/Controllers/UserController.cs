@@ -5,9 +5,9 @@ using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.IRepositories;
-using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Nt.WebApi.Controllers
 {
@@ -27,9 +27,9 @@ namespace Nt.WebApi.Controllers
         /// </summary>
         /// <returns>List Of Users</returns>
         [HttpGet]
-        public IEnumerable<UserProfileResponse> Get()
+        public async Task<IEnumerable<UserProfileResponse>> Get()
         {
-            var result = _userService.GetAsync();
+            var result = await _userService.GetAsync();
             return Mapper.Map<IEnumerable<UserProfileResponse>>(result);
         }
 
@@ -40,13 +40,13 @@ namespace Nt.WebApi.Controllers
         /// <returns>User Details if successfull login with IsAuthenticated Flag true. Invalid User with IsAuthenticated Flag false if validation fails</returns>
         [HttpPost]
         [Route("ValidateUser")]
-        public LoginResponse ValidateUser(LoginRequest loginRequest)
+        public async Task<LoginResponse> ValidateUser(LoginRequest loginRequest)
         {
             try
             {
                 UserEntity userEntity = Mapper.Map<UserEntity>(loginRequest);
                 var base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(userEntity.PassKey));
-                var validUser = _userService.ValidateUser(userEntity.UserName, base64Key);
+                var validUser = await _userService.ValidateUserAsync(userEntity.UserName, base64Key);
                 var result = Mapper.Map<LoginResponse>(validUser);
                 result.IsAuthenticated = true;
                 result.LoginTime = DateTime.UtcNow;
@@ -68,10 +68,10 @@ namespace Nt.WebApi.Controllers
         [HttpPost]
         [Route("Register")]
 
-        public CreateUserProfileResponse CreateUser(CreateUserProfileRequest user)
+        public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
         {
             var userEntity = Mapper.Map<UserEntity>(user);
-            if (_userService.CheckIfUserExists(user.UserName.ToLower()))
+            if (await _userService.CheckIfUserExistsAsync(user.UserName.ToLower()))
             {
                 var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
                 userReponse.ErrorMessage = "User already exists";
@@ -81,7 +81,7 @@ namespace Nt.WebApi.Controllers
             {
                 userEntity.UserName = userEntity.UserName.ToLower();
                 userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-                var result = _userService.CreateAsync(userEntity);
+                var result = await _userService.CreateAsync(userEntity);
                 return Mapper.Map<CreateUserProfileResponse>(result);
             }
         }

@@ -99,7 +99,7 @@ namespace Nt.WebApi.Tests.Controller
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper,mockMovieRepository.Object);
-            var result = movieController.Search(movie.Title);
+            var result = movieController.SearchAsync(movie.Title);
 
             Assert.IsTrue(result.Any());
         }
@@ -114,7 +114,7 @@ namespace Nt.WebApi.Tests.Controller
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.Search(movie.Title.ChangeCase());
+            var result = movieController.SearchAsync(movie.Title.ChangeCase());
 
             Assert.IsTrue(result.Any());
         }
@@ -129,7 +129,7 @@ namespace Nt.WebApi.Tests.Controller
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.Search(movie.Title);
+            var result = movieController.SearchAsync(movie.Title);
 
             Assert.IsFalse(result.Any());
         }

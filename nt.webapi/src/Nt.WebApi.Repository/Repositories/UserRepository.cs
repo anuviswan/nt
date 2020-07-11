@@ -19,11 +19,11 @@ namespace Nt.WebApi.Repository.Repositories
 
         public UserEntity Get(string id) => _dataCollection.Find<UserEntity>(user => user.Id == id).FirstOrDefault();
 
-        public bool CheckIfUserExists(string userName) => _dataCollection.Find<UserEntity>(user => user.UserName.Equals(userName)).Any();
+        public async Task<bool> CheckIfUserExistsAsync(string userName) => (await _dataCollection.FindAsync<UserEntity>(user => user.UserName.Equals(userName))).Any();
 
-        public UserEntity ValidateUser(string userName, string passKey)
+        public async Task<UserEntity> ValidateUserAsync(string userName, string passKey)
         {
-            var result = _dataCollection.Find<UserEntity>(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));
+            var result = await _dataCollection.FindAsync<UserEntity>(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));
             if (result.Any())
                 return result.First();
             else

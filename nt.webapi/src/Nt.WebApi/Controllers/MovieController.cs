@@ -4,7 +4,6 @@ using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.IRepositories;
-using Nt.WebApi.Shared.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +26,9 @@ namespace Nt.WebApi.Controllers
         /// <param name="movieName"></param>
         /// <returns>List of Movies which contains specified keyword in Movie Title</returns>
         [HttpGet]
-        public IEnumerable<MovieResponse> Search(string movieName)
+        public async Task<IEnumerable<MovieResponse>> SearchAsync(string movieName)
         {
-            var result = _movieService.GetAsync(x=>x.Title.Contains(movieName,StringComparison.InvariantCultureIgnoreCase));
+            var result = await _movieService.GetAsync(x=>x.Title.Contains(movieName,StringComparison.InvariantCultureIgnoreCase));
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 

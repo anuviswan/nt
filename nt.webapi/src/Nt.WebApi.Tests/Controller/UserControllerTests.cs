@@ -57,7 +57,7 @@ namespace Nt.WebApi.Tests.Controller
             mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                             .Callback<UserEntity>((user) => EntityCollection.Add(user))
                             .Returns(Task.FromResult(Mapper.Map<UserEntity>(userProfile)));
-            mockRepository.Setup(x => x.CheckIfUserExists(userProfile.UserName)).Returns(EntityCollection.Any(x => x.UserName == userProfile.UserName));
+            mockRepository.Setup(x => x.CheckIfUserExistsAsync(userProfile.UserName)).Returns(EntityCollection.Any(x => x.UserName == userProfile.UserName));
 
             var userController = new UserController(Mapper, mockRepository.Object);
             var result = userController.CreateUser(userProfile);
@@ -83,7 +83,7 @@ namespace Nt.WebApi.Tests.Controller
             mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                           .Callback<UserEntity>((user) => EntityCollection.Add(user))
                           .Returns(Task.FromResult(Mapper.Map<UserEntity>(userEntity)));
-            mockRepository.Setup(x => x.CheckIfUserExists(userEntity.UserName))
+            mockRepository.Setup(x => x.CheckIfUserExistsAsync(userEntity.UserName))
                           .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
 
             var userController = new UserController(Mapper, mockRepository.Object);
@@ -113,7 +113,7 @@ namespace Nt.WebApi.Tests.Controller
             mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                           .Callback<UserEntity>((user) => EntityCollection.Add(user))
                           .Returns(Task.FromResult(Mapper.Map<UserEntity>(userEntity)));
-            mockRepository.Setup(x => x.CheckIfUserExists(userEntity.UserName))
+            mockRepository.Setup(x => x.CheckIfUserExistsAsync(userEntity.UserName))
                           .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
 
             var userController = new UserController(Mapper, mockRepository.Object);
@@ -137,7 +137,7 @@ namespace Nt.WebApi.Tests.Controller
                 UserName = userEntity.UserName,
             };
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
+            mockRepository.Setup(x => x.ValidateUserAsync(It.IsAny<string>(), It.IsAny<string>()))
                           .Returns(userEntity);
 
             var userController = new UserController(Mapper, mockRepository.Object);
@@ -160,7 +160,7 @@ namespace Nt.WebApi.Tests.Controller
 
             };
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
+            mockRepository.Setup(x => x.ValidateUserAsync(It.IsAny<string>(), It.IsAny<string>()))
                           .Throws<InvalidUserException>();
 
             var userController = new UserController(Mapper, mockRepository.Object);
@@ -183,7 +183,7 @@ namespace Nt.WebApi.Tests.Controller
                 UserName = userEntity.UserName.ChangeCase()
             };
             var mockRepository = new Mock<IUserRepository>();
-            mockRepository.Setup(x => x.ValidateUser(It.IsAny<string>(), It.IsAny<string>()))
+            mockRepository.Setup(x => x.ValidateUserAsync(It.IsAny<string>(), It.IsAny<string>()))
                           .Returns(userEntity);
 
             var userController = new UserController(Mapper, mockRepository.Object);
