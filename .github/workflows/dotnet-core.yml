@@ -17,9 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    - name: Install dependencies
-      run: dotnet restore --configfile ./../nt.webapi/src/Nt.WebApi.sln
+    #- name: Install dependencies
+    #  run: dotnet restore  ../../nt.webapi/src/Nt.WebApi.sln
     - name: Build
-      run: dotnet build ../../nt.webapi/src/Nt.WebApi.sln --configuration Release --no-restore
+      run: dotnet build --configuration Release
     - name: Test
       run: dotnet test --no-restore --verbosity normal
