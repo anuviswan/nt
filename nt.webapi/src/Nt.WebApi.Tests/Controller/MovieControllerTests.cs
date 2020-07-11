@@ -90,7 +90,7 @@ namespace Nt.WebApi.Tests.Controller
         }
 
         [Test]
-        public void SearchMovie_ValidMovie_GetValidResult()
+        public async Task SearchMovie_ValidMovie_GetValidResult()
         {
             var random = new Random();
             var movie = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
@@ -99,13 +99,13 @@ namespace Nt.WebApi.Tests.Controller
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper,mockMovieRepository.Object);
-            var result = movieController.SearchAsync(movie.Title);
+            var result = await movieController.SearchAsync(movie.Title);
 
             Assert.IsTrue(result.Any());
         }
 
         [Test]
-        public void SearchMovie_CaseSensitiveMovieTitle_GetValidResult()
+        public async Task SearchMovie_CaseSensitiveMovieTitle_GetValidResult()
         {
             var random = new Random();
             var movie = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
@@ -114,13 +114,13 @@ namespace Nt.WebApi.Tests.Controller
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.SearchAsync(movie.Title.ChangeCase());
+            var result = await movieController.SearchAsync(movie.Title.ChangeCase());
 
             Assert.IsTrue(result.Any());
         }
 
         [Test]
-        public void SearchMovie_InvalidMovie_ShouldReturnEmpty()
+        public async Task SearchMovie_InvalidMovie_ShouldReturnEmpty()
         {
             var random = new Random();
             var movie = new MovieEntity { Title = "Random" };
@@ -129,7 +129,7 @@ namespace Nt.WebApi.Tests.Controller
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Func<MovieEntity, bool>>()))
                                .Returns<Func<MovieEntity, bool>>((predicate) => Task.FromResult(EntityCollection.Where(x => predicate(x))));
             var movieController = new MovieController(Mapper, mockMovieRepository.Object);
-            var result = movieController.SearchAsync(movie.Title);
+            var result = await movieController.SearchAsync(movie.Title);
 
             Assert.IsFalse(result.Any());
         }

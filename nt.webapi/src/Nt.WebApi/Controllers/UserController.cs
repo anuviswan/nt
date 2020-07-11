@@ -17,10 +17,7 @@ namespace Nt.WebApi.Controllers
     {
         private readonly IUserRepository _userService;
 
-        public UserController(IMapper mapper, IUserRepository userRepository):base(mapper)
-        {
-            _userService = userRepository;
-        }
+        public UserController(IMapper mapper, IUserRepository userRepository) : base(mapper) => _userService = userRepository;
 
         /// <summary>
         /// Retrieve List of Users
@@ -54,7 +51,6 @@ namespace Nt.WebApi.Controllers
             }
             catch (Exception ex) when (ex is InvalidUserException)
             {
-
                 return new LoginResponse { IsAuthenticated = false,ErrorMessage = "Invalid Username or Password" };
             }
         }

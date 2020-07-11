@@ -32,13 +32,13 @@ namespace Nt.WebApi.Tests.Controller
 
 
         [Test]
-        public void GetAll_ShouldReturnMoreThanOne()
+        public async Task GetAll_ShouldReturnMoreThanOne()
         {   
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.GetAsync()).Returns(Task.FromResult(EntityCollection.AsEnumerable()));
             var userController = new UserController(Mapper, mockRepository.Object);
 
-            var result = userController.Get().ToList();
+            var result = (await userController.Get()).ToList();
             Assert.GreaterOrEqual(result.Count, 1);
         }
 
@@ -57,7 +57,7 @@ namespace Nt.WebApi.Tests.Controller
             mockRepository.Setup(x => x.CreateAsync(It.IsAny<UserEntity>()))
                             .Callback<UserEntity>((user) => EntityCollection.Add(user))
                             .Returns(Task.FromResult(Mapper.Map<UserEntity>(userProfile)));
-            mockRepository.Setup(x => x.CheckIfUserExistsAsync(userProfile.UserName)).Returns(EntityCollection.Any(x => x.UserName == userProfile.UserName));
+            mockRepository.Setup(x => x.CheckIfUserExistsAsync(userProfile.UserName)).Returns(Task.FromResult(EntityCollection.Any(x => x.UserName == userProfile.UserName)));
 
             var userController = new UserController(Mapper, mockRepository.Object);
             var result = userController.CreateUser(userProfile);
@@ -66,7 +66,7 @@ namespace Nt.WebApi.Tests.Controller
         }
 
         [Test]
-        public void CreateUser_ExistingUserName_ShouldNotAddUserToCollection()
+        public async Task CreateUser_ExistingUserName_ShouldNotAddUserToCollection()
         {
             var random = new Random();
             var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
@@ -84,10 +84,10 @@ namespace Nt.WebApi.Tests.Controller
                           .Callback<UserEntity>((user) => EntityCollection.Add(user))
                           .Returns(Task.FromResult(Mapper.Map<UserEntity>(userEntity)));
             mockRepository.Setup(x => x.CheckIfUserExistsAsync(userEntity.UserName))
-                          .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
+                          .Returns(Task.FromResult(EntityCollection.Any(x => x.UserName == userEntity.UserName)));
 
             var userController = new UserController(Mapper, mockRepository.Object);
-            var result = userController.CreateUser(userProfile);
+            var result = await userController.CreateUser(userProfile);
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
             Assert.AreEqual(userCount, EntityCollection.Count);
@@ -96,7 +96,7 @@ namespace Nt.WebApi.Tests.Controller
 
 
         [Test]
-        public void CreateUser_CaseSensitiveUserName_ShouldNotAddUserToCollection()
+        public async Task CreateUser_CaseSensitiveUserName_ShouldNotAddUserToCollection()
         {
             var random = new Random();
             var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
@@ -114,10 +114,10 @@ namespace Nt.WebApi.Tests.Controller
                           .Callback<UserEntity>((user) => EntityCollection.Add(user))
                           .Returns(Task.FromResult(Mapper.Map<UserEntity>(userEntity)));
             mockRepository.Setup(x => x.CheckIfUserExistsAsync(userEntity.UserName))
-                          .Returns(EntityCollection.Any(x => x.UserName == userEntity.UserName));
+                          .Returns(Task.FromResult(EntityCollection.Any(x => x.UserName == userEntity.UserName)));
 
             var userController = new UserController(Mapper, mockRepository.Object);
-            var result = userController.CreateUser(userProfile);
+            var result = await userController.CreateUser(userProfile);
 
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
             Assert.AreEqual(userCount, EntityCollection.Count);
@@ -126,7 +126,7 @@ namespace Nt.WebApi.Tests.Controller
 
 
         [Test]
-        public void ValidateUser_ValidUser_ShouldSucceed()
+        public async Task ValidateUser_ValidUser_ShouldSucceed()
         {
             var random = new Random();
             var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
@@ -138,10 +138,10 @@ namespace Nt.WebApi.Tests.Controller
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.ValidateUserAsync(It.IsAny<string>(), It.IsAny<string>()))
-                          .Returns(userEntity);
+                          .Returns(Task.FromResult(userEntity));
 
             var userController = new UserController(Mapper, mockRepository.Object);
-            var result = userController.ValidateUser(loginRequest);
+            var result = await userController.ValidateUser(loginRequest);
 
             Assert.IsTrue(result.IsAuthenticated);
             Assert.IsTrue(string.IsNullOrEmpty(result.ErrorMessage));
@@ -149,7 +149,7 @@ namespace Nt.WebApi.Tests.Controller
         }
 
         [Test]
-        public void ValidateUser_InvalidUser_ShouldFail()
+        public async Task ValidateUser_InvalidUser_ShouldFail()
         {
             var random = new Random();
             var userCount = EntityCollection.Count;
@@ -164,7 +164,7 @@ namespace Nt.WebApi.Tests.Controller
                           .Throws<InvalidUserException>();
 
             var userController = new UserController(Mapper, mockRepository.Object);
-            var result = userController.ValidateUser(loginRequest);
+            var result = await userController.ValidateUser(loginRequest);
 
             Assert.IsFalse(result.IsAuthenticated);
             Assert.IsFalse(string.IsNullOrEmpty(result.ErrorMessage));
@@ -172,7 +172,7 @@ namespace Nt.WebApi.Tests.Controller
         }
 
         [Test]
-        public void ValidateUser_CaseSensitiveValidUser_ShouldSucceed()
+        public async Task ValidateUser_CaseSensitiveValidUser_ShouldSucceed()
         {
             var random = new Random();
             var userEntity = EntityCollection[random.Next(0, EntityCollection.Count - 1)];
@@ -184,10 +184,10 @@ namespace Nt.WebApi.Tests.Controller
             };
             var mockRepository = new Mock<IUserRepository>();
             mockRepository.Setup(x => x.ValidateUserAsync(It.IsAny<string>(), It.IsAny<string>()))
-                          .Returns(userEntity);
+                          .Returns(Task.FromResult(userEntity));
 
             var userController = new UserController(Mapper, mockRepository.Object);
-            var result = userController.ValidateUser(loginRequest);
+            var result = await userController.ValidateUser(loginRequest);
 
             Assert.IsTrue(result.IsAuthenticated);
             Assert.IsTrue(string.IsNullOrEmpty(result.ErrorMessage));

@@ -38,9 +38,9 @@ namespace Nt.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetAll")]
-        public IEnumerable<MovieResponse> Get()
+        public async Task<IEnumerable<MovieResponse>> Get()
         {
-            var result = _movieService.GetAsync();
+            var result = await _movieService.GetAsync();
             return Mapper.Map<IEnumerable<MovieResponse>>(result);
         }
 
