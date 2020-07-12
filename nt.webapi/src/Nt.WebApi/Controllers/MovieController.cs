@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.IRepositories;
+using Nt.WebApi.ViewModels.RequestObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

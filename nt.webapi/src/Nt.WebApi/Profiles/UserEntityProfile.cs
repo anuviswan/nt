@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Models.ResponseObjects;
 using Nt.WebApi.Shared.Entities;
+using Nt.WebApi.ViewModels.RequestObjects;
 
 namespace Nt.WebApi.Profiles
 {

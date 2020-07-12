@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Moq;
 using Nt.WebApi.Controllers;
-using Nt.WebApi.Models.RequestObjects;
 using Nt.WebApi.Profiles;
 using Nt.WebApi.Repository.Repositories;
 using Nt.WebApi.Shared.Entities;
 using Nt.WebApi.Shared.IRepositories;
 using Nt.WebApi.Tests.ExtensionMethods;
+using Nt.WebApi.ViewModels.RequestObjects;
 using NUnit.Framework;
 using System;
 using System.Linq;
