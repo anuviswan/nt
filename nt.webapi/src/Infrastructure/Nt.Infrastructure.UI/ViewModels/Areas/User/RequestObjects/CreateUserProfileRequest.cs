@@ -1,4 +1,4 @@
-﻿namespace Nt.Infrastructure.WebApi.ViewModels.RequestObjects
+﻿namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects
 {
     public class CreateUserProfileRequest
     {

@@ -1,7 +1,7 @@
 ﻿using Nt.Infrastructure.WebApi.ViewModels.Common;
 using System;
 
-namespace Nt.Infrastructure.WebApi.ViewModels.ResponseObjects
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects
 {
     public class LoginResponse : IErrorInfo
     {

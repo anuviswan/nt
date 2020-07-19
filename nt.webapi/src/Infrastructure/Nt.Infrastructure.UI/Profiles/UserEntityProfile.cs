@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Nt.Domain.Entities.User;
-using Nt.Infrastructure.WebApi.ViewModels.RequestObjects;
-using Nt.Infrastructure.WebApi.ViewModels.ResponseObjects;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects;
 
 namespace Nt.Infrastructure.WebApi.Profiles
 {

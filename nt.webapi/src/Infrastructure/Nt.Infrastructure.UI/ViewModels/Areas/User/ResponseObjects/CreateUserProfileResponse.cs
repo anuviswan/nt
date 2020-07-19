@@ -1,6 +1,6 @@
 ﻿using Nt.Infrastructure.WebApi.ViewModels.Common;
 
-namespace Nt.Infrastructure.WebApi.ViewModels.ResponseObjects
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects
 {
     public class CreateUserProfileResponse : IErrorInfo
     {

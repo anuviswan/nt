@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Infrastructure.Data", "n
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.WebApi", "nt.webapi\src\Infrastructure\Nt.Infrastructure.UI\Nt.WebApi.csproj", "{AFCB783C-5EC6-4E54-854F-BB85374E304A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Infrastructure.Tests", "nt.webapi\src\Infrastructure\Nt.Infrastructure.Tests\Nt.Infrastructure.Tests.csproj", "{C3E91B43-3DC4-4036-98A2-037D9A81AD2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.Infrastructure.Tests", "nt.webapi\src\Infrastructure\Nt.Infrastructure.Tests\Nt.Infrastructure.Tests.csproj", "{8C5DC466-A812-4135-BC0D-0396231B11ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{AFCB783C-5EC6-4E54-854F-BB85374E304A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFCB783C-5EC6-4E54-854F-BB85374E304A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFCB783C-5EC6-4E54-854F-BB85374E304A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3E91B43-3DC4-4036-98A2-037D9A81AD2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3E91B43-3DC4-4036-98A2-037D9A81AD2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3E91B43-3DC4-4036-98A2-037D9A81AD2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3E91B43-3DC4-4036-98A2-037D9A81AD2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C5DC466-A812-4135-BC0D-0396231B11ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C5DC466-A812-4135-BC0D-0396231B11ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C5DC466-A812-4135-BC0D-0396231B11ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C5DC466-A812-4135-BC0D-0396231B11ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,7 +68,7 @@ Global
 		{764BBA2B-FB88-4010-B2A5-7C46245F7890} = {82DDE652-1F62-428F-A95B-DD0BB4D26505}
 		{5E42D51B-E1DC-4BE4-9ED1-7D27EF5182EC} = {33926233-2847-413C-99AF-B1C919385A6D}
 		{AFCB783C-5EC6-4E54-854F-BB85374E304A} = {33926233-2847-413C-99AF-B1C919385A6D}
-		{C3E91B43-3DC4-4036-98A2-037D9A81AD2A} = {33926233-2847-413C-99AF-B1C919385A6D}
+		{8C5DC466-A812-4135-BC0D-0396231B11ED} = {33926233-2847-413C-99AF-B1C919385A6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C66B27F5-33B3-4D12-B3C0-FCAB94E60DBA}

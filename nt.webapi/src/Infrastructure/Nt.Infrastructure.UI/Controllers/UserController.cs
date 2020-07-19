@@ -6,10 +6,10 @@ using Nt.Domain.Entities.User;
 using System.Threading.Tasks;
 using Nt.Domain.ServiceContracts;
 using Nt.Domain.ServiceContracts.User;
-using Nt.Infrastructure.WebApi.ViewModels.ResponseObjects;
 using System.Runtime.CompilerServices;
-using Nt.Infrastructure.WebApi.ViewModels.RequestObjects;
 using Nt.Domain.Entities.Exceptions;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
