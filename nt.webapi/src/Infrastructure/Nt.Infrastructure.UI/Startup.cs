@@ -61,13 +61,6 @@ namespace Nt.WebApi
         {
             services.Configure<NtDatabaseSettings>(Configuration.GetSection(nameof(NtDatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<NtDatabaseSettings>>().Value);
-
-            services.Configure<UserDatabaseSettings>(Configuration.GetSection(nameof(UserDatabaseSettings)));
-            services.AddSingleton<IUserDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserDatabaseSettings>>().Value);
-
-            services.Configure<MovieDatabaseSettings>(Configuration.GetSection(nameof(MovieDatabaseSettings)));
-            services.AddSingleton<IMovieDatabaseSettings>(sp => sp.GetRequiredService<IOptions<MovieDatabaseSettings>>().Value);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
