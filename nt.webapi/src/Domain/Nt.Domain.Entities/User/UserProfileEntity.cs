@@ -4,7 +4,7 @@ using Nt.Domain.Entities.Entities;
 
 namespace Nt.Domain.Entities.User
 {
-    [BsonCollection("UserProfile")]
+    [BsonCollection("Users")]
     public class UserProfileEntity : BaseEntity
     {
         [BsonElement("userName")]

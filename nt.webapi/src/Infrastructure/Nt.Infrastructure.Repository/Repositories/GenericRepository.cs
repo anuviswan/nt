@@ -18,6 +18,7 @@ namespace Nt.Infrastructure.Data.Repositories
 
         public GenericRepository(IMongoDatabase mongoDatabase)
         {
+            _mongoDatabase = mongoDatabase;
             _dataCollection = _mongoDatabase.GetCollection<TEntity>(GetCollectionName<TEntity>());
         }
 

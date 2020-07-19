@@ -5,6 +5,7 @@ namespace Nt.Domain.RepositoryContracts.User
 {
     public interface IUserProfileRepository
     {
+
         Task<UserProfileEntity> ValidateUserAsync(string userName, string passKey);
         Task<bool> CheckIfUserExistsAsync(string userName);
     }

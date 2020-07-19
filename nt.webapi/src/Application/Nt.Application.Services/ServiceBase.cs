@@ -4,7 +4,7 @@ namespace Nt.Application.Services
 {
     public class ServiceBase
     {
-        protected IUnitOfWork _unitOfWork;
-        public ServiceBase(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        protected IUnitOfWork UnitOfWork { get;}
+        public ServiceBase(IUnitOfWork unitOfWork) => UnitOfWork = unitOfWork;
     }
 }

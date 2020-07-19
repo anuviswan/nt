@@ -25,13 +25,24 @@ namespace Nt.Infrastructure.WebApi.Controllers
             (_userProfileService, _userManagementService) = (userProfileService, userManagementService);
         }
 
+        /// <summary>
+        /// Get all Users in the system
+        /// </summary>
+        /// <returns>User List</returns>
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<IEnumerable<UserProfileResponse>> GetAll()
+        {
+            var usersFound = await _userManagementService.GetAllUsersAsync();
+            return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
+        }
 
         /// <summary>
         /// Validate User Login Request
         /// </summary>
         /// <param name="partialString">Partial username to be searched</param>
         /// <returns>Collection of Users who matches partial user name</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("SearchUser")]
         public async Task<IEnumerable<UserProfileResponse>> SearchUser(string partialString)
         {
@@ -64,31 +75,29 @@ namespace Nt.Infrastructure.WebApi.Controllers
         //    }
         //}
 
-        ///// <summary>
-        ///// Creates a new User with the specified details
-        ///// </summary>
-        ///// <param name="user"></param>
-        ///// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
-
-        //[HttpPost]
-        //[Route("Register")]
-
-        //public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
-        //{
-        //    var userEntity = Mapper.Map<UserProfileEntity>(user);
-        //    if (await _userProfileService.Get(user.UserName.ToLower()))
-        //    {
-        //        var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
-        //        userReponse.ErrorMessage = "User already exists";
-        //        return userReponse;
-        //    }
-        //    else
-        //    {
-        //        userEntity.UserName = userEntity.UserName.ToLower();
-        //        userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-        //        var result = await _userProfileService.CreateAsync(userEntity);
-        //        return Mapper.Map<CreateUserProfileResponse>(result);
-        //    }
-        //}
+        /// <summary>
+        /// Creates a new User with the specified details
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
+        [HttpPost]
+        [Route("CreateUser")]
+        public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
+        {
+            var userEntity = Mapper.Map<UserProfileEntity>(user);
+            //if (await _userProfileService.Get(user.UserName.ToLower()))
+            //{
+            //    var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
+            //    userReponse.ErrorMessage = "User already exists";
+            //    return userReponse;
+            //}
+            //else
+            {
+                userEntity.UserName = userEntity.UserName.ToLower();
+                userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+                var result = await _userProfileService.CreateUserAsync(userEntity);
+                return Mapper.Map<CreateUserProfileResponse>(result);
+            }
+        }
     }
 }

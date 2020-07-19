@@ -10,7 +10,7 @@ namespace Nt.Application.Services.User
     {
         public UserProfileService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-
+            
         }
 
         public Task<UserProfileEntity> AuthenticateAsync(string userName, string base64Key)
@@ -23,7 +23,12 @@ namespace Nt.Application.Services.User
             throw new NotImplementedException();
         }
 
-        public Task<UserProfileEntity> CreateUserAsync()
+        public async Task<UserProfileEntity> CreateUserAsync(UserProfileEntity userProfile)
+        {
+            return await UnitOfWork.UserProfileRepository.CreateAsync(userProfile);
+        }
+
+        public Task<UserProfileEntity> GetUserAsync(UserProfileEntity user)
         {
             throw new NotImplementedException();
         }

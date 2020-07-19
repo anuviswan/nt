@@ -12,6 +12,11 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
+using Nt.Domain.ServiceContracts.User;
+using Nt.Application.Services.User;
+using Nt.Domain.RepositoryContracts;
+using Nt.Domain.Entities.Settings;
+using Nt.Infrastructure.Data.Repositories;
 
 namespace Nt.WebApi
 {
@@ -31,23 +36,22 @@ namespace Nt.WebApi
             ConfigureDatabaseSettings(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             ConfigureRepositories(services);
-
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = "Example API",
-                    Version = "v1"
-                });
-
-                // XML Documentation
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            ConfigureUnitOfWork(services);
+            ConfigureAppServices(services);
+            
+            services.AddSwaggerGen();
         }
 
+        private void ConfigureUnitOfWork(IServiceCollection services)
+        {
+            services.AddSingleton<IUnitOfWork>(x=>new UnitOfWork(x.GetRequiredService<IDatabaseSettings>()));
+        }
+
+        private void ConfigureAppServices(IServiceCollection services)
+        {
+            services.AddSingleton<IUserProfileService>(x => new UserProfileService(x.GetRequiredService<IUnitOfWork>()));
+            services.AddSingleton<IUserManagementService>(x => new UserManagementService(x.GetRequiredService<IUnitOfWork>()));
+        }
         private void ConfigureRepositories(IServiceCollection services)
         {
             //services.AddSingleton<IUserProfileRepository>(x => new UserProfileRepository(x.GetRequiredService<IUserDatabaseSettings>()));
@@ -55,35 +59,35 @@ namespace Nt.WebApi
         }
         private void ConfigureDatabaseSettings(IServiceCollection services)
         {
-            //services.Configure<UserDatabaseSettings>(Configuration.GetSection(nameof(UserDatabaseSettings)));
-            //services.AddSingleton<IUserDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserDatabaseSettings>>().Value);
+            services.Configure<NtDatabaseSettings>(Configuration.GetSection(nameof(NtDatabaseSettings)));
+            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<NtDatabaseSettings>>().Value);
 
-            //services.Configure<MovieDatabaseSettings>(Configuration.GetSection(nameof(MovieDatabaseSettings)));
-            //services.AddSingleton<IMovieDatabaseSettings>(sp => sp.GetRequiredService<IOptions<MovieDatabaseSettings>>().Value);
+            services.Configure<UserDatabaseSettings>(Configuration.GetSection(nameof(UserDatabaseSettings)));
+            services.AddSingleton<IUserDatabaseSettings>(sp => sp.GetRequiredService<IOptions<UserDatabaseSettings>>().Value);
+
+            services.Configure<MovieDatabaseSettings>(Configuration.GetSection(nameof(MovieDatabaseSettings)));
+            services.AddSingleton<IMovieDatabaseSettings>(sp => sp.GetRequiredService<IOptions<MovieDatabaseSettings>>().Value);
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
-
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Example API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            app.UseHttpsRedirection();
-            app.UseMvcWithDefaultRoute();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
