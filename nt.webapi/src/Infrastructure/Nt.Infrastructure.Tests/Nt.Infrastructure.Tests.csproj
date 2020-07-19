@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="nunit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Nt.Application.Services\Nt.Application.Services.csproj" />
+    <ProjectReference Include="..\..\Domain\Nt.Domain.Entities\Nt.Domain.Entities.csproj" />
+    <ProjectReference Include="..\..\Domain\Nt.Domain.RepositoryContracts\Nt.Domain.RepositoryContracts.csproj" />
+    <ProjectReference Include="..\..\Domain\Nt.Domain.ServiceContracts\Nt.Domain.ServiceContracts.csproj" />
+    <ProjectReference Include="..\Nt.Infrastructure.Repository\Nt.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Nt.Infrastructure.UI\Nt.WebApi.csproj" />
+  </ItemGroup>
+
+</Project>
