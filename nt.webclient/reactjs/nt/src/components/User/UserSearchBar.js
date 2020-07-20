@@ -30,4 +30,7 @@ const UserSearchBar = ({ searchUsers }) => {
   );
 };
 
+UserSearchBar.propTypes = {
+  searchUsers: PropTypes.func.isRequired,
+};
 export default UserSearchBar;

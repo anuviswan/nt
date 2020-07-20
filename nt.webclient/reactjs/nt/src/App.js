@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <Navbar title='November Talkies' icon='fa fa-github' />
+        <Navbar title='November Talkies' icon='fa fa-film' />
         <Switch>
           <Route exact path='/' render={() => <Login />} />
           <Route exact path='/about' component={About} />
