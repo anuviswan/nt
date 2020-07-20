@@ -37,6 +37,10 @@ namespace Nt.Application.Services.User
 
         public async Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName)
         {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                return await Task.FromResult(Enumerable.Empty<UserProfileEntity>());
+            }
             return await UnitOfWork.UserProfileRepository.GetAsync(x => (x.DisplayName.ToLower().StartsWith(userName.ToLower()) 
                                                                         || x.UserName.ToLower().StartsWith(userName.ToLower())) 
                                                                         && !x.IsDeleted);
