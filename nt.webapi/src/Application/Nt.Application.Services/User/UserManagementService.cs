@@ -37,7 +37,9 @@ namespace Nt.Application.Services.User
 
         public async Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName)
         {
-            return await UnitOfWork.UserProfileRepository.GetAsync(x => x.DisplayName.StartsWith(userName) || x.UserName.StartsWith(userName));
+            return await UnitOfWork.UserProfileRepository.GetAsync(x => (x.DisplayName.ToLower().StartsWith(userName.ToLower()) 
+                                                                        || x.UserName.ToLower().StartsWith(userName.ToLower())) 
+                                                                        && !x.IsDeleted);
         }
     }
 }

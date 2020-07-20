@@ -14,5 +14,9 @@ namespace Nt.Domain.Entities.User
         [BsonElement("displayName")]
         public string DisplayName { get; set; }
 
+        [BsonElement("isDeleted")]
+        [BsonDefaultValue(false)]
+        public bool IsDeleted { get; set; } 
+
     }
 }

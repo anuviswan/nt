@@ -29,6 +29,6 @@ namespace Nt.Infrastructure.Tests.Services
         {
 
         }
-        protected List<TEntityCollection> EntityCollection { get; set; }
+        public static List<TEntityCollection> EntityCollection { get; set; }
     }
 }
