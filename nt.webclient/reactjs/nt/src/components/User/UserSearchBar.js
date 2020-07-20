@@ -24,7 +24,7 @@ const UserSearchBar = ({ searchUsers }) => {
           value={text}
           onChange={onChange}
         />
-        <input type='submit' value='Search' class='btn-dark btn-block' />
+        <input type='submit' value='Search' className='btn-dark btn-block' />
       </form>
     </div>
   );
