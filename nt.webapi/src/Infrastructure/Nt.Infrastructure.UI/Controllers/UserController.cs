@@ -42,7 +42,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// </summary>
         /// <param name="partialString">Partial username to be searched</param>
         /// <returns>Collection of Users who matches partial user name</returns>
-        [HttpPost]
+        [HttpGet]
         [Route("SearchUser")]
         public async Task<IEnumerable<UserProfileResponse>> SearchUser(string partialString)
         {
