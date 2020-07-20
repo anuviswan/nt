@@ -35,6 +35,12 @@ namespace Nt.WebApi
             services.AddAutoMapper(typeof(Startup));
             ConfigureDatabaseSettings(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
             ConfigureRepositories(services);
             ConfigureUnitOfWork(services);
             ConfigureAppServices(services);
@@ -68,6 +74,8 @@ namespace Nt.WebApi
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
+            app.UseCors(options => options.AllowAnyOrigin());
+
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
