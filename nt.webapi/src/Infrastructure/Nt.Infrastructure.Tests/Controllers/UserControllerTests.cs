@@ -42,8 +42,8 @@ namespace Nt.Infrastructure.Tests.Controllers
         public async Task SearchUser(string userName, IEnumerable<string> expectedOutput)
         {
             var mockUserManagementService = new Mock<IUserManagementService>();
-            mockUserManagementService.Setup(x => x.SearchUserAsync(It.IsAny<string>()))
-                .Returns((string searchString) => Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(searchString))));
+            mockUserManagementService.Setup(x => x.SearchUserAsync(userName))
+                .Returns(Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(userName))));
 
             var userController = new UserController(Mapper, null, mockUserManagementService.Object);
             var result = await userController.SearchUser(userName);

@@ -35,9 +35,9 @@ namespace Nt.Application.Services.User
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName)
+        public async Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName)
         {
-            throw new NotImplementedException();
+            return await UnitOfWork.UserProfileRepository.GetAsync(x => x.DisplayName.StartsWith(userName) || x.UserName.StartsWith(userName));
         }
     }
 }

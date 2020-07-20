@@ -15,6 +15,15 @@ namespace Nt.Infrastructure.Tests.Services
 {
     public class UserProfileServiceTests:ServiceTestBase<UserProfileEntity>
     {
+        protected override void InitializeCollection()
+        {
+            EntityCollection = Enumerable.Range(1, 10).Select(x => new UserProfileEntity
+            {
+                DisplayName = $"User Name {x}",
+                UserName = $"username{x}",
+                PassKey = $"passKey{x}"
+            }).ToList();
+        }
         public void GetUsers()
         {
             
@@ -26,7 +35,7 @@ namespace Nt.Infrastructure.Tests.Services
         {
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();
             mockUserProfileRepository.Setup(x => x.GetAsync(x=>x.DisplayName.StartsWith(userName) || x.UserName.StartsWith(userName)))
-                                      .Returns((string searchString) => Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(searchString))));
+                                      .Returns(Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(userName))));
 
             var mockUnitOfwork = new Mock<IUnitOfWork>();
             mockUnitOfwork.SetupGet(x => x.UserProfileRepository).Returns(mockUserProfileRepository.Object);
