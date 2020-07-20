@@ -50,6 +50,8 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
                 new object[]{"anu", new[] {"AnuViswan" } },
                 new object[]{"Anu", new[] {"AnuViswan"} },
                 new object[]{"Doesn'tExist", Enumerable.Empty<string>()},
+                new object[]{string.Empty,Enumerable.Empty<string>()},
+                new object[]{" ",Enumerable.Empty<string>()},
             };
     }
 }
