@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserSearchBar from "../User/UserSearchBar";
 import axios from "axios";
+import Users from "./Users";
 
 const SearchUser = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -18,7 +19,9 @@ const SearchUser = () => {
       <div>
         <UserSearchBar searchUsers={searchForUsers} />
       </div>
-      <div>TODO:Search Result Page</div>
+      <div>
+        <Users users={searchResults} />
+      </div>
     </div>
   );
 };
