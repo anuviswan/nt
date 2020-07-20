@@ -5,6 +5,7 @@ import Navbar from "./components/layout/Navbar";
 import Login from "./components/Pages/Login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./components/Pages/About";
+import SearchUser from "./components/Pages/SearchUser";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Switch>
           <Route exact path='/' render={() => <Login />} />
           <Route exact path='/about' component={About} />
+          <Route exact path='/searchuser' component={SearchUser} />
         </Switch>
       </div>
     </Router>
