@@ -21,12 +21,15 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
             {
                 DisplayName = $"User Name {x}",
                 UserName = $"username{x}",
-                PassKey = $"passKey{x}"
+                PassKey = $"passKey{x}",
+                Bio = $"bio{x}"
             }).ToList();
         }
+
+        [Fact]
         public void GetUsers()
         {
-
+            var mockUserProfileRepository = new Mock<IUserProfileRepository>();
         }
 
     }

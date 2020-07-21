@@ -1,11 +1,11 @@
 import React from "react";
-import UserSearchCard from "../User/UserSearchCard";
+import UserSearchResultCard from "../User/UserSearchResultCard";
 
 const Users = ({ users }) => {
   return (
     <div>
       {users.map((user) => (
-        <UserSearchCard key={users.username} user={user} />
+        <UserSearchResultCard key={users.username} user={user} />
       ))}
     </div>
   );
