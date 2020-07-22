@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Xunit;
 using Nt.Infrastructure.WebApi.Profiles;
+using Xunit.Abstractions;
 
 namespace Nt.Infrastructure.Tests.Services
 {
     public class ServiceTestBase<TEntityCollection> where TEntityCollection : BaseEntity, new()
     {
         protected IMapper Mapper { get; set; }
+        protected ITestOutputHelper Output { get;}
 
-        public ServiceTestBase()
+        public ServiceTestBase(ITestOutputHelper output)
         {
+            Output = output;
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserEntityProfile());

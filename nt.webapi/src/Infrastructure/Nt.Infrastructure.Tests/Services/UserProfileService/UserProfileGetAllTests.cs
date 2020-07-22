@@ -10,11 +10,16 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Nt.Infrastructure.Tests.Services.UserProfileService
 {
     public class UserProfileServiceSearchTests : ServiceTestBase<UserProfileEntity>
     {
+        public UserProfileServiceSearchTests(ITestOutputHelper output):base(output)
+        {
+
+        }
         protected override void InitializeCollection()
         {
             EntityCollection = Enumerable.Range(1, 10).Select(x => new UserProfileEntity
