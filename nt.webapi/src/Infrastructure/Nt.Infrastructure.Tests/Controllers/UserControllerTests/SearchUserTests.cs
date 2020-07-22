@@ -1,21 +1,24 @@
-﻿using Nt.Domain.Entities.User;
+﻿using Moq;
+using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moq;
-using Nt.Infrastructure.WebApi.Controllers;
 using Xunit;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects;
-using Xunit.Extensions;
-using MongoDB.Driver;
+using Xunit.Abstractions;
+using Nt.Infrastructure.WebApi.Controllers;
 
-namespace Nt.Infrastructure.Tests.Controllers
+namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 {
-    public class UserControllerTests : ControllerTestBase<UserProfileEntity>
+    public class SearchUserTests : ControllerTestBase<UserProfileEntity>
     {
+        public SearchUserTests(ITestOutputHelper testOutput) : base(testOutput)
+        {
+
+        }
+
         protected override void InitializeCollection()
         {
             EntityCollection = Enumerable.Range(1, 10).Select(x => new UserProfileEntity
@@ -24,17 +27,6 @@ namespace Nt.Infrastructure.Tests.Controllers
                 UserName = $"username{x}",
                 PassKey = $"passKey{x}"
             }).ToList();
-        }
-
-        [Fact]
-        public async Task GetAll()
-        {
-            var mockUserManagementService = new Mock<IUserManagementService>();
-            mockUserManagementService.Setup(x => x.GetAllUsersAsync()).Returns(Task.FromResult(EntityCollection.AsEnumerable()));
-            var userController = new UserController(Mapper, null, mockUserManagementService.Object);
-
-            var result = (await userController.GetAll()).ToList();
-            Assert.True(result.Count == 10);
         }
 
         [Theory]
@@ -53,11 +45,11 @@ namespace Nt.Infrastructure.Tests.Controllers
         }
 
         public static IEnumerable<object[]> SearchUserTestData => new List<object[]>
-        {
-            new object[]{"username2",new List<string>{"username2"} },
-            new object[]{"username1",new List<string>{"username1", "username10" } },
-            new object[]{"user", Enumerable.Range(1, 10).Select(x=>$"username{x}") },
-            new object[]{"doesn'texist", Enumerable.Empty<string>()},
-        };
+                {
+                    new object[]{"username2",new List<string>{"username2"} },
+                    new object[]{"username1",new List<string>{"username1", "username10" } },
+                    new object[]{"user", Enumerable.Range(1, 10).Select(x=>$"username{x}") },
+                    new object[]{"doesn'texist", Enumerable.Empty<string>()},
+                };
     }
 }
