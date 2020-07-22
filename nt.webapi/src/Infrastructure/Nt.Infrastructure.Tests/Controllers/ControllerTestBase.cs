@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Xunit;
 using Nt.Infrastructure.WebApi.Profiles;
+using Xunit.Abstractions;
 
 namespace Nt.Infrastructure.Tests.Controllers
 {
     public class ControllerTestBase<TEntityCollection> where TEntityCollection : BaseEntity, new()
     {
         protected IMapper Mapper { get; set; }
+        protected ITestOutputHelper Output { get; }
 
-        public ControllerTestBase()
+        public ControllerTestBase(ITestOutputHelper output)
         {
+            Output = output;
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserEntityProfile());
@@ -24,11 +27,11 @@ namespace Nt.Infrastructure.Tests.Controllers
             Mapper = mappingConfig.CreateMapper();
             InitializeCollection();
         }
-        
+
         protected virtual void InitializeCollection()
         {
 
         }
-        protected List<TEntityCollection> EntityCollection { get; set; }
+        public static List<TEntityCollection> EntityCollection { get; set; }
     }
 }

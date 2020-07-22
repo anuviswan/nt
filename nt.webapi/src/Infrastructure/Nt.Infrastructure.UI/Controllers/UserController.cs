@@ -84,19 +84,43 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [Route("CreateUser")]
         public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
         {
-            var userEntity = Mapper.Map<UserProfileEntity>(user);
-            //if (await _userProfileService.Get(user.UserName.ToLower()))
-            //{
-            //    var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
-            //    userReponse.ErrorMessage = "User already exists";
-            //    return userReponse;
-            //}
-            //else
+            try
             {
-                userEntity.UserName = userEntity.UserName.ToLower();
-                userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-                var result = await _userProfileService.CreateUserAsync(userEntity);
-                return Mapper.Map<CreateUserProfileResponse>(result);
+                if (string.IsNullOrWhiteSpace(user.PassKey))
+                {
+                    var userReponse = new CreateUserProfileResponse
+                    {
+                        UserName = user.UserName,
+                        DisplayName = user.DisplayName
+                    };
+                    userReponse.ErrorMessage = "Password cannot be empty or whitespace";
+                    return userReponse;
+                }
+                var userEntity = Mapper.Map<UserProfileEntity>(user);
+
+                //if (await _userProfileService.Get(user.UserName.ToLower()))
+                //{
+                //    var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
+                //    userReponse.ErrorMessage = "User already exists";
+                //    return userReponse;
+                //}
+                //else
+                {
+                    userEntity.UserName = userEntity.UserName.ToLower();
+                    userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+                    var result = await _userProfileService.CreateUserAsync(userEntity);
+                    return Mapper.Map<CreateUserProfileResponse>(result);
+                }
+            }
+            catch (UserNameExistsException e)
+            {
+                var userReponse = new CreateUserProfileResponse
+                {
+                    UserName = user.UserName,
+                    DisplayName = user.DisplayName
+                };
+                userReponse.ErrorMessage = "User already exists";
+                return userReponse;
             }
         }
     }
