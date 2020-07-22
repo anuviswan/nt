@@ -1,4 +1,5 @@
 ﻿using Nt.Infrastructure.WebApi.ViewModels.Common;
+using System.Collections.Generic;
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects
 {
