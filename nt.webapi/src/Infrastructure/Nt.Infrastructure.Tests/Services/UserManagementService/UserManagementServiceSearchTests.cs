@@ -11,13 +11,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using System.Linq.Expressions;
+using Xunit.Abstractions;
+
 namespace Nt.Infrastructure.Tests.Services.UserProfileService
 {
     public class UserManagementServiceSearchTests : ServiceTestBase<UserProfileEntity>
     {
+        public UserManagementServiceSearchTests(ITestOutputHelper output) : base(output)
+        {
+
+        }
         protected override void InitializeCollection()
         {
-            var random = new Random();
+            Output.WriteLine("Initialized"); //TODO: Fix this removing this line causes InitializeCollection not being called randomly
             EntityCollection = new()
             {
                 new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", IsDeleted = false },
@@ -40,7 +46,6 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
 
             var userProfileService = new UserManagementService(mockUnitOfwork.Object);
             var result = await userProfileService.SearchUserAsync(userName);
-
             Assert.True(expectedOutput.Count() == result.Count());
             Assert.Equal(expectedOutput, result.Select(x => x.UserName));
         }

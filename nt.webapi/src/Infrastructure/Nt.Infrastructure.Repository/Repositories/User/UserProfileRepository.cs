@@ -16,7 +16,6 @@ namespace Nt.Infrastructure.Data.Repositories.User
         {
 
         }
-        public async Task<bool> CheckIfUserExistsAsync(string userName) => (await _dataCollection.FindAsync(user => user.UserName.Equals(userName))).Any();
         public async Task<UserProfileEntity> ValidateUserAsync(string userName, string passKey)
         {
             var result = await _dataCollection.FindAsync(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));

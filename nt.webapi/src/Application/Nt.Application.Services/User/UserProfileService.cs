@@ -1,7 +1,10 @@
-﻿using Nt.Domain.Entities.User;
+﻿using Nt.Domain.Entities.Exceptions;
+using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.User;
 using System;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Nt.Application.Services.User
@@ -25,6 +28,11 @@ namespace Nt.Application.Services.User
 
         public async Task<UserProfileEntity> CreateUserAsync(UserProfileEntity userProfile)
         {
+            var existingUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower().Equals(userProfile.UserName.ToLower()));
+            if (existingUser.Any())
+            {
+                throw new UserNameExistsException();
+            }
             return await UnitOfWork.UserProfileRepository.CreateAsync(userProfile);
         }
 
