@@ -22,6 +22,7 @@ namespace Nt.WebApi
 {
     public class Startup
     {
+        readonly string NTClientAppsOrigin = "_ntClientAppsOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,13 +35,19 @@ namespace Nt.WebApi
         {
             services.AddAutoMapper(typeof(Startup));
             ConfigureDatabaseSettings(services);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            services.AddCors(option=> {
+                option.AddPolicy(name: NTClientAppsOrigin,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyMethod();
+                        builder.AllowAnyHeader();
+                    });
             });
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+           
             ConfigureRepositories(services);
             ConfigureUnitOfWork(services);
             ConfigureAppServices(services);
@@ -72,9 +79,10 @@ namespace Nt.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors(NTClientAppsOrigin);
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-            app.UseCors(options => options.AllowAnyOrigin());
+           
 
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
