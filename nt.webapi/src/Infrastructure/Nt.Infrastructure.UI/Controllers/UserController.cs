@@ -98,19 +98,10 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 }
                 var userEntity = Mapper.Map<UserProfileEntity>(user);
 
-                //if (await _userProfileService.Get(user.UserName.ToLower()))
-                //{
-                //    var userReponse = Mapper.Map<CreateUserProfileResponse>(userEntity);
-                //    userReponse.ErrorMessage = "User already exists";
-                //    return userReponse;
-                //}
-                //else
-                {
-                    userEntity.UserName = userEntity.UserName.ToLower();
-                    userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-                    var result = await _userProfileService.CreateUserAsync(userEntity);
-                    return Mapper.Map<CreateUserProfileResponse>(result);
-                }
+                userEntity.UserName = userEntity.UserName.ToLower();
+                userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+                var result = await _userProfileService.CreateUserAsync(userEntity);
+                return Mapper.Map<CreateUserProfileResponse>(result);
             }
             catch (UserNameExistsException e)
             {

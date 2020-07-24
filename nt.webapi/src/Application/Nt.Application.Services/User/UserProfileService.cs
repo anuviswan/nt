@@ -28,7 +28,7 @@ namespace Nt.Application.Services.User
 
         public async Task<UserProfileEntity> CreateUserAsync(UserProfileEntity userProfile)
         {
-            var existingUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower().Equals(userProfile.UserName.ToLower()));
+            var existingUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == userProfile.UserName.ToLower());
             if (existingUser.Any())
             {
                 throw new UserNameExistsException();
