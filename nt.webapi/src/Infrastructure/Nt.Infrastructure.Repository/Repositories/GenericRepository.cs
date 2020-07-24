@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Nt.Domain.Entities.Attributes;
 using Nt.Domain.Entities.Entities;
 using Nt.Domain.RepositoryContracts;
@@ -40,7 +42,7 @@ namespace Nt.Infrastructure.Data.Repositories
 
         public virtual async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dataCollection.Find(predicate).ToListAsync();
+            return await _dataCollection.AsQueryable<TEntity>().Where(predicate).ToListAsync();
         }
     }
 }
