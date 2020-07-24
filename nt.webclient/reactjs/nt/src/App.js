@@ -17,7 +17,7 @@ function App() {
           <Route exact path='/' render={() => <Login />} />
           <Route exact path='/about' component={About} />
           <Route exact path='/searchuser' component={SearchUser} />
-          <Route exact path='/signin' component={RegisterUser} />
+          <Route exact path='/signup' component={RegisterUser} />
         </Switch>
       </div>
     </Router>
