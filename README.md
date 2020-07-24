@@ -4,7 +4,7 @@ NT, or November Talkies is a Instagram-modeled Movie Review application. This pr
 Current Implementations
 
 ### Server ###
-* .Net Core Web Api (_running on .Net 5, with C# 9_)
+* .Net Web Api (_running on .Net 5, with C# 9_)
 
 ### Client ###
 * ReactJs
