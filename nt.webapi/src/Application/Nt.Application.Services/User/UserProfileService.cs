@@ -16,9 +16,14 @@ namespace Nt.Application.Services.User
             
         }
 
-        public Task<UserProfileEntity> AuthenticateAsync(string userName, string base64Key)
+        public async Task<UserProfileEntity> AuthenticateAsync(UserProfileEntity userProfile)
         {
-            throw new NotImplementedException();
+            var existingUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == userProfile.UserName.ToLower() && x.PassKey == userProfile.PassKey);
+            if (!existingUser.Any())
+            {
+                throw new InvalidPasswordOrUsernameException();
+            }
+            return existingUser.Single();
         }
 
         public Task<UserProfileEntity> ChangePasswordAsync()
@@ -35,6 +40,7 @@ namespace Nt.Application.Services.User
             }
             return await UnitOfWork.UserProfileRepository.CreateAsync(userProfile);
         }
+
 
         public Task<UserProfileEntity> GetUserAsync(UserProfileEntity user)
         {

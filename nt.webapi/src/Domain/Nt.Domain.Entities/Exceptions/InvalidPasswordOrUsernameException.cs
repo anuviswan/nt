@@ -2,7 +2,7 @@
 
 namespace Nt.Domain.Entities.Exceptions
 {
-    public class InvalidUserException : Exception
+    public class InvalidPasswordOrUsernameException : Exception
     {
     }
 }

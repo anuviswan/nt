@@ -16,13 +16,6 @@ namespace Nt.Infrastructure.Data.Repositories.User
         {
 
         }
-        public async Task<UserProfileEntity> ValidateUserAsync(string userName, string passKey)
-        {
-            var result = await _dataCollection.FindAsync(user => user.UserName.Equals(userName) && user.PassKey.Equals(passKey));
-            if (result.Any())
-                return result.First();
-            else
-                throw new InvalidUserException();
-        }
+
     }
 }
