@@ -43,7 +43,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.CreateUserAsync(It.IsAny<UserProfileEntity>())).Returns(Task.FromResult(userProfileEntity));
 
-            var userController = new UserController(Mapper,mockUserProfileService.Object,null);
+            var userController = new UserController(Mapper,mockUserProfileService.Object,null,null);
             var result = await userController.CreateUser(request);
 
             if (result is IErrorInfo errorInfo && expectedResult is IErrorInfo expectedErrorInfo)
@@ -76,7 +76,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
             mockUserProfileService.Setup(x => x.CreateUserAsync(It.IsAny<UserProfileEntity>())).Throws<UserNameExistsException>();
 
-            var userController = new UserController(Mapper, mockUserProfileService.Object, null);
+            var userController = new UserController(Mapper, mockUserProfileService.Object, null,null);
             var result = await userController.CreateUser(request);
 
             if (result is IErrorInfo errorInfo && expectedResult is IErrorInfo expectedErrorInfo)

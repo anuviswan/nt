@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects;
+using Microsoft.AspNetCore.Authorization;
+using Nt.Infrastructure.WebApi.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -19,10 +22,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
     {
         private readonly IUserProfileService _userProfileService;
         private readonly IUserManagementService _userManagementService;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public UserController(IMapper mapper, IUserProfileService userProfileService,IUserManagementService userManagementService) : base(mapper)
+        public UserController(IMapper mapper, IUserProfileService userProfileService,IUserManagementService userManagementService,ITokenGenerator tokenGenerator) : base(mapper)
         {
-            (_userProfileService, _userManagementService) = (userProfileService, userManagementService);
+            (_userProfileService, _userManagementService,_tokenGenerator) = (userProfileService, userManagementService,tokenGenerator);
         }
 
         /// <summary>
@@ -31,6 +35,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>User List</returns>
         [HttpGet]
         [Route("GetAllUsers")]
+        [Authorize]
         public async Task<IEnumerable<UserProfileResponse>> GetAll()
         {
             var usersFound = await _userManagementService.GetAllUsersAsync();
@@ -56,6 +61,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <param name="loginRequest">Includes UserName and Base 64 encoded password</param>
         /// <returns>User Details if successfull login with IsAuthenticated Flag true. Invalid User with IsAuthenticated Flag false if validation fails</returns>
         [HttpPost]
+        [AllowAnonymous]
         [Route("ValidateUser")]
         public async Task<LoginResponse> ValidateUser(LoginRequest loginRequest)
         {
@@ -63,7 +69,9 @@ namespace Nt.Infrastructure.WebApi.Controllers
             {
                 UserProfileEntity userEntity = Mapper.Map<UserProfileEntity>(loginRequest);
                 var validUser = await _userProfileService.AuthenticateAsync(userEntity);
+                var tokenString = _tokenGenerator.Generate(validUser);
                 var result = Mapper.Map<LoginResponse>(validUser);
+                result.Token = tokenString;
                 result.IsAuthenticated = true;
                 result.LoginTime = DateTime.UtcNow;
                 return result;
@@ -85,6 +93,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
         [HttpPost]
         [Route("CreateUser")]
+        [Authorize]
         public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
         {
             try
