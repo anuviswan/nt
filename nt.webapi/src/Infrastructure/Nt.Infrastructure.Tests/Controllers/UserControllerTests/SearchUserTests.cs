@@ -38,7 +38,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             mockUserManagementService.Setup(x => x.SearchUserAsync(userName))
                 .Returns(Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(userName))));
 
-            var userController = new UserController(Mapper, null, mockUserManagementService.Object);
+            var userController = new UserController(Mapper, null, mockUserManagementService.Object,null);
             var result = await userController.SearchUser(userName);
 
             Assert.True(expectedOutput.Count() == result.Count());

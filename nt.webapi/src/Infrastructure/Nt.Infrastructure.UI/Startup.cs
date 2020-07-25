@@ -25,24 +25,20 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Components;
 
 namespace Nt.WebApi
 {
     public class Startup
     {
         readonly string CorsPolicy = "_ntClientAppsOrigins";
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            JwtTokenGenerator.Initialize(Configuration);
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(option =>
                 {
@@ -87,6 +83,8 @@ namespace Nt.WebApi
         {
             services.AddSingleton<IUserProfileService>(x => new UserProfileService(x.GetRequiredService<IUnitOfWork>()));
             services.AddSingleton<IUserManagementService>(x => new UserManagementService(x.GetRequiredService<IUnitOfWork>()));
+            services.AddSingleton<IConfiguration>(x => Configuration);
+            services.AddSingleton<ITokenGenerator>(x => new JwtTokenGenerator(x.GetRequiredService<IConfiguration>()));
         }
         private void ConfigureRepositories(IServiceCollection services)
         {
@@ -102,9 +100,7 @@ namespace Nt.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             app.UseCors(CorsPolicy);
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

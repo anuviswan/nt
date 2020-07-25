@@ -12,6 +12,7 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects;
 using Microsoft.AspNetCore.Authorization;
 using Nt.Infrastructure.WebApi.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -21,10 +22,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
     {
         private readonly IUserProfileService _userProfileService;
         private readonly IUserManagementService _userManagementService;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public UserController(IMapper mapper, IUserProfileService userProfileService,IUserManagementService userManagementService) : base(mapper)
+        public UserController(IMapper mapper, IUserProfileService userProfileService,IUserManagementService userManagementService,ITokenGenerator tokenGenerator) : base(mapper)
         {
-            (_userProfileService, _userManagementService) = (userProfileService, userManagementService);
+            (_userProfileService, _userManagementService,_tokenGenerator) = (userProfileService, userManagementService,tokenGenerator);
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
             {
                 UserProfileEntity userEntity = Mapper.Map<UserProfileEntity>(loginRequest);
                 var validUser = await _userProfileService.AuthenticateAsync(userEntity);
-                var tokenString = JwtTokenGenerator.Instance.Generate(validUser);
+                var tokenString = _tokenGenerator.Generate(validUser);
                 var result = Mapper.Map<LoginResponse>(validUser);
                 result.Token = tokenString;
                 result.IsAuthenticated = true;

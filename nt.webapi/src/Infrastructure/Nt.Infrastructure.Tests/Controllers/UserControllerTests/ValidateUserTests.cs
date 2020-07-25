@@ -3,6 +3,7 @@ using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.WebApi.Authentication;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.Profiles;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
@@ -42,11 +43,13 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         [MemberData(nameof(ValidateUserTestDataSuccess))]
         public async Task ValidateUserSuccess(LoginRequest loginRequest,LoginResponse loginResponse)
         {
+            var mockTokenGenerator = new Mock<ITokenGenerator>();
+            mockTokenGenerator.Setup(x => x.Generate(It.IsAny<UserProfileEntity>())).Returns(It.IsAny<string>());
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.AuthenticateAsync(It.IsAny<UserProfileEntity>()))
                 .Returns(Task.FromResult(EntityCollection.Single(x => x.UserName.ToLower() == loginRequest.UserName.ToLower() && x.PassKey == loginRequest.PassKey && !x.IsDeleted)));
 
-            var userController = new UserController(Mapper,mockUserProfileService.Object,null);
+            var userController = new UserController(Mapper,mockUserProfileService.Object,null,mockTokenGenerator.Object);
             var result = await userController.ValidateUser(loginRequest);
 
             if (result is IErrorInfo errorInfo && loginResponse is IErrorInfo expectedErrorInfo)
@@ -76,7 +79,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             mockUserProfileService.Setup(x => x.AuthenticateAsync(It.IsAny<UserProfileEntity>()))
                 .Throws< InvalidPasswordOrUsernameException>();
 
-            var userController = new UserController(Mapper, mockUserProfileService.Object, null);
+            var userController = new UserController(Mapper, mockUserProfileService.Object, null,null);
             var result = await userController.ValidateUser(loginRequest);
 
             if (result is IErrorInfo errorInfo && loginResponse is IErrorInfo expectedErrorInfo)

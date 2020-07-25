@@ -12,41 +12,23 @@ using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Authentication
 {
-    public class JwtTokenGenerator
+    public class JwtTokenGenerator:ITokenGenerator
     {
-        public IConfiguration Config { get; init; }
-        private static Lazy<JwtTokenGenerator> _instance;
-
-        private JwtTokenGenerator()
-        {
-
-        }
-
-        public static void Initialize(IConfiguration config)
-        {
-            if (_instance is not null) return;
-
-            _instance = new Lazy<JwtTokenGenerator>(() => new JwtTokenGenerator
-            {
-                Config = config
-            });
-        }
-
-
-        public static JwtTokenGenerator Instance => _instance.Value;
+        private IConfiguration _configuration;
+        public JwtTokenGenerator(IConfiguration configuration) => _configuration = configuration;
 
         public string Generate(UserProfileEntity userProfile)
         {
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Config["Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub,userProfile.UserName)
             };
-            var token = new JwtSecurityToken(Config["Jwt:Issuer"],
-                Config["Jwt:Issuer"], 
+            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+                _configuration["Jwt:Issuer"], 
                 null, 
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: credentials);
