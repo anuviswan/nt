@@ -32,6 +32,6 @@ namespace Nt.Infrastructure.Tests.Controllers
         {
 
         }
-        public static List<TEntityCollection> EntityCollection { get; set; }
+        public List<TEntityCollection> EntityCollection { get; set; }
     }
 }

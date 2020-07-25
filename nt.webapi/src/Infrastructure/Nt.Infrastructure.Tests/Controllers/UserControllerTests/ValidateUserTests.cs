@@ -29,8 +29,6 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         protected override void InitializeCollection()
         {
-            Output.WriteLine("Initialized"); //TODO: Fix this removing this line causes InitializeCollection not being called randomly
-
             EntityCollection = new()
             {
                 new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false },
