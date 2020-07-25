@@ -21,6 +21,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         protected override void InitializeCollection()
         {
+            Output.WriteLine("Initialized"); //TODO: Fix this removing this line causes InitializeCollection not being called randomly
             EntityCollection = Enumerable.Range(1, 10).Select(x => new UserProfileEntity
             {
                 DisplayName = $"User Name {x}",

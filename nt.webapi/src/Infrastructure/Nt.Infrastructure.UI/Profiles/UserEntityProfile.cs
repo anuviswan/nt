@@ -11,9 +11,11 @@ namespace Nt.Infrastructure.WebApi.Profiles
         {
             // TO UserEntity
             CreateMap<CreateUserProfileRequest, UserProfileEntity>();
+            CreateMap<LoginRequest, UserProfileEntity>();
             // From UserEntity
             CreateMap<UserProfileEntity, UserProfileResponse>();
             CreateMap<UserProfileEntity, CreateUserProfileResponse>().ReverseMap();
+            CreateMap<UserProfileEntity, LoginResponse>();
 
         }
     }
