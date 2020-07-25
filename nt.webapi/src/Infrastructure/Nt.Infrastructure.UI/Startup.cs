@@ -17,6 +17,10 @@ using Nt.Application.Services.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.Entities.Settings;
 using Nt.Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Nt.Infrastructure.WebApi.Authentication;
 
 namespace Nt.WebApi
 {
@@ -26,6 +30,7 @@ namespace Nt.WebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtTokenGenerator.Initialize(Configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -33,6 +38,20 @@ namespace Nt.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(option =>
+                {
+                    option.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
             services.AddAutoMapper(typeof(Startup));
             ConfigureDatabaseSettings(services);
             services.AddCors(option=> {
@@ -46,8 +65,7 @@ namespace Nt.WebApi
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-           
+                      
             ConfigureRepositories(services);
             ConfigureUnitOfWork(services);
             ConfigureAppServices(services);
@@ -80,6 +98,7 @@ namespace Nt.WebApi
         public void Configure(IApplicationBuilder app)
         {
             app.UseCors(NTClientAppsOrigin);
+            app.UseAuthentication();
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
            

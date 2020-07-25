@@ -12,5 +12,6 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects
         public string AuthenticationToken { get; set; }
         public string DisplayName { get; set; }
         public string ErrorMessage { get; set; }
+        public string Token { get; set; }
     }
 }
