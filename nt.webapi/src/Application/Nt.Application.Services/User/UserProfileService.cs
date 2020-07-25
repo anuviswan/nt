@@ -18,7 +18,9 @@ namespace Nt.Application.Services.User
 
         public async Task<UserProfileEntity> AuthenticateAsync(UserProfileEntity userProfile)
         {
-            var existingUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == userProfile.UserName.ToLower() && x.PassKey == userProfile.PassKey);
+            var existingUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == userProfile.UserName.ToLower() 
+                                                                                    && x.PassKey == userProfile.PassKey
+                                                                                    && !x.IsDeleted);
             if (!existingUser.Any())
             {
                 throw new InvalidPasswordOrUsernameException();

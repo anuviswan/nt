@@ -50,30 +50,33 @@ namespace Nt.Infrastructure.WebApi.Controllers
             return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
         }
 
-        ///// <summary>
-        ///// Validate User Login Request
-        ///// </summary>
-        ///// <param name="loginRequest">Includes UserName and Base 64 encoded password</param>
-        ///// <returns>User Details if successfull login with IsAuthenticated Flag true. Invalid User with IsAuthenticated Flag false if validation fails</returns>
-        //[HttpPost]
-        //[Route("ValidateUser")]
-        //public async Task<LoginResponse> ValidateUser(LoginRequest loginRequest)
-        //{
-        //    try
-        //    {
-        //        UserProfileEntity userEntity = Mapper.Map<UserProfileEntity>(loginRequest);
-        //        var base64Key = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(userEntity.PassKey));
-        //        var validUser = await _userProfileService.AuthenticateAsync(userEntity.UserName, base64Key);
-        //        var result = Mapper.Map<LoginResponse>(validUser);
-        //        result.IsAuthenticated = true;
-        //        result.LoginTime = DateTime.UtcNow;
-        //        return result;
-        //    }
-        //    catch (Exception ex) when (ex is InvalidUserException)
-        //    {
-        //        return new LoginResponse { IsAuthenticated = false, ErrorMessage = "Invalid Username or Password" };
-        //    }
-        //}
+        /// <summary>
+        /// Validate User Login Request
+        /// </summary>
+        /// <param name="loginRequest">Includes UserName and Base 64 encoded password</param>
+        /// <returns>User Details if successfull login with IsAuthenticated Flag true. Invalid User with IsAuthenticated Flag false if validation fails</returns>
+        [HttpPost]
+        [Route("ValidateUser")]
+        public async Task<LoginResponse> ValidateUser(LoginRequest loginRequest)
+        {
+            try
+            {
+                UserProfileEntity userEntity = Mapper.Map<UserProfileEntity>(loginRequest);
+                var validUser = await _userProfileService.AuthenticateAsync(userEntity);
+                var result = Mapper.Map<LoginResponse>(validUser);
+                result.IsAuthenticated = true;
+                result.LoginTime = DateTime.UtcNow;
+                return result;
+            }
+            catch (InvalidPasswordOrUsernameException ex)
+            {
+                return new LoginResponse { IsAuthenticated = false, ErrorMessage = ex.Message };
+            }
+            catch
+            {
+                return new LoginResponse { IsAuthenticated = false, ErrorMessage = "Unknown Exception" };
+            }
+        }
 
         /// <summary>
         /// Creates a new User with the specified details

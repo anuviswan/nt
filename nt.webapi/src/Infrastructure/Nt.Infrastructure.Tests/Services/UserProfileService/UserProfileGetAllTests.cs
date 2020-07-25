@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Nt.Infrastructure.Tests.Services.UserProfileService
+namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 {
     public class UserProfileServiceSearchTests : ServiceTestBase<UserProfileEntity>
     {
