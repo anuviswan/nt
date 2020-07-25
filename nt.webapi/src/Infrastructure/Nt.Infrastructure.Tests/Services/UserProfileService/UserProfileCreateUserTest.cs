@@ -15,7 +15,7 @@ using Nt.Domain.Entities.Exceptions;
 using System.Linq.Expressions;
 using Xunit.Abstractions;
 
-namespace Nt.Infrastructure.Tests.Services.UserProfileService
+namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 {
     public class UserProfileCreateUserTest:ServiceTestBase<UserProfileEntity>
     {
