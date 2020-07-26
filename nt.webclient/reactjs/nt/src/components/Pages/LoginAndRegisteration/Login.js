@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import UserContext from "../../../context/user/UserContext";
+import ValidationMessage from "../../layout/ValidationMessage";
 
 const Login = () => {
+  const userContext = useContext(UserContext);
   const initialProfileValue = {
     userName: "",
     passKey: "",
   };
+  const initialValidationMsg = {
+    message: "",
+    isVisible: false,
+    isValid: false,
+  };
   const [userProfile, setLoginProfile] = useState(initialProfileValue);
+  const [validationMsg, setValidationMsg] = useState(initialValidationMsg);
 
   const onChange = async (e) => {
     setLoginProfile({ ...userProfile, [e.target.name]: e.target.value });
@@ -14,7 +23,6 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     const headers = {
       "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
@@ -26,7 +34,26 @@ const Login = () => {
       userProfile,
       { headers: headers }
     );
-    console.log(result);
+
+    const { isAuthenticated, token, userName, errorMessage } = result.data;
+
+    if (isAuthenticated) {
+      console.log("Setting current User");
+      userContext.validateUser({ authToken: token, userName: userName });
+    } else {
+      console.log("Setting Error");
+      console.log(errorMessage);
+      console.log({
+        isVisible: true,
+        isValid: false,
+        message: errorMessage,
+      });
+      setValidationMsg({
+        isVisible: true,
+        isValid: false,
+        message: errorMessage,
+      });
+    }
   };
 
   return (
@@ -53,6 +80,11 @@ const Login = () => {
                     onChange={onChange}
                   />
                   <input type='submit' value='Login' />
+                  <ValidationMessage
+                    isVisible={validationMsg.isVisible}
+                    isValid={validationMsg.isValid}
+                    message={validationMsg.message}
+                  />
                 </form>
               </div>
             </div>
