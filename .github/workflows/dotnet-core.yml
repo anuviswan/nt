@@ -28,6 +28,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: cd nt.webclient\reactjs\nt
       - name: Set up Node Js
         uses: actions/setup-node@v1
         with:
