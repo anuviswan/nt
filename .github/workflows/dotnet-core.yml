@@ -17,8 +17,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100-preview.6.20318.15
-      #- name: Install dependencies
-      #  run: dotnet restore  ../../nt.webapi/src/Nt.WebApi.sln
       - name: Build Web Api
         run: dotnet build --configuration Release
       - name: Execute Unit Tests
