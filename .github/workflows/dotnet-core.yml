@@ -24,7 +24,7 @@ jobs:
 
   BuildReactApp:
     name: Build React App
-    runs on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
