@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import UserSearchBar from "../User/UserSearchBar";
+import UserSearchBar from "../../../components/User/userSearchBar";
 import axios from "axios";
-import Users from "./Users";
+import Users from "./users";
 
 const SearchUser = () => {
   const [searchResults, setSearchResults] = useState([]);

@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 
 const ValidationMessage = ({ isVisible, isValid, message }) => {
   if (isVisible) {
-    console.log(isVisible);
-    console.log(isValid);
-    console.log(message);
     return isValid ? (
       <div className='valid-feedback d-block '>{message}</div>
     ) : (

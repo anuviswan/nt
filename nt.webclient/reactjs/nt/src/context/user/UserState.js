@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import axios from "axios";
-import UserContext from "./UserContext";
-import UserReducer from "./UserReducer";
+import UserContext from "./userContext";
+import UserReducer from "./userReducer";
 import { SET_CURRENT_USER } from "../types";
 
 const UserState = (props) => {
