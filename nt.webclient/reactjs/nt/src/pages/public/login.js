@@ -1,9 +1,14 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import UserContext from "../../../context/user/UserContext";
-import ValidationMessage from "../../layout/ValidationMessage";
+import UserContext from "../../context/user/userContext";
+import ValidationMessage from "../../components/layout/ValidationMessage";
+import { withRouter, Link } from "react-router-dom";
+import { Base64 } from "js-base64";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
+  const history = useHistory();
+
   const userContext = useContext(UserContext);
   const initialProfileValue = {
     userName: "",
@@ -29,6 +34,15 @@ const Login = () => {
       "Content-Type": "application/json", // this shows the expected content type
     };
 
+    const base64PassKey = Base64.encode(userProfile.passKey);
+    setLoginProfile({
+      ...userProfile,
+      passKey: base64PassKey,
+    });
+
+    console.log(base64PassKey);
+
+    console.log(userProfile);
     const result = await axios.post(
       "https://localhost:44353/api/User/ValidateUser",
       userProfile,
@@ -38,16 +52,16 @@ const Login = () => {
     const { isAuthenticated, token, userName, errorMessage } = result.data;
 
     if (isAuthenticated) {
-      console.log("Setting current User");
-      userContext.validateUser({ authToken: token, userName: userName });
-    } else {
-      console.log("Setting Error");
-      console.log(errorMessage);
-      console.log({
-        isVisible: true,
-        isValid: false,
-        message: errorMessage,
+      console.log("User Authenticated");
+      userContext.validateUser({
+        authToken: token,
+        userName: userName,
+        isAuthenticated: isAuthenticated,
       });
+      console.log(history);
+      history.push("/home");
+      console.log("Redirecting...");
+    } else {
       setValidationMsg({
         isVisible: true,
         isValid: false,
@@ -62,7 +76,7 @@ const Login = () => {
         <div className='row'>
           <div className='col-lg-6 col-md-8 mx-auto'>
             <div className='card rounded shadow shadow-sm'>
-              <div className='card-header'>
+              <div className='card-header bg-primary'>
                 <h3 className='mb-0'>Sign In</h3>
               </div>
               <div className='card-body'>
@@ -79,13 +93,20 @@ const Login = () => {
                     placeholder='Password'
                     onChange={onChange}
                   />
-                  <input type='submit' value='Login' />
+                  <input
+                    type='submit'
+                    value='Login'
+                    className='bg-primary btn-block'
+                  />
                   <ValidationMessage
                     isVisible={validationMsg.isVisible}
                     isValid={validationMsg.isValid}
                     message={validationMsg.message}
                   />
                 </form>
+                <div>
+                  Not a registered User ? <Link to='/signup'>Sign up here</Link>
+                </div>
               </div>
             </div>
           </div>

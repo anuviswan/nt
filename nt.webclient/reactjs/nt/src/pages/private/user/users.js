@@ -1,5 +1,5 @@
 import React from "react";
-import UserSearchResultCard from "../User/UserSearchResultCard";
+import UserSearchResultCard from "../../../components/User/userSearchResultCard";
 
 const Users = ({ users }) => {
   return (

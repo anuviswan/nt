@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ValidationMessage from "../../layout/ValidationMessage";
+import ValidationMessage from "../../components/layout/ValidationMessage";
 const RegisterUser = () => {
   const initialValue = {
     userName: "",

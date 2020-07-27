@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import "../../App.css";
+import UserContext from "../../context/user/userContext";
 
 const Navbar = ({ icon, title }) => {
-  console.log(icon);
+  const userContext = useContext(UserContext);
   return (
     <nav className='navbar bg-primary'>
       <h1>
@@ -15,7 +16,7 @@ const Navbar = ({ icon, title }) => {
           <Link to='/'>Home</Link>
         </li>
         <li>
-          <Link to='/profile'>Profile</Link>
+          <Link to='/profile'>{userContext.currentUser.userName}</Link>
         </li>
         <li>
           <Link to='/searchUser'>
