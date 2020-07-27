@@ -25,13 +25,16 @@ jobs:
   BuildReactApp:
     name: Build React App
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./nt.webclient/reactjs/nt
 
     steps:
       - uses: actions/checkout@v2
-      - run: cd nt.webclient/reactjs/nt
       - name: Set up Node Js
         uses: actions/setup-node@v1
         with:
           node-version: "v12.18.2"
       - run: npm install
+        working-directory: ${{env.working-directory}}
       - run: npm run build --if-present
+        working-directory: ${{env.working-directory}}
