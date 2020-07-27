@@ -18,7 +18,7 @@ namespace Nt.Infrastructure.Tests.Controllers
 
         public ControllerTestBase(ITestOutputHelper output)
         {
-            Output = output;1;
+            Output = output;
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new UserEntityProfile());
