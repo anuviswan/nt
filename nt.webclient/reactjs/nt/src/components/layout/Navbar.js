@@ -7,10 +7,10 @@ import UserContext from "../../context/user/userContext";
 const Navbar = ({ icon, title }) => {
   const userContext = useContext(UserContext);
   return (
-    <nav className='navbar bg-primary'>
-      <h1>
+    <nav className='navbar bg-primary py-2'>
+      <h4>
         <i className={icon} /> {title}
-      </h1>
+      </h4>
       <ul>
         <li>
           <Link to='/'>Home</Link>

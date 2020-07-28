@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Navbar from "./components/layout/Navbar";
 import Login from "./pages/public/login";
@@ -8,13 +7,23 @@ import About from "./pages/public/about";
 import SearchUser from "./pages/private/user/searchUser";
 import RegisterUser from "./pages/public/registerUser";
 import UserState from "./context/user/userState";
-import UserContext from "./context/user/userContext";
 import LandingPage from "./pages/public/landingPage";
 import PrivateRoute from "./components/routes/privateRoute";
 import PublicRoute from "./components/routes/publicRoute";
 import Home from "./pages/private/home/home";
 
 function App() {
+  const privatePages = () => {
+    return (
+      <div>
+        <Navbar title='November Talkies' icon='fa fa-film' />
+        <switch>
+          <PrivateRoute exact path='/searchuser' component={SearchUser} />
+          <PrivateRoute exact path='/home' component={Home} />
+        </switch>
+      </div>
+    );
+  };
   return (
     <UserState>
       <Router>
@@ -24,8 +33,7 @@ function App() {
             <PublicRoute exact path='/About' component={About} />
             <PublicRoute exact path='/signup' component={RegisterUser} />
             <PublicRoute exact path='/signin' component={Login} />
-            <PrivateRoute exact path='/searchuser' component={SearchUser} />
-            <PrivateRoute exact path='/home' component={Home} />
+            <Route component={privatePages} />
           </Switch>
         </div>
       </Router>

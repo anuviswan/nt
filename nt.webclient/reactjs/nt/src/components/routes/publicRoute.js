@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
-import Navbar from "../layout/Navbar";
-const PrivateRoute = ({ component: Component, ...rest }) => {
+import React from "react";
+import { Route } from "react-router-dom";
+const PublicRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={(props) => <Component {...props} />} />;
 };
 
-export default PrivateRoute;
+export default PublicRoute;

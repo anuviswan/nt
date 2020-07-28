@@ -1,5 +1,4 @@
 import React, { useReducer } from "react";
-import axios from "axios";
 import UserContext from "./userContext";
 import UserReducer from "./userReducer";
 import { SET_CURRENT_USER } from "../types";
