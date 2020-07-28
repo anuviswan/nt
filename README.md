@@ -6,7 +6,7 @@ Current Implementations
 ### Server ###
 |  Framework     | Status |
 | ----------- | ----------- |
-| [.Net](https://github.com/anuviswan/nt/tree/master/nt.webapi/src)<br> _.Net 5 with C# 9_ |  _In Progress_     |
+| [.Net 5](https://github.com/anuviswan/nt/tree/master/nt.webapi/src) |  _In Progress_     |
 
 ### Client ###
 |  Framework     | Status |
