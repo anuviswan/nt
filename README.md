@@ -12,6 +12,7 @@ Current Implementations
 |  Framework     | Status |
 | ----------- | ----------- |
 | [ReactJs](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs)|  _In Progress_     |
+| [VueJs]()|  _To do_     |
 
 ### Database ###
 * MongoDb
