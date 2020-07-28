@@ -9,7 +9,7 @@ const User = () => {
             displayName: "Jia Anu",
             userName: "jiaanu",
             bio: "Hey, am jia kutty",
-            rating: 5,
+            rating: 4,
           }}
         />
       </div>
