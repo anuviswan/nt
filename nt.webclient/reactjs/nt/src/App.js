@@ -11,6 +11,7 @@ import LandingPage from "./pages/public/landingPage";
 import PrivateRoute from "./components/routes/privateRoute";
 import PublicRoute from "./components/routes/publicRoute";
 import Home from "./pages/private/home/home";
+import User from "./pages/private/user/user";
 
 function App() {
   const privatePages = () => {
@@ -33,6 +34,7 @@ function App() {
             <PublicRoute exact path='/About' component={About} />
             <PublicRoute exact path='/signup' component={RegisterUser} />
             <PublicRoute exact path='/signin' component={Login} />
+            <PublicRoute exact path='/user' component={User} />
             <Route component={privatePages} />
           </Switch>
         </div>
