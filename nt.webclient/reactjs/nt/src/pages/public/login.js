@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../../context/user/userContext";
 import ValidationMessage from "../../components/layout/ValidationMessage";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Base64 } from "js-base64";
 import { useHistory } from "react-router-dom";
 
@@ -42,10 +42,11 @@ const Login = () => {
 
     console.log(base64PassKey);
 
-    console.log(userProfile);
+    setLoginProfile({ ...userProfile, passKey: base64PassKey });
+    console.log({ ...userProfile, passKey: base64PassKey });
     const result = await axios.post(
       "https://localhost:44353/api/User/ValidateUser",
-      userProfile,
+      { ...userProfile, passKey: base64PassKey },
       { headers: headers }
     );
 
@@ -71,45 +72,35 @@ const Login = () => {
   };
 
   return (
-    <div className='container'>
-      <div className='col-md-12 min-vh-100 d-flex flex-column justify-content-center'>
-        <div className='row'>
-          <div className='col-lg-6 col-md-8 mx-auto'>
-            <div className='card rounded shadow shadow-sm'>
-              <div className='card-header bg-primary'>
-                <h3 className='mb-0'>Sign In</h3>
-              </div>
-              <div className='card-body'>
-                <form className='form needs-validation' onSubmit={onSubmit}>
-                  <input
-                    type='text'
-                    name='userName'
-                    placeholder='UserName'
-                    onChange={onChange}
-                  />
-                  <input
-                    type='password'
-                    name='passKey'
-                    placeholder='Password'
-                    onChange={onChange}
-                  />
-                  <input
-                    type='submit'
-                    value='Login'
-                    className='bg-primary btn-block'
-                  />
-                  <ValidationMessage
-                    isVisible={validationMsg.isVisible}
-                    isValid={validationMsg.isValid}
-                    message={validationMsg.message}
-                  />
-                </form>
-                <div>
-                  Not a registered User ? <Link to='/signup'>Sign up here</Link>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className='card rounded shadow shadow-sm'>
+      <div className='card-header bg-primary'>
+        <div className='card-title'>
+          <h3 className='mb-0 '>Sign In</h3>
+        </div>
+      </div>
+      <div className='card-body'>
+        <form className='form needs-validation' onSubmit={onSubmit}>
+          <input
+            type='text'
+            name='userName'
+            placeholder='UserName'
+            onChange={onChange}
+          />
+          <input
+            type='password'
+            name='passKey'
+            placeholder='Password'
+            onChange={onChange}
+          />
+          <input type='submit' value='Login' className='bg-primary btn-block' />
+          <ValidationMessage
+            isVisible={validationMsg.isVisible}
+            isValid={validationMsg.isValid}
+            message={validationMsg.message}
+          />
+        </form>
+        <div>
+          <Link to='/signup'>Sign up here</Link>
         </div>
       </div>
     </div>

@@ -153,13 +153,13 @@ const RegisterUser = () => {
     }
   };
   return (
-    <div className='container'>
+    <div className='container-fluid'>
       <div className='col-md-12 min-vh-100 d-flex flex-column justify-content-center'>
         <div className='row'>
-          <div className='col-lg-6 col-md-8 mx-auto'>
+          <div className='col-lg-4 col-md-4 mx-auto'>
             <div className='card rounded shadow shadow-sm'>
-              <div className='card-header'>
-                <h3 className='mb-0'>Sign Up</h3>
+              <div className='card-header bg-primary'>
+                <h3 className='mb-0'>Register</h3>
               </div>
               <div className='card-body'>
                 <form className='form needs-validation' onSubmit={onSubmit}>
@@ -196,7 +196,11 @@ const RegisterUser = () => {
                     message={passwordValidation.message}
                     isValid={passwordValidation.isValid}
                   />
-                  <input type='submit' value='Sign Up' />
+                  <input
+                    type='submit'
+                    value='Sign Up'
+                    className='bg-primary btn-block'
+                  />
                   <ValidationMessage
                     isVisible={formValidation.isVisible}
                     message={formValidation.message}
