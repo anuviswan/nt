@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../../context/user/userContext";
-import ValidationMessage from "../../components/layout/ValidationMessage";
+import ValidationMessage from "../../components/layout/validationMessage";
 import { Link } from "react-router-dom";
 import { Base64 } from "js-base64";
 import { useHistory } from "react-router-dom";
