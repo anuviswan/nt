@@ -15,9 +15,9 @@ const UserCard = ({ user }) => {
           <h4 className='card-title'>{user.displayName}</h4>
           <p className='card-text text-secondary'>{user.userName}</p>
           <div className='row bg-info'>
-            <div>Followed</div>
-            <div>Followed</div>
-            <div>Followed</div>
+            <div className='py2'>Followed</div>
+            <div className='py2'>Followed</div>
+            <div className='py2'>Followed</div>
           </div>
           <p className='card-text'>{user.bio}</p>
           <p className='card-text'>Rating:{user.rating}</p>
