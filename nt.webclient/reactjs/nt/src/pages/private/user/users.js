@@ -5,7 +5,7 @@ const Users = ({ users }) => {
   return (
     <div style={userStyle}>
       {users.map((user, index) => (
-        <UserCard key={index} user={user} miniProfile={false} />
+        <UserCard key={index} user={user} miniProfile={true} />
       ))}
     </div>
   );

@@ -1,8 +1,9 @@
 import React from "react";
 import UserCard from "../../../components/User/userCard";
 const User = ({ location }) => {
-  console.log(location);
+  console.log(location.state);
   const { user } = location.state;
+
   return (
     <div className='row'>
       <div className='col-md-4 col-lg-2 col-lx-2'>
