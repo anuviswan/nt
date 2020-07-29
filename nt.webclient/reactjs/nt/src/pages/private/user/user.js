@@ -1,5 +1,6 @@
 import React from "react";
 import UserCard from "../../../components/User/userCard";
+import { Link } from "react-router-dom";
 const User = ({ location }) => {
   console.log(location.state);
   const { user } = location.state;
@@ -30,9 +31,9 @@ const User = ({ location }) => {
               purus vel mauris laoreet tempus eu non turpis. Nam in porttitor
               erat. Mauris non lorem mi. Praesent ac hendrerit quam.
             </p>
-            <a href='#' className='btn btn-info'>
+            <Link to='/more' className='btn btn-info'>
               more
-            </a>
+            </Link>
           </div>
           <div className='card-body'>
             <h5 className='card-title'>Life of Pie</h5>
@@ -44,9 +45,9 @@ const User = ({ location }) => {
               purus vel mauris laoreet tempus eu non turpis. Nam in porttitor
               erat. Mauris non lorem mi. Praesent ac hendrerit quam.
             </p>
-            <a href='#' className='btn btn-info'>
-              Go somewhere
-            </a>
+            <Link to='/more' className='btn btn-info'>
+              more
+            </Link>
           </div>
         </div>
       </div>
