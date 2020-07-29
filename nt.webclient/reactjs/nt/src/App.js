@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/layout/Navbar";
+import Navbar from "./components/layout/navbar";
 import Login from "./pages/public/login";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./pages/public/about";
@@ -11,16 +11,17 @@ import LandingPage from "./pages/public/landingPage";
 import PrivateRoute from "./components/routes/privateRoute";
 import PublicRoute from "./components/routes/publicRoute";
 import Home from "./pages/private/home/home";
+import User from "./pages/private/user/user";
 
 function App() {
   const privatePages = () => {
     return (
       <div>
         <Navbar title='November Talkies' icon='fa fa-film' />
-        <switch>
+        <Switch>
           <PrivateRoute exact path='/searchuser' component={SearchUser} />
           <PrivateRoute exact path='/home' component={Home} />
-        </switch>
+        </Switch>
       </div>
     );
   };
@@ -33,6 +34,7 @@ function App() {
             <PublicRoute exact path='/About' component={About} />
             <PublicRoute exact path='/signup' component={RegisterUser} />
             <PublicRoute exact path='/signin' component={Login} />
+            <PublicRoute exact path='/user' component={User} />
             <Route component={privatePages} />
           </Switch>
         </div>

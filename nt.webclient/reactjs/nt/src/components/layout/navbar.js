@@ -6,6 +6,8 @@ import UserContext from "../../context/user/userContext";
 
 const Navbar = ({ icon, title }) => {
   const userContext = useContext(UserContext);
+  console.log("here");
+  console.log(userContext.currentUser);
   return (
     <nav className='navbar bg-primary py-2'>
       <h4>
@@ -16,7 +18,11 @@ const Navbar = ({ icon, title }) => {
           <Link to='/'>Home</Link>
         </li>
         <li>
-          <Link to='/profile'>{userContext.currentUser.userName}</Link>
+          <Link
+            to={{ pathname: "/user", state: { user: userContext.currentUser } }}
+          >
+            {userContext.currentUser.userName}
+          </Link>
         </li>
         <li>
           <Link to='/searchUser'>
