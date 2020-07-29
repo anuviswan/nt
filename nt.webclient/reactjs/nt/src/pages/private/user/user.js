@@ -11,6 +11,7 @@ const User = () => {
             bio: "Hey, am jia kutty",
             rating: 4,
           }}
+          miniProfile={false}
         />
       </div>
       <div className='col-md-6 col-lg-2 col-lx-2'>User Profile</div>

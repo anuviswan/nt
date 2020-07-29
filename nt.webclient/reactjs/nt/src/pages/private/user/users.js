@@ -3,12 +3,18 @@ import UserCard from "../../../components/User/userCard";
 
 const Users = ({ users }) => {
   return (
-    <div>
-      {users.map((user) => (
-        <UserCard key={users.username} user={user} />
+    <div style={userStyle}>
+      {users.map((user, index) => (
+        <UserCard key={index} user={user} miniProfile={false} />
       ))}
     </div>
   );
+};
+
+const userStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(5, 1fr)",
+  gridGap: "1rem",
 };
 
 export default Users;

@@ -18,10 +18,10 @@ function App() {
     return (
       <div>
         <Navbar title='November Talkies' icon='fa fa-film' />
-        <switch>
+        <Switch>
           <PrivateRoute exact path='/searchuser' component={SearchUser} />
           <PrivateRoute exact path='/home' component={Home} />
-        </switch>
+        </Switch>
       </div>
     );
   };

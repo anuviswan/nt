@@ -121,6 +121,16 @@ img {
   padding: 1rem;
 }
 
+.card-metadata {
+  display: block;
+  color: #343a40;
+}
+.card-metadata-footer {
+  display: block;
+  font-size: 70%;
+  color: #868e96;
+}
+
 /* List */
 .list {
   margin: 0.5rem 0;

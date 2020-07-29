@@ -6,9 +6,9 @@ const Rating = ({ totalStars, value }) => {
   for (let i = 0; i < totalStars; i++)
     stars.push(
       i < value ? (
-        <span className='fa fa-star text-warning'></span>
+        <span key={i} className='fa fa-star text-warning'></span>
       ) : (
-        <span className='fa fa-star' />
+        <span key={i} className='fa fa-star' />
       )
     );
   return <span>{stars}</span>;
