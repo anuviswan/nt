@@ -44,5 +44,10 @@ namespace Nt.Infrastructure.Data.Repositories
         {
             return await _dataCollection.AsQueryable<TEntity>().Where(predicate).ToListAsync();
         }
+
+        public virtual async Task<bool> UpdateAsync(TEntity data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

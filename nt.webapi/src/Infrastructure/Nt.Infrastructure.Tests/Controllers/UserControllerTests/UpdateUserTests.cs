@@ -27,15 +27,6 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         {
 
         }
-        protected override void InitializeCollection()
-        {
-            EntityCollection = new()
-            {
-                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", IsDeleted = false, Bio = "My Name is Anu Viswan" },
-                new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", IsDeleted = false, Bio = "My Name is Manu Viswan" },
-                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "AnuViswan", IsDeleted = true, Bio = "My Name is Anu Viswan" },
-            };
-        }
 
         [Theory]
         [MemberData(nameof(UpdateUserTestErrorTestData))]
@@ -45,7 +36,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.UpdateUserAsync(It.IsAny<UserProfileEntity>()))
-                .Returns(Task.FromResult(userProfileEntity));
+                .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
             SimulateValidation(request,userController);
@@ -72,7 +63,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.UpdateUserAsync(It.IsAny<UserProfileEntity>()))
-                .Returns(Task.FromResult(userProfileEntity));
+                .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
             SimulateValidation(request, userController);
