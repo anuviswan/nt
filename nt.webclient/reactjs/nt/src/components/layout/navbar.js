@@ -6,7 +6,6 @@ import UserContext from "../../context/user/userContext";
 
 const Navbar = ({ icon, title }) => {
   const userContext = useContext(UserContext);
-  console.log("here");
   console.log(userContext.currentUser);
   return (
     <nav className='navbar bg-primary py-2'>

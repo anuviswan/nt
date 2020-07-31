@@ -24,6 +24,11 @@ const UserCard = ({ user, miniProfile, showUserName }) => {
 
   return (
     <div className='card border-primary mb-3'>
+      <div className='text-right'>
+        <Link to='/edituser'>
+          <i className='fa fa-edit bg-light' aria-hidden='true'></i>
+        </Link>
+      </div>
       <div className='card-avataar'>
         <img
           className='card-img-top rounded-circle img-thumbnail'
@@ -31,6 +36,7 @@ const UserCard = ({ user, miniProfile, showUserName }) => {
           alt='Avataar Pic'
         />
       </div>
+
       <div className='card-body mx-auto'>
         <h4 className='card-title block text-uppercase text-center'>
           {user.displayName}
@@ -38,6 +44,7 @@ const UserCard = ({ user, miniProfile, showUserName }) => {
         {userName}
         <Rating value={user.rating} totalStars={5} />
       </div>
+
       <div className='card-header'>
         <div className='row'>
           <div className='col-lg-4 card-metadata text-center'>45</div>

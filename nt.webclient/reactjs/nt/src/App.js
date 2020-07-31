@@ -12,6 +12,7 @@ import PrivateRoute from "./components/routes/privateRoute";
 import PublicRoute from "./components/routes/publicRoute";
 import Home from "./pages/private/home/home";
 import User from "./pages/private/user/user";
+import EditUser from "./pages/private/user/editUser";
 
 function App() {
   const privatePages = () => {
@@ -21,6 +22,8 @@ function App() {
         <Switch>
           <PrivateRoute exact path='/searchuser' component={SearchUser} />
           <PrivateRoute exact path='/home' component={Home} />
+          <PrivateRoute exact path='/user' component={User} />
+          <PrivateRoute exact path='/edituser' component={EditUser} />
         </Switch>
       </div>
     );
@@ -34,7 +37,7 @@ function App() {
             <PublicRoute exact path='/About' component={About} />
             <PublicRoute exact path='/signup' component={RegisterUser} />
             <PublicRoute exact path='/signin' component={Login} />
-            <PublicRoute exact path='/user' component={User} />
+
             <Route component={privatePages} />
           </Switch>
         </div>
