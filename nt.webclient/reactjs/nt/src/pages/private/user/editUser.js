@@ -1,15 +1,15 @@
 import React from "react";
 const EditUser = () => {
   return (
-    <div className='container'>
+    <div className='container-fluid '>
       <div className='row'>
-        <div>
-          <ul class='list-group'>
-            <li class='list-group-item'>Edit User Profile</li>
-            <li class='list-group-item'>Change Password</li>
+        <div className='col-lg-2'>
+          <ul className='list-group'>
+            <li className='list-group-item'>Edit User Profile</li>
+            <li className='list-group-item'>Change Password</li>
           </ul>
         </div>
-        <div className='col-lg-8'>
+        <div className='col-lg-10'>
           <div className='card'>
             <div className='card-header'>Featured</div>
             <div className='card-body'>
