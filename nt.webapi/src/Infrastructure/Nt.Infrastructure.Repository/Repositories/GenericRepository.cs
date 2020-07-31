@@ -47,7 +47,9 @@ namespace Nt.Infrastructure.Data.Repositories
 
         public virtual async Task<bool> UpdateAsync(TEntity data)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BsonDocument>.Filter.Eq(nameof(IBaseEntity.Id), data.Id);
+            var result = await  _dataCollection.ReplaceOneAsync<TEntity>(x => x.Id == data.Id, data);
+            return result.ModifiedCount == 1;
         }
     }
 }
