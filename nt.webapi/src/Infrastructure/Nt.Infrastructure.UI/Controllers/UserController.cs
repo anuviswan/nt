@@ -8,11 +8,15 @@ using Nt.Domain.ServiceContracts;
 using Nt.Domain.ServiceContracts.User;
 using System.Runtime.CompilerServices;
 using Nt.Domain.Entities.Exceptions;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects;
 using Microsoft.AspNetCore.Authorization;
 using Nt.Infrastructure.WebApi.Authentication;
 using Microsoft.Extensions.Configuration;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
+using System.Web.Http.ModelBinding;
+using System.Linq;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -125,6 +129,36 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 userReponse.ErrorMessage = "User already exists";
                 return userReponse;
             }
+        }
+
+        /// <summary>
+        /// Update User Profile
+        /// </summary>
+        /// <param name="user">User Profile to update</param>
+        /// <returns>Updated User Profile</returns>
+        public async Task<UpdateUserProfileResponse> UpdateUser(UpdateUserProfileRequest user)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
+                    var result = _userProfileService.UpdateUserAsync(userProfileEntity);
+                    return new UpdateUserProfileResponse{
+                        
+                    };
+                }
+                catch (Exception ex)
+                {
+                    return new UpdateUserProfileResponse { ErrorMessage = ex.Message};
+                }
+            }
+            else
+            {
+                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
+                return new UpdateUserProfileResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages), modelState = ModelState };
+            }
+
         }
     }
 }

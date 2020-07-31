@@ -1,4 +1,4 @@
-﻿namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects
+﻿namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser
 {
     public class UserProfileResponse
     {

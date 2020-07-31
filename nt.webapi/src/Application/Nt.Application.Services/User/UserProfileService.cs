@@ -49,7 +49,7 @@ namespace Nt.Application.Services.User
             throw new NotImplementedException();
         }
 
-        public Task<UserProfileEntity> UpdateUserAsync()
+        public Task<UserProfileEntity> UpdateUserAsync(UserProfileEntity user)
         {
             throw new NotImplementedException();
         }

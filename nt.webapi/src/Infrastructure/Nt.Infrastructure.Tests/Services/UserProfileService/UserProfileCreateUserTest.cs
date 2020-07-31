@@ -3,7 +3,6 @@ using Nt.Application.Services.User;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Infrastructure.WebApi.Profiles;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.User.RequestObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
