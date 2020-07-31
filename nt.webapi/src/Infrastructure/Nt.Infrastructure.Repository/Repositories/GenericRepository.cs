@@ -44,5 +44,12 @@ namespace Nt.Infrastructure.Data.Repositories
         {
             return await _dataCollection.AsQueryable<TEntity>().Where(predicate).ToListAsync();
         }
+
+        public virtual async Task<bool> UpdateAsync(TEntity data)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq(nameof(IBaseEntity.Id), data.Id);
+            var result = await  _dataCollection.ReplaceOneAsync<TEntity>(x => x.Id == data.Id, data);
+            return result.ModifiedCount == 1;
+        }
     }
 }

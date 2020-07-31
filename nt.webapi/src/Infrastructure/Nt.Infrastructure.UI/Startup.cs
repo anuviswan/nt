@@ -81,8 +81,9 @@ namespace Nt.WebApi
 
         private void ConfigureAppServices(IServiceCollection services)
         {
-            services.AddSingleton<IUserProfileService>(x => new UserProfileService(x.GetRequiredService<IUnitOfWork>()));
+            
             services.AddSingleton<IUserManagementService>(x => new UserManagementService(x.GetRequiredService<IUnitOfWork>()));
+            services.AddSingleton<IUserProfileService>(x => new UserProfileService(x.GetRequiredService<IUnitOfWork>(),x.GetRequiredService<IUserManagementService>()));
             services.AddSingleton<IConfiguration>(x => Configuration);
             services.AddSingleton<ITokenGenerator>(x => new JwtTokenGenerator(x.GetRequiredService<IConfiguration>()));
         }

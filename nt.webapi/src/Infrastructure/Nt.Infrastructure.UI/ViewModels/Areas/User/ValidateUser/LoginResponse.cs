@@ -1,7 +1,7 @@
 ﻿using Nt.Infrastructure.WebApi.ViewModels.Common;
 using System;
 
-namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ResponseObjects
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser
 {
     public class LoginResponse : IErrorInfo
     {

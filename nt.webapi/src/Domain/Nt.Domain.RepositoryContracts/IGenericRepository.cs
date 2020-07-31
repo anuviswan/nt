@@ -11,5 +11,7 @@ namespace Nt.Domain.RepositoryContracts
         Task<TEntity> CreateAsync(TEntity data);
         Task<IEnumerable<TEntity>> GetAsync();
         Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
+
+        Task<bool> UpdateAsync(TEntity data);
     }
 }

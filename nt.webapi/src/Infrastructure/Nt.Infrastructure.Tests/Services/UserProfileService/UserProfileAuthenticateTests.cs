@@ -46,7 +46,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserProfileRepository.Object);
 
-            var userProfileService = new UserProfileService(mockUnitOfWork.Object);
+            var userProfileService = new Nt.Application.Services.User.UserProfileService(mockUnitOfWork.Object,null);
             await Assert.ThrowsAsync<InvalidPasswordOrUsernameException>(() => userProfileService.AuthenticateAsync(userProfile));
         }
 
@@ -69,7 +69,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserProfileRepository.Object);
 
-            var userProfileService = new UserProfileService(mockUnitOfWork.Object);
+            var userProfileService = new Nt.Application.Services.User.UserProfileService(mockUnitOfWork.Object,null);
             var result = await userProfileService.AuthenticateAsync(userProfile);
 
             Assert.Equal(userProfile.UserName.ToLower(), result.UserName.ToLower());
