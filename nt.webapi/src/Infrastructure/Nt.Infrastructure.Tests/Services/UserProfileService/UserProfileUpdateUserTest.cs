@@ -3,6 +3,7 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.User;
+using Nt.Domain.ServiceContracts.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,9 +33,13 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
         }
 
         [Theory]
-        [MemberData(nameof(UpdateUserTestFailureTestData))]
-        public async Task UpdateUserTestFailure(UserProfileEntity request,bool expectedResult)
+        [MemberData(nameof(UpdateUserTestData))]
+        public async Task UpdateUserTest(UserProfileEntity request,bool expectedResult)
         {
+            var mockUserManagementService = new Mock<IUserManagementService>();
+            mockUserManagementService.Setup(x => x.SearchUserAsync(request.UserName))
+                .Returns(Task.FromResult(result: EntityCollection.Where(x => x.UserName.ToLower().StartsWith(request.UserName.ToLower()) && !x.IsDeleted)));
+
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();
             mockUserProfileRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
                 .Returns(Task.FromResult(EntityCollection.Where(x => x.UserName.Equals(request.UserName, StringComparison.InvariantCultureIgnoreCase) && !x.IsDeleted)));
@@ -45,19 +50,27 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserProfileRepository.Object);
 
-            var userProfileService = new Nt.Application.Services.User.UserProfileService(mockUnitOfWork.Object);
-            var result = await userProfileService.UpdateUserAsync(request);
-
-            Assert.Equal(expectedResult, result);
+            var userProfileService = new Nt.Application.Services.User.UserProfileService(mockUnitOfWork.Object, mockUserManagementService.Object);
+            if(expectedResult)
+            {
+                var result = await userProfileService.UpdateUserAsync(request);
+                Assert.True(result);
+                mockUserProfileRepository.Verify(x => x.UpdateAsync(It.IsAny<UserProfileEntity>()), Times.Once);
+                return;
+            }
+            await Assert.ThrowsAsync<EntityNotFoundException>(()=>userProfileService.UpdateUserAsync(request));
             mockUserProfileRepository.Verify(x => x.UpdateAsync(It.IsAny<UserProfileEntity>()), Times.Never);
-
         }
 
-        public static IEnumerable<object[]> UpdateUserTestFailureTestData => new[]
+        public static IEnumerable<object[]> UpdateUserTestData => new[]
         {
             new object[]{new UserProfileEntity{UserName="anuviswan1",Bio="Bio"},false },
-            new object[]{new UserProfileEntity{UserName="AnuViswan2",Bio="Bio"},false }
+            new object[]{new UserProfileEntity{UserName="AnuViswan2",Bio="Bio"},false},
+            new object[]{new UserProfileEntity{UserName="anuviswan",Bio="Bio"},true }
         };
+
+
         
+
     }
 }

@@ -11,9 +11,10 @@ namespace Nt.Application.Services.User
 {
     public class UserProfileService : ServiceBase, IUserProfileService
     {
-        public UserProfileService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private IUserManagementService _userManagementService;
+        public UserProfileService(IUnitOfWork unitOfWork,IUserManagementService userManagementService) : base(unitOfWork)
         {
-            
+            _userManagementService = userManagementService;
         }
 
         public async Task<UserProfileEntity> AuthenticateAsync(UserProfileEntity userProfile)
@@ -49,9 +50,19 @@ namespace Nt.Application.Services.User
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateUserAsync(UserProfileEntity user)
+        public async Task<bool> UpdateUserAsync(UserProfileEntity user)
         {
-            throw new NotImplementedException();
+            var userFound = await _userManagementService.SearchUserAsync(user.UserName);
+            if(!userFound.Any())
+            {
+                throw new EntityNotFoundException();
+            }
+            var userToChange = userFound.Single();
+
+            userToChange.Bio = user.Bio;
+            userToChange.DisplayName = user.DisplayName;
+
+            return await UnitOfWork.UserProfileRepository.UpdateAsync(userToChange);
         }
     }
 }
