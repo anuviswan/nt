@@ -14,7 +14,6 @@ const UserCard = ({ user, canEdit, canViewFullProfile }) => {
   // Retrieve updated user rating
   const getUpdatedUserRating = async () => {
     console.log("TDB : getUpdatedUserRating");
-    console.log(user);
   };
 
   const followMeAction = () => {

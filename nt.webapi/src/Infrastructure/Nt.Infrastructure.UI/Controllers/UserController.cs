@@ -145,7 +145,10 @@ namespace Nt.Infrastructure.WebApi.Controllers
             {
                 try
                 {
+                    var userName = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
                     var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
+                    userProfileEntity.UserName = userName;
+
                     var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
                     return new UpdateUserProfileResponse{
                         

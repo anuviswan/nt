@@ -8,6 +8,7 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser
 {
     public class UpdateUserProfileRequest
     {
+
         [Required, MaxLength(30, ErrorMessage = "Display Name should be less than 30 characters")]
         public string DisplayName { get; set; }
         [Required, MaxLength(180, ErrorMessage = "Bio should be less than 180 characters")]

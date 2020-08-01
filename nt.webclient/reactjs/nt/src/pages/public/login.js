@@ -63,13 +63,15 @@ const Login = () => {
 
     if (isAuthenticated) {
       console.log("User Authenticated");
-      userContext.validateUser({
+      userContext.setCurrentUser({
         authToken: token,
-        userName: userName,
+        currentUser: {
+          userName: userName,
+          displayName: displayName,
+          bio: bio,
+          rating: 5,
+        },
         isAuthenticated: isAuthenticated,
-        displayName: displayName,
-        rating: 5,
-        bio: bio,
       });
       console.log(history);
       history.push("/home");

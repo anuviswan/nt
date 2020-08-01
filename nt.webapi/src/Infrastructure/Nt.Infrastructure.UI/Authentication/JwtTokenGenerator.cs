@@ -29,7 +29,7 @@ namespace Nt.Infrastructure.WebApi.Authentication
             };
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"], 
-                null, 
+                claims, 
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: credentials);
 
