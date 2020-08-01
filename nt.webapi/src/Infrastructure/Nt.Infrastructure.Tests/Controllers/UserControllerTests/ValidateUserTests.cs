@@ -30,9 +30,9 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         {
             EntityCollection = new()
             {
-                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false },
-                new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyManuviswan")), IsDeleted = false },
-                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "AnuViswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("userDeleted")), IsDeleted = true },
+                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false ,Bio="UserBio"},
+                new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyManuviswan")), IsDeleted = false, Bio = "UserBio" },
+                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "AnuViswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("userDeleted")), IsDeleted = true, Bio = "UserBio" },
             };
         }
 
@@ -58,13 +58,14 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                     Assert.Equal(loginResponse.DisplayName, result.DisplayName);
                     Assert.NotEqual(default(DateTime), result.LoginTime);
                     Assert.True(result.IsAuthenticated);
+                    Assert.Equal(loginResponse.Bio, result.Bio);
                 }
             }
         }
 
         public static IEnumerable<object[]> ValidateUserTestDataSuccess => new List<object[]> 
         {
-            new object []{new LoginRequest{UserName="AnuViswan",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", DisplayName = "Anu Viswan",IsAuthenticated =true} },
+            new object []{new LoginRequest{UserName="AnuViswan",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", DisplayName = "Anu Viswan",IsAuthenticated =true,Bio="UserBio"} },
         };
 
 
@@ -86,6 +87,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                 if (!errorInfo.HasError)
                 {
                     Assert.Equal(loginResponse.DisplayName, result.DisplayName);
+                    Assert.Equal(loginResponse.Bio, result.Bio);
                     Assert.NotEqual(default(DateTime), result.LoginTime);
                     Assert.True(result.IsAuthenticated);
                 }
@@ -94,7 +96,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         public static IEnumerable<object[]> ValidateUserTestDataFailure => new List<object[]>
         {
-            new object []{new LoginRequest{UserName="AnuViswa",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", DisplayName = "Anu Viswan",IsAuthenticated =false,ErrorMessage="Invalid Password or Username"} }
+            new object []{new LoginRequest{UserName="AnuViswa",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", IsAuthenticated =false,ErrorMessage="Invalid Password or Username"} }
         };
     }
 }

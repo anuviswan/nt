@@ -1,5 +1,10 @@
 import React from "react";
-const EditUser = () => {
+import PropTypes from "prop-types";
+
+const EditUser = ({ location }) => {
+  const { user } = location.state;
+
+  console.log(user);
   return (
     <div className='container-fluid '>
       <div className='row'>
@@ -11,22 +16,29 @@ const EditUser = () => {
         </div>
         <div className='col-lg-10'>
           <div className='card'>
-            <div className='card-header'>Featured</div>
+            <div className='card-header'>Edit User Profile</div>
             <div className='card-body'>
               <form className='form needs-validation'>
                 <p className='font-weight-bold'>User Name</p>
                 <input
                   type='text'
+                  value={user.userName}
                   name='userName'
-                  placeholder='UserName'
-                  readonly
+                  readOnly
                 />
 
                 <p className='font-weight-bold'>Display Name</p>
-                <input type='text' name='userName' placeholder='UserName' />
+                <input
+                  type='text'
+                  name='displayName'
+                  value={user.displayName}
+                  readOnly
+                />
 
                 <p className='font-weight-bold'>Bio</p>
-                <input type='text' name='userName' placeholder='UserName' />
+                <input type='text' name='bio' value={user.bio} readOnly />
+
+                <input type='submit' value='Update' />
               </form>
             </div>
           </div>

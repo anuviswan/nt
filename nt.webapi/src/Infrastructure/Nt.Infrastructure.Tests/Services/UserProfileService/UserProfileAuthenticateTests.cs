@@ -29,9 +29,9 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 
             EntityCollection = new()
             {
-                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false },
-                new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyManuviswan")), IsDeleted = false },
-                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "AnuViswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("userDeleted")), IsDeleted = true },
+                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false,Bio="UserBio" },
+                new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyManuviswan")), IsDeleted = false, Bio = "UserBio" },
+                new UserProfileEntity { UserName = "AnuViswan", DisplayName = "AnuViswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("userDeleted")), IsDeleted = true, Bio = "UserBio" },
             };
         }
 
@@ -77,8 +77,8 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 
         public static IEnumerable<object[]> AuthenticationSuccessTestData => new List<object[]>
         {
-            new object[]{new UserProfileEntity{UserName="anuviswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false } },
-            new object[]{new UserProfileEntity{UserName="Manuviswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyManuviswan")), IsDeleted = false } },
+            new object[]{new UserProfileEntity{UserName="anuviswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan")), IsDeleted = false, Bio = "UserBio" } },
+            new object[]{new UserProfileEntity{UserName="Manuviswan", PassKey = ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyManuviswan")), IsDeleted = false, Bio = "UserBio" } },
         };
 
     }

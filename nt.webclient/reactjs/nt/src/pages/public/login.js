@@ -43,14 +43,23 @@ const Login = () => {
     console.log(base64PassKey);
 
     setLoginProfile({ ...userProfile, passKey: base64PassKey });
-    console.log({ ...userProfile, passKey: base64PassKey });
+
     const result = await axios.post(
       "https://localhost:44353/api/User/ValidateUser",
       { ...userProfile, passKey: base64PassKey },
       { headers: headers }
     );
 
-    const { isAuthenticated, token, userName, errorMessage } = result.data;
+    console.log(result.data);
+
+    const {
+      isAuthenticated,
+      token,
+      userName,
+      errorMessage,
+      displayName,
+      bio,
+    } = result.data;
 
     if (isAuthenticated) {
       console.log("User Authenticated");
@@ -58,6 +67,9 @@ const Login = () => {
         authToken: token,
         userName: userName,
         isAuthenticated: isAuthenticated,
+        displayName: displayName,
+        rating: 5,
+        bio: bio,
       });
       console.log(history);
       history.push("/home");

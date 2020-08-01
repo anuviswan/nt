@@ -39,7 +39,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                 .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
-            SimulateValidation(request,userController);
+            MockModelState(request,userController);
 
             var result = await userController.UpdateUser(request);
             foreach (var err in errorMessage)
@@ -66,7 +66,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                 .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
-            SimulateValidation(request, userController);
+            MockModelState(request, userController);
 
             var result = await userController.UpdateUser(request);
             Assert.True(result is IErrorInfo instance && !instance.HasError);
