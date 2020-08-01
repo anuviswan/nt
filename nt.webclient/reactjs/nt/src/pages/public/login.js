@@ -43,20 +43,34 @@ const Login = () => {
     console.log(base64PassKey);
 
     setLoginProfile({ ...userProfile, passKey: base64PassKey });
-    console.log({ ...userProfile, passKey: base64PassKey });
+
     const result = await axios.post(
       "https://localhost:44353/api/User/ValidateUser",
       { ...userProfile, passKey: base64PassKey },
       { headers: headers }
     );
 
-    const { isAuthenticated, token, userName, errorMessage } = result.data;
+    console.log(result.data);
+
+    const {
+      isAuthenticated,
+      token,
+      userName,
+      errorMessage,
+      displayName,
+      bio,
+    } = result.data;
 
     if (isAuthenticated) {
       console.log("User Authenticated");
-      userContext.validateUser({
+      userContext.setCurrentUser({
         authToken: token,
-        userName: userName,
+        currentUser: {
+          userName: userName,
+          displayName: displayName,
+          bio: bio,
+          rating: 5,
+        },
         isAuthenticated: isAuthenticated,
       });
       console.log(history);

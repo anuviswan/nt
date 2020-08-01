@@ -14,8 +14,8 @@ const UserState = (props) => {
 
   // search user
 
-  // validate user
-  const validateUser = async (userProfile) => {
+  // setCurrentUser
+  const setCurrentUser = async (userProfile) => {
     dispatch({
       type: SET_CURRENT_USER,
       payload: userProfile,
@@ -29,7 +29,8 @@ const UserState = (props) => {
       value={{
         currentUser: state.currentUser,
         userToken: state.userToken,
-        validateUser,
+        isUserAuthenticated: state.isUserAuthenticated,
+        setCurrentUser,
       }}
     >
       {props.children}

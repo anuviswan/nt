@@ -25,11 +25,11 @@ namespace Nt.Infrastructure.WebApi.Authentication
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub,userProfile.UserName)
+                new Claim(JwtRegisteredClaimNames.UniqueName,userProfile.UserName)
             };
             var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"], 
-                null, 
+                claims, 
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: credentials);
 

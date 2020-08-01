@@ -1,21 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import UserCard from "../../../components/User/userCard";
 import { Link } from "react-router-dom";
-const User = ({ location }) => {
-  console.log(location.state);
-  const { user } = location.state;
+import UserContext from "../../../context/user/userContext";
+
+const User = () => {
+  const userContext = useContext(UserContext);
+  const currentUser = userContext.currentUser;
 
   return (
     <div className='row'>
       <div className='col-md-4 col-lg-2 col-lx-2'>
         <UserCard
-          user={{
-            displayName: user.userName,
-            userName: user.userName,
-            bio: "Hey, am jia kutty",
-            rating: 4,
-          }}
-          miniProfile={false}
+          user={currentUser}
+          canViewFullProfile={false}
+          canEdit={true}
         />
       </div>
       <div className='col-md-8 col-lg-10 col-lx-10'>

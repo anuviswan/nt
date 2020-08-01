@@ -136,14 +136,20 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// </summary>
         /// <param name="user">User Profile to update</param>
         /// <returns>Updated User Profile</returns>
+        [HttpPost]
+        [Route("UpdateUser")]
+        [Authorize]
         public async Task<UpdateUserProfileResponse> UpdateUser(UpdateUserProfileRequest user)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var userName = User.Identity.Name;
                     var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
-                    var result = _userProfileService.UpdateUserAsync(userProfileEntity);
+                    userProfileEntity.UserName = userName;
+
+                    var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
                     return new UpdateUserProfileResponse{
                         
                     };
@@ -159,6 +165,8 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 return new UpdateUserProfileResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages), modelState = ModelState };
             }
 
+
         }
+
     }
 }

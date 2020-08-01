@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Http;
+using Moq;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
 using Nt.Infrastructure.WebApi.Authentication;
@@ -11,6 +12,7 @@ using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.ModelBinding;
@@ -18,6 +20,8 @@ using System.Web.Mvc;
 using Xunit;
 using Xunit.Abstractions;
 using static System.Convert;
+using System.Web;
+using System.Security.Principal;
 
 namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 {
@@ -39,7 +43,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                 .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
-            SimulateValidation(request,userController);
+            MockModelState(request,userController);
 
             var result = await userController.UpdateUser(request);
             foreach (var err in errorMessage)
@@ -59,14 +63,23 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         [MemberData(nameof(UpdateUserTestSuccessTestData))]
         public async Task UpdateUserTestSuccess(UpdateUserProfileRequest request, UpdateUserProfileResponse expectedResponse)
         {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, "anuviswan"),
+               
+            }, "mock"));
 
+          
             var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.UpdateUserAsync(It.IsAny<UserProfileEntity>()))
                 .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
-            SimulateValidation(request, userController);
+            userController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+
+
+            MockModelState(request, userController);
 
             var result = await userController.UpdateUser(request);
             Assert.True(result is IErrorInfo instance && !instance.HasError);
