@@ -31,8 +31,6 @@ const EditUser = ({ location }) => {
       Authorization: `Bearer ${authToken}`,
     };
 
-    console.log(authToken);
-
     const response = await Axios.post(
       "https://localhost:44353/api/User/UpdateUser",
       userDetails,
@@ -109,6 +107,10 @@ const EditUser = ({ location }) => {
       </div>
     </div>
   );
+};
+
+EditUser.propTypes = {
+  location: PropTypes.object.isRequired,
 };
 
 export default EditUser;

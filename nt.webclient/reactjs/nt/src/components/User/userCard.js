@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Rating from "../layout/rating";
 import FollowButton from "../layout/followButton";
-import axios from "axios";
 
 const UserCard = ({ user, canEdit, canViewFullProfile }) => {
   useEffect(() => {
-    console.log(user);
     getUpdatedUserRating();
   }, []);
 
