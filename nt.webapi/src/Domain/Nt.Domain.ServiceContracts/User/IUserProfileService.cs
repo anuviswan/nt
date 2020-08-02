@@ -8,7 +8,7 @@ namespace Nt.Domain.ServiceContracts.User
         Task<UserProfileEntity> GetUserAsync(UserProfileEntity user);
         Task<UserProfileEntity> AuthenticateAsync(UserProfileEntity userProfile);
         Task<UserProfileEntity> CreateUserAsync(UserProfileEntity userProfile);
-        Task<UserProfileEntity> ChangePasswordAsync();
+        Task<bool> ChangePasswordAsync(UserProfileEntity userProfile,string newPassword);
         Task<bool> UpdateUserAsync(UserProfileEntity userProfile);
     }
 }
