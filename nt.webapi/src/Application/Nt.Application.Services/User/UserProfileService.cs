@@ -29,9 +29,21 @@ namespace Nt.Application.Services.User
             return existingUser.Single();
         }
 
-        public Task<UserProfileEntity> ChangePasswordAsync()
+        public async Task<bool> ChangePasswordAsync(UserProfileEntity userProfile, string newPassword)
         {
-            throw new NotImplementedException();
+            var userFound = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == userProfile.UserName.ToLower()
+                                                                                    && x.PassKey == userProfile.PassKey
+                                                                                    && !x.IsDeleted);
+            if (!userFound.Any())
+            {
+                throw new InvalidPasswordOrUsernameException();
+            }
+
+            var userToChange = userFound.Single();
+
+            userToChange.PassKey = newPassword;
+
+            return await UnitOfWork.UserProfileRepository.UpdateAsync(userToChange);
         }
 
         public async Task<UserProfileEntity> CreateUserAsync(UserProfileEntity userProfile)

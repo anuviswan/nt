@@ -17,6 +17,7 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
 using System.Web.Http.ModelBinding;
 using System.Linq;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -165,7 +166,45 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 return new UpdateUserProfileResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages), modelState = ModelState };
             }
 
+        }
 
+        /// <summary>
+        /// Change Password
+        /// </summary>
+        /// <param name="request">Old and New Passwords</param>
+        /// <returns>If the password has been updated</returns>
+        [HttpPost]
+        [Route("ChangePassword")]
+        [Authorize]
+        public async Task<ChangePasswordResponse> ChangePassword(ChangePasswordRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    var userName = User.Identity.Name;
+                    var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
+                    userProfileEntity.UserName = userName;
+
+                    var result = await _userProfileService.ChangePasswordAsync(userProfileEntity,request.NewPassword);
+                    return new ChangePasswordResponse
+                    {
+                        
+                    };
+
+                }
+                catch(Exception)
+                {
+                    return new ChangePasswordResponse { ErrorMessage = "Unexpected Error" };
+                }
+                
+            }
+            else
+            {
+                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
+                return new ChangePasswordResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages)};
+            }
         }
 
     }

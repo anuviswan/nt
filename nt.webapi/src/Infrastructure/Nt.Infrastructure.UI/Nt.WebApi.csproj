@@ -44,4 +44,8 @@
     <ProjectReference Include="..\Nt.Infrastructure.Repository\Nt.Infrastructure.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Areas\User\NewFolder\" />
+  </ItemGroup>
+
 </Project>
