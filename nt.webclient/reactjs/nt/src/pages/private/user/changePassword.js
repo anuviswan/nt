@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import Axios from "axios";
 import UserContext from "../../../context/user/userContext";
 import ValidationMessage from "../../../components/layout/validationMessage";
 import EditUserMenu, {
-  EDIT_PROFILE,
+  CHANGE_PWD,
 } from "../../../components/User/editUserMenu";
 
-const EditUser = ({ location }) => {
+const ChangePassword = ({ location }) => {
   const userContext = useContext(UserContext);
   const authToken = userContext.userToken;
 
@@ -18,12 +18,15 @@ const EditUser = ({ location }) => {
   });
 
   const { user } = location.state;
-  const [userDetails, setUserDetails] = useState(user);
+  const [userDetails, setUserDetails] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   const onChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,8 +38,11 @@ const EditUser = ({ location }) => {
     };
 
     const response = await Axios.post(
-      "https://localhost:44353/api/User/UpdateUser",
-      userDetails,
+      "https://localhost:44353/api/User/ChangePassword",
+      {
+        oldPassword: userDetails.oldPassword,
+        newPassword: userDetails.newPassword,
+      },
       { headers: headers }
     );
 
@@ -54,7 +60,7 @@ const EditUser = ({ location }) => {
       setFormValidation({
         isValid: true,
         isVisible: true,
-        message: "User Details updated successfully",
+        message: "Password changed successfully",
       });
     }
   };
@@ -63,34 +69,34 @@ const EditUser = ({ location }) => {
     <div className='container-fluid '>
       <div className='row'>
         <div className='col-lg-2'>
-          <EditUserMenu user={user} selected={EDIT_PROFILE} />
+          <EditUserMenu user={user} selected={CHANGE_PWD} />
         </div>
         <div className='col-lg-10'>
           <div className='card'>
-            <div className='card-header'>Edit User Profile</div>
+            <div className='card-header'>Change Password</div>
             <div className='card-body'>
               <form className='form needs-validation' onSubmit={onSubmit}>
-                <p className='font-weight-bold'>User Name</p>
+                <p className='font-weight-bold'>Old Password</p>
                 <input
-                  type='text'
-                  value={userDetails.userName}
-                  name='userName'
-                  readOnly
+                  type='password'
+                  value={userDetails.oldPassword}
+                  onChange={onChange}
+                  name='oldPassword'
                 />
 
-                <p className='font-weight-bold'>Display Name</p>
+                <p className='font-weight-bold'>New Password</p>
                 <input
-                  type='text'
-                  name='displayName'
-                  value={userDetails.displayName}
+                  type='password'
+                  name='newPassword'
+                  value={userDetails.newPassword}
                   onChange={onChange}
                 />
 
-                <p className='font-weight-bold'>Bio</p>
+                <p className='font-weight-bold'>Confirm Password</p>
                 <input
-                  type='text'
-                  name='bio'
-                  value={userDetails.bio}
+                  type='password'
+                  name='confirmPassword'
+                  value={userDetails.confirmPassword}
                   onChange={onChange}
                 />
 
@@ -109,8 +115,8 @@ const EditUser = ({ location }) => {
   );
 };
 
-EditUser.propTypes = {
+ChangePassword.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export default EditUser;
+export default ChangePassword;

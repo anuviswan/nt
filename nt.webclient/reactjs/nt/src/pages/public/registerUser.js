@@ -135,14 +135,12 @@ const RegisterUser = () => {
         }
       );
       if (!res.data.errorMessage) {
-        console.log("no probs");
         updateformValidation({
           isVisible: true,
           isValid: true,
           message: "User is successfully registered",
         });
       } else {
-        console.log("ggot a prop");
         updateformValidation({
           isVisible: true,
           isValid: false,
