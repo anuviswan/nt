@@ -8,7 +8,7 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword
 {
     public class ChangePasswordRequest
     {
-        [MinLength(8, ErrorMessage ="Password should contain minimum of 8 characters"),Required,]
+        [Required]
         public string OldPassword { get; set; }
         [MinLength(8, ErrorMessage = "Password should contain minimum of 8 characters"), Required]
         public string NewPassword { get; set; }

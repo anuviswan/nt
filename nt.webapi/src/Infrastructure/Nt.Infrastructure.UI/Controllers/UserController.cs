@@ -184,10 +184,13 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 {
 
                     var userName = User.Identity.Name;
+                    var oldPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.OldPassword));
+                    var newPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.NewPassword));
                     var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
                     userProfileEntity.UserName = userName;
+                    userProfileEntity.PassKey = oldPasswordB64String;
 
-                    var result = await _userProfileService.ChangePasswordAsync(userProfileEntity,request.NewPassword);
+                    var result = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
                     return new ChangePasswordResponse
                     {
                         

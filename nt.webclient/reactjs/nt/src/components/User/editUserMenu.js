@@ -7,7 +7,7 @@ const EditUserMenu = ({ user, selected }) => {
     <ul className='list-group'>
       <li
         className={`list-group-item  ${
-          selected == EDIT_PROFILE ? "list-group-item-secondary" : ""
+          selected === EDIT_PROFILE ? "list-group-item-secondary" : ""
         }`}
       >
         {" "}
@@ -17,7 +17,7 @@ const EditUserMenu = ({ user, selected }) => {
       </li>
       <li
         className={`list-group-item  ${
-          selected == CHANGE_PWD ? "list-group-item-secondary" : ""
+          selected === CHANGE_PWD ? "list-group-item-secondary" : ""
         }`}
       >
         <Link to={{ pathname: "/changepassword", state: { user: user } }}>

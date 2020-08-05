@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Axios from "axios";
 import UserContext from "../../../context/user/userContext";
