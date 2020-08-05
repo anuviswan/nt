@@ -197,6 +197,10 @@ namespace Nt.Infrastructure.WebApi.Controllers
                     };
 
                 }
+                catch (InvalidPasswordOrUsernameException)
+                {
+                    return new ChangePasswordResponse { ErrorMessage = "Old password is not correct" };
+                }
                 catch(Exception)
                 {
                     return new ChangePasswordResponse { ErrorMessage = "Unexpected Error" };
