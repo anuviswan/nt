@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Nt.Domain.Entities\Nt.Domain.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Movie\" />
-  </ItemGroup>
-
 </Project>
