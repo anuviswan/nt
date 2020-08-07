@@ -32,7 +32,6 @@ namespace Nt.Infrastructure.WebApi.Profiles
             CreateMap<UserProfileEntity, UserProfileResponse>();
             CreateMap<UserProfileEntity, CreateUserProfileResponse>().ReverseMap();
             CreateMap<UserProfileEntity, LoginResponse>();
-
         }
     }
 }

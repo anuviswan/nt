@@ -77,6 +77,52 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             }
         };
 
+        [Theory]
+        [MemberData(nameof(CreateMovieTestSuccessCasesTestData))]
+        public async Task CreateMovieTestSuccessCases(CreateMovieRequest request, CreateMovieResponse expectedResult)
+        {
+            // Arrange
+            var expectedMovieEntity = Mapper.Map<MovieEntity>(request);
+            var mockMovieService = new Mock<IMovieService>();
+            mockMovieService.Setup(x => x.CreateAsync(It.IsAny<MovieEntity>())).Returns(Task.FromResult(expectedMovieEntity));
+
+            // Act
+            var movieController = new MovieController(Mapper, mockMovieService.Object);
+            MockModelState(request, movieController);
+            var result = await movieController.CreateMovie(request);
+
+
+            // Assert
+            if (result is not IErrorInfo error)
+            {
+                throw new XunitException();
+            }
+
+            Assert.True(string.IsNullOrEmpty(error.ErrorMessage));
+            Assert.False(error.HasError);
+        }
+
+
+        public static IEnumerable<object[]> CreateMovieTestSuccessCasesTestData => new[]
+        {
+            new object[]
+            {
+                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate =DateTime.Now  },
+                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = DateTime.Now  }
+            },
+            new object[]
+            {
+                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =DateTime.Now  },
+                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = DateTime.Now  }
+            },
+            new object[]
+            {
+                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now.AddYears(-1)  },
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now.AddYears(-1)   }
+            },
+
+        };
+
 
     }
 }
