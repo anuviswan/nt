@@ -1,6 +1,8 @@
-﻿namespace Nt.Domain.RepositoryContracts.Movie
+﻿using Nt.Domain.Entities.Movie;
+
+namespace Nt.Domain.RepositoryContracts.Movie
 {
-    public interface IMovieRepository
+    public interface IMovieRepository:IGenericRepository<MovieEntity>
     {
     }
 }

@@ -11,6 +11,7 @@ using Xunit.Abstractions;
 using Nt.Infrastructure.WebApi.Controllers;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Nt.Infrastructure.WebApi.ExtensionMethods;
 
 namespace Nt.Infrastructure.Tests.Controllers
 {
@@ -24,7 +25,7 @@ namespace Nt.Infrastructure.Tests.Controllers
             Output = output;
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new UserEntityProfile());
+                mc.AddProfiles(typeof(Profile).FindAllDerivedTypes(typeof(BaseController).Assembly).Select(x=> Activator.CreateInstance(x)).Cast<Profile>());
             });
 
             Mapper = mappingConfig.CreateMapper();

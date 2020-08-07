@@ -2,6 +2,7 @@
 using Nt.Domain.Entities.Attributes;
 using Nt.Domain.Entities.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Nt.Domain.Entities.Movie
 {
@@ -13,6 +14,12 @@ namespace Nt.Domain.Entities.Movie
         [BsonElement("releaseDate")]
         public DateTime ReleaseDate { get; set; }
         [BsonElement("directorName")]
-        public string DirectorName { get; set; }
+        public string Director { get; set; }
+        [BsonElement("language")]
+        public string Language { get; set; }
+        [BsonElement("actors")]
+        public List<string> Actors { get; set; }
+        [BsonElement("Reviews")]
+        public List<ReviewEntity> Reviews { get; set; }
     }
 }

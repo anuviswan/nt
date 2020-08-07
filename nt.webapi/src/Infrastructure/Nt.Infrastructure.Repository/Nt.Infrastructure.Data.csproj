@@ -15,8 +15,4 @@
     <ProjectReference Include="..\..\Domain\Nt.Domain.RepositoryContracts\Nt.Domain.RepositoryContracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Movie\" />
-  </ItemGroup>
-
 </Project>
