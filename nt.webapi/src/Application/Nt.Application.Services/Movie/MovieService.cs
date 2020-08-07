@@ -1,18 +1,33 @@
-﻿using Nt.Domain.Entities.Movie;
+﻿using Nt.Domain.Entities.Exceptions;
+using Nt.Domain.Entities.Movie;
+using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.Movie;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Nt.Application.Services.Movie
 {
-    public class MovieService : IMovieService
+    public class MovieService : ServiceBase, IMovieService
     {
-        public Task<MovieEntity> CreateAsync(MovieEntity movie)
+        public MovieService(IUnitOfWork unitOfWork):base(unitOfWork)
         {
-            throw new NotImplementedException();
+
+        }
+        public async Task<MovieEntity> CreateAsync(MovieEntity movie)
+        {
+            var existingMovie = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Equals(movie.Title.ToLower()) 
+            && x.ReleaseDate.Year == movie.ReleaseDate.Year 
+            && x.Language.ToLower().Equals(movie.Language.ToLower()));
+
+            if (existingMovie.Any())
+            {
+                throw new EntityAlreadyExistException();
+            }
+
+            var result = await UnitOfWork.MovieRepository.CreateAsync(movie).ConfigureAwait(false);
+            return result;
         }
 
         public Task<MovieEntity> GetOne(MovieEntity movie)
