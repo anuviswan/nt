@@ -22,6 +22,17 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         {
         }
 
+        protected override void InitializeCollection()
+        {
+            base.InitializeCollection();
+            EntityCollection = new ()
+            {
+                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = DateTime.Now   },
+                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = DateTime.Now }
+            };
+
+        }
+
         [Theory]
         [MemberData(nameof(CreateMovieTestFailureCasesTestData))]
         public async Task CreateMovieTestFailureCases(CreateMovieRequest request,CreateMovieResponse expectedResult)
@@ -32,6 +43,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
+            MockModelState(request, movieController);
             var result = await movieController.CreateMovie(request);
 
 
@@ -41,18 +53,30 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                 throw new XunitException();
             }
 
-            Assert.Equal(error.ErrorMessage, result.ErrorMessage);
+            Assert.Equal(expectedResult.ErrorMessage, error.ErrorMessage);
             Assert.True(error.HasError);
         }
 
 
         public static IEnumerable<object[]> CreateMovieTestFailureCasesTestData => new[]
         {
+            new object[]
+            {
+                new CreateMovieRequest (),
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , ErrorMessage=$"The Title field is required.{Environment.NewLine}The Language field is required." }
+            },
             new object[] 
             { 
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now  }, 
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now }  
+                new CreateMovieRequest { Title = "Title 1" }, 
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , ErrorMessage="The Language field is required." }  
+            },
+            new object[]
+            {
+                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now  },
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , ErrorMessage="Movie with the same information already exists" }
             }
         };
+
+
     }
 }
