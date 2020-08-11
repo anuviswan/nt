@@ -14,7 +14,7 @@ import Home from "./pages/private/home/home";
 import User from "./pages/private/user/user";
 import EditUser from "./pages/private/user/editUser";
 import ChangePassword from "./pages/private/user/changePassword";
-
+import CreateMovie from "./pages/private/movie/createMovie";
 function App() {
   const privatePages = () => {
     return (
@@ -43,7 +43,7 @@ function App() {
             <PublicRoute exact path='/About' component={About} />
             <PublicRoute exact path='/signup' component={RegisterUser} />
             <PublicRoute exact path='/signin' component={Login} />
-
+            <PublicRoute exact path='/createmovie' component={CreateMovie} />
             <Route component={privatePages} />
           </Switch>
         </div>
