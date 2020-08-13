@@ -39,19 +39,18 @@ const CreateMovie = () => {
     e.preventDefault();
     console.log(errors);
     setErrors([]);
+    let tempErrors = errors;
     // TODO : Validate
     if (movieMetadata.title === "") {
-      console.log("has title eror");
-      setErrors([...errors, "title"]);
-      console.log(errors);
+      tempErrors = [...tempErrors, "title"];
     }
     if (movieMetadata.language === "") {
-      setErrors([...errors, "language"]);
+      tempErrors = [...tempErrors, "language"];
     }
 
-    console.log(errors);
+    setErrors(tempErrors);
 
-    if (errors.length === 0) {
+    if (tempErrors.length > 0) {
       return false;
     } else {
       const headers = {
@@ -82,15 +81,25 @@ const CreateMovie = () => {
               placeholder='Movie Title'
               onChange={onChange}
             />
-            <div className={hasError("title") ? "inline-errormsh" : "hidden"}>
+            <div className={hasError("title") ? "invalid-feedback" : "d-none"}>
               Please enter a movie title
             </div>
             <input
               type='text'
               name='language'
+              className={
+                hasError("language")
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
               placeholder='Language'
               onChange={onChange}
             />
+            <div
+              className={hasError("language") ? "invalid-feedback" : "d-none"}
+            >
+              Please enter language
+            </div>
             <Calender
               title='Release Date'
               onChange={(date) => onReleaseDateChange(date)}
