@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using Nt.Controls.Login;
+using Nt.Utils.ControlInterfaces;
 using Nt.WpfClient.ViewModels;
 using Nt.WpfClient.Views;
 using System;
@@ -10,7 +12,7 @@ using System.Windows;
 using Unity;
 using Unity.Lifetime;
 
-namespace Nt.WpfClient
+namespace Nt.WpfClient.Utils.Bootstrap
 {
     public class BootstrapperUnity : BootstrapperBase
     {
@@ -30,7 +32,16 @@ namespace Nt.WpfClient
             _unityContainer.RegisterInstance<IEventAggregator>(new EventAggregator(), new ContainerControlledLifetimeManager());
 
             //View Models
-            _unityContainer.RegisterInstance<ShellViewModel>(new ShellViewModel());
+            _unityContainer.RegisterInstance(new ShellViewModel());
+            var vms = typeof(LoginControl).Assembly
+                .GetTypes()
+                .Where(x => typeof(NtControlBase).IsAssignableFrom(x))
+                .Select(x => Activator.CreateInstance(x)).Cast<NtControlBase>().Select(x => x.ViewModel);
+            foreach (var vm in vms)
+            {
+                _unityContainer.RegisterInstance(vm.GetType(), vm);
+            }
+
         }
 
         protected override void BuildUp(object instance)
