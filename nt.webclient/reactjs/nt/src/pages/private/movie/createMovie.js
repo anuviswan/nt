@@ -46,6 +46,7 @@ const CreateMovie = () => {
             <DynamicTextBox
               defaultText='Actor'
               collection={[{ text: "Aamir Khan" }]}
+              buttonTitle='Add Actor'
             />
 
             <input type='submit' value='Create Movie' />
