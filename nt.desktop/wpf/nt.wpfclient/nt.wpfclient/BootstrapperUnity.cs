@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
-using nt.wpfclient.ViewModels;
-using nt.wpfclient.Views;
+using Nt.WpfClient.ViewModels;
+using Nt.WpfClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Windows;
 using Unity;
 using Unity.Lifetime;
 
-namespace nt.wpfclient
+namespace Nt.WpfClient
 {
     public class BootstrapperUnity : BootstrapperBase
     {

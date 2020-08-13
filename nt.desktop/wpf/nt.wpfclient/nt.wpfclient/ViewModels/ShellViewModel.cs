@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace nt.wpfclient.ViewModels
+namespace Nt.WpfClient.ViewModels
 {
     public class ShellViewModel
     {
