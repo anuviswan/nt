@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../../../context/user/userContext";
 import Calender from "../../../components/layout/calender";
 import DynamicTextBox from "../../../components/layout/dynamicTextBox";
+import axios from "axios";
 
 const CreateMovie = () => {
+  const currentUser = useContext(UserContext);
+  const authToken = currentUser.userToken;
+
   const [movieMetadata, setMovieMetadata] = useState({
     title: "",
     language: "",
     releaseDate: new Date(),
     actors: [],
   });
+
+  const [errors, setErrors] = useState([]);
 
   const onChange = (e) => {
     setMovieMetadata({ ...movieMetadata, [e.target.name]: e.target.value });
@@ -26,9 +33,40 @@ const CreateMovie = () => {
     });
   };
 
-  const onSubmit = (e) => {
+  const hasError = (key) => errors.indexOf(key) !== -1;
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(movieMetadata);
+    console.log(errors);
+    setErrors([]);
+    // TODO : Validate
+    if (movieMetadata.title === "") {
+      console.log("has title eror");
+      setErrors([...errors, "title"]);
+      console.log(errors);
+    }
+    if (movieMetadata.language === "") {
+      setErrors([...errors, "language"]);
+    }
+
+    console.log(errors);
+
+    if (errors.length === 0) {
+      return false;
+    } else {
+      const headers = {
+        "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+        "Content-Type": "application/json", // this shows the expected content type
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      const response = await axios.post(
+        "https://localhost:44353/api/Movie/CreateMovie",
+        movieMetadata,
+        { headers: headers }
+      );
+    }
   };
   return (
     <div className='container-fluid'>
@@ -38,9 +76,15 @@ const CreateMovie = () => {
             <input
               type='text'
               name='title'
+              className={
+                hasError("title") ? "form-control is-invalid" : "form-control"
+              }
               placeholder='Movie Title'
               onChange={onChange}
             />
+            <div className={hasError("title") ? "inline-errormsh" : "hidden"}>
+              Please enter a movie title
+            </div>
             <input
               type='text'
               name='language'

@@ -25,6 +25,7 @@ function App() {
           <PrivateRoute exact path='/home' component={Home} />
           <PrivateRoute exact path='/user' component={User} />
           <PrivateRoute exact path='/edituser' component={EditUser} />
+          <PrivateRoute exact path='/createmovie' component={CreateMovie} />
           <PrivateRoute
             exact
             path='/changepassword'
@@ -43,7 +44,7 @@ function App() {
             <PublicRoute exact path='/About' component={About} />
             <PublicRoute exact path='/signup' component={RegisterUser} />
             <PublicRoute exact path='/signin' component={Login} />
-            <PublicRoute exact path='/createmovie' component={CreateMovie} />
+
             <Route component={privatePages} />
           </Switch>
         </div>
