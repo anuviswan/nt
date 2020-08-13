@@ -26,6 +26,8 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Components;
+using Nt.Domain.ServiceContracts.Movie;
+using Nt.Application.Services.Movie;
 
 namespace Nt.WebApi
 {
@@ -84,6 +86,7 @@ namespace Nt.WebApi
             
             services.AddSingleton<IUserManagementService>(x => new UserManagementService(x.GetRequiredService<IUnitOfWork>()));
             services.AddSingleton<IUserProfileService>(x => new UserProfileService(x.GetRequiredService<IUnitOfWork>(),x.GetRequiredService<IUserManagementService>()));
+            services.AddSingleton<IMovieService>(x=> new MovieService(x.GetRequiredService<IUnitOfWork>()));
             services.AddSingleton<IConfiguration>(x => Configuration);
             services.AddSingleton<ITokenGenerator>(x => new JwtTokenGenerator(x.GetRequiredService<IConfiguration>()));
         }

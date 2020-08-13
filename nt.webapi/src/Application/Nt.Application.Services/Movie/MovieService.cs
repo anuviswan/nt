@@ -17,8 +17,8 @@ namespace Nt.Application.Services.Movie
         }
         public async Task<MovieEntity> CreateAsync(MovieEntity movie)
         {
-            var existingMovie = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Equals(movie.Title.ToLower()) 
-            && x.ReleaseDate.Year == movie.ReleaseDate.Year 
+            var existingMovie = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower() == movie.Title.ToLower()
+            && new DateTime(x.ReleaseDate.Year,1,1) == new DateTime(movie.ReleaseDate.Year,1,1) 
             && x.Language.ToLower().Equals(movie.Language.ToLower()));
 
             if (existingMovie.Any())

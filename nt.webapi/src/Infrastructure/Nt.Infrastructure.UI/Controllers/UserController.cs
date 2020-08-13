@@ -1,23 +1,19 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using Nt.Domain.Entities.User;
-using System.Threading.Tasks;
-using Nt.Domain.ServiceContracts;
-using Nt.Domain.ServiceContracts.User;
-using System.Runtime.CompilerServices;
-using Nt.Domain.Entities.Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Nt.Domain.Entities.Exceptions;
+using Nt.Domain.Entities.User;
+using Nt.Domain.ServiceContracts.User;
 using Nt.Infrastructure.WebApi.Authentication;
-using Microsoft.Extensions.Configuration;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
-using System.Web.Http.ModelBinding;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
+using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
