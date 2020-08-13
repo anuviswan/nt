@@ -3,10 +3,17 @@ import UserContext from "../../../context/user/userContext";
 import Calender from "../../../components/layout/calender";
 import DynamicTextBox from "../../../components/layout/dynamicTextBox";
 import axios from "axios";
+import ValidationMessage from "../../../components/layout/validationMessage";
 
 const CreateMovie = () => {
   const currentUser = useContext(UserContext);
   const authToken = currentUser.userToken;
+
+  const [formValidation, setFormValidation] = useState({
+    isVisible: false,
+    isValid: true,
+    message: "",
+  });
 
   const [movieMetadata, setMovieMetadata] = useState({
     title: "",
@@ -65,8 +72,27 @@ const CreateMovie = () => {
         movieMetadata,
         { headers: headers }
       );
+
+      validateResponse(response.data.errorMessage);
     }
   };
+
+  const validateResponse = (errorMessage) => {
+    if (errorMessage) {
+      setFormValidation({
+        isValid: false,
+        isVisible: true,
+        message: errorMessage,
+      });
+    } else {
+      setFormValidation({
+        isValid: true,
+        isVisible: true,
+        message: "Movie created successfully",
+      });
+    }
+  };
+
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -113,6 +139,11 @@ const CreateMovie = () => {
             />
 
             <input type='submit' value='Create Movie' />
+            <ValidationMessage
+              isVisible={formValidation.isVisible}
+              message={formValidation.message}
+              isValid={formValidation.isValid}
+            />
           </form>
         </div>
       </div>
