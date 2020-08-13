@@ -7,6 +7,7 @@ const CreateMovie = () => {
     title: "",
     language: "",
     releaseDate: new Date(),
+    actors: [],
   });
 
   const onChange = (e) => {
@@ -15,6 +16,14 @@ const CreateMovie = () => {
 
   const onReleaseDateChange = (date) => {
     setMovieMetadata({ ...movieMetadata, releaseDate: date });
+  };
+
+  const onActorCollectionChange = (newCollection) => {
+    console.log(newCollection);
+    setMovieMetadata({
+      ...movieMetadata,
+      actors: newCollection.map((actor) => actor.text),
+    });
   };
 
   const onSubmit = (e) => {
@@ -46,6 +55,7 @@ const CreateMovie = () => {
             <DynamicTextBox
               defaultText='Actor'
               collection={[{ text: "Aamir Khan" }]}
+              onCollectionChange={onActorCollectionChange}
               buttonTitle='Add Actor'
             />
 

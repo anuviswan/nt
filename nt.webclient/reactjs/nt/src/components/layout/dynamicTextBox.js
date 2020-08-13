@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 
-const DynamicTextBox = ({ collection, defaultText, buttonTitle }) => {
+const DynamicTextBox = ({
+  collection,
+  defaultText,
+  buttonTitle,
+  onCollectionChange,
+}) => {
   const [currentCollection, setCurrentCollection] = useState(collection);
-  const onChangeHandler = (e) => {
+  const onChange = (e) => {
     const tempCollection = currentCollection;
     tempCollection[parseInt(e.target.name)] = { text: e.target.value };
     setCurrentCollection([...tempCollection]);
+    onCollectionChange(currentCollection);
   };
 
-  const onAddRowClickHandler = (e) => {
+  const onAddRow = (e) => {
     setCurrentCollection([...currentCollection, { text: "" }]);
+    onCollectionChange(currentCollection);
   };
   return (
     <div>
@@ -21,16 +28,12 @@ const DynamicTextBox = ({ collection, defaultText, buttonTitle }) => {
               name={index}
               value={row.text}
               placeholder={defaultText}
-              onChange={onChangeHandler}
+              onChange={onChange}
             />
           </div>
         );
       })}
-      <button
-        type='button'
-        className='btn btn-primary'
-        onClick={onAddRowClickHandler}
-      >
+      <button type='button' className='btn btn-primary' onClick={onAddRow}>
         {buttonTitle}
       </button>
     </div>
