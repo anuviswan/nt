@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
@@ -6,10 +8,11 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class MovieController:BaseController
     {
         private readonly IMovieService _movieService;

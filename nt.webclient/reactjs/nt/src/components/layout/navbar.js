@@ -24,6 +24,9 @@ const Navbar = ({ icon, title }) => {
             <i className='fa fa-search' aria-hidden='true'></i>
           </Link>
         </li>
+        <li>
+          <Link to='/createMovie'>Create Movie</Link>
+        </li>
       </ul>
     </nav>
   );

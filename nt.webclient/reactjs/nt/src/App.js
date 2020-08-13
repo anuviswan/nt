@@ -14,7 +14,7 @@ import Home from "./pages/private/home/home";
 import User from "./pages/private/user/user";
 import EditUser from "./pages/private/user/editUser";
 import ChangePassword from "./pages/private/user/changePassword";
-
+import CreateMovie from "./pages/private/movie/createMovie";
 function App() {
   const privatePages = () => {
     return (
@@ -25,6 +25,7 @@ function App() {
           <PrivateRoute exact path='/home' component={Home} />
           <PrivateRoute exact path='/user' component={User} />
           <PrivateRoute exact path='/edituser' component={EditUser} />
+          <PrivateRoute exact path='/createmovie' component={CreateMovie} />
           <PrivateRoute
             exact
             path='/changepassword'

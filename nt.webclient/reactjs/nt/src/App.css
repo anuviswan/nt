@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 
+.input-group-lg > .form-control,
+.input-group-lg > .input-group-addon,
+.input-group-lg > .input-group-btn > .btn {
+  height: 49px;
+}
+
 /* Global Styles */
 :root {
   --primary-color: #dc3545;
