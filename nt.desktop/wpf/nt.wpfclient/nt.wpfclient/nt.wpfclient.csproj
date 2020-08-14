@@ -137,8 +137,12 @@
       <Project>{83b22315-0525-46be-9f31-2df1ee48dbd7}</Project>
       <Name>Nt.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nt.Utils\Nt.Utils.csproj">
-      <Project>{6A831ADA-782D-4EC6-A43C-D304D8FDC7C9}</Project>
+    <ProjectReference Include="..\Utils\Nt.Utils.Resources\Nt.Utils.Resources.csproj">
+      <Project>{f820d761-37c7-4d19-8be7-c9873bb70b0a}</Project>
+      <Name>Nt.Utils.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj">
+      <Project>{6a831ada-782d-4ec6-a43c-d304d8fdc7c9}</Project>
       <Name>Nt.Utils</Name>
     </ProjectReference>
   </ItemGroup>

@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <!-- Theme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Nt.Utils.Resources;component/Styles/Styles.xaml" />
                 <ResourceDictionary>
                     <bootstrap:BootstrapperUnity x:Key="bootstrapper" />
                 </ResourceDictionary>

@@ -1,15 +1,9 @@
 ﻿using Caliburn.Micro;
-using Nt.Controls.Login;
-using Nt.Utils.ControlInterfaces;
 using Nt.WpfClient.ViewModels;
-using Nt.WpfClient.Views;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Unity;
 using Unity.Lifetime;
