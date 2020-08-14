@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Button.xaml" />
-        <ResourceDictionary Source="Textbox.xaml" />
+        <ResourceDictionary Source="Config.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="NtTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
 </ResourceDictionary>
