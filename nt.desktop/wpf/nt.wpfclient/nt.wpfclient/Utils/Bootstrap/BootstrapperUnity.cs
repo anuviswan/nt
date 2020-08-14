@@ -5,7 +5,9 @@ using Nt.WpfClient.ViewModels;
 using Nt.WpfClient.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -42,6 +44,40 @@ namespace Nt.WpfClient.Utils.Bootstrap
                 _unityContainer.RegisterInstance(vm.GetType(), vm);
             }
 
+            LogManager.GetLog = type => new DebugLogger(type);
+            ConfigureNameTransformer();
+        }
+        public class DebugLogger : ILog
+        {
+            private readonly Type _type;
+
+            public DebugLogger(Type type)
+            {
+                _type = type;
+            }
+
+            public void Info(string format, params object[] args)
+            {
+                if (format.StartsWith("No bindable"))
+                    return;
+                if (format.StartsWith("Action Convention Not Applied"))
+                    return;
+                Debug.WriteLine("INFO: " + format, args);
+            }
+
+            public void Warn(string format, params object[] args)
+            {
+                Debug.WriteLine("WARN: " + format, args);
+            }
+
+            public void Error(Exception exception)
+            {
+                Debug.WriteLine("ERROR: {0}\n{1}", _type.Name, exception);
+            }
+        }
+        private void ConfigureNameTransformer()
+        {
+            ViewLocator.NameTransformer.AddRule("Model$", string.Empty);
         }
 
         protected override void BuildUp(object instance)
@@ -58,6 +94,14 @@ namespace Nt.WpfClient.Utils.Bootstrap
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return _unityContainer.ResolveAll(service);
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            var baseList = base.SelectAssemblies().ToList();
+            var otherAssembliesToSearch = new Assembly[] { typeof(LoginControl).Assembly };
+            baseList.AddRange(otherAssembliesToSearch);
+            return baseList;
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
