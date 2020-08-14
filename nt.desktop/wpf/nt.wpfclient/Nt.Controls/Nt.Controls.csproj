@@ -59,13 +59,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj">
       <Project>{6a831ada-782d-4ec6-a43c-d304d8fdc7c9}</Project>
       <Name>Nt.Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
