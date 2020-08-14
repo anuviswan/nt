@@ -1,16 +1,14 @@
 ﻿using Caliburn.Micro;
-using nt.wpfclient.ViewModels;
-using nt.wpfclient.Views;
+using Nt.WpfClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using Unity;
 using Unity.Lifetime;
 
-namespace nt.wpfclient
+namespace Nt.WpfClient.Utils.Bootstrap
 {
     public class BootstrapperUnity : BootstrapperBase
     {
@@ -30,7 +28,20 @@ namespace nt.wpfclient
             _unityContainer.RegisterInstance<IEventAggregator>(new EventAggregator(), new ContainerControlledLifetimeManager());
 
             //View Models
-            _unityContainer.RegisterInstance<ShellViewModel>(new ShellViewModel());
+            _unityContainer.RegisterInstance(new ShellViewModel());
+
+            foreach (var vm in ViewModelLoader.GetViewModels())
+            {
+                _unityContainer.RegisterInstance(vm.GetType(), vm);
+            }
+
+            LogManager.GetLog = type => new BootstrapLogger(type);
+            ConfigureNameTransformer();
+        }
+        
+        private void ConfigureNameTransformer()
+        {
+            ViewLocator.NameTransformer.AddRule("Model$", string.Empty);
         }
 
         protected override void BuildUp(object instance)
@@ -47,6 +58,14 @@ namespace nt.wpfclient
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return _unityContainer.ResolveAll(service);
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            var baseList = base.SelectAssemblies().ToList();
+            var otherAssembliesToSearch = ViewModelLoader.GetAssemblies();
+            baseList.AddRange(otherAssembliesToSearch);
+            return baseList;
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)

@@ -6,13 +6,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{701082F9-7293-40EA-AE8E-0A0350029054}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>nt.wpfclient</RootNamespace>
+    <RootNamespace>Nt.WpfClient</RootNamespace>
     <AssemblyName>nt.wpfclient</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -92,7 +93,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BootstrapperUnity.cs" />
+    <Compile Include="Utils\Bootstrap\BootstrapLogger.cs" />
+    <Compile Include="Utils\Bootstrap\BootstrapperUnity.cs" />
+    <Compile Include="Utils\Bootstrap\ViewModelLoader.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,12 +126,26 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nt.Controls\Nt.Controls.csproj">
+      <Project>{83b22315-0525-46be-9f31-2df1ee48dbd7}</Project>
+      <Name>Nt.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Nt.Utils.Resources\Nt.Utils.Resources.csproj">
+      <Project>{f820d761-37c7-4d19-8be7-c9873bb70b0a}</Project>
+      <Name>Nt.Utils.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj">
+      <Project>{6a831ada-782d-4ec6-a43c-d304d8fdc7c9}</Project>
+      <Name>Nt.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
