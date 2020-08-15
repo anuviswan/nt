@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Utils\Bootstrap\BootstrapLogger.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapperUnity.cs" />
+    <Compile Include="Utils\Bootstrap\ServiceLoader.cs" />
     <Compile Include="Utils\Bootstrap\ViewModelLoader.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
   </ItemGroup>

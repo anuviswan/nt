@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nt.Controls.Login;
+using Nt.Utils.ServiceInterfaces;
 
 namespace Nt.WpfClient.ViewModels
 {
@@ -12,13 +13,20 @@ namespace Nt.WpfClient.ViewModels
     {
         public ShellViewModel()
         {
-            LoadLoginControl();
+            
         }
 
-        private void LoadLoginControl()
+        protected override void OnViewAttached(object view, object context)
         {
-            ActivateItem(new LoginViewModel());
+            InvokeLogin();
         }
+        private void InvokeLogin()
+        {
+            var windowManager = IoC.Get<IExtendedWindowManager>();
+            windowManager.Show(new LoginViewModel()); 
+        }
+
+      
 
     }
 }
