@@ -59,6 +59,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Utils\Nt.Utils.Resources\Nt.Utils.Resources.csproj">
+      <Project>{f820d761-37c7-4d19-8be7-c9873bb70b0a}</Project>
+      <Name>Nt.Utils.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj">
       <Project>{6a831ada-782d-4ec6-a43c-d304d8fdc7c9}</Project>
       <Name>Nt.Utils</Name>
