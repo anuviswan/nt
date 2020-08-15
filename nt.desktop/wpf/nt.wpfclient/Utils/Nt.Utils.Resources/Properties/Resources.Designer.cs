@@ -61,11 +61,20 @@ namespace Nt.Utils.Resources.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DisplayName.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
-        public static string Username {
+        public static string LL_Common_Password {
             get {
-                return ResourceManager.GetString("Username", resourceCulture);
+                return ResourceManager.GetString("LL_Common_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string LL_Common_Username {
+            get {
+                return ResourceManager.GetString("LL_Common_Username", resourceCulture);
             }
         }
     }
