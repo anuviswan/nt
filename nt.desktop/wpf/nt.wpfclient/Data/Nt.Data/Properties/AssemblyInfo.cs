@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Nt.Utils.Dtos")]
+[assembly: AssemblyTitle("Nt.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Nt.Utils.Dtos")]
+[assembly: AssemblyProduct("Nt.Data")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("258a06ec-cd5f-49fc-94b8-de250c83e7ab")]
+[assembly: Guid("ecdb588e-b5d0-47ac-91fc-3bf76c00fd5b")]
 
 // Version information for an assembly consists of the following four values:
 //
