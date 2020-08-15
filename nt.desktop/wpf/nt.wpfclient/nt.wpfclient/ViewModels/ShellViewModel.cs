@@ -1,11 +1,6 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nt.Controls.Login;
-using Nt.Utils.ServiceInterfaces;
+using Nt.Utils.ExtensionMethods;
 
 namespace Nt.WpfClient.ViewModels
 {
@@ -16,14 +11,17 @@ namespace Nt.WpfClient.ViewModels
             
         }
 
-        protected override void OnViewAttached(object view, object context)
+        protected override void OnViewLoaded(object view)
         {
+            base.OnViewLoaded(view);
             InvokeLogin();
         }
+
+        
         private void InvokeLogin()
         {
-            var windowManager = IoC.Get<IExtendedWindowManager>();
-            windowManager.Show(new LoginViewModel()); 
+            var windowManager = IoC.Get<IWindowManager>();
+            windowManager.ShowNtDialog(new LoginViewModel(),NtWindowSize.SmallLandscape); 
         }
 
       
