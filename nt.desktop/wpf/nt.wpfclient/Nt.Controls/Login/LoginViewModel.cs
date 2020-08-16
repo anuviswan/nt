@@ -18,6 +18,7 @@ namespace Nt.Controls.Login
             if(string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
             {
                 //TODO: Raise Error MEssage
+                return;
             }
 
             var request = new AuthenticateRequest
@@ -32,9 +33,11 @@ namespace Nt.Controls.Login
             if (response.HasError)
             {
                 ErrorMessage = response.ErrorMessage;
+                return;
             }
+            var currentUserService = IoC.Get<ICurrentUserService>();
+            currentUserService.UserName = response.UserName;
+            currentUserService.DisplayName = response.DisplayName;
         }
-
-
     }
 }
