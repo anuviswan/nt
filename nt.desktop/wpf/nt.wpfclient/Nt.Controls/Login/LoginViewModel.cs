@@ -12,6 +12,7 @@ namespace Nt.Controls.Login
         public string UserName { get; set; }
         public string Password { get; set; }
 
+        public string ErrorMessage { get; set; }
         public async Task Authenticate()
         {
             if(string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
@@ -27,6 +28,11 @@ namespace Nt.Controls.Login
 
             var httpService = IoC.Get<IHttpService>();
             var response = await httpService.PostAsync<AuthenticateRequest,AuthenticateResponse>(HttpUtils.ValidateUserUrl, request);
+
+            if (response.HasError)
+            {
+                ErrorMessage = response.ErrorMessage;
+            }
         }
 
 

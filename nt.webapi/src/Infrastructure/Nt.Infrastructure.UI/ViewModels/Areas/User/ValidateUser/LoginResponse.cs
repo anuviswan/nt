@@ -11,6 +11,7 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser
         public string AuthenticationToken { get; set; }
         public string DisplayName { get; set; }
         public string ErrorMessage { get; set; }
+        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public string Token { get; set; }
         public string Bio { get; set; }
     }

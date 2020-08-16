@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Dto\Authenticate\AuthenticateRequest.cs" />
     <Compile Include="Dto\Authenticate\AuthenticateResponse.cs" />
+    <Compile Include="Dto\BaseDto\BaseRequest.cs" />
+    <Compile Include="Dto\BaseDto\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,5 +52,6 @@
       <Version>4.7.2</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -34,6 +34,8 @@
                 <Button Content="Login" Style="{StaticResource NtButton}" HorizontalAlignment="Right" cal:Message.Attach="[Event Click]=[Action Authenticate]"/>
             </StackPanel>
 
+            <Label Content="{Binding ErrorMessage}"/>
+
         </StackPanel>
         
     </Grid>
