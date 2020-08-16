@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -59,13 +56,29 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Nt.Data\Nt.Data.csproj">
+      <Project>{ECDB588E-B5D0-47AC-91FC-3BF76C00FD5B}</Project>
+      <Name>Nt.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Nt.Utils.Resources\Nt.Utils.Resources.csproj">
+      <Project>{f820d761-37c7-4d19-8be7-c9873bb70b0a}</Project>
+      <Name>Nt.Utils.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj">
       <Project>{6a831ada-782d-4ec6-a43c-d304d8fdc7c9}</Project>
       <Name>Nt.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="Caliburn.Micro.Core">
+      <Version>3.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody">
+      <Version>3.2.8</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

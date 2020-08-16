@@ -1,24 +1,41 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Nt.Controls.Login;
+using Nt.Utils.ExtensionMethods;
+using Nt.Utils.ServiceInterfaces;
+using System;
+using System.Windows;
 
 namespace Nt.WpfClient.ViewModels
 {
     public class ShellViewModel:Conductor<object>
     {
+        private ICurrentUserService _currentUserService;
+
         public ShellViewModel()
         {
-            LoadLoginControl();
+            
         }
 
-        private void LoadLoginControl()
+        protected override void OnViewLoaded(object view)
         {
-            ActivateItem(new LoginViewModel());
+            base.OnViewLoaded(view);
+            InvokeLogin();
+            _currentUserService = IoC.Get<ICurrentUserService>();
+            if (!_currentUserService.IsAuthenticated)
+            { 
+                Application.Current.Shutdown(); 
+            }
+           
         }
+
+        
+        private void InvokeLogin()
+        {
+            var windowManager = IoC.Get<IWindowManager>();
+            windowManager.ShowNtDialog(new LoginViewModel(),NtWindowSize.SmallLandscape); 
+        }
+
+      
 
     }
 }

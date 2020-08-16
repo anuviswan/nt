@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nt.Controls.Login"
+             xmlns:localize="clr-namespace:Nt.Utils.Resources.Properties;assembly=Nt.Utils.Resources"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:LoginViewModel}"
+             xmlns:cal="http://www.caliburnproject.org"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel Margin="10">
@@ -13,8 +16,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Username"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource NtTextBox}"/>
+                <Label Grid.Column="0" Grid.Row="0"  Content = "{x:Static localize:Resources.LL_Common_Username}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource NtTextBox}" Text="{Binding UserName}"/>
             </Grid>
 
             <Grid Margin="5">
@@ -22,14 +25,16 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Password"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource NtTextBox}"/>
+                <Label Grid.Column="0" Grid.Row="0" Content="{x:Static localize:Resources.LL_Common_Password}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource NtTextBox}" Text="{Binding Password}"/>
             </Grid>
 
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button Content="Login" Style="{StaticResource NtButton}" HorizontalAlignment="Right"/>
+                <Button Content="Login" Style="{StaticResource NtButton}" HorizontalAlignment="Right" cal:Message.Attach="[Event Click]=[Action Authenticate]"/>
             </StackPanel>
+
+            <Label Content="{Binding ErrorMessage}" Style="{StaticResource NtErrorMessage}" HorizontalAlignment="Center"/>
 
         </StackPanel>
         

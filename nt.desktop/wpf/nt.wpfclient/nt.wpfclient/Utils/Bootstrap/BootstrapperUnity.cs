@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Nt.Utils.ServiceInterfaces;
 using Nt.WpfClient.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,15 @@ namespace Nt.WpfClient.Utils.Bootstrap
         protected override void Configure()
         {
             _unityContainer = new UnityContainer();
-            _unityContainer.RegisterInstance<IWindowManager>(new WindowManager());
+            _unityContainer.RegisterInstance((Caliburn.Micro.IWindowManager)new WindowManager());
             _unityContainer.RegisterInstance<IEventAggregator>(new EventAggregator(), new ContainerControlledLifetimeManager());
+
+            // Register Services
+            ServiceLoader.RegisterServices(_unityContainer);
 
             //View Models
             _unityContainer.RegisterInstance(new ShellViewModel());
+
 
             foreach (var vm in ViewModelLoader.GetViewModels())
             {
@@ -37,6 +42,7 @@ namespace Nt.WpfClient.Utils.Bootstrap
 
             LogManager.GetLog = type => new BootstrapLogger(type);
             ConfigureNameTransformer();
+
         }
         
         private void ConfigureNameTransformer()
@@ -67,6 +73,7 @@ namespace Nt.WpfClient.Utils.Bootstrap
             baseList.AddRange(otherAssembliesToSearch);
             return baseList;
         }
+
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
