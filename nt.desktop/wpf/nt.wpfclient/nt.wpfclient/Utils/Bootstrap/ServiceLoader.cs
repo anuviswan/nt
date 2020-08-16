@@ -9,6 +9,7 @@ namespace Nt.WpfClient.Utils.Bootstrap
         public static void RegisterServices(IUnityContainer unityContainer)
         {
             unityContainer.RegisterSingleton<ICurrentUserService,CurrentUserService>();
+            unityContainer.RegisterSingleton<IHttpService, HttpService>();
         }
     }
 }
