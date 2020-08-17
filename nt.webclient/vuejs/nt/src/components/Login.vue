@@ -1,8 +1,8 @@
 <template>
-  <div class="card rounded shadow shadow-sm">
-    <div class="card-header bg-primary">
-      <div class="card-title">
-        <h3 class="mb-0">Sign In</h3>
+  <div class="card card-block rounded shadow shadow-sm">
+    <div class="card-header bg-primary text-light text-uppercase">
+      <div class="card-title  align-middle">
+        <h5 class="mb-0">Sign In</h5>
       </div>
     </div>
     <div class="card-body">
@@ -21,15 +21,25 @@
             placeholder="Password"
           />
         </div>
+
+        <div class="form-group">
+          <input
+            type="submit"
+            class="btn btn-block btn-primary"
+            value="Submit"
+          />
+        </div>
       </form>
-      <div>Sign up</div>
+      <div>
+        Not a member ? <router-link to="/register">Sign up here</router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
 };
 </script>
 
