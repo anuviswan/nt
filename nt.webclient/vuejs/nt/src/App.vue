@@ -1,20 +1,13 @@
 <template>
-  <div id="app">
-    <div class="text-danger">
-      <i class="fas fa-5x fa-video" />
-    </div>
-    <Home />
+  <div id="app" class="container-fluid">
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Home from "./pages/Home.vue";
-
 export default {
   name: "App",
-  components: {
-    Home,
-  },
+  components: {},
 };
 </script>
 
@@ -26,5 +19,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#app > .row {
+  min-height: 100vh;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
 }
 </style>
