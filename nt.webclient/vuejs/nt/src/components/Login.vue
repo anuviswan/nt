@@ -6,10 +6,21 @@
       </div>
     </div>
     <div class="card-body">
-      <form class="form needs-validation">
-        <input type="text" name="userName" placeholder="UserName" />
-        <input type="password" name="passKey" placeholder="Password" />
-        <input type="submit" value="Login" class="bg-primary btn-block" />
+      <form class="form  needs-validation">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control block"
+            placeholder="Username"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control block"
+            placeholder="Password"
+          />
+        </div>
       </form>
       <div>Sign up</div>
     </div>
@@ -22,5 +33,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style scoped></style>
