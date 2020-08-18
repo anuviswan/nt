@@ -11,30 +11,61 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form  needs-validation">
+          <form class="form  needs-validation" @submit="onSubmit">
             <div class="form-group">
               <input
                 type="text"
-                class="form-control block"
+                v-bind:class="
+                  hasError('userName')
+                    ? 'form-control block is-invalid'
+                    : 'form-control block'
+                "
                 placeholder="Username"
               />
             </div>
+            <div
+              v-bind:class="
+                hasError('userName') ? 'text-danger text-left' : 'd-none'
+              "
+            >
+              <small>Username cannot be empty</small>
+            </div>
             <div class="form-group">
               <input
                 type="password"
-                class="form-control block"
+                v-bind:class="
+                  hasError('password')
+                    ? 'form-control block is-invalid'
+                    : 'form-control block'
+                "
                 placeholder="Password"
               />
             </div>
-
+            <div
+              v-bind:class="
+                hasError('password') ? 'text-danger text-left' : 'd-none'
+              "
+            >
+              <small>Password cannot be empty</small>
+            </div>
             <div class="form-group">
               <input
                 type="password"
-                class="form-control block"
+                v-bind:class="
+                  hasError('confirmPassword')
+                    ? 'form-control block is-invalid'
+                    : 'form-control block'
+                "
                 placeholder="Confirm Password"
               />
             </div>
-
+            <div
+              v-bind:class="
+                hasError('confirmPassword') ? 'text-danger text-left' : 'd-none'
+              "
+            >
+              <small>Password does not match</small>
+            </div>
             <div class="form-group">
               <input
                 type="submit"
@@ -54,8 +85,50 @@
 </template>
 
 <script>
+//import axios from 'axios';
 export default {
   name: 'Register',
+  data() {
+    return {
+      errors: [],
+      userName: '',
+      password: '',
+      confirmPassword: '',
+    };
+  },
+  methods: {
+    hasError(key) {
+      console.log(this.errors.indexOf(key) != -1);
+      return this.errors.indexOf(key) != -1;
+    },
+    async onSubmit(e) {
+      e.preventDefault();
+
+      if (this.validateForm()) {
+        // has Error
+        console.log(this.errors);
+        return;
+      }
+    },
+    validateForm() {
+      let errorFlag = false;
+      if (!this.userName) {
+        this.errors.push('userName');
+        errorFlag = true;
+      }
+
+      if (!this.password) {
+        this.errors.push('password');
+        errorFlag = true;
+      }
+
+      if (this.password === this.confirmPassword) {
+        this.errors.push('confirmPassword');
+        errorFlag = true;
+      }
+      return errorFlag;
+    },
+  },
 };
 </script>
 
