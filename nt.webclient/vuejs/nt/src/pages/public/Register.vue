@@ -15,6 +15,7 @@
             <div class="form-group">
               <input
                 type="text"
+                v-model="userName"
                 v-bind:class="
                   hasError('userName')
                     ? 'form-control block is-invalid'
@@ -33,6 +34,7 @@
             <div class="form-group">
               <input
                 type="password"
+                v-model="password"
                 v-bind:class="
                   hasError('password')
                     ? 'form-control block is-invalid'
@@ -51,6 +53,7 @@
             <div class="form-group">
               <input
                 type="password"
+                v-model="confirmPassword"
                 v-bind:class="
                   hasError('confirmPassword')
                     ? 'form-control block is-invalid'
@@ -98,35 +101,35 @@ export default {
   },
   methods: {
     hasError(key) {
-      console.log(this.errors.indexOf(key) != -1);
       return this.errors.indexOf(key) != -1;
     },
     async onSubmit(e) {
       e.preventDefault();
 
-      if (this.validateForm()) {
+      if (!this.validateForm()) {
         // has Error
-        console.log(this.errors);
+        console.log(this.userName);
         return;
       }
     },
     validateForm() {
-      let errorFlag = false;
+      let isValidFlag = true;
+      this.errors = [];
       if (!this.userName) {
         this.errors.push('userName');
-        errorFlag = true;
+        isValidFlag = false;
       }
 
       if (!this.password) {
         this.errors.push('password');
-        errorFlag = true;
+        isValidFlag = false;
       }
 
       if (this.password === this.confirmPassword) {
         this.errors.push('confirmPassword');
-        errorFlag = true;
+        isValidFlag = false;
       }
-      return errorFlag;
+      return isValidFlag;
     },
   },
 };
