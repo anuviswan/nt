@@ -6,20 +6,45 @@
       </div>
     </div>
     <div class="card-body">
-      <form class="form  needs-validation">
+      <form class="form  needs-validation" @submit="onSubmit">
         <div class="form-group">
           <input
             type="text"
-            class="form-control block"
+            v-model="userName"
+            v-bind:class="
+              hasError('userName')
+                ? 'form-control block is-invalid'
+                : 'form-control block'
+            "
             placeholder="Username"
           />
+        </div>
+        <div
+          v-bind:class="
+            hasError('userName') ? 'text-danger text-left' : 'd-none'
+          "
+        >
+          <small>Username cannot be empty</small>
         </div>
         <div class="form-group">
           <input
             type="password"
-            class="form-control block"
+            v-model="password"
+            v-bind:class="
+              hasError('password')
+                ? 'form-control block is-invalid'
+                : 'form-control block'
+            "
             placeholder="Password"
           />
+        </div>
+
+        <div
+          v-bind:class="
+            hasError('password') ? 'text-danger text-left' : 'd-none'
+          "
+        >
+          <small>Password cannot be empty</small>
         </div>
 
         <div class="form-group">
@@ -42,8 +67,36 @@ export default {
   name: 'Login',
   data() {
     return {
-      errrors: [],
+      errors: [],
+      userName: '',
+      password: '',
     };
+  },
+  methods: {
+    hasError(key) {
+      return this.errors.indexOf(key) != -1;
+    },
+    onSubmit(e) {
+      e.preventDefault();
+      if (this.validateForm()) {
+        return;
+      }
+    },
+    validateForm() {
+      let isValidFlag = true;
+      this.errors = [];
+
+      if (!this.userName) {
+        this.errors.push('userName');
+        isValidFlag = false;
+      }
+
+      if (!this.password) {
+        this.errors.push('password');
+        isValidFlag = false;
+      }
+      return isValidFlag;
+    },
   },
 };
 </script>
