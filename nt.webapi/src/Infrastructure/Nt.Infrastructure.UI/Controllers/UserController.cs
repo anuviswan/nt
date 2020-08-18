@@ -94,7 +94,6 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
         [HttpPost]
         [Route("CreateUser")]
-        [Authorize]
         public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
         {
             try

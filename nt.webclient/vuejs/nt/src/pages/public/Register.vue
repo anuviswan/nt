@@ -1,17 +1,15 @@
 <template>
   <div class="row">
-    <div class="col-lg-9">
-      More details will come here - UNDER CONSTRUCTION
-    </div>
+    <div class="col-lg-9">More details will come here - UNDER CONSTRUCTION</div>
     <div class="col-lg-3">
       <div class="card card-block rounded shadow shadow-sm">
         <div class="card-header bg-primary text-light text-uppercase">
-          <div class="card-title  align-middle">
+          <div class="card-title align-middle">
             <h5 class="mb-0">Sign Up</h5>
           </div>
         </div>
         <div class="card-body">
-          <form class="form  needs-validation" @submit="onSubmit">
+          <form class="form needs-validation" @submit="onSubmit">
             <div class="form-group">
               <input
                 type="text"
@@ -70,11 +68,7 @@
               <small>Password does not match</small>
             </div>
             <div class="form-group">
-              <input
-                type="submit"
-                class="btn btn-block btn-primary"
-                value="Submit"
-              />
+              <input type="submit" class="btn btn-block btn-primary" value="Submit" />
             </div>
           </form>
           <div>
@@ -88,15 +82,15 @@
 </template>
 
 <script>
-//import axios from 'axios';
+import axios from "axios";
 export default {
-  name: 'Register',
+  name: "Register",
   data() {
     return {
       errors: [],
-      userName: '',
-      password: '',
-      confirmPassword: '',
+      userName: "",
+      password: "",
+      confirmPassword: "",
     };
   },
   methods: {
@@ -111,22 +105,36 @@ export default {
         console.log(this.userName);
         return;
       }
+
+      const userDetails = {
+        userName: this.userName,
+        passKey: this.password,
+        displayName: this.userName,
+      };
+      const response = await axios.post(
+        "https://localhost:44353/api/User/CreateUser",
+        userDetails
+      );
+
+      console.log(response.data);
     },
     validateForm() {
       let isValidFlag = true;
       this.errors = [];
       if (!this.userName) {
-        this.errors.push('userName');
+        this.errors.push("userName");
         isValidFlag = false;
       }
 
       if (!this.password) {
-        this.errors.push('password');
+        this.errors.push("password");
         isValidFlag = false;
       }
 
-      if (this.password === this.confirmPassword) {
-        this.errors.push('confirmPassword');
+      if (this.password != this.confirmPassword) {
+        console.log(this.password);
+        console.log(this.confirmPassword);
+        this.errors.push("confirmPassword");
         isValidFlag = false;
       }
       return isValidFlag;
