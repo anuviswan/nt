@@ -1,35 +1,103 @@
 <template>
-  <div class="card rounded shadow shadow-sm">
-    <div class="card-header bg-primary">
-      <div class="card-title">
-        <h3 class="mb-0">Sign In</h3>
+  <div class="card card-block rounded shadow shadow-sm">
+    <div class="card-header bg-primary text-light text-uppercase">
+      <div class="card-title  align-middle">
+        <h5 class="mb-0">Sign In</h5>
       </div>
     </div>
     <div class="card-body">
-      <form class="form  needs-validation">
+      <form class="form  needs-validation" @submit="onSubmit">
         <div class="form-group">
           <input
             type="text"
-            class="form-control block"
+            v-model="userName"
+            v-bind:class="
+              hasError('userName')
+                ? 'form-control block is-invalid'
+                : 'form-control block'
+            "
             placeholder="Username"
           />
+        </div>
+        <div
+          v-bind:class="
+            hasError('userName') ? 'text-danger text-left' : 'd-none'
+          "
+        >
+          <small>Username cannot be empty</small>
         </div>
         <div class="form-group">
           <input
             type="password"
-            class="form-control block"
+            v-model="password"
+            v-bind:class="
+              hasError('password')
+                ? 'form-control block is-invalid'
+                : 'form-control block'
+            "
             placeholder="Password"
           />
         </div>
+
+        <div
+          v-bind:class="
+            hasError('password') ? 'text-danger text-left' : 'd-none'
+          "
+        >
+          <small>Password cannot be empty</small>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="submit"
+            class="btn btn-block btn-primary"
+            value="Submit"
+          />
+        </div>
       </form>
-      <div>Sign up</div>
+      <div>
+        Not a member ? <router-link to="/register">Sign up here</router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
+  data() {
+    return {
+      errors: [],
+      userName: '',
+      password: '',
+    };
+  },
+  methods: {
+    hasError(key) {
+      return this.errors.indexOf(key) != -1;
+    },
+    onSubmit(e) {
+      e.preventDefault();
+      if (this.validateForm()) {
+        return;
+      }
+    },
+    validateForm() {
+      let isValidFlag = true;
+      this.errors = [];
+
+      if (!this.userName) {
+        this.errors.push('userName');
+        isValidFlag = false;
+      }
+
+      if (!this.password) {
+        this.errors.push('password');
+        isValidFlag = false;
+      }
+      return isValidFlag;
+    },
+  },
 };
 </script>
 
