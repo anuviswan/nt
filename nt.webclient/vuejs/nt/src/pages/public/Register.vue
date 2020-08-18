@@ -67,8 +67,12 @@
             >
               <small>Password does not match</small>
             </div>
+
             <div class="form-group">
               <input type="submit" class="btn btn-block btn-primary" value="Submit" />
+            </div>
+            <div v-bind:class="showServerMessage()">
+              <small>{{serverMessage}}</small>
             </div>
           </form>
           <div>
@@ -91,11 +95,22 @@ export default {
       userName: "",
       password: "",
       confirmPassword: "",
+      serverMessage: "",
+      hasServerError: false,
     };
   },
   methods: {
     hasError(key) {
       return this.errors.indexOf(key) != -1;
+    },
+    showServerMessage() {
+      if (!this.serverMessage) {
+        return "d-none";
+      }
+
+      return this.hasServerError
+        ? "text-danger text-left"
+        : "text-success text-left";
     },
     async onSubmit(e) {
       e.preventDefault();
@@ -116,7 +131,13 @@ export default {
         userDetails
       );
 
-      console.log(response.data);
+      this.hasServerError = response.data.hasError;
+      if (this.hasServerError) {
+        this.serverMessage = response.data.errorMessage;
+      } else {
+        this.serverMessage = "User created successfully.";
+      }
+      console.log(this.showServerMessage());
     },
     validateForm() {
       let isValidFlag = true;
@@ -132,8 +153,6 @@ export default {
       }
 
       if (this.password != this.confirmPassword) {
-        console.log(this.password);
-        console.log(this.confirmPassword);
         this.errors.push("confirmPassword");
         isValidFlag = false;
       }
