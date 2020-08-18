@@ -8,5 +8,6 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser
         public string UserName { get; set; }
         public string DisplayName { get; set; }
         public string ErrorMessage { get; set; }
+        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
     }
 }
