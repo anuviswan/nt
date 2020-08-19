@@ -6,14 +6,17 @@
              xmlns:local="clr-namespace:Nt.Controls.Navbar"
              xmlns:localize="clr-namespace:Nt.Utils.Resources.Properties;assembly=Nt.Utils.Resources"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:NavbarViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="DarkGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="{x:Static localize:Resources.LL_Common_AppTitle}"/>
+        <TextBlock Text="{x:Static localize:Resources.LL_Common_AppTitle}"
+                   FontSize="16" FontWeight="Bold" Foreground="White"/>
+        <TextBlock Grid.Column="2" Text="{Binding UserName}"/>
     </Grid>
 </UserControl>
