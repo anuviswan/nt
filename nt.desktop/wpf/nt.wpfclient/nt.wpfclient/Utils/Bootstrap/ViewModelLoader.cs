@@ -12,7 +12,15 @@ namespace Nt.WpfClient.Utils.Bootstrap
         public static IEnumerable<Assembly> GetAssemblies()=>new Assembly[] { typeof(LoginControl).Assembly};
         public static IEnumerable<NtViewModelBase> GetViewModels() => typeof(LoginControl).Assembly
                 .GetTypes()
-                .Where(x => typeof(NtControlBase).IsAssignableFrom(x))
-                .Select(x => Activator.CreateInstance(x)).Cast<NtControlBase>().Select(x => x.ViewModel);
+                .Where(x => typeof(NtControlBase<>).IsAssignableFrom(x))
+                .Select(x => x.GetGenericArguments().First()).Select(x=> (NtViewModelBase)Activator.CreateInstance(x));
+
+        private static object CreateGenericControl(Type typeArguement)
+        {
+            var d1 = typeof(NtControlBase<>);
+            Type[] typeArgs = { typeArguement };
+            var makeme = d1.MakeGenericType(typeArgs);
+            return Activator.CreateInstance(makeme);
+        }
     }
 }

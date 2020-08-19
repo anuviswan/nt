@@ -47,10 +47,16 @@
   <ItemGroup>
     <Compile Include="Login\LoginControl.cs" />
     <Compile Include="Login\LoginViewModel.cs" />
+    <Compile Include="Navbar\NavbarControl.cs" />
+    <Compile Include="Navbar\NavbarViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Login\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Navbar\NavbarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,5 +86,6 @@
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

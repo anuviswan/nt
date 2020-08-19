@@ -61,6 +61,15 @@ namespace Nt.Utils.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to November Talkies.
+        /// </summary>
+        public static string LL_Common_AppTitle {
+            get {
+                return ResourceManager.GetString("LL_Common_AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string LL_Common_Password {
