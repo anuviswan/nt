@@ -1,8 +1,4 @@
-﻿using Caliburn.Micro;
-using Nt.Data.Dto.Authenticate;
-using Nt.Utils.ControlInterfaces;
-using Nt.Utils.Helper;
-using Nt.Utils.ServiceInterfaces;
+﻿using Nt.Utils.ControlInterfaces;
 using System.Threading.Tasks;
 
 namespace Nt.Controls.Login
@@ -20,7 +16,13 @@ namespace Nt.Controls.Login
                 SetErrorState("Username or password cannot be empty");
                 return;
             }
-           await TypedControl.Authenticate(UserName, Password).ConfigureAwait(false);
+            var isAuthenticated = await TypedControl.Authenticate(UserName, Password).ConfigureAwait(false);
+
+            if (isAuthenticated)
+            {
+                TryClose(true);
+                return;
+            }
         }
 
         public void SetErrorState(string message)

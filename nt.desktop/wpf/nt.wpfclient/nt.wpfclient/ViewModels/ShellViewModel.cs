@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Nt.Controls.Login;
+using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.ServiceInterfaces;
@@ -18,6 +19,8 @@ namespace Nt.WpfClient.ViewModels
             
         }
 
+        public NtViewModelBase Navbar { get; set; }
+
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
@@ -27,6 +30,8 @@ namespace Nt.WpfClient.ViewModels
             { 
                 Application.Current.Shutdown(); 
             }
+
+            Navbar = IoC.Get<NavbarControl>().ViewModel;
            
         }
 

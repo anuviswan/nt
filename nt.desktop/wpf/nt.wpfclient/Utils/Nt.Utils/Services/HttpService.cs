@@ -1,4 +1,5 @@
-﻿using Nt.Utils.ServiceInterfaces;
+﻿using Nt.Utils.Helper;
+using Nt.Utils.ServiceInterfaces;
 using RestSharp;
 using RestSharp.Authenticators;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace Nt.Utils.Services
         public async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest request)
         {
             var restRequest = new RestRequest(url, Method.POST);
+            restRequest.JsonSerializer = new RestSharpJsonNetSerializer();
             restRequest.AddJsonBody(request);
             var response = await _restClient.PostAsync<TResponse>(restRequest);
             return response;

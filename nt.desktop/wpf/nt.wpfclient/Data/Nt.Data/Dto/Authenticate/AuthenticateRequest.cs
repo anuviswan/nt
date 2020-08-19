@@ -1,12 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace Nt.Data.Dto.Authenticate
 {
     public class AuthenticateRequest
     {
-        [JsonPropertyName("userName")]
+        [JsonProperty("userName")]
         public string Username { get; set; }
-        [JsonPropertyName("passKey")]
+        [JsonProperty("passKey")]
         public string Password { get; set; }
     }
 }

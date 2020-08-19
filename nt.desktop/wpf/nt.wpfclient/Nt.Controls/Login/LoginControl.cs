@@ -18,11 +18,11 @@ namespace Nt.Controls.Login
 
         }
 
-        public async Task Authenticate(string userName,string password)
+        public async Task<bool> Authenticate(string userName,string password)
         {
             var request = new AuthenticateRequest
             {
-                Password = password,
+                Password = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(password)),
                 Username = userName
             };
 
@@ -33,11 +33,12 @@ namespace Nt.Controls.Login
             if (response.HasError)
             {
                 ViewModel.SetErrorState(response.ErrorMessage);
-                return;
+                return false;
             }
             var currentUserService = IoC.Get<ICurrentUserService>();
             currentUserService.UserName = response.UserName;
             currentUserService.DisplayName = response.DisplayName;
+            return true;
         }
     }
 }
