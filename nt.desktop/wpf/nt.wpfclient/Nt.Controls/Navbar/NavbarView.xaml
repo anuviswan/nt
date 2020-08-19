@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="{x:Static localize:Resources.LL_Common_AppTitle}"
-                   FontSize="16" FontWeight="Bold" Foreground="White"/>
-        <TextBlock Grid.Column="2" Text="{Binding UserName}"/>
+               VerticalAlignment="Center"  FontSize="16" FontWeight="Bold" Foreground="White"/>
+        <TextBlock Grid.Column="2" Text="{Binding UserName}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

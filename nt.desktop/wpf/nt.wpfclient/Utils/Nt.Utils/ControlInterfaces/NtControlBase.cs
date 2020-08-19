@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nt.Utils.ControlInterfaces
 {
-    public abstract class NtControlBase
+    public abstract class NtControlBase : Screen
     {
 
     }

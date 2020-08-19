@@ -43,7 +43,5 @@ namespace Nt.WpfClient.ViewModels
             windowManager.ShowNtDialog(loginControl.ViewModel,NtWindowSize.SmallLandscape); 
         }
 
-      
-
     }
 }
