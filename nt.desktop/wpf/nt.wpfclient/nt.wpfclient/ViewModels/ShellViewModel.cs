@@ -3,6 +3,7 @@ using Nt.Controls.Login;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.ServiceInterfaces;
 using System;
+using System.Web.UI.WebControls;
 using System.Windows;
 
 namespace Nt.WpfClient.ViewModels
@@ -32,7 +33,8 @@ namespace Nt.WpfClient.ViewModels
         private void InvokeLogin()
         {
             var windowManager = IoC.Get<IWindowManager>();
-            windowManager.ShowNtDialog(new LoginViewModel(),NtWindowSize.SmallLandscape); 
+            var loginControl = IoC.Get<LoginControl>();
+            windowManager.ShowNtDialog(loginControl.ViewModel,NtWindowSize.SmallLandscape); 
         }
 
       

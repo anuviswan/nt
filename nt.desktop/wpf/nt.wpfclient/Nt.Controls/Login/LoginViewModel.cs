@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nt.Controls.Login
 {
-    public class LoginViewModel:NtViewModelBase
+    public class LoginViewModel:NtViewModelBase<LoginControl>
     {
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -17,27 +17,15 @@ namespace Nt.Controls.Login
         {
             if(string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
             {
-                //TODO: Raise Error MEssage
+                SetErrorState("Username or password cannot be empty");
                 return;
             }
+           await TypedControl.Authenticate(UserName, Password).ConfigureAwait(false);
+        }
 
-            var request = new AuthenticateRequest
-            {
-                Password = Password,
-                Username = UserName
-            };
-
-            var httpService = IoC.Get<IHttpService>();
-            var response = await httpService.PostAsync<AuthenticateRequest,AuthenticateResponse>(HttpUtils.ValidateUserUrl, request);
-
-            if (response.HasError)
-            {
-                ErrorMessage = response.ErrorMessage;
-                return;
-            }
-            var currentUserService = IoC.Get<ICurrentUserService>();
-            currentUserService.UserName = response.UserName;
-            currentUserService.DisplayName = response.DisplayName;
+        public void SetErrorState(string message)
+        {
+            ErrorMessage = message;
         }
     }
 }
