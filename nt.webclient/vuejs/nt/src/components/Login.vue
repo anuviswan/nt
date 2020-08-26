@@ -64,6 +64,7 @@
 
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -76,6 +77,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["updateCurrentUser"]),
     hasError(key) {
       return this.errors.indexOf(key) != -1;
     },
@@ -107,7 +109,13 @@ export default {
           return;
         }
 
-        console.log(response.data);
+        this.updateCurrentUser({
+          userName: response.data.userName,
+          token: response.data.token,
+        });
+
+        console.log("User authenticated and updated, redirecting now..");
+        this.$router.push("dashboard");
       }
     },
     validateForm() {
