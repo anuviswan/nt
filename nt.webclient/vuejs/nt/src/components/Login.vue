@@ -64,7 +64,7 @@
 
 <script>
 import axios from "axios";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -76,6 +76,7 @@ export default {
       hasServerError: false,
     };
   },
+  computed: mapGetters(["currentUser"]),
   methods: {
     ...mapActions(["updateCurrentUser"]),
     hasError(key) {

@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../pages/Home";
 import Register from "../pages/public/Register";
 import Dashboard from "../pages/private/Dashboard";
+import users from "../store/modules/user";
 
 Vue.use(VueRouter);
 
@@ -11,11 +12,17 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      requiresAuthentication: false,
+    },
   },
   {
     path: "/register",
     name: "Register",
     component: Register,
+    meta: {
+      requiresAuthentication: false,
+    },
   },
   {
     path: "/about",
@@ -25,16 +32,35 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    meta: {
+      requiresAuthentication: false,
+    },
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: {
+      requiresAuthentication: true,
+    },
   },
 ];
 
 const router = new VueRouter({
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuthentication)) {
+    const currentUserToken = users.state.currentUser.token;
+    if (currentUserToken) {
+      next();
+    } else {
+      next("/");
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
