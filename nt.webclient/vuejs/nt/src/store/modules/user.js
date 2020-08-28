@@ -10,8 +10,11 @@ const getters = {
 
 const actions = {
   updateCurrentUser({ commit }, user) {
-    console.log(user);
     commit("updateCurrentUser", user);
+  },
+  isAuthenticated() {
+    if (state.currentUser.token) return true;
+    return false;
   },
 };
 

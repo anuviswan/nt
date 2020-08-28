@@ -52,8 +52,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuthentication)) {
-    const currentUserToken = users.state.currentUser.token;
-    if (currentUserToken) {
+    if (users.actions.isAuthenticated()) {
       next();
     } else {
       next("/");
