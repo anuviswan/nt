@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Register from "../pages/public/Register";
 import Dashboard from "../pages/private/Dashboard";
 import users from "../store/modules/user";
+import PrivateContainer from "../pages/private/PrivateContainer";
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,7 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-      requiresAuthentication: false,
+      requiresAuth: false,
     },
   },
   {
@@ -21,7 +22,7 @@ const routes = [
     name: "Register",
     component: Register,
     meta: {
-      requiresAuthentication: false,
+      requiresAuth: false,
     },
   },
   {
@@ -33,15 +34,26 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
     meta: {
-      requiresAuthentication: false,
+      requiresAuth: false,
     },
+  },
+  {
+    path: "/p",
+    name: "PrivateContainer",
+    component: PrivateContainer,
+    children: [
+      {
+        path: "dashboard",
+        component: Dashboard,
+      },
+    ],
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
     meta: {
-      requiresAuthentication: true,
+      requiresAuth: true,
     },
   },
 ];
@@ -51,7 +63,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuthentication)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (users.actions.isAuthenticated()) {
       next();
     } else {
