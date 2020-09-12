@@ -1,16 +1,10 @@
 <template>
-  <div>
-    <Navbar />
-    <h1>User has successfully logged in, This is Dashboard</h1>
-  </div>
+  <h1>User has successfully logged in, This is Dashboard</h1>
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
-
 export default {
   name: "Dashboard",
-  components: { Navbar },
 };
 </script>
 

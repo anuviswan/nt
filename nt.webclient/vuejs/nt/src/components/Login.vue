@@ -116,7 +116,7 @@ export default {
         });
 
         console.log("User authenticated and updated, redirecting now..");
-        this.$router.push("dashboard");
+        this.$router.push("p/dashboard");
       }
     },
     validateForm() {

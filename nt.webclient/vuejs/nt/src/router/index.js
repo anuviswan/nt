@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Register from "../pages/public/Register";
 import Dashboard from "../pages/private/Dashboard";
 import users from "../store/modules/user";
+import PrivateContainer from "../pages/private/PrivateContainer";
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,17 @@ const routes = [
     meta: {
       requiresAuth: false,
     },
+  },
+  {
+    path: "/p",
+    name: "PrivateContainer",
+    component: PrivateContainer,
+    children: [
+      {
+        path: "dashboard",
+        component: Dashboard,
+      },
+    ],
   },
   {
     path: "/dashboard",
