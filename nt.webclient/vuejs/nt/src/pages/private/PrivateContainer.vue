@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <h1>User has successfully logged in, This is Dashboard</h1>
+    <router-view></router-view>
   </div>
 </template>
 
