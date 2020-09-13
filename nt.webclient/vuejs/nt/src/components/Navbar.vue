@@ -29,10 +29,10 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" v-bind:href="`p/user/` + currentUser.userName">
+          <router-link v-bind:to="`user/${currentUser.userName}`">
             {{ currentUser.userName }}
             <span class="sr-only">(current)</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
