@@ -40,6 +40,9 @@ import UserCard from "../../../components/user/UserCard";
 export default {
   name: "ViewProfile",
   components: { UserCard },
+  created: function () {
+    console.log(this.$route.params.userid);
+  },
 };
 </script>
 
