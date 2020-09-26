@@ -5,7 +5,6 @@ using Nt.Domain.ServiceContracts.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Nt.Application.Services.User
@@ -39,7 +38,7 @@ namespace Nt.Application.Services.User
             }
 
             var userSearchResult = await SearchUserAsync(userName).ConfigureAwait(false);
-            if (userSearchResult.Count() == 1)
+            if (userSearchResult.Count() == 1 && userSearchResult.Single().UserName.ToLower() == userName.ToLower())
                 return userSearchResult.First();
 
             throw new Exception("Multiple user found");
