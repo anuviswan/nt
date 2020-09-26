@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-4 col-lg-2 col-lx-2">
-      <UserCard :user="{this.userName,this.displayName,this.bio}" />
+      <UserCard :user="this.userName" />
     </div>
     <div class="col-md-8 col-lg-10 col-lx-10">
       <div class="card">
@@ -46,8 +46,8 @@ export default {
     };
   },
   created: function () {
-    console.log(this.$route.params.userid);
-    this.userName = this.$route.params.userid;
+    // console.log(this.$route.params.userid);
+    // this.userName = this.$route.params.userid;
   },
 };
 </script>
