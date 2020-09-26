@@ -5,7 +5,7 @@ import Register from "../pages/public/Register";
 import Dashboard from "../pages/private/Dashboard";
 import users from "../store/modules/user";
 import PrivateContainer from "../pages/private/PrivateContainer";
-
+import ViewProfile from "../pages/private/user/ViewProfile";
 Vue.use(VueRouter);
 
 const routes = [
@@ -26,35 +26,22 @@ const routes = [
     },
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
     path: "/p",
     name: "PrivateContainer",
     component: PrivateContainer,
+    meta: {
+      requiresAuth: true,
+    },
     children: [
       {
         path: "dashboard",
         component: Dashboard,
       },
+      {
+        path: "user/:userid",
+        component: ViewProfile,
+      },
     ],
-  },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
-    meta: {
-      requiresAuth: true,
-    },
   },
 ];
 

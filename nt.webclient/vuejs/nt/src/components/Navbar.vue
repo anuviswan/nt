@@ -1,7 +1,5 @@
 <template>
-  <nav
-    class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top py-0"
-  >
+  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top py-0">
     <a class="navbar-brand" href="#">November Talkies</a>
     <button
       class="navbar-toggler"
@@ -31,10 +29,13 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="#">
-            {{ $store.getters.currentUser.userName }}
+          <router-link
+            class="nav-link btn dropdown-toggle"
+            v-bind:to="`user/${currentUser.userName}`"
+          >
+            {{ currentUser.userName }}
             <span class="sr-only">(current)</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -46,7 +47,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Navbar",
-  computed: mapGetters["currentUser"],
+  computed: mapGetters(["currentUser"]),
 };
 </script>
 
