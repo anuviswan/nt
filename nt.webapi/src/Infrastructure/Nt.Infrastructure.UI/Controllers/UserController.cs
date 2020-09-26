@@ -67,8 +67,20 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [Route("GetUser")]
         public async Task<UserProfileResponse> GetUser(string userName)
         {
-            var userFound = await _userManagementService.GetUserAsync(userName);
-            return Mapper.Map<UserProfileResponse>(userFound);
+            try
+            {
+                var userFound = await _userManagementService.GetUserAsync(userName);
+                return Mapper.Map<UserProfileResponse>(userFound);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return new UserProfileResponse { ErrorMessage = "Username not found" };
+            }
+            catch(Exception ex)
+            {
+                return new UserProfileResponse { ErrorMessage = ex.Message };
+            }
+            
         }
 
         /// <summary>
