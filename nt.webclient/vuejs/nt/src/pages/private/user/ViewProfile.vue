@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-4 col-lg-2 col-lx-2">
-      <UserCard />
+      <UserCard :user="{this.userName,this.displayName,this.bio}" />
     </div>
     <div class="col-md-8 col-lg-10 col-lx-10">
       <div class="card">
@@ -40,8 +40,14 @@ import UserCard from "../../../components/user/UserCard";
 export default {
   name: "ViewProfile",
   components: { UserCard },
+  data() {
+    return {
+      userName: "",
+    };
+  },
   created: function () {
     console.log(this.$route.params.userid);
+    this.userName = this.$route.params.userid;
   },
 };
 </script>

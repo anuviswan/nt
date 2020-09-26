@@ -5,6 +5,7 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
 using Nt.Infrastructure.WebApi.Authentication;
+using Nt.Infrastructure.WebApi.Profiles;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
@@ -44,7 +45,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         }
 
         /// <summary>
-        /// Validate User Login Request
+        /// Search for users
         /// </summary>
         /// <param name="partialString">Partial username to be searched</param>
         /// <returns>Collection of Users who matches partial user name</returns>
@@ -54,6 +55,20 @@ namespace Nt.Infrastructure.WebApi.Controllers
         {
             var usersFound = await _userManagementService.SearchUserAsync(partialString);
             return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
+        }
+
+
+        /// <summary>
+        /// Get User based on UserName
+        /// </summary>
+        /// <param name="userName">Username to search for</param>
+        /// <returns>Returns User Profile if Single User found. Throws exception otherwise.</returns>
+        [HttpGet]
+        [Route("GetUser")]
+        public async Task<UserProfileResponse> GetUser(string userName)
+        {
+            var userFound = await _userManagementService.GetUserAsync(userName);
+            return Mapper.Map<UserProfileResponse>(userFound);
         }
 
         /// <summary>

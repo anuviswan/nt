@@ -33,6 +33,20 @@
 <script>
 export default {
   name: "UserCard",
+  props: {
+    userName: {
+      required: true,
+    },
+  },
+  data() {
+    return {
+      selectedUser: "",
+    };
+  },
+  created() {
+    this.selectedUser = this.userName;
+    console.log(this.selectedUser);
+  },
 };
 </script>
 

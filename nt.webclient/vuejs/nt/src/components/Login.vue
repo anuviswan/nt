@@ -112,6 +112,8 @@ export default {
 
         this.updateCurrentUser({
           userName: response.data.userName,
+          displayName: response.data.displayName,
+          bio: response.data.bio,
           token: response.data.token,
         });
 

@@ -1,4 +1,5 @@
-﻿using Nt.Domain.Entities.User;
+﻿using Nt.Domain.Entities.Exceptions;
+using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.User;
 using System;
@@ -27,13 +28,23 @@ namespace Nt.Application.Services.User
 
         public async Task<IEnumerable<UserProfileEntity>> GetAllUsersAsync()
         {
-            return await UnitOfWork.UserProfileRepository.GetAsync();
+            return await UnitOfWork.UserProfileRepository.GetAsync().ConfigureAwait(false);
         }
 
-        public Task<UserProfileEntity> GetUserAsync(UserProfileEntity user)
+        public async Task<UserProfileEntity> GetUserAsync(string userName)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var userSearchResult = await SearchUserAsync(userName).ConfigureAwait(false);
+            if (userSearchResult.Count() == 1)
+                return userSearchResult.First();
+
+            throw new Exception("Multiple user found");
         }
+
 
         public async Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName)
         {

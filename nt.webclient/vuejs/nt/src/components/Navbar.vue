@@ -29,7 +29,10 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <router-link v-bind:to="`user/${currentUser.userName}`">
+          <router-link
+            class="nav-link btn dropdown-toggle"
+            v-bind:to="`user/${currentUser.userName}`"
+          >
             {{ currentUser.userName }}
             <span class="sr-only">(current)</span>
           </router-link>
