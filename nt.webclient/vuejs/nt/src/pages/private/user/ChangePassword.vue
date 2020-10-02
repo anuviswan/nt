@@ -5,16 +5,16 @@
         <EditUserMenu />
       </div>
       <div class="col-sm-8 col-md-8 col-lg-10">
-        <div>Edit User Profile Details here</div>
+        <div>Change Password here</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import EditUserMenu from "../../../components/user/EditUserMenu";
+import EditUserMenu from "../../../components/user/EditUserMenu.vue";
 export default {
-  name: "EditProfile",
+  name: "ChangePassword",
   components: {
     EditUserMenu,
   },

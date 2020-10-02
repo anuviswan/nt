@@ -1,10 +1,14 @@
 <template>
-  <ul className="list-group">
+  <ul class="list-group">
     <li>
-      <router-link to="/edit" class="list-group-item">Edit Profile</router-link>
+      <router-link to="./edit" class="list-group-item"
+        >Edit Profile</router-link
+      >
     </li>
     <li>
-      <router-link to="/chpwd" class="list-group-item list-group-item-secondary"
+      <router-link
+        to="./chpwd"
+        class="list-group-item list-group-item-secondary"
         >Change Password</router-link
       >
     </li>

@@ -7,6 +7,7 @@ import users from "../store/modules/user";
 import PrivateContainer from "../pages/private/PrivateContainer";
 import ViewProfile from "../pages/private/user/ViewProfile";
 import EditProfile from "../pages/private/user/EditProfile";
+import ChangePassword from "../pages/private/user/ChangePassword";
 Vue.use(VueRouter);
 
 const routes = [
@@ -45,6 +46,10 @@ const routes = [
       {
         path: "user/:userid/edit",
         component: EditProfile,
+      },
+      {
+        path: "user/:userid/chpwd",
+        component: ChangePassword,
       },
     ],
   },
