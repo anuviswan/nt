@@ -1,6 +1,11 @@
 <template>
   <div class="card border-primary mb-3">
-    Edit User
+    <router-link
+      exact
+      v-bind:to="`/p/user/${this.userName}/edit`"
+      v-if="isEditable()"
+      >Edit User</router-link
+    >
     <div class="card-avataar">
       <img
         class="card-img-top rounded-circle img-thumbnail"
@@ -35,6 +40,7 @@
 
 <script>
 import Axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "UserCard",
   props: {
@@ -50,6 +56,12 @@ export default {
       rating: 0,
     };
   },
+  methods: {
+    isEditable() {
+      return this.userName == this.currentUser.userName;
+    },
+  },
+  computed: mapGetters(["currentUser"]),
   async created() {
     this.selectedUser = this.userName;
     console.log(this.selectedUser);

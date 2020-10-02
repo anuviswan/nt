@@ -6,6 +6,7 @@ import Dashboard from "../pages/private/Dashboard";
 import users from "../store/modules/user";
 import PrivateContainer from "../pages/private/PrivateContainer";
 import ViewProfile from "../pages/private/user/ViewProfile";
+import EditProfile from "../pages/private/user/EditProfile";
 Vue.use(VueRouter);
 
 const routes = [
@@ -40,6 +41,10 @@ const routes = [
       {
         path: "user/:userid",
         component: ViewProfile,
+      },
+      {
+        path: "user/:userid/edit",
+        component: EditProfile,
       },
     ],
   },
