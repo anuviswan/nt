@@ -10,7 +10,10 @@
     </div>
 
     <div class="card-body mx-auto">
-      <h4 class="card-title block text-uppercase text-center">Display Name</h4>User Name
+      <h4 class="card-title block text-uppercase text-center">
+        {{ this.displayName }}
+      </h4>
+      {{ this.selectedUser }}
       <!-- <Rating value="{5}" totalStars="{5}" /> -->
     </div>
 
@@ -26,11 +29,12 @@
         <div class="col-lg-4 card-metadata-footer text-center">Followers</div>
       </div>
     </div>
-    <div class="card-body mx-auto"></div>
+    <div class="card-body mx-auto">{{ this.bio }}</div>
   </div>
 </template>
 
 <script>
+import Axios from "axios";
 export default {
   name: "UserCard",
   props: {
@@ -41,11 +45,24 @@ export default {
   data() {
     return {
       selectedUser: "",
+      displayName: "",
+      bio: "",
+      rating: 0,
     };
   },
-  created() {
+  async created() {
     this.selectedUser = this.userName;
     console.log(this.selectedUser);
+
+    var response = await Axios.get("https://localhost:44353/api/User/GetUser", {
+      params: { userName: this.selectedUser },
+    });
+    console.log(response);
+    if (!response.data.hasError) {
+      this.displayName = response.data.displayName;
+      this.bio = response.data.bio;
+      this.rating = response.data.rating;
+    }
   },
 };
 </script>
