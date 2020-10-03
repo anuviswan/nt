@@ -10,7 +10,7 @@
             Edit User Profile
           </div>
           <div class="card-body">
-            <form class="form needs-validation" @submit="onSubmit">
+            <form class="form needs-validation" v-on:submit="onSubmit">
               <div class="form-group">
                 <label for="userName">User Name</label>
                 <input
@@ -50,7 +50,7 @@
               </div>
               <div class="form-group">
                 <div v-bind:class="showServerMessage()">
-                  <small>{{ serverMessage }}</small>
+                  <small>{{ this.serverMessage }}</small>
                 </div>
               </div>
             </form>
@@ -118,6 +118,7 @@ export default {
           this.serverMessage = response.data.errorMessage;
           return;
         }
+        this.serverMessage = "User Profile updated successfully";
       }
       console.log(this.errors);
     },
@@ -141,13 +142,14 @@ export default {
       return isValidFlag;
     },
     showServerMessage() {
+      console.log(this.serverMessage);
       if (!this.serverMessage) {
-        return "d-none";
+        return "d-none justify-content-center";
       }
 
       return this.hasServerError
-        ? "text-danger text-left"
-        : "text-success text-left";
+        ? "text-danger justify-content-center"
+        : "text-success justify-content-center";
     },
   },
 };
@@ -173,5 +175,10 @@ textarea {
 .form-group label {
   text-align: left;
   float: left;
+}
+
+.form-group small {
+  text-align: center;
+  float: none;
 }
 </style>
