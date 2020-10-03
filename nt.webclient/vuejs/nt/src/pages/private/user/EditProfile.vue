@@ -64,7 +64,7 @@
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu";
 import axios from "axios";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "EditProfile",
   components: {
@@ -90,6 +90,7 @@ export default {
   },
   computed: mapGetters(["currentUser"]),
   methods: {
+    ...mapActions(["updateCurrentUser"]),
     async onSubmit(e) {
       e.preventDefault();
       if (this.validateForm()) {
@@ -118,6 +119,14 @@ export default {
           this.serverMessage = response.data.errorMessage;
           return;
         }
+
+        this.updateCurrentUser({
+          userName: this.userName,
+          displayName: response.data.displayName,
+          bio: response.data.bio,
+          token: this.authToken,
+        });
+
         this.serverMessage = "User Profile updated successfully";
       }
       console.log(this.errors);
