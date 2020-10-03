@@ -15,7 +15,7 @@
                 <label for="userName">User Name</label>
                 <input
                   type="text"
-                  v-model="userName"
+                  v-bind:placeholder="userName"
                   name="userName"
                   readOnly
                 />
@@ -58,6 +58,7 @@
 
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu";
+import { mapGetters } from "vuex";
 export default {
   name: "EditProfile",
   components: {
@@ -71,6 +72,12 @@ export default {
       errors: [],
     };
   },
+  created: function () {
+    this.userName = this.$route.params.userid;
+    this.displayName = this.currentUser.displayName;
+    this.bio = this.currentUser.bio;
+  },
+  computed: mapGetters(["currentUser"]),
   methods: {
     onSubmit(e) {
       e.preventDefault();
