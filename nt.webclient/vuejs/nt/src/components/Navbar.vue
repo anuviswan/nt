@@ -1,5 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top py-0">
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top py-0"
+  >
     <a class="navbar-brand" href="#">November Talkies</a>
     <button
       class="navbar-toggler"
@@ -31,7 +33,8 @@
         <li class="nav-item active">
           <router-link
             class="nav-link btn dropdown-toggle"
-            v-bind:to="`user/${currentUser.userName}`"
+            exact
+            v-bind:to="`/p/user/${currentUser.userName}`"
           >
             {{ currentUser.userName }}
             <span class="sr-only">(current)</span>

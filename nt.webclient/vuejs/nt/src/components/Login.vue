@@ -48,10 +48,14 @@
         </div>
 
         <div class="form-group">
-          <input type="submit" class="btn btn-block btn-primary" value="Submit" />
+          <input
+            type="submit"
+            class="btn btn-block btn-primary"
+            value="Submit"
+          />
         </div>
         <div v-bind:class="showServerMessage()">
-          <small>{{serverMessage}}</small>
+          <small>{{ serverMessage }}</small>
         </div>
       </form>
       <div>
@@ -83,6 +87,7 @@ export default {
       return this.errors.indexOf(key) != -1;
     },
     showServerMessage() {
+      console.log(this.serverMessage);
       if (!this.serverMessage) {
         return "d-none";
       }
@@ -118,7 +123,7 @@ export default {
         });
 
         console.log("User authenticated and updated, redirecting now..");
-        this.$router.push("p/dashboard");
+        this.$router.push("/p/dashboard");
       }
     },
     validateForm() {
