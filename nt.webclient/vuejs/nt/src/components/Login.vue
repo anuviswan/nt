@@ -87,6 +87,7 @@ export default {
       return this.errors.indexOf(key) != -1;
     },
     showServerMessage() {
+      console.log(this.serverMessage);
       if (!this.serverMessage) {
         return "d-none";
       }

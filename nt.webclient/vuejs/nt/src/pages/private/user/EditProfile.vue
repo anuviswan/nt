@@ -48,6 +48,11 @@
               <div class="form-group">
                 <input type="submit" value="Update" />
               </div>
+              <div class="form-group">
+                <div v-bind:class="showServerMessage()">
+                  <small>{{ serverMessage }}</small>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -58,6 +63,7 @@
 
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu";
+import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   name: "EditProfile",
@@ -66,23 +72,52 @@ export default {
   },
   data() {
     return {
+      authToken: "",
       userName: "sampleUserName",
       displayName: "sample Display Name",
       bio: "sample Bio",
       errors: [],
+      serverMessage: "",
+      hasServerError: false,
     };
   },
   created: function () {
+    console.log(this.currentUser);
     this.userName = this.$route.params.userid;
+    this.authToken = this.currentUser.token;
     this.displayName = this.currentUser.displayName;
     this.bio = this.currentUser.bio;
   },
   computed: mapGetters(["currentUser"]),
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault();
       if (this.validateForm()) {
-        console.log("no error");
+        console.log("User Profile Update:Submiting data....");
+
+        const headers = {
+          "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+          "Content-Type": "application/json", // this shows the expected content type
+          Authorization: `Bearer ${this.authToken}`,
+        };
+
+        const updatedUserRecord = {
+          displayName: this.displayName,
+          bio: this.bio,
+        };
+
+        var response = await axios.post(
+          "https://localhost:44353/api/User/UpdateUser",
+          updatedUserRecord,
+          { headers: headers }
+        );
+        console.log(response);
+        if (response.data.hasError) {
+          this.hasServerError = response.data.hasError;
+          this.serverMessage = response.data.errorMessage;
+          return;
+        }
       }
       console.log(this.errors);
     },
@@ -90,7 +125,7 @@ export default {
       return this.errors.indexOf(key) != -1;
     },
     validateForm() {
-      let isValidFlag = false;
+      let isValidFlag = true;
       this.errors = [];
 
       if (!this.displayName) {
@@ -104,6 +139,15 @@ export default {
       }
 
       return isValidFlag;
+    },
+    showServerMessage() {
+      if (!this.serverMessage) {
+        return "d-none";
+      }
+
+      return this.hasServerError
+        ? "text-danger text-left"
+        : "text-success text-left";
     },
   },
 };
