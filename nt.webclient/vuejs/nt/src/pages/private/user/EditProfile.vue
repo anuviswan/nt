@@ -10,7 +10,7 @@
             Edit User Profile
           </div>
           <div class="card-body">
-            <form class="form needs-validation">
+            <form class="form needs-validation" @submit="onSubmit">
               <div class="form-group">
                 <label for="userName">User Name</label>
                 <input
@@ -22,11 +22,28 @@
               </div>
               <div class="form-group">
                 <label for="displayName">Display Name</label>
-                <input type="text" v-model="displayName" name="displayName" />
+                <input
+                  type="text"
+                  v-model="displayName"
+                  name="displayName"
+                  v-bind:class="
+                    hasError('displayName')
+                      ? 'form-control block is-invalid'
+                      : 'form-control block'
+                  "
+                />
               </div>
               <div class="form-group">
                 <label for="bio">Bio</label>
-                <textarea v-model="bio" name="bio" />
+                <textarea
+                  v-model="bio"
+                  name="bio"
+                  v-bind:class="
+                    hasError('bio')
+                      ? 'form-control block is-invalid'
+                      : 'form-control block'
+                  "
+                />
               </div>
               <div class="form-group">
                 <input type="submit" value="Update" />
@@ -51,7 +68,36 @@ export default {
       userName: "sampleUserName",
       displayName: "sample Display Name",
       bio: "sample Bio",
+      errors: [],
     };
+  },
+  methods: {
+    onSubmit(e) {
+      e.preventDefault();
+      if (this.validateForm()) {
+        console.log("no error");
+      }
+      console.log(this.errors);
+    },
+    hasError(key) {
+      return this.errors.indexOf(key) != -1;
+    },
+    validateForm() {
+      let isValidFlag = false;
+      this.errors = [];
+
+      if (!this.displayName) {
+        this.errors.push("displayName");
+        isValidFlag = false;
+      }
+
+      if (!this.bio) {
+        this.errors.push("bio");
+        isValidFlag = false;
+      }
+
+      return isValidFlag;
+    },
   },
 };
 </script>
