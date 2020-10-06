@@ -5,14 +5,14 @@
         <EditUserMenu />
       </div>
       <div class="col-sm-8 col-md-8 col-lg-10">
-        <div className="card">
-          <div className="card-header">
+        <div class="card">
+          <div class="card-header">
             <div class="card-header font-weight-bold text-uppercase">
               Change Password
             </div>
           </div>
-          <div className="card-body">
-            <form className="form needs-validation" v-on:submit="onSubmit">
+          <div class="card-body">
+            <form class="form needs-validation" v-on:submit="onSubmit">
               <div class="form-group">
                 <label for="oldPassword">Old Password</label>
                 <input
@@ -30,7 +30,7 @@
               <div class="form-group">
                 <label for="newPassword">New Password</label>
                 <input
-                  type="password"
+                  type="text"
                   name="newPassword"
                   v-model="newPassword"
                   v-bind:class="
@@ -44,7 +44,7 @@
               <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <input
-                  type="password"
+                  type="text"
                   name="confirmPassword"
                   v-model="confirmPassword"
                   v-bind:class="
@@ -57,6 +57,11 @@
 
               <div class="form-group">
                 <input type="submit" value="Update Password" />
+              </div>
+              <div class="form-group">
+                <div v-bind:class="showServerMessage()">
+                  <small>{{ this.serverMessage }}</small>
+                </div>
               </div>
             </form>
           </div>
@@ -72,18 +77,64 @@ export default {
   name: "ChangePassword",
   data() {
     return {
+      authToken: "",
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
       errors: [],
+      serverMessage: "",
+      hasServerError: false,
     };
   },
   components: {
     EditUserMenu,
   },
   methods: {
+    onSubmit(e) {
+      e.preventDefault();
+      if (this.validateForm()) {
+        console.log("Changing Password....");
+      } else {
+        console.log(this.oldPassword);
+        console.log("not valid");
+        console.log(this.errors);
+      }
+    },
     hasError(key) {
+      console.log(key + (this.errors.indexOf(key) != -1));
       return this.errors.indexOf(key) != -1;
+    },
+    validateForm() {
+      let isValidFlag = true;
+      this.errors = [];
+
+      if (!this.newPassword) {
+        this.errors.push("newPassword");
+        isValidFlag = false;
+      }
+
+      if (!this.confirmPassword) {
+        this.errors.push("confirmPassword");
+        isValidFlag = false;
+      }
+
+      if (this.newPassword != this.confirmPassword) {
+        this.errors.push("newPassword");
+        this.errors.push("confirmPassword");
+        isValidFlag = false;
+      }
+
+      return isValidFlag;
+    },
+    showServerMessage() {
+      console.log(this.serverMessage);
+      if (!this.serverMessage) {
+        return "d-none justify-content-center";
+      }
+
+      return this.hasServerError
+        ? "text-danger justify-content-center"
+        : "text-success justify-content-center";
     },
   },
 };
