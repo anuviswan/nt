@@ -6,10 +6,8 @@
       </div>
       <div class="col-sm-8 col-md-8 col-lg-10">
         <div class="card">
-          <div class="card-header">
-            <div class="card-header font-weight-bold text-uppercase">
-              Change Password
-            </div>
+          <div class="card-header font-weight-bold text-uppercase">
+            Change Password
           </div>
           <div class="card-body">
             <form class="form needs-validation" v-on:submit="onSubmit">
@@ -73,6 +71,8 @@
 
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu.vue";
+import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "ChangePassword",
   data() {
@@ -89,15 +89,51 @@ export default {
   components: {
     EditUserMenu,
   },
+  computed: mapGetters(["currentUser"]),
+  created: function () {
+    this.authToken = this.currentUser.token;
+  },
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault();
       if (this.validateForm()) {
         console.log("Changing Password....");
+
+        const headers = {
+          "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+          "Content-Type": "application/json", // this shows the expected content type
+          Authorization: `Bearer ${this.authToken}`,
+        };
+        var updatedRecord = {
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword,
+        };
+        var response = await axios.post(
+          "https://localhost:44353/api/User/ChangePassword",
+          updatedRecord,
+          { headers: headers }
+        );
+
+        console.log(response);
+        console.log(response.errors);
+
+        // TODO:This handling of model validation would be replaced
+        if (response.errors) {
+          this.serverMessage = response.errors.shift();
+          this.hasServerError = true;
+          return;
+        } else {
+          if (response.data.errors) {
+            this.hasServerError = response.data.hasError;
+            this.serverMessage = response.data.errorMessage;
+            return;
+          }
+
+          this.serverMessage = "Password has been changed successfully.";
+        }
       } else {
-        console.log(this.oldPassword);
         console.log("not valid");
-        console.log(this.errors);
       }
     },
     hasError(key) {
