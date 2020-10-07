@@ -32,9 +32,7 @@ namespace Nt.WpfClient.ViewModels
             }
 
             Navbar = IoC.Get<NavbarControl>().ViewModel;
-           
         }
-
         
         private void InvokeLogin()
         {
