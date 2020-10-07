@@ -92,7 +92,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         [Theory]
         [MemberData(nameof(ChangePasswordTestSuccessTestData))]
-        public async Task UpdateUserTestSuccess(ChangePasswordRequest request, ChangePasswordResponse expectedResponse)
+        public async Task ChangePasswordTestSuccess(ChangePasswordRequest request, ChangePasswordResponse expectedResponse)
         {
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
