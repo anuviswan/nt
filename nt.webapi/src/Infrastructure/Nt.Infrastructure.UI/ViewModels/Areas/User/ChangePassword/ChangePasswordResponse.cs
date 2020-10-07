@@ -9,5 +9,6 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword
     public class ChangePasswordResponse : IErrorInfo
     {
         public string ErrorMessage { get; set; }
+        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
     }
 }
