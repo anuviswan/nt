@@ -58,6 +58,7 @@
     <Compile Include="ControlInterfaces\NtViewModelBase.cs" />
     <Compile Include="Controls\NtWindowManager\NtWindowManagerViewModel.cs" />
     <Compile Include="ExtensionMethods\IWindowManagerExtentions.cs" />
+    <Compile Include="Helper\Enumerations\Direction.cs" />
     <Compile Include="Helper\HttpUtils.cs" />
     <Compile Include="Helper\RestSharpJsonNetSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

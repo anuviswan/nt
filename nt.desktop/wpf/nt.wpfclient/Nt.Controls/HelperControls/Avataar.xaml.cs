@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nt.Utils.Helper.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,17 +26,26 @@ namespace Nt.Controls.HelperControls
             InitializeComponent();
         }
 
-
-
         public string UserName
         {
             get { return (string)GetValue(UserNameProperty); }
             set { SetValue(UserNameProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for UserName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UserNameProperty =
-            DependencyProperty.Register("UserName", typeof(string), typeof(Avataar), new PropertyMetadata("Naina"));
+            DependencyProperty.Register(nameof(UserName), typeof(string), typeof(Avataar), new PropertyMetadata("Naina"));
+
+
+
+
+        public Direction ImagePosition
+        {
+            get { return (Direction)GetValue( ImagePositionProperty); }
+            set { SetValue(ImagePositionProperty, value); }
+        }
+
+        public static readonly DependencyProperty ImagePositionProperty =
+            DependencyProperty.Register(nameof(ImagePosition), typeof(Direction), typeof(Avataar), new PropertyMetadata(Direction.Left));
 
 
     }
