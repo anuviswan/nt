@@ -48,6 +48,7 @@
     <Compile Include="HelperControls\Avataar.xaml.cs">
       <DependentUpon>Avataar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HelperControls\AvataarContentTemplateSelector.cs" />
     <Compile Include="Login\LoginControl.cs" />
     <Compile Include="Login\LoginViewModel.cs" />
     <Compile Include="Navbar\NavbarControl.cs" />
