@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JExtensions" Version="1.0.0.100" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Domain\Nt.Domain.Entities\Nt.Domain.Entities.csproj" />
     <ProjectReference Include="..\..\Domain\Nt.Domain.RepositoryContracts\Nt.Domain.RepositoryContracts.csproj" />
     <ProjectReference Include="..\..\Domain\Nt.Domain.ServiceContracts\Nt.Domain.ServiceContracts.csproj" />

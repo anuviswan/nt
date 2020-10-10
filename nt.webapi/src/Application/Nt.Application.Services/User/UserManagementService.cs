@@ -1,4 +1,5 @@
-﻿using Nt.Domain.Entities.Exceptions;
+﻿using JExtensions.Linq;
+using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.User;
@@ -38,7 +39,8 @@ namespace Nt.Application.Services.User
             }
 
             var userSearchResult = await SearchUserAsync(userName).ConfigureAwait(false);
-            if (userSearchResult.Count() == 1 && userSearchResult.Single().UserName.ToLower() == userName.ToLower())
+
+            if (userSearchResult.ContainsExactly(1) && userSearchResult.Single().UserName.ToLower() == userName.ToLower())
                 return userSearchResult.First();
 
             throw new Exception("Multiple user found");
