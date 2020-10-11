@@ -47,8 +47,8 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
             else
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
-                return base.CreateErrorResponse<CreateMovieResponse>(string.Join(Environment.NewLine, errrorMessages));
+                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage)).ToArray();
+                return base.CreateErrorResponse<CreateMovieResponse>(errrorMessages);
             }
         }
     }

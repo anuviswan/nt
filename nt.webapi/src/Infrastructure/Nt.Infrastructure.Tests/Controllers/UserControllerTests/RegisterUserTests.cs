@@ -43,27 +43,22 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             mockUserProfileService.Setup(x => x.CreateUserAsync(It.IsAny<UserProfileEntity>())).Returns(Task.FromResult(userProfileEntity));
 
             var userController = new UserController(Mapper,mockUserProfileService.Object,null,null);
+            MockModelState(request, userController);
             var result = await userController.CreateUser(request);
 
-            if (result is IErrorInfo errorInfo && expectedResult is IErrorInfo expectedErrorInfo)
-            {
-                Assert.Equal(expectedErrorInfo.HasError, errorInfo.HasError);
-                Assert.Equal(expectedErrorInfo.ErrorMessage, errorInfo.ErrorMessage);
-            }
-            else
-            {
-                // TODO: Fail here
-            }
-            
+            Assert.Equal(expectedResult.HasError, result.HasError);
+            Assert.Equal(expectedResult.Errors.Count, result.Errors.Count);
+            Assert.True(expectedResult.Errors.All(result.Errors.Contains));
+
             Assert.Equal(expectedResult.UserName, result.UserName);
 
         }
 
         public static IEnumerable<object[]> RegisterUserTestData => new List<object[]>
         {
-            new object[]{ new CreateUserProfileRequest { UserName = "username2" },new CreateUserProfileResponse { UserName = "username2", ErrorMessage = "Password cannot be empty or whitespace" } },
-            new object[]{ new CreateUserProfileRequest { UserName = "username2",PassKey=" " },new CreateUserProfileResponse { UserName = "username2", ErrorMessage = "Password cannot be empty or whitespace" } },
-            new object[]{ new CreateUserProfileRequest { UserName = "NewUser", PassKey = "Dummy" }, new CreateUserProfileResponse { UserName = "NewUser" } },
+            new object[]{ new CreateUserProfileRequest { UserName = "username2" },new CreateUserProfileResponse { UserName = "username2", Errors = new List<string> { "Password cannot be empty" } } },
+            new object[]{ new CreateUserProfileRequest { UserName = "username2",PassKey=" " },new CreateUserProfileResponse { UserName = "username2", Errors = new List<string> { "Password cannot be empty" } } },
+            new object[]{ new CreateUserProfileRequest { UserName = "NewUser", PassKey = "Dummy1234" }, new CreateUserProfileResponse { UserName = "NewUser" } },
         };
 
 
@@ -78,15 +73,9 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var userController = new UserController(Mapper, mockUserProfileService.Object, null,null);
             var result = await userController.CreateUser(request);
 
-            if (result is IErrorInfo errorInfo && expectedResult is IErrorInfo expectedErrorInfo)
-            {
-                Assert.Equal(expectedErrorInfo.HasError, errorInfo.HasError);
-                Assert.Equal(expectedErrorInfo.ErrorMessage, errorInfo.ErrorMessage);
-            }
-            else
-            {
-                // TODO: Fail here
-            }
+            Assert.Equal(expectedResult.HasError, result.HasError);
+            Assert.Equal(expectedResult.Errors.Count, result.Errors.Count);
+            Assert.True(expectedResult.Errors.All(result.Errors.Contains));
 
             Assert.Equal(expectedResult.UserName, result.UserName);
 
@@ -94,8 +83,16 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         public static IEnumerable<object[]> RegisterUserTestDataUserExistException => new List<object[]>
         {
-            new object[]{ new CreateUserProfileRequest { UserName = "username2",PassKey="Dummy"},new CreateUserProfileResponse { UserName = "username2", ErrorMessage = "User already exists" } },
-            new object[]{ new CreateUserProfileRequest { UserName = "UserName2", PassKey = "Dummy" }, new CreateUserProfileResponse { UserName = "UserName2", ErrorMessage = "User already exists" } },
+            new object[]
+            {
+                new CreateUserProfileRequest { UserName = "username2",PassKey="Dummy"},
+                new CreateUserProfileResponse { UserName = "username2", Errors = new List<string>{ "User already exists" } }
+            },
+            new object[]
+            { 
+                new CreateUserProfileRequest { UserName = "UserName2", PassKey = "Dummy" }, 
+                new CreateUserProfileResponse { UserName = "UserName2", Errors = new List<string>{ "User already exists" } } 
+            },
         };
     }
 }

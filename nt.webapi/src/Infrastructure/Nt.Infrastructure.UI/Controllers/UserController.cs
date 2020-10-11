@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
@@ -74,11 +75,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
             catch (EntityNotFoundException ex)
             {
-                return new UserProfileResponse { ErrorMessage = "Username not found" };
+                return CreateErrorResponse<UserProfileResponse>("Username not found");
             }
             catch(Exception ex)
             {
-                return new UserProfileResponse { ErrorMessage = ex.Message };
+                return CreateErrorResponse<UserProfileResponse>(ex.Message);
             }
             
         }
@@ -106,11 +107,17 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
             catch (InvalidPasswordOrUsernameException ex)
             {
-                return new LoginResponse { IsAuthenticated = false, ErrorMessage = ex.Message };
+                var response = base.CreateErrorResponse<LoginResponse>(ex.Message);
+                response.IsAuthenticated = false;
+
+                return response;
             }
             catch
             {
-                return new LoginResponse { IsAuthenticated = false, ErrorMessage = "Unknown Exception" };
+                var response = base.CreateErrorResponse<LoginResponse>("Unknown Exception");
+                response.IsAuthenticated = false;
+
+                return response;
             }
         }
 
@@ -125,16 +132,14 @@ namespace Nt.Infrastructure.WebApi.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(user.PassKey))
+                if (!ModelState.IsValid)
                 {
-                    var userReponse = new CreateUserProfileResponse
-                    {
-                        UserName = user.UserName,
-                        DisplayName = user.DisplayName
-                    };
-                    userReponse.ErrorMessage = "Password cannot be empty or whitespace";
-                    return userReponse;
+                    var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage)).ToArray();
+                    var response = CreateErrorResponse<CreateUserProfileResponse>(errrorMessages);
+                    response.UserName = user.UserName;
+                    return response;
                 }
+
                 var userEntity = Mapper.Map<UserProfileEntity>(user);
 
                 userEntity.UserName = userEntity.UserName.ToLower();
@@ -144,13 +149,19 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
             catch (UserNameExistsException e)
             {
-                var userReponse = new CreateUserProfileResponse
-                {
-                    UserName = user.UserName,
-                    DisplayName = user.DisplayName
-                };
-                userReponse.ErrorMessage = "User already exists";
-                return userReponse;
+                var userResponse = CreateErrorResponse<CreateUserProfileResponse>("User already exists");
+                userResponse.UserName = user.UserName;
+                userResponse.DisplayName = user.DisplayName;
+               
+                return userResponse;
+            }
+            catch(Exception ex)
+            {
+                var userResponse = CreateErrorResponse<CreateUserProfileResponse>(ex.Message);
+                userResponse.UserName = user.UserName;
+                userResponse.DisplayName = user.DisplayName;
+
+                return userResponse;
             }
         }
 
@@ -179,13 +190,16 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return new UpdateUserProfileResponse { ErrorMessage = ex.Message};
+
+                    return CreateErrorResponse<UpdateUserProfileResponse>(ex.Message);
                 }
             }
             else
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
-                return new UpdateUserProfileResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages), modelState = ModelState };
+                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage)).ToArray();
+                var response = CreateErrorResponse<UpdateUserProfileResponse>(errrorMessages);
+                response.ModelState = ModelState;
+                return response;
             }
 
         }
@@ -213,26 +227,23 @@ namespace Nt.Infrastructure.WebApi.Controllers
                     userProfileEntity.PassKey = oldPasswordB64String;
 
                     var result = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
-                    return new ChangePasswordResponse
-                    {
-                        
-                    };
+                    return new ChangePasswordResponse();
 
                 }
                 catch (InvalidPasswordOrUsernameException)
                 {
-                    return new ChangePasswordResponse { ErrorMessage = "Old password is not correct" };
+                    return CreateErrorResponse<ChangePasswordResponse>("Old password is not correct" );
                 }
                 catch(Exception)
                 {
-                    return new ChangePasswordResponse { ErrorMessage = "Unexpected Error" };
+                    return CreateErrorResponse<ChangePasswordResponse>("Unexpected Error" );
                 }
                 
             }
             else
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
-                return new ChangePasswordResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages)};
+                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage)).ToArray();
+                return CreateErrorResponse<ChangePasswordResponse>(errrorMessages);
             }
         }
 

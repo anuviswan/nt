@@ -52,7 +52,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             if (result is IErrorInfo errorInfo && loginResponse is IErrorInfo expectedErrorInfo)
             {
                 Assert.Equal(expectedErrorInfo.HasError, errorInfo.HasError);
-                Assert.Equal(expectedErrorInfo.ErrorMessage, errorInfo.ErrorMessage);
+                Assert.Equal(expectedErrorInfo.Errors, errorInfo.Errors);
                 if (!errorInfo.HasError)
                 {
                     Assert.Equal(loginResponse.DisplayName, result.DisplayName);
@@ -83,7 +83,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             if (result is IErrorInfo errorInfo && loginResponse is IErrorInfo expectedErrorInfo)
             {
                 Assert.Equal(expectedErrorInfo.HasError, errorInfo.HasError);
-                Assert.Equal(expectedErrorInfo.ErrorMessage, errorInfo.ErrorMessage);
+                Assert.Equal(expectedErrorInfo.Errors, errorInfo.Errors);
                 if (!errorInfo.HasError)
                 {
                     Assert.Equal(loginResponse.DisplayName, result.DisplayName);
@@ -96,7 +96,11 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         public static IEnumerable<object[]> ValidateUserTestDataFailure => new List<object[]>
         {
-            new object []{new LoginRequest{UserName="AnuViswa",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", IsAuthenticated =false,ErrorMessage="Invalid Password or Username"} }
+            new object []
+            {
+                new LoginRequest{UserName="AnuViswa",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},
+                new LoginResponse{UserName="AnuViswan", IsAuthenticated =false,Errors= new List<string>{"Invalid Password or Username"} } 
+            }
         };
     }
 }

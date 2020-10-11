@@ -45,10 +45,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             MockModelState(request, userController);
 
             var result = await userController.ChangePassword(request);
-            foreach (var err in errorMessage)
-            {
-                Assert.Contains(err, result.ErrorMessage.Split(Environment.NewLine));
-            }
+            Assert.True(errorMessage.All(result.Errors.Contains));
         }
 
         public static IEnumerable<object[]> ChangePasswordTestValidationErrorTestData => new[]
@@ -78,10 +75,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             MockModelState(request, userController);
 
             var result = await userController.ChangePassword(request);
-            foreach (var err in errorMessage)
-            {
-                Assert.Contains(err, result.ErrorMessage.Split(Environment.NewLine));
-            }
+            Assert.True(errorMessage.All(result.Errors.Contains));
         }
 
         public static IEnumerable<object[]> ChangePasswordTestErrorTestData => new[]
@@ -110,8 +104,8 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             userController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
             MockModelState(request, userController);
             var result = await userController.ChangePassword(request);
-            Assert.True(result is IErrorInfo instance && !instance.HasError);
-            Assert.True(string.IsNullOrEmpty(result.ErrorMessage));
+            Assert.False(result.HasError);
+            Assert.False(result.Errors.Any());
         }
 
         public static IEnumerable<object[]> ChangePasswordTestSuccessTestData => new[]

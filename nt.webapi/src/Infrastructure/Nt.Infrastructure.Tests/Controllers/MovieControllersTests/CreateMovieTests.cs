@@ -46,15 +46,9 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             MockModelState(request, movieController);
             var result = await movieController.CreateMovie(request);
 
-
-            // Assert
-            if(result is not IErrorInfo error)
-            {
-                throw new XunitException();
-            }
-
-            Assert.Equal(expectedResult.ErrorMessage, error.ErrorMessage);
-            Assert.True(error.HasError);
+            Assert.Equal(expectedResult.Errors.Count, result.Errors.Count);
+            Assert.True(expectedResult.Errors.All(result.Errors.Contains));
+            Assert.True(result.HasError);
         }
 
 
@@ -63,17 +57,17 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             new object[]
             {
                 new CreateMovieRequest (),
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , ErrorMessage=$"The Title field is required.{Environment.NewLine}The Language field is required." }
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , Errors=new List<string>{$"The Title field is required.","The Language field is required." } }
             },
             new object[] 
             { 
                 new CreateMovieRequest { Title = "Title 1" }, 
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , ErrorMessage="The Language field is required." }  
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , Errors=new List<string>{"The Language field is required." } }  
             },
             new object[]
             {
                 new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now  },
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , ErrorMessage="Movie with the same information already exists" }
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , Errors=new List<string>{"Movie with the same information already exists" } }
             }
         };
 
@@ -91,15 +85,9 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             MockModelState(request, movieController);
             var result = await movieController.CreateMovie(request);
 
-
             // Assert
-            if (result is not IErrorInfo error)
-            {
-                throw new XunitException();
-            }
-
-            Assert.True(string.IsNullOrEmpty(error.ErrorMessage));
-            Assert.False(error.HasError);
+            Assert.False(result.Errors.Any());
+            Assert.False(result.HasError);
         }
 
 

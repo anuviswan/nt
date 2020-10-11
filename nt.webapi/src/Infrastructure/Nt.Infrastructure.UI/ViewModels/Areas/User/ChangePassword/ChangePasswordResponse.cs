@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword
 {
-    public class ChangePasswordResponse : IErrorInfo
+    public class ChangePasswordResponse : ResponseBase
     {
-        public string ErrorMessage { get; set; }
-        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
     }
 }
