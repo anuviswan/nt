@@ -121,7 +121,7 @@ export default {
 
         if (response.data.hasError) {
           this.hasServerError = response.data.hasError;
-          this.serverMessage = response.data.errorMessage;
+          this.serverMessage = Object.values(response.data.errors).flat();
           return;
         }
 
@@ -132,18 +132,11 @@ export default {
           token: this.authToken,
         });
 
-        this.serverMessage = "User Profile updated successfully";
+        this.serverMessage.push("User Profile updated successfully");
         }
          catch (error) {
            console.log("An Exception has occurred");
-           console.log(error.response.data.errors);
-
-           for(var i=0;i<error.response.data.errors.length;i++){
-              this.serverMessage.concat(error.response.data.errors[i]);
-           }
-           console.log("Following is server message");
-           console.log(this.serverMessage);
-          //this.serverMessage = error.response.data.errors.NewPassword.shift();
+           this.serverMessage = Object.values(error.response.data.errors).flat();
           this.hasServerError = true;
           return;
         }
