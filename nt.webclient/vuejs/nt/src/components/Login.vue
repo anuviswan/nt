@@ -55,7 +55,12 @@
           />
         </div>
         <div v-bind:class="showServerMessage()">
-          <small>{{ serverMessage }}</small>
+          <ul>
+            <li v-for="(error, index) in serverMessage" :key="index">
+ <small>{{ error }}</small>
+            </li>
+          </ul>
+         
         </div>
       </form>
       <div>
@@ -76,7 +81,7 @@ export default {
       errors: [],
       userName: "",
       password: "",
-      serverMessage: "",
+      serverMessage: [],
       hasServerError: false,
     };
   },
@@ -87,8 +92,7 @@ export default {
       return this.errors.indexOf(key) != -1;
     },
     showServerMessage() {
-      console.log(this.serverMessage);
-      if (!this.serverMessage) {
+      if (!this.serverMessage.length) {
         return "d-none";
       }
 
@@ -111,7 +115,7 @@ export default {
 
         if (response.data.hasError) {
           this.hasServerError = response.data.hasError;
-          this.serverMessage = response.data.errorMessage;
+          this.serverMessage = response.data.errors;
           return;
         }
 

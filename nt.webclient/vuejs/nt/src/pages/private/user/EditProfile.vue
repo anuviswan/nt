@@ -48,11 +48,14 @@
               <div class="form-group">
                 <input type="submit" value="Update" />
               </div>
-              <div class="form-group">
-                <div v-bind:class="showServerMessage()">
-                  <small>{{ this.serverMessage }}</small>
-                </div>
-              </div>
+                      <div v-bind:class="showServerMessage()">
+          <ul>
+            <li v-for="(error, index) in serverMessage" :key="index">
+              <small>{{ error }}</small>
+            </li>
+          </ul>
+         
+        </div>
             </form>
           </div>
         </div>
@@ -77,7 +80,7 @@ export default {
       displayName: "sample Display Name",
       bio: "sample Bio",
       errors: [],
-      serverMessage: "",
+      serverMessage: [],
       hasServerError: false,
     };
   },
@@ -108,12 +111,14 @@ export default {
           bio: this.bio,
         };
 
-        var response = await axios.post(
+        try{
+          var response = await axios.post(
           "https://localhost:44353/api/User/UpdateUser",
           updatedUserRecord,
           { headers: headers }
         );
         console.log(response);
+
         if (response.data.hasError) {
           this.hasServerError = response.data.hasError;
           this.serverMessage = response.data.errorMessage;
@@ -128,6 +133,21 @@ export default {
         });
 
         this.serverMessage = "User Profile updated successfully";
+        }
+         catch (error) {
+           console.log("An Exception has occurred");
+           console.log(error.response.data.errors);
+
+           for(var i=0;i<error.response.data.errors.length;i++){
+              this.serverMessage.concat(error.response.data.errors[i]);
+           }
+           console.log("Following is server message");
+           console.log(this.serverMessage);
+          //this.serverMessage = error.response.data.errors.NewPassword.shift();
+          this.hasServerError = true;
+          return;
+        }
+        
       }
       console.log(this.errors);
     },
@@ -151,14 +171,13 @@ export default {
       return isValidFlag;
     },
     showServerMessage() {
-      console.log(this.serverMessage);
-      if (!this.serverMessage) {
-        return "d-none justify-content-center";
+      if (!this.serverMessage.length) {
+        return "d-none";
       }
 
       return this.hasServerError
-        ? "text-danger justify-content-center"
-        : "text-success justify-content-center";
+        ? "text-danger text-left"
+        : "text-success text-left";
     },
   },
 };
