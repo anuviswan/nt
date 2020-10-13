@@ -30,20 +30,9 @@ namespace Nt.Infrastructure.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var movieEntity = Mapper.Map<MovieEntity>(movie);
-                    var result = await _movieService.CreateAsync(movieEntity);
-                    return Mapper.Map<CreateMovieResponse>(result);
-                }
-                catch(EntityAlreadyExistException e)
-                {
-                    return base.CreateErrorResponse<CreateMovieResponse>("Movie with the same information already exists");
-                }
-                catch(Exception e)
-                {
-                    return base.CreateErrorResponse<CreateMovieResponse>($"Unexpected Error: {e.Message}");
-                }
+                var movieEntity = Mapper.Map<MovieEntity>(movie);
+                var result = await _movieService.CreateAsync(movieEntity);
+                return Mapper.Map<CreateMovieResponse>(result);
             }
             else
             {
