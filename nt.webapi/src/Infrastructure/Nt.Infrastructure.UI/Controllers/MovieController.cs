@@ -26,7 +26,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("CreateMovie")]
         [Authorize]
-        public async Task<CreateMovieResponse>  CreateMovie(CreateMovieRequest movie)
+        public async Task<ActionResult<CreateMovieResponse>>  CreateMovie(CreateMovieRequest movie)
         {
             if (ModelState.IsValid)
             {
@@ -36,8 +36,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
             else
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage)).ToArray();
-                return base.CreateErrorResponse<CreateMovieResponse>(errrorMessages);
+                return BadRequest(ModelState);
             }
         }
     }
