@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Infrastructure.WebApi.ViewModels.Common;
+using System.Runtime.CompilerServices;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -18,5 +19,9 @@ namespace Nt.Infrastructure.WebApi.Controllers
             return response;
         }
 
+        protected string GetLocationString<TController>(TController controller, [CallerMemberName]string action = "") where TController:BaseController
+        {
+            return $"{controller.GetType().Name}.{action}";
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
@@ -29,15 +30,15 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             base.InitializeCollection();
             EntityCollection = new ()
             {
-                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = DateTime.Now   },
-                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = DateTime.Now }
+                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
+                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
             };
 
         }
 
         [Theory]
-        [MemberData(nameof(CreateMovieTestFailureCasesTestData))]
-        public async Task CreateMovieTestFailureCases(CreateMovieRequest request,CreateMovieResponse expectedResult)
+        [MemberData(nameof(CreateMovieTest_ResponseStatus_400_TestData))]
+        public async Task CreateMovieTest_ResponseStatus_400(CreateMovieRequest request)
         {
             // Arrange
             var mockMovieService = new Mock<IMovieService>();
@@ -46,36 +47,33 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
             MockModelState(request, movieController);
-            var result = await movieController.CreateMovie(request);
+            var response = await movieController.CreateMovie(request);
 
-            //Assert.Equal(expectedResult.Errors.Count, result.Errors.Count);
-            //Assert.True(expectedResult.Errors.All(result.Errors.Contains));
-            //Assert.True(result.HasError);
+            // Assert
+            var badRequestObject = Assert.IsType<BadRequestObjectResult>(response.Result);
+            Assert.IsType<SerializableError>(badRequestObject.Value);
         }
 
 
-        public static IEnumerable<object[]> CreateMovieTestFailureCasesTestData => new[]
+        public static IEnumerable<object[]> CreateMovieTest_ResponseStatus_400_TestData => new[]
         {
             new object[]
             {
-                new CreateMovieRequest (),
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , Errors=new List<string>{$"The Title field is required.","The Language field is required." } }
+                new CreateMovieRequest ()
             },
             new object[] 
             { 
-                new CreateMovieRequest { Title = "Title 1" }, 
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , Errors=new List<string>{"The Language field is required." } }  
+                new CreateMovieRequest { Title = "Title 1" }
             },
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now  },
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now , Errors=new List<string>{"Movie with the same information already exists" } }
+                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now  }
             }
         };
 
         [Theory]
-        [MemberData(nameof(CreateMovieTestSuccessCasesTestData))]
-        public async Task CreateMovieTestSuccessCases(CreateMovieRequest request, CreateMovieResponse expectedResult)
+        [MemberData(nameof(CreateMovieTest_ResponseStatus_200_TestData))]
+        public async Task CreateMovieTest_ResponseStatus_200(CreateMovieRequest request, CreateMovieResponse expectedResult)
         {
             // Arrange
             var expectedMovieEntity = Mapper.Map<MovieEntity>(request);
@@ -88,33 +86,33 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             var response = await movieController.CreateMovie(request);
 
             // Assert
-            if(response.Result is OkObjectResult success && success.Value is CreateMovieResponse movieResponse)
+            var okObjectResult =  Assert.IsType<CreatedAtActionResult>(response.Result);
+            if(okObjectResult.Value is CreateMovieResponse movieResponse)
             {
-                Assert.Equal(request.Title, movieResponse.Title);
-                Assert.Equal(request.Language, movieResponse.Language);
-                Assert.Equal(request.ReleaseDate, movieResponse.ReleaseDate);
+                Assert.Equal(expectedResult.Title, movieResponse.Title);
+                Assert.Equal(expectedResult.Language, movieResponse.Language);
+                Assert.Equal(expectedResult.ReleaseDate, movieResponse.ReleaseDate);
             }
         }
 
 
-        public static IEnumerable<object[]> CreateMovieTestSuccessCasesTestData => new[]
+        public static IEnumerable<object[]> CreateMovieTest_ResponseStatus_200_TestData => new[]
         {
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate =DateTime.Now  },
-                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = DateTime.Now  }
+                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate = new DateTime(2020,8,20)},
+                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = new DateTime(2020,8,20)}
             },
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =DateTime.Now  },
-                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = DateTime.Now  }
+                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =new DateTime(2020,8,20)  },
+                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = new DateTime(2020,8,20)  }
             },
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =DateTime.Now.AddYears(-1)  },
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = DateTime.Now.AddYears(-1)   }
+                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =new DateTime(2019,8,20)  },
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2019,8,20)   }
             },
-
         };
 
 
