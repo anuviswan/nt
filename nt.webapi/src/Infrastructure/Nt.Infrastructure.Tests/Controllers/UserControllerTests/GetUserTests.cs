@@ -59,7 +59,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         };
         #endregion
 
-        #region ResponseStatus 
+        #region ResponseStatus 400
         [Theory]
         [MemberData(nameof(GetUser_ResponseStatus_400_TestData))]
         public async Task GetUser_ResponseStatus_400(string userName)
@@ -86,10 +86,13 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         [MemberData(nameof(GetUser_InvalidCasesTestData))]
         public async Task GetUser_InvalidCases(string userName)
         {
+            // Arrange
             var mockUserManagementService = new Mock<IUserManagementService>();
-            mockUserManagementService.Setup(x => x.GetUserAsync(userName))
-                 .Throws<Exception>();
+            mockUserManagementService.Setup(x => x.GetUserAsync(userName)).Throws<Exception>();
             var userController = new UserController(Mapper, null, mockUserManagementService.Object, null);
+
+            // Act
+            // Assert
             await Assert.ThrowsAsync<Exception>(() => userController.GetUser(userName));
         }
         public static IEnumerable<object[]> GetUser_InvalidCasesTestData => new List<object[]>
