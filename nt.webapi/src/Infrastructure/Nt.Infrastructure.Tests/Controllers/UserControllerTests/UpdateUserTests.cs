@@ -45,7 +45,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var response = await userController.UpdateUser(request);
 
             // Assert
-            Assert.IsType<NoContentResult>(response.Result);
+            Assert.IsType<NoContentResult>(response);
         }
 
         public static IEnumerable<object[]> UpdateUser_ResponseStatus_204_TestData => new[]
@@ -58,7 +58,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Respone Status 400
         [Theory]
         [MemberData(nameof(UpdateUser_ResponseStatus_400_TestData))]
-        public async Task UpdateUser_ResponseStatus_400(UpdateUserProfileRequest request, SerializableError expectedErrorMessages)
+        public async Task UpdateUser_ResponseStatus_400(UpdateUserProfileRequest request)
         {
             // Arrange
             var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
@@ -73,29 +73,18 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             var response = await userController.UpdateUser(request);
 
             // Assert
-            var badObjectResult = Assert.IsType<BadRequestObjectResult>(response.Result);
-            var actualErrorMessages = Assert.IsType<SerializableError>(badObjectResult.Value);
-
-            Assert.Equal(expectedErrorMessages,actualErrorMessages);
+            var badObjectResult = Assert.IsType<BadRequestObjectResult>(response);
         }
 
         public static IEnumerable<object[]> UpdateUser_ResponseStatus_400_TestData => new[]
         {
             new object[]
             {
-                new UpdateUserProfileRequest{Bio="Updated Bio",DisplayName=new string('s',50)},
-                new SerializableError
-                {
-                    [nameof(UpdateUserProfileRequest.DisplayName)]= new[]{"Display Name should be less than 30 characters" }
-                }
+                new UpdateUserProfileRequest{Bio="Updated Bio",DisplayName=new string('s',50)}
             },
             new object[]
             {
-                new UpdateUserProfileRequest{Bio=new string('s',250),DisplayName="Updated Display Name"},
-                new SerializableError
-                {
-                    [nameof(UpdateUserProfileRequest.Bio)]= new[]{"Bio should be less than 180 characters" }
-                }
+                new UpdateUserProfileRequest{Bio=new string('s',250),DisplayName="Updated Display Name"}
             }
         };
 

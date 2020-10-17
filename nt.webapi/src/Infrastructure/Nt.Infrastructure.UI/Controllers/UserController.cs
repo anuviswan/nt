@@ -148,7 +148,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UpdateUserProfileResponse>> UpdateUser(UpdateUserProfileRequest user)
+        public async Task<IActionResult> UpdateUser(UpdateUserProfileRequest user)
         {
             if (!ModelState.IsValid)
             {
@@ -171,17 +171,31 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("ChangePassword")]
         [Authorize]
-        public async Task<ChangePasswordResponse> ChangePassword(ChangePasswordRequest request)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
         {
-            var userName = User.Identity.Name;
-            var oldPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.OldPassword));
-            var newPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.NewPassword));
-            var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
-            userProfileEntity.UserName = userName;
-            userProfileEntity.PassKey = oldPasswordB64String;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            var result = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
-            return new ChangePasswordResponse();
+            try
+            {
+                var userName = User.Identity.Name;
+                var oldPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.OldPassword));
+                var newPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.NewPassword));
+                var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
+                userProfileEntity.UserName = userName;
+                userProfileEntity.PassKey = oldPasswordB64String;
+
+                var _ = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
+                return NoContent();
+            }
+            catch (InvalidPasswordOrUsernameException)
+            {
+                return BadRequest("Incorrect old password");
+            }
         }
 
     }
