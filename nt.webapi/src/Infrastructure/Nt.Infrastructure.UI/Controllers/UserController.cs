@@ -53,10 +53,10 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Collection of Users who matches partial user name</returns>
         [HttpGet]
         [Route("SearchUser")]
-        public async Task<IEnumerable<UserProfileResponse>> SearchUser(string partialString)
+        public async Task<ActionResult<IEnumerable<UserProfileResponse>>> SearchUser(string partialString)
         {
             var usersFound = await _userManagementService.SearchUserAsync(partialString);
-            return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
+            return Ok(Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound));
         }
 
 
