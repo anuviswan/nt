@@ -91,16 +91,27 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("ValidateUser")]
-        public async Task<LoginResponse> ValidateUser(LoginRequest loginRequest)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<LoginResponse>> ValidateUser(LoginRequest loginRequest)
         {
-            UserProfileEntity userEntity = Mapper.Map<UserProfileEntity>(loginRequest);
-            var validUser = await _userProfileService.AuthenticateAsync(userEntity);
-            var tokenString = _tokenGenerator.Generate(validUser);
-            var result = Mapper.Map<LoginResponse>(validUser);
-            result.Token = tokenString;
-            result.IsAuthenticated = true;
-            result.LoginTime = DateTime.UtcNow;
-            return result;
+            try
+            {
+                UserProfileEntity userEntity = Mapper.Map<UserProfileEntity>(loginRequest);
+                var validUser = await _userProfileService.AuthenticateAsync(userEntity);
+                var tokenString = _tokenGenerator.Generate(validUser);
+                var result = Mapper.Map<LoginResponse>(validUser);
+                result.Token = tokenString;
+                result.IsAuthenticated = true;
+                result.LoginTime = DateTime.UtcNow;
+                return Ok(result);
+            }
+            catch(InvalidPasswordOrUsernameException)
+            {
+                return BadRequest("Invalid Password or Username");
+            }
+           
+           
         }
 
         /// <summary>
