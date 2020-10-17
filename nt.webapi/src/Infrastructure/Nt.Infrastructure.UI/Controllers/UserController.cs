@@ -146,18 +146,21 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("UpdateUser")]
         [Authorize]
-        public async Task<UpdateUserProfileResponse> UpdateUser(UpdateUserProfileRequest user)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UpdateUserProfileResponse>> UpdateUser(UpdateUserProfileRequest user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userName = User.Identity.Name;
             var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
             userProfileEntity.UserName = userName;
 
             var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
-            return new UpdateUserProfileResponse
-            {
-
-            };
-
+            return NoContent();
         }
 
         /// <summary>
