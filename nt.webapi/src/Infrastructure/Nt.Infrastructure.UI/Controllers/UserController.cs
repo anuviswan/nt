@@ -39,7 +39,6 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [Route("GetAllUsers")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<UserProfileResponse>>> GetAll()
         {
             var usersFound = await _userManagementService.GetAllUsersAsync();
@@ -53,6 +52,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Collection of Users who matches partial user name</returns>
         [HttpGet]
         [Route("SearchUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserProfileResponse>>> SearchUser(string partialString)
         {
             var usersFound = await _userManagementService.SearchUserAsync(partialString);
@@ -67,11 +67,19 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User Profile if Single User found. Throws exception otherwise.</returns>
         [HttpGet]
         [Route("GetUser")]
-        public async Task<UserProfileResponse> GetUser(string userName)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserProfileResponse>> GetUser(string userName)
         {
-            var userFound = await _userManagementService.GetUserAsync(userName);
-            return Mapper.Map<UserProfileResponse>(userFound);
-
+            try
+            {
+                var userFound = await _userManagementService.GetUserAsync(userName);
+                return Ok(Mapper.Map<UserProfileResponse>(userFound));
+            }
+            catch(EntityNotFoundException)
+            {
+                return BadRequest("User Not Found");
+            }
+           
         }
 
         /// <summary>

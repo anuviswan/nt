@@ -38,13 +38,16 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         [MemberData(nameof(SearchUser_ResponseStatus_200_TestData))]
         public async Task SearchUser_ResponseStatus_200(string userName, IEnumerable<string> expectedOutput)
         {
+            // Arrange
             var mockUserManagementService = new Mock<IUserManagementService>();
             mockUserManagementService.Setup(x => x.SearchUserAsync(userName))
                 .Returns(Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(userName))));
+            var userController = new UserController(Mapper, null, mockUserManagementService.Object, null);
 
-            var userController = new UserController(Mapper, null, mockUserManagementService.Object,null);
+            // Act
             var response = await userController.SearchUser(userName);
 
+            // Assert
             var okResponse = Assert.IsType<OkObjectResult>(response.Result);
             var result = Assert.IsAssignableFrom<IEnumerable<UserProfileResponse>>(okResponse.Value);
             Assert.Equal(expectedOutput.Count(), result.Count());
