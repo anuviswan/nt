@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
@@ -37,10 +38,12 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpGet]
         [Route("GetAllUsers")]
         [Authorize]
-        public async Task<IEnumerable<UserProfileResponse>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<UserProfileResponse>>> GetAll()
         {
             var usersFound = await _userManagementService.GetAllUsersAsync();
-            return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
+            return Ok(Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound));
         }
 
         /// <summary>

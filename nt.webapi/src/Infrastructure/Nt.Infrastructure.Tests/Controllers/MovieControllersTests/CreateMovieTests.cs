@@ -52,13 +52,11 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             var response = await movieController.CreateMovie(request);
 
             // Assert
-            var okObjectResult = Assert.IsType<CreatedAtActionResult>(response.Result);
-            if (okObjectResult.Value is CreateMovieResponse movieResponse)
-            {
-                Assert.Equal(expectedResult.Title, movieResponse.Title);
-                Assert.Equal(expectedResult.Language, movieResponse.Language);
-                Assert.Equal(expectedResult.ReleaseDate, movieResponse.ReleaseDate);
-            }
+            var createdAtActionType = Assert.IsType<CreatedAtActionResult>(response.Result);
+            var movieResponse = Assert.IsType<CreateMovieResponse>(createdAtActionType.Value);
+            Assert.Equal(expectedResult.Title, movieResponse.Title);
+            Assert.Equal(expectedResult.Language, movieResponse.Language);
+            Assert.Equal(expectedResult.ReleaseDate, movieResponse.ReleaseDate);
         }
 
 
