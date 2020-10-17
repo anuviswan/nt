@@ -68,6 +68,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpGet]
         [Route("GetUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserProfileResponse>> GetUser(string userName)
         {
             try
