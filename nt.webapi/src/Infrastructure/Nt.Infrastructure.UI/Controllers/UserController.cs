@@ -121,14 +121,13 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
         [HttpPost]
         [Route("CreateUser")]
-        public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CreateUserProfileResponse>> CreateUser(CreateUserProfileRequest user)
         {
             if (!ModelState.IsValid)
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage)).ToArray();
-                var response = CreateErrorResponse<CreateUserProfileResponse>(errrorMessages);
-                response.UserName = user.UserName;
-                return response;
+                return BadRequest(ModelState);
             }
 
             var userEntity = Mapper.Map<UserProfileEntity>(user);
@@ -136,7 +135,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
             userEntity.UserName = userEntity.UserName.ToLower();
             userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
             var result = await _userProfileService.CreateUserAsync(userEntity);
-            return Mapper.Map<CreateUserProfileResponse>(result);
+            return Ok(Mapper.Map<CreateUserProfileResponse>(result));
         }
 
         /// <summary>
