@@ -135,9 +135,13 @@ export default {
         this.serverMessage.push("User Profile updated successfully");
         }
          catch (error) {
-           console.log("An Exception has occurred");
-           this.serverMessage = Object.values(error.response.data.errors).flat();
+          //  console.log("An Exception has occurred");
+          //  this.serverMessage = Object.values(error.response.data.errors).flat();
+          // this.hasServerError = true;
+          // return;
+          console.log(error.response);
           this.hasServerError = true;
+          this.serverMessage.push(error.response.data);
           return;
         }
         
