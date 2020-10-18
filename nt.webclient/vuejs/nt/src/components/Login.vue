@@ -57,10 +57,9 @@
         <div v-bind:class="showServerMessage()">
           <ul>
             <li v-for="(error, index) in serverMessage" :key="index">
- <small>{{ error }}</small>
+              <small>{{ error }}</small>
             </li>
           </ul>
-         
         </div>
       </form>
       <div>
@@ -108,26 +107,30 @@ export default {
           passKey: btoa(this.password),
         };
 
-        const response = await axios.post(
-          "https://localhost:44353/api/User/ValidateUser",
-          userDetails
-        );
+        try {
+          const response = await axios.post(
+            "https://localhost:44353/api/User/ValidateUser",
+            userDetails
+          );
+          this.updateCurrentUser({
+            userName: response.data.userName,
+            displayName: response.data.displayName,
+            bio: response.data.bio,
+            token: response.data.token,
+          });
 
-        if (response.data.hasError) {
-          this.hasServerError = response.data.hasError;
-          this.serverMessage = response.data.errors;
-          return;
+          console.log("User authenticated and updated, redirecting now..");
+          this.$router.push("/p/dashboard");
+        } catch (error) {
+
+          if(error.response.status == 400)
+          {
+            this.hasServerError = true;
+            this.serverMessage.push(error.response.data);
+          }
+
         }
 
-        this.updateCurrentUser({
-          userName: response.data.userName,
-          displayName: response.data.displayName,
-          bio: response.data.bio,
-          token: response.data.token,
-        });
-
-        console.log("User authenticated and updated, redirecting now..");
-        this.$router.push("/p/dashboard");
       }
     },
     validateForm() {
