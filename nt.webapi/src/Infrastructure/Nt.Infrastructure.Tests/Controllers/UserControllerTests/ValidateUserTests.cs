@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
@@ -36,67 +37,83 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             };
         }
 
+        #region Response Status 400
         [Theory]
-        [MemberData(nameof(ValidateUserTestDataSuccess))]
-        public async Task ValidateUserSuccess(LoginRequest loginRequest,LoginResponse loginResponse)
+        [MemberData(nameof(ValidateUser_ResponseStatus_200_TestData))]
+        public async Task ValidateUser_ResponseStatus_200(LoginRequest loginRequest, LoginResponse expectedResult)
         {
+            // Arrange
             var mockTokenGenerator = new Mock<ITokenGenerator>();
             mockTokenGenerator.Setup(x => x.Generate(It.IsAny<UserProfileEntity>())).Returns(It.IsAny<string>());
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.AuthenticateAsync(It.IsAny<UserProfileEntity>()))
                 .Returns(Task.FromResult(EntityCollection.Single(x => x.UserName.ToLower() == loginRequest.UserName.ToLower() && x.PassKey == loginRequest.PassKey && !x.IsDeleted)));
 
-            var userController = new UserController(Mapper,mockUserProfileService.Object,null,mockTokenGenerator.Object);
-            var result = await userController.ValidateUser(loginRequest);
+            var userController = new UserController(Mapper, mockUserProfileService.Object, null, mockTokenGenerator.Object);
 
-            if (result is IErrorInfo errorInfo && loginResponse is IErrorInfo expectedErrorInfo)
-            {
-                Assert.Equal(expectedErrorInfo.HasError, errorInfo.HasError);
-                Assert.Equal(expectedErrorInfo.ErrorMessage, errorInfo.ErrorMessage);
-                if (!errorInfo.HasError)
-                {
-                    Assert.Equal(loginResponse.DisplayName, result.DisplayName);
-                    Assert.NotEqual(default(DateTime), result.LoginTime);
-                    Assert.True(result.IsAuthenticated);
-                    Assert.Equal(loginResponse.Bio, result.Bio);
-                }
-            }
+            // Act
+            var response = await userController.ValidateUser(loginRequest);
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(response.Result);
+            var result = Assert.IsType<LoginResponse>(okObjectResult.Value);
+
+            Assert.Equal(expectedResult.DisplayName, result.DisplayName);
+            Assert.NotEqual(default(DateTime), result.LoginTime);
+            Assert.True(result.IsAuthenticated);
+            Assert.Equal(expectedResult.Bio, result.Bio);
         }
 
-        public static IEnumerable<object[]> ValidateUserTestDataSuccess => new List<object[]> 
+        public static IEnumerable<object[]> ValidateUser_ResponseStatus_200_TestData => new List<object[]>
         {
-            new object []{new LoginRequest{UserName="AnuViswan",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", DisplayName = "Anu Viswan",IsAuthenticated =true,Bio="UserBio"} },
+            new object []
+            {
+                new LoginRequest{UserName="AnuViswan",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},
+                new LoginResponse{UserName="AnuViswan", DisplayName = "Anu Viswan",IsAuthenticated =true,Bio="UserBio"} 
+            },
         };
+        #endregion
 
 
+        #region Response Status 400
         [Theory]
-        [MemberData(nameof(ValidateUserTestDataFailure))]
-        public async Task ValidateUserFailure(LoginRequest loginRequest, LoginResponse loginResponse)
+        [MemberData(nameof(ValidateUser_ResponseStatus_400_TestData))]
+        public async Task ValidateUser_ResponseStatus_400(LoginRequest loginRequest, string expectedErrorMessage)
         {
+            // Arrange
             var mockUserProfileService = new Mock<IUserProfileService>();
             mockUserProfileService.Setup(x => x.AuthenticateAsync(It.IsAny<UserProfileEntity>()))
-                .Throws< InvalidPasswordOrUsernameException>();
+                .Throws<InvalidPasswordOrUsernameException>();
 
-            var userController = new UserController(Mapper, mockUserProfileService.Object, null,null);
-            var result = await userController.ValidateUser(loginRequest);
+            var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
 
-            if (result is IErrorInfo errorInfo && loginResponse is IErrorInfo expectedErrorInfo)
-            {
-                Assert.Equal(expectedErrorInfo.HasError, errorInfo.HasError);
-                Assert.Equal(expectedErrorInfo.ErrorMessage, errorInfo.ErrorMessage);
-                if (!errorInfo.HasError)
-                {
-                    Assert.Equal(loginResponse.DisplayName, result.DisplayName);
-                    Assert.Equal(loginResponse.Bio, result.Bio);
-                    Assert.NotEqual(default(DateTime), result.LoginTime);
-                    Assert.True(result.IsAuthenticated);
-                }
-            }
+            // Act
+            var response = await userController.ValidateUser(loginRequest);
+
+            //Assert
+            var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(response.Result);
+            var actualErrorMessage = Assert.IsType<string>(badRequestObjectResult.Value);
+            Assert.Equal(expectedErrorMessage, actualErrorMessage);
         }
 
-        public static IEnumerable<object[]> ValidateUserTestDataFailure => new List<object[]>
+        public static IEnumerable<object[]> ValidateUser_ResponseStatus_400_TestData => new List<object[]>
         {
-            new object []{new LoginRequest{UserName="AnuViswa",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},new LoginResponse{UserName="AnuViswan", IsAuthenticated =false,ErrorMessage="Invalid Password or Username"} }
+            new object []
+            {
+                new LoginRequest{UserName="AnuViswa",PassKey=ToBase64String(ASCIIEncoding.ASCII.GetBytes("passkeyanuviswan"))},
+                "Invalid Password or Username"
+            },
+             new object []
+             {
+                 new LoginRequest{UserName=string.Empty,PassKey=string.Empty},
+                 "Invalid Password or Username"
+             }
         };
+        #endregion
+
+
+
+
+
     }
 }

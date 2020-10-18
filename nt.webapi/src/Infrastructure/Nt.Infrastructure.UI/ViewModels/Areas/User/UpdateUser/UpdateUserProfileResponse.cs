@@ -7,9 +7,8 @@ using System.Web.Http.ModelBinding;
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser
 {
-    public class UpdateUserProfileResponse:IErrorInfo
+    public class UpdateUserProfileResponse:ResponseBase
     {
-        public object modelState { get; set; }
-        public string ErrorMessage { get; set; }
+        public object ModelState { get; set; }
     }
 }

@@ -15,9 +15,9 @@ using Xunit.Abstractions;
 
 namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
 {
-    public class UserManagementServiceSearchTests : ServiceTestBase<UserProfileEntity>
+    public class SearchTests : ServiceTestBase<UserProfileEntity>
     {
-        public UserManagementServiceSearchTests(ITestOutputHelper output) : base(output)
+        public SearchTests(ITestOutputHelper output) : base(output)
         {
 
         }

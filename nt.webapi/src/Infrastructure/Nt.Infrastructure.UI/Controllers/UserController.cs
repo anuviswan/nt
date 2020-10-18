@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
 using Nt.Infrastructure.WebApi.Authentication;
-using Nt.Infrastructure.WebApi.Profiles;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
@@ -38,10 +38,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpGet]
         [Route("GetAllUsers")]
         [Authorize]
-        public async Task<IEnumerable<UserProfileResponse>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<UserProfileResponse>>> GetAll()
         {
             var usersFound = await _userManagementService.GetAllUsersAsync();
-            return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
+            return Ok(Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound));
         }
 
         /// <summary>
@@ -51,10 +52,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Collection of Users who matches partial user name</returns>
         [HttpGet]
         [Route("SearchUser")]
-        public async Task<IEnumerable<UserProfileResponse>> SearchUser(string partialString)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<UserProfileResponse>>> SearchUser(string partialString)
         {
             var usersFound = await _userManagementService.SearchUserAsync(partialString);
-            return Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound);
+            return Ok(Mapper.Map<IEnumerable<UserProfileResponse>>(usersFound));
         }
 
 
@@ -65,22 +67,20 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User Profile if Single User found. Throws exception otherwise.</returns>
         [HttpGet]
         [Route("GetUser")]
-        public async Task<UserProfileResponse> GetUser(string userName)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserProfileResponse>> GetUser(string userName)
         {
             try
             {
                 var userFound = await _userManagementService.GetUserAsync(userName);
-                return Mapper.Map<UserProfileResponse>(userFound);
+                return Ok(Mapper.Map<UserProfileResponse>(userFound));
             }
-            catch (EntityNotFoundException ex)
+            catch(EntityNotFoundException)
             {
-                return new UserProfileResponse { ErrorMessage = "Username not found" };
+                return BadRequest("User Not Found");
             }
-            catch(Exception ex)
-            {
-                return new UserProfileResponse { ErrorMessage = ex.Message };
-            }
-            
+           
         }
 
         /// <summary>
@@ -91,7 +91,9 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("ValidateUser")]
-        public async Task<LoginResponse> ValidateUser(LoginRequest loginRequest)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<LoginResponse>> ValidateUser(LoginRequest loginRequest)
         {
             try
             {
@@ -102,16 +104,14 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 result.Token = tokenString;
                 result.IsAuthenticated = true;
                 result.LoginTime = DateTime.UtcNow;
-                return result;
+                return Ok(result);
             }
-            catch (InvalidPasswordOrUsernameException ex)
+            catch(InvalidPasswordOrUsernameException)
             {
-                return new LoginResponse { IsAuthenticated = false, ErrorMessage = ex.Message };
+                return BadRequest("Invalid Password or Username");
             }
-            catch
-            {
-                return new LoginResponse { IsAuthenticated = false, ErrorMessage = "Unknown Exception" };
-            }
+           
+           
         }
 
         /// <summary>
@@ -121,37 +121,21 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
         [HttpPost]
         [Route("CreateUser")]
-        public async Task<CreateUserProfileResponse> CreateUser(CreateUserProfileRequest user)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<CreateUserProfileResponse>> CreateUser(CreateUserProfileRequest user)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (string.IsNullOrWhiteSpace(user.PassKey))
-                {
-                    var userReponse = new CreateUserProfileResponse
-                    {
-                        UserName = user.UserName,
-                        DisplayName = user.DisplayName
-                    };
-                    userReponse.ErrorMessage = "Password cannot be empty or whitespace";
-                    return userReponse;
-                }
-                var userEntity = Mapper.Map<UserProfileEntity>(user);
+                return BadRequest(ModelState);
+            }
 
-                userEntity.UserName = userEntity.UserName.ToLower();
-                userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-                var result = await _userProfileService.CreateUserAsync(userEntity);
-                return Mapper.Map<CreateUserProfileResponse>(result);
-            }
-            catch (UserNameExistsException e)
-            {
-                var userReponse = new CreateUserProfileResponse
-                {
-                    UserName = user.UserName,
-                    DisplayName = user.DisplayName
-                };
-                userReponse.ErrorMessage = "User already exists";
-                return userReponse;
-            }
+            var userEntity = Mapper.Map<UserProfileEntity>(user);
+
+            userEntity.UserName = userEntity.UserName.ToLower();
+            userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
+            var result = await _userProfileService.CreateUserAsync(userEntity);
+            return Ok(Mapper.Map<CreateUserProfileResponse>(result));
         }
 
         /// <summary>
@@ -162,32 +146,21 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("UpdateUser")]
         [Authorize]
-        public async Task<UpdateUserProfileResponse> UpdateUser(UpdateUserProfileRequest user)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateUser(UpdateUserProfileRequest user)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    var userName = User.Identity.Name;
-                    var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
-                    userProfileEntity.UserName = userName;
-
-                    var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
-                    return new UpdateUserProfileResponse{
-                        
-                    };
-                }
-                catch (Exception ex)
-                {
-                    return new UpdateUserProfileResponse { ErrorMessage = ex.Message};
-                }
-            }
-            else
-            {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
-                return new UpdateUserProfileResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages), modelState = ModelState };
+                return BadRequest(ModelState);
             }
 
+            var userName = User.Identity.Name;
+            var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
+            userProfileEntity.UserName = userName;
+
+            var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
+            return NoContent();
         }
 
         /// <summary>
@@ -198,41 +171,30 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("ChangePassword")]
         [Authorize]
-        public async Task<ChangePasswordResponse> ChangePassword(ChangePasswordRequest request)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-
-                    var userName = User.Identity.Name;
-                    var oldPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.OldPassword));
-                    var newPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.NewPassword));
-                    var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
-                    userProfileEntity.UserName = userName;
-                    userProfileEntity.PassKey = oldPasswordB64String;
-
-                    var result = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
-                    return new ChangePasswordResponse
-                    {
-                        
-                    };
-
-                }
-                catch (InvalidPasswordOrUsernameException)
-                {
-                    return new ChangePasswordResponse { ErrorMessage = "Old password is not correct" };
-                }
-                catch(Exception)
-                {
-                    return new ChangePasswordResponse { ErrorMessage = "Unexpected Error" };
-                }
-                
+                return BadRequest(ModelState);
             }
-            else
+
+            try
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
-                return new ChangePasswordResponse { ErrorMessage = string.Join(Environment.NewLine, errrorMessages)};
+                var userName = User.Identity.Name;
+                var oldPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.OldPassword));
+                var newPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.NewPassword));
+                var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
+                userProfileEntity.UserName = userName;
+                userProfileEntity.PassKey = oldPasswordB64String;
+
+                var _ = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
+                return NoContent();
+            }
+            catch (InvalidPasswordOrUsernameException)
+            {
+                return BadRequest("Incorrect old password");
             }
         }
 

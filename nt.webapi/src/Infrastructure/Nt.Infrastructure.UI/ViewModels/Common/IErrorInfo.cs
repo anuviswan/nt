@@ -1,8 +1,10 @@
-﻿namespace Nt.Infrastructure.WebApi.ViewModels.Common
+﻿using System.Collections.Generic;
+
+namespace Nt.Infrastructure.WebApi.ViewModels.Common
 {
     public interface IErrorInfo
     {
-        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
-        string ErrorMessage { get; set; }
+        public bool HasError { get; }
+        List<string> Errors { get; set; }
     }
 }

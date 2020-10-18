@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using Nt.Infrastructure.WebApi.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
 
 namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 {
@@ -30,27 +32,36 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             }).ToList();
         }
 
+        #region ResponseStatus 200
+
         [Theory]
-        [MemberData(nameof(SearchUserTestData))]
-        public async Task SearchUser(string userName, IEnumerable<string> expectedOutput)
+        [MemberData(nameof(SearchUser_ResponseStatus_200_TestData))]
+        public async Task SearchUser_ResponseStatus_200(string userName, IEnumerable<string> expectedOutput)
         {
+            // Arrange
             var mockUserManagementService = new Mock<IUserManagementService>();
             mockUserManagementService.Setup(x => x.SearchUserAsync(userName))
                 .Returns(Task.FromResult(result: EntityCollection.Where(x => x.UserName.StartsWith(userName))));
+            var userController = new UserController(Mapper, null, mockUserManagementService.Object, null);
 
-            var userController = new UserController(Mapper, null, mockUserManagementService.Object,null);
-            var result = await userController.SearchUser(userName);
+            // Act
+            var response = await userController.SearchUser(userName);
 
-            Assert.True(expectedOutput.Count() == result.Count());
+            // Assert
+            var okResponse = Assert.IsType<OkObjectResult>(response.Result);
+            var result = Assert.IsAssignableFrom<IEnumerable<UserProfileResponse>>(okResponse.Value);
+            Assert.Equal(expectedOutput.Count(), result.Count());
             Assert.Equal(expectedOutput, result.Select(x => x.UserName));
         }
 
-        public static IEnumerable<object[]> SearchUserTestData => new List<object[]>
-                {
-                    new object[]{"username2",new List<string>{"username2"} },
-                    new object[]{"username1",new List<string>{"username1", "username10" } },
-                    new object[]{"user", Enumerable.Range(1, 10).Select(x=>$"username{x}") },
-                    new object[]{"doesn'texist", Enumerable.Empty<string>()},
-                };
+        public static IEnumerable<object[]> SearchUser_ResponseStatus_200_TestData => new List<object[]>
+    {
+        new object[]{"username2",new List<string>{"username2"} },
+        new object[]{"username1",new List<string>{"username1", "username10" } },
+        new object[]{"user", Enumerable.Range(1, 10).Select(x=>$"username{x}") },
+        new object[]{"doesn'texist", Enumerable.Empty<string>()},
+    };
+
+        #endregion
     }
 }

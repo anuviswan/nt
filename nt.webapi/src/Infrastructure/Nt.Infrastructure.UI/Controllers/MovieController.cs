@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
@@ -26,7 +27,10 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("CreateMovie")]
         [Authorize]
-        public async Task<CreateMovieResponse>  CreateMovie(CreateMovieRequest movie)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<CreateMovieResponse>>  CreateMovie(CreateMovieRequest movie)
         {
             if (ModelState.IsValid)
             {
@@ -34,21 +38,16 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 {
                     var movieEntity = Mapper.Map<MovieEntity>(movie);
                     var result = await _movieService.CreateAsync(movieEntity);
-                    return Mapper.Map<CreateMovieResponse>(result);
+                    return CreatedAtAction(GetLocationString(this), Mapper.Map<CreateMovieResponse>(result));
                 }
-                catch(EntityAlreadyExistException e)
+                catch (EntityAlreadyExistException)
                 {
-                    return base.CreateErrorResponse<CreateMovieResponse>("Movie with the same information already exists");
-                }
-                catch(Exception e)
-                {
-                    return base.CreateErrorResponse<CreateMovieResponse>($"Unexpected Error: {e.Message}");
+                    return Conflict("Movie with same meta data already exists");
                 }
             }
             else
             {
-                var errrorMessages = ModelState.Values.SelectMany(x => x.Errors.Select(c => c.ErrorMessage));
-                return base.CreateErrorResponse<CreateMovieResponse>(string.Join(Environment.NewLine, errrorMessages));
+                return BadRequest(ModelState);
             }
         }
     }

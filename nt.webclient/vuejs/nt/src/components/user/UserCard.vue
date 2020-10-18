@@ -66,15 +66,22 @@ export default {
     this.selectedUser = this.userName;
     console.log(this.selectedUser);
 
-    var response = await Axios.get("https://localhost:44353/api/User/GetUser", {
+    try {
+      var response = await Axios.get("https://localhost:44353/api/User/GetUser", {
       params: { userName: this.selectedUser },
     });
-    console.log(response);
-    if (!response.data.hasError) {
-      this.displayName = response.data.displayName;
+
+    this.displayName = response.data.displayName;
       this.bio = response.data.bio;
       this.rating = response.data.rating;
+
+    } catch (error) {
+      if(error.response.status==400){
+        console.log(error.response);
+      }
     }
+    
+ 
   },
 };
 </script>

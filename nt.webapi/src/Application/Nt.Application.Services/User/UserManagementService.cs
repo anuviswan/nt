@@ -40,10 +40,12 @@ namespace Nt.Application.Services.User
 
             var userSearchResult = await SearchUserAsync(userName).ConfigureAwait(false);
 
-            if (userSearchResult.ContainsExactly(1) && userSearchResult.Single().UserName.ToLower() == userName.ToLower())
-                return userSearchResult.First();
-
-            throw new Exception("Multiple user found");
+            return userSearchResult.Where(x=>x.UserName.Equals(userName,StringComparison.InvariantCultureIgnoreCase)) switch
+            {
+                IEnumerable<UserProfileEntity> users when !users.Any() => throw new EntityNotFoundException(),
+                IEnumerable<UserProfileEntity> users when  users.Count() == 1 => userSearchResult.Single(),
+                _ => throw new Exception("Multiple Users Found.")
+            };
         }
 
 
