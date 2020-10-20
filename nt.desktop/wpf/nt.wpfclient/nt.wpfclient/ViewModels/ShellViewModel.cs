@@ -4,8 +4,6 @@ using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.ServiceInterfaces;
-using System;
-using System.Web.UI.WebControls;
 using System.Windows;
 
 namespace Nt.WpfClient.ViewModels

@@ -29,7 +29,6 @@ namespace Nt.Utils.ExtensionMethods
             dynamic settings = new ExpandoObject();
             settings.Height = height;
             settings.Width = width;
-            settings.SizeToContent = SizeToContent.Manual;
 
             return source.ShowDialog(viewModel,null,settings);
         }
