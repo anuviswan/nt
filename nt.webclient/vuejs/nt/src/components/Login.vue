@@ -73,6 +73,7 @@
 <script>
 import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
+import {validateUser} from "../api/user"
 export default {
   name: "Login",
   data() {
@@ -106,6 +107,9 @@ export default {
           userName: this.userName,
           passKey: btoa(this.password),
         };
+
+        var res = await validateUser('s','s');
+        console.log(res);
 
         try {
           const response = await axios.post(
