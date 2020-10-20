@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import {validateUser} from "../api/user"
 export default {
@@ -103,38 +103,24 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       if (this.validateForm()) {
-        const userDetails = {
-          userName: this.userName,
-          passKey: btoa(this.password),
-        };
 
-        var res = await validateUser('s','s');
-        console.log(res);
+        var response = await validateUser(this.userName,this.password);
+        
+        if(response.hasError){
+          this.hasServerError = true;
+          this.serverMessage =response.error;
+          return;
+        }
 
-        try {
-          const response = await axios.post(
-            "https://localhost:44353/api/User/ValidateUser",
-            userDetails
-          );
-          this.updateCurrentUser({
+        this.updateCurrentUser({
             userName: response.data.userName,
             displayName: response.data.displayName,
             bio: response.data.bio,
             token: response.data.token,
           });
-
-          console.log("User authenticated and updated, redirecting now..");
-          this.$router.push("/p/dashboard");
-        } catch (error) {
-
-          if(error.response.status == 400)
-          {
-            this.hasServerError = true;
-            this.serverMessage.push(error.response.data);
-          }
-
-        }
-
+  
+        console.log("User authenticated and updated, redirecting now..");
+        this.$router.push("/p/dashboard");
       }
     },
     validateForm() {
