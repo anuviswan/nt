@@ -71,7 +71,6 @@
 </template>
 
 <script>
-//import axios from "axios";
 import { mapActions, mapGetters } from "vuex";
 import {validateUser} from "../api/user"
 export default {
