@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store/index";
+import { getHttpHeader } from "./utils";
 // Validate User
 const validateUser = async (userName, passKey) => {
   const userDetails = {
@@ -78,7 +79,6 @@ const updateUserProfile = async (user) => {
       userDetails,
       { headers: headers }
     );
-    console.log(response);
 
     return {
       data: response.data,
@@ -98,8 +98,36 @@ const updateUserProfile = async (user) => {
 
 // Change Password
 const changePassword = async (oldPassword, newPassword) => {
-  console.log(oldPassword);
-  console.log(newPassword);
+  console.log("Getting headers");
+  const headers = getHttpHeader();
+
+  console.log(headers);
+  var recordToUpdate = {
+    oldPassword: oldPassword,
+    newPassword: newPassword,
+  };
+
+  try {
+    var response = await axios.post(
+      "https://localhost:44353/api/User/ChangePassword",
+      recordToUpdate,
+      { headers: headers }
+    );
+    return {
+      data: response.data,
+      hasError: false,
+      error: [],
+    };
+  } catch (error) {
+    if (error.response.status == 400) {
+      console.log(error.response.data);
+      return {
+        data: null,
+        hasError: true,
+        error: [error.response.data],
+      };
+    }
+  }
 };
 
 export { changePassword, validateUser, getUser, updateUserProfile };
