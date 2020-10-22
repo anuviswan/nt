@@ -48,14 +48,13 @@
               <div class="form-group">
                 <input type="submit" value="Update" />
               </div>
-                      <div v-bind:class="showServerMessage()">
-          <ul>
-            <li v-for="(error, index) in serverMessage" :key="index">
-              <small>{{ error }}</small>
-            </li>
-          </ul>
-         
-        </div>
+              <div v-bind:class="showServerMessage()">
+                <ul>
+                  <li v-for="(error, index) in serverMessage" :key="index">
+                    <small>{{ error }}</small>
+                  </li>
+                </ul>
+              </div>
             </form>
           </div>
         </div>
@@ -67,7 +66,7 @@
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu";
 import { mapGetters, mapActions } from "vuex";
-import {updateUserProfile} from "../../../api/user";
+import { updateUserProfile } from "../../../api/user";
 export default {
   name: "EditProfile",
   components: {
@@ -84,8 +83,7 @@ export default {
       hasServerError: false,
     };
   },
-  created: function () {
-    console.log(this.currentUser);
+  created: function() {
     this.userName = this.$route.params.userid;
     this.authToken = this.currentUser.token;
     this.displayName = this.currentUser.displayName;
@@ -106,12 +104,12 @@ export default {
 
         var response = await updateUserProfile(userRecordToUpdate);
 
-        if(response.hasError){
+        if (response.hasError) {
           this.hasServerError = true;
-          this.serverMessage =response.error;
+          this.serverMessage = response.error;
           return;
         }
-       this.updateCurrentUser({
+        this.updateCurrentUser({
           userName: this.userName,
           displayName: this.displayName,
           bio: this.bio,
@@ -119,9 +117,7 @@ export default {
         });
 
         this.serverMessage.push("User Profile updated successfully");
-        
       }
-      console.log(this.errors);
     },
     hasError(key) {
       return this.errors.indexOf(key) != -1;

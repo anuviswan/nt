@@ -1,62 +1,62 @@
-import axios from 'axios'
+import axios from "axios";
 import store from "../store/index";
 // Validate User
-const validateUser = async (userName, passKey) =>{
+const validateUser = async (userName, passKey) => {
   const userDetails = {
     userName: userName,
     passKey: btoa(passKey),
   };
 
-  try{
+  try {
     const response = await axios.post(
       "https://localhost:44353/api/User/ValidateUser",
       userDetails
     );
     return {
       data: response.data,
-      hasError:false,
-      error:[]
-    }
-  }
-  catch(error){
+      hasError: false,
+      error: [],
+    };
+  } catch (error) {
     return {
-      data:null,
-      hasError:true,
-      error:[error.response.data]
-    }
-
+      data: null,
+      hasError: true,
+      error: [error.response.data],
+    };
   }
-}
+};
 
 // Get User Profile
-const getUser = async (userName)=>{
-  const params =  {
-    params:{
-    userName : userName
-    }
+const getUser = async (userName) => {
+  const params = {
+    params: {
+      userName: userName,
+    },
   };
 
-  try{
-    var response = await axios.get("https://localhost:44353/api/User/GetUser", params);
+  try {
+    var response = await axios.get(
+      "https://localhost:44353/api/User/GetUser",
+      params
+    );
     return {
       data: response.data,
-      hasError:false,
-      error:[]
-    }
-  }
-  catch(error){
-    if(error.response.status==400){
+      hasError: false,
+      error: [],
+    };
+  } catch (error) {
+    if (error.response.status == 400) {
       return {
-        data:null,
-        hasError:true,
-        error:[error.response.data]
-      }
+        data: null,
+        hasError: true,
+        error: [error.response.data],
+      };
     }
   }
-}
+};
 
-const updateUserProfile = async (user)=>
-{
+// Update Profile
+const updateUserProfile = async (user) => {
   const authToken = store.getters.currentUser.token;
 
   const headers = {
@@ -69,11 +69,10 @@ const updateUserProfile = async (user)=>
   const userDetails = {
     displayName: user.displayName,
     bio: user.bio,
-    token:authToken
-  }
+    token: authToken,
+  };
 
-  try{
-
+  try {
     var response = await axios.post(
       "https://localhost:44353/api/User/UpdateUser",
       userDetails,
@@ -83,24 +82,24 @@ const updateUserProfile = async (user)=>
 
     return {
       data: response.data,
-      hasError:false,
-      error:[]
+      hasError: false,
+      error: [],
+    };
+  } catch (error) {
+    if (error.response.status == 400) {
+      return {
+        data: null,
+        hasError: true,
+        error: [error.response.data],
+      };
     }
   }
-  catch(error){
-if(error.response.status==400){
-      return {
-        data:null,
-        hasError:true,
-        error:[error.response.data]
-      }
-  }
-}
-  
-}
+};
 
-export {
-    validateUser,
-    getUser,
-    updateUserProfile
-}
+// Change Password
+const changePassword = async (oldPassword, newPassword) => {
+  console.log(oldPassword);
+  console.log(newPassword);
+};
+
+export { changePassword, validateUser, getUser, updateUserProfile };

@@ -72,7 +72,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import {validateUser} from "../api/user"
+import { validateUser } from "../api/user";
 export default {
   name: "Login",
   data() {
@@ -102,22 +102,21 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       if (this.validateForm()) {
+        var response = await validateUser(this.userName, this.password);
 
-        var response = await validateUser(this.userName,this.password);
-        
-        if(response.hasError){
+        if (response.hasError) {
           this.hasServerError = true;
-          this.serverMessage =response.error;
+          this.serverMessage = response.error;
           return;
         }
 
         this.updateCurrentUser({
-            userName: response.data.userName,
-            displayName: response.data.displayName,
-            bio: response.data.bio,
-            token: response.data.token,
-          });
-  
+          userName: response.data.userName,
+          displayName: response.data.displayName,
+          bio: response.data.bio,
+          token: response.data.token,
+        });
+
         console.log("User authenticated and updated, redirecting now..");
         this.$router.push("/p/dashboard");
       }
