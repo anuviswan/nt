@@ -2,11 +2,11 @@
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser
 {
-    public class UserProfileResponse:ResponseBase
+    public record UserProfileResponse
     {
-        public string UserName { get; set; }
-        public string DisplayName { get; set; }
-        public int Rating { get; set; }
-        public string Bio { get; set; } = string.Empty;
+        public string UserName { get; init; }
+        public string DisplayName { get; init; }
+        public int Rating { get; init; }
+        public string Bio { get; init; } = string.Empty;
     }
 }

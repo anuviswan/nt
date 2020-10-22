@@ -2,14 +2,14 @@
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser
 {
-    public class LoginResponse : ResponseBase
+    public record LoginResponse 
     {
-        public string UserName { get; set; }
-        public bool IsAuthenticated { get; set; }
-        public DateTime LoginTime { get; set; }
-        public string AuthenticationToken { get; set; }
-        public string DisplayName { get; set; }
-        public string Token { get; set; }
-        public string Bio { get; set; }
+        public string UserName { get; init; }
+        public bool IsAuthenticated { get; init; }
+        public DateTime LoginTime { get; init; }
+        public string AuthenticationToken { get; init; }
+        public string DisplayName { get; init; }
+        public string Token { get; init; }
+        public string Bio { get; init; }
     }
 }

@@ -23,7 +23,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 204
         [Theory]
         [MemberData(nameof(UpdateUser_ResponseStatus_204_TestData))]
-        public async Task UpdateUser_ResponseStatus_204(UpdateUserProfileRequest request, UpdateUserProfileResponse expectedResponse)
+        public async Task UpdateUser_ResponseStatus_204(UpdateUserProfileRequest request)
         {
             // Arrange
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -50,8 +50,14 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         public static IEnumerable<object[]> UpdateUser_ResponseStatus_204_TestData => new[]
         {
-            new object[]{new UpdateUserProfileRequest{Bio="Updated Bio",DisplayName="Updated DisplayName"},new UpdateUserProfileResponse{} },
-            new object[]{new UpdateUserProfileRequest{Bio="Updated Bio",DisplayName="Updated Display Name"}, new UpdateUserProfileResponse { } }
+            new object[]
+            {
+                new UpdateUserProfileRequest{Bio="Updated Bio",DisplayName="Updated DisplayName"}
+            },
+            new object[]
+            {
+                new UpdateUserProfileRequest{Bio="Updated Bio",DisplayName="Updated Display Name"}
+            }
         };
         #endregion
 

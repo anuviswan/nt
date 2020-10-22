@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser
 {
-    public class LoginRequest
+    public record LoginRequest
     {
         [Required]
-        public string UserName { get; set; }
+        public string UserName { get; init; }
         [Required]
-        public string PassKey { get; set; }
+        public string PassKey { get; init; }
     }
 }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser
 {
-    public class UpdateUserProfileRequest
+    public record UpdateUserProfileRequest
     {
 
         [Required, MaxLength(30, ErrorMessage = "Display Name should be less than 30 characters")]
-        public string DisplayName { get; set; }
+        public string DisplayName { get; init; }
         [Required, MaxLength(180, ErrorMessage = "Bio should be less than 180 characters")]
-        public string Bio { get; set; }
+        public string Bio { get; init; }
     }
 }

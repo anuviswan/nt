@@ -101,10 +101,13 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 var validUser = await _userProfileService.AuthenticateAsync(userEntity);
                 var tokenString = _tokenGenerator.Generate(validUser);
                 var result = Mapper.Map<LoginResponse>(validUser);
-                result.Token = tokenString;
-                result.IsAuthenticated = true;
-                result.LoginTime = DateTime.UtcNow;
-                return Ok(result);
+                var resultWithToken = result with
+                {
+                    Token = tokenString,
+                    IsAuthenticated = true,
+                    LoginTime = DateTime.UtcNow
+                };
+                return Ok(resultWithToken);
             }
             catch(InvalidPasswordOrUsernameException)
             {
