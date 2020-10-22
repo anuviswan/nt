@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import user from "./modules/user";
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
@@ -11,3 +11,5 @@ export default new Vuex.Store({
     user,
   },
 });
+
+export default store;

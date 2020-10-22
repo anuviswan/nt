@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import store from "../store/index";
 // Validate User
 const validateUser = async (userName, passKey) =>{
   const userDetails = {
@@ -28,6 +28,7 @@ const validateUser = async (userName, passKey) =>{
   }
 }
 
+// Get User Profile
 const getUser = async (userName)=>{
   const params =  {
     params:{
@@ -51,15 +52,55 @@ const getUser = async (userName)=>{
         error:[error.response.data]
       }
     }
-    
-
-
   }
-  
+}
 
+const updateUserProfile = async (user)=>
+{
+  const authToken = store.getters.currentUser.token;
+
+  const headers = {
+    "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+    "Content-Type": "application/json", // this shows the expected content type
+    Authorization: `Bearer ${authToken}`,
+  };
+
+  const userDetails = {
+    displayName: user.displayName,
+    bio: user.bio,
+    token:authToken
+  }
+
+  try{
+
+    var response = await axios.post(
+      "https://localhost:44353/api/User/UpdateUser",
+      userDetails,
+      { headers: headers }
+    );
+    console.log(response);
+
+    return {
+      data: response.data,
+      hasError:false,
+      error:[]
+    }
+  }
+  catch(error){
+if(error.response.status==400){
+      return {
+        data:null,
+        hasError:true,
+        error:[error.response.data]
+      }
+  }
+}
+  
 }
 
 export {
     validateUser,
-    getUser
+    getUser,
+    updateUserProfile
 }

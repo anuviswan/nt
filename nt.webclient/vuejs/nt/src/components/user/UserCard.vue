@@ -72,9 +72,8 @@ export default {
     return;
     }
     this.displayName = response.data.displayName;
-      this.bio = response.data.bio;
-      this.rating = response.data.rating;
-
+    this.bio = response.data.bio;
+    this.rating = response.data.rating;
   },
 };
 </script>
