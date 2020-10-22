@@ -71,27 +71,21 @@
 
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu.vue";
-import axios from "axios";
-import { mapGetters } from "vuex";
+import { changePassword } from "../../../api/user";
 export default {
   name: "ChangePassword",
   data() {
     return {
-      authToken: "",
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
       errors: [],
-      serverMessage: "",
+      serverMessage: [],
       hasServerError: false,
     };
   },
   components: {
     EditUserMenu,
-  },
-  computed: mapGetters(["currentUser"]),
-  created: function () {
-    this.authToken = this.currentUser.token;
   },
   methods: {
     async onSubmit(e) {
@@ -99,41 +93,18 @@ export default {
       if (this.validateForm()) {
         console.log("Changing Password....");
 
-        const headers = {
-          "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
-          "Content-Type": "application/json", // this shows the expected content type
-          Authorization: `Bearer ${this.authToken}`,
-        };
-        var updatedRecord = {
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword,
-        };
-        try {
-          var response = await axios.post(
-            "https://localhost:44353/api/User/ChangePassword",
-            updatedRecord,
-            { headers: headers }
-          );
+        var response = await changePassword(this.oldPassword, this.newPassword);
 
-          console.log(response);
-          if (response.data.hasError) {
-            this.hasServerError = response.data.hasError;
-            this.serverMessage = response.data.errorMessage;
-            return;
-          }
-
-          this.hasServerError = false;
-          this.serverMessage = "Password has been changed successfully.";
-        } catch (error) {
-          this.serverMessage = error.response.data.errors.NewPassword.shift();
+        if (response.hasError) {
           this.hasServerError = true;
+          this.serverMessage = response.error;
           return;
         }
+
+        this.serverMessage.push("Password has been changed successfully.");
       }
     },
     hasError(key) {
-      console.log(key + (this.errors.indexOf(key) != -1));
       return this.errors.indexOf(key) != -1;
     },
     validateForm() {
@@ -159,7 +130,6 @@ export default {
       return isValidFlag;
     },
     showServerMessage() {
-      console.log(this.serverMessage);
       if (!this.serverMessage) {
         return "d-none justify-content-center";
       }

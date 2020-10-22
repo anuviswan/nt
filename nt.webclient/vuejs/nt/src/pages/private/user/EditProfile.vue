@@ -48,14 +48,13 @@
               <div class="form-group">
                 <input type="submit" value="Update" />
               </div>
-                      <div v-bind:class="showServerMessage()">
-          <ul>
-            <li v-for="(error, index) in serverMessage" :key="index">
-              <small>{{ error }}</small>
-            </li>
-          </ul>
-         
-        </div>
+              <div v-bind:class="showServerMessage()">
+                <ul>
+                  <li v-for="(error, index) in serverMessage" :key="index">
+                    <small>{{ error }}</small>
+                  </li>
+                </ul>
+              </div>
             </form>
           </div>
         </div>
@@ -66,8 +65,8 @@
 
 <script>
 import EditUserMenu from "../../../components/user/EditUserMenu";
-import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
+import { updateUserProfile } from "../../../api/user";
 export default {
   name: "EditProfile",
   components: {
@@ -84,8 +83,7 @@ export default {
       hasServerError: false,
     };
   },
-  created: function () {
-    console.log(this.currentUser);
+  created: function() {
     this.userName = this.$route.params.userid;
     this.authToken = this.currentUser.token;
     this.displayName = this.currentUser.displayName;
@@ -99,54 +97,27 @@ export default {
       if (this.validateForm()) {
         console.log("User Profile Update:Submiting data....");
 
-        const headers = {
-          "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
-          "Content-Type": "application/json", // this shows the expected content type
-          Authorization: `Bearer ${this.authToken}`,
-        };
-
-        const updatedUserRecord = {
+        const userRecordToUpdate = {
           displayName: this.displayName,
           bio: this.bio,
         };
 
-        try{
-          var response = await axios.post(
-          "https://localhost:44353/api/User/UpdateUser",
-          updatedUserRecord,
-          { headers: headers }
-        );
-        console.log(response);
+        var response = await updateUserProfile(userRecordToUpdate);
 
-        if (response.data.hasError) {
-          this.hasServerError = response.data.hasError;
-          this.serverMessage = Object.values(response.data.errors).flat();
+        if (response.hasError) {
+          this.hasServerError = true;
+          this.serverMessage = response.error;
           return;
         }
-
         this.updateCurrentUser({
           userName: this.userName,
-          displayName: response.data.displayName,
-          bio: response.data.bio,
+          displayName: this.displayName,
+          bio: this.bio,
           token: this.authToken,
         });
 
         this.serverMessage.push("User Profile updated successfully");
-        }
-         catch (error) {
-          //  console.log("An Exception has occurred");
-          //  this.serverMessage = Object.values(error.response.data.errors).flat();
-          // this.hasServerError = true;
-          // return;
-          console.log(error.response);
-          this.hasServerError = true;
-          this.serverMessage.push(error.response.data);
-          return;
-        }
-        
       }
-      console.log(this.errors);
     },
     hasError(key) {
       return this.errors.indexOf(key) != -1;
