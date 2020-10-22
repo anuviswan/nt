@@ -7,19 +7,19 @@ using System.Collections.Generic;
 namespace Nt.Domain.Entities.Movie
 {
     [BsonCollection("Movie")]
-    public class MovieEntity : BaseEntity
+    public record MovieEntity : BaseEntity
     {
         [BsonElement("movieTitle")]
-        public string Title { get; set; }
+        public string Title { get; init; }
         [BsonElement("releaseDate")]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; init; }
         [BsonElement("directorName")]
-        public string Director { get; set; }
+        public string Director { get; init; }
         [BsonElement("language")]
-        public string Language { get; set; }
+        public string Language { get; init; }
         [BsonElement("actors")]
-        public List<string> Actors { get; set; }
+        public List<string> Actors { get; init; }
         [BsonElement("Reviews")]
-        public List<ReviewEntity> Reviews { get; set; }
+        public List<ReviewEntity> Reviews { get; init; }
     }
 }

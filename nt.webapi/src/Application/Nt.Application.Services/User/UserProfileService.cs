@@ -39,9 +39,10 @@ namespace Nt.Application.Services.User
                 throw new InvalidPasswordOrUsernameException();
             }
 
-            var userToChange = userFound.Single();
-
-            userToChange.PassKey = newPassword;
+            var userToChange = userFound.Single() with
+            {
+                PassKey = newPassword
+            };
 
             return await UnitOfWork.UserProfileRepository.UpdateAsync(userToChange);
         }
@@ -69,10 +70,11 @@ namespace Nt.Application.Services.User
             {
                 throw new EntityNotFoundException();
             }
-            var userToChange = userFound.Single();
-
-            userToChange.Bio = user.Bio;
-            userToChange.DisplayName = user.DisplayName;
+            var userToChange = userFound.Single() with
+            {
+                Bio = user.Bio,
+                DisplayName = user.DisplayName
+            };
 
             return await UnitOfWork.UserProfileRepository.UpdateAsync(userToChange);
         }

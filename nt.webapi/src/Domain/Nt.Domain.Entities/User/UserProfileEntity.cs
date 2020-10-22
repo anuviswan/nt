@@ -5,21 +5,21 @@ using Nt.Domain.Entities.Entities;
 namespace Nt.Domain.Entities.User
 {
     [BsonCollection("Users")]
-    public class UserProfileEntity : BaseEntity
+    public record UserProfileEntity : BaseEntity
     {
         [BsonElement("userName")]
-        public string UserName { get; set; }
+        public string UserName { get; init; }
         [BsonElement("passKey")]
-        public string PassKey { get; set; }
+        public string PassKey { get; init; }
         [BsonElement("displayName")]
-        public string DisplayName { get; set; }
+        public string DisplayName { get; init; }
 
         [BsonElement("bio")]
-        public string Bio { get; set; }
+        public string Bio { get; init; }
 
         [BsonElement("isDeleted")]
         [BsonDefaultValue(false)]
-        public bool IsDeleted { get; set; } 
+        public bool IsDeleted { get; init; } 
 
     }
 }
