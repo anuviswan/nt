@@ -26,7 +26,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns Movie details.Error Message would be set in case of an error</returns>
         [HttpPost]
         [Route("CreateMovie")]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]

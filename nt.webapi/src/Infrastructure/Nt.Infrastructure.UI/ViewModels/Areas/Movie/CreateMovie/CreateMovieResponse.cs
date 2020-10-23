@@ -2,10 +2,10 @@
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie
 {
-    public class CreateMovieResponse : ResponseBase
+    public record CreateMovieResponse
     {
-        public string Title { get; set; }
-        public string Language { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public string Title { get; init; }
+        public string Language { get; init; }
+        public DateTime ReleaseDate { get; init; }
     }
 }

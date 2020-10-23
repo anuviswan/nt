@@ -101,10 +101,13 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 var validUser = await _userProfileService.AuthenticateAsync(userEntity);
                 var tokenString = _tokenGenerator.Generate(validUser);
                 var result = Mapper.Map<LoginResponse>(validUser);
-                result.Token = tokenString;
-                result.IsAuthenticated = true;
-                result.LoginTime = DateTime.UtcNow;
-                return Ok(result);
+                var resultWithToken = result with
+                {
+                    Token = tokenString,
+                    IsAuthenticated = true,
+                    LoginTime = DateTime.UtcNow
+                };
+                return Ok(resultWithToken);
             }
             catch(InvalidPasswordOrUsernameException)
             {
@@ -132,9 +135,13 @@ namespace Nt.Infrastructure.WebApi.Controllers
 
             var userEntity = Mapper.Map<UserProfileEntity>(user);
 
-            userEntity.UserName = userEntity.UserName.ToLower();
-            userEntity.PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey));
-            var result = await _userProfileService.CreateUserAsync(userEntity);
+            var formattedUser = userEntity with
+            {
+                UserName = userEntity.UserName.ToLower(),
+                PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey))
+            };
+
+            var result = await _userProfileService.CreateUserAsync(formattedUser);
             return Ok(Mapper.Map<CreateUserProfileResponse>(result));
         }
 
@@ -156,8 +163,10 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
 
             var userName = User.Identity.Name;
-            var userProfileEntity = Mapper.Map<UserProfileEntity>(user);
-            userProfileEntity.UserName = userName;
+            var userProfileEntity = Mapper.Map<UserProfileEntity>(user) with
+            {
+                UserName = userName
+            };
 
             var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
             return NoContent();
@@ -185,9 +194,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 var userName = User.Identity.Name;
                 var oldPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.OldPassword));
                 var newPasswordB64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(request.NewPassword));
-                var userProfileEntity = Mapper.Map<UserProfileEntity>(request);
-                userProfileEntity.UserName = userName;
-                userProfileEntity.PassKey = oldPasswordB64String;
+                var userProfileEntity = Mapper.Map<UserProfileEntity>(request) with
+                {
+                    UserName = userName,
+                    PassKey = oldPasswordB64String
+                };
 
                 var _ = await _userProfileService.ChangePasswordAsync(userProfileEntity, newPasswordB64String);
                 return NoContent();
