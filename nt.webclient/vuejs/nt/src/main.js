@@ -27,10 +27,21 @@ axios.interceptors.response.use(
   (response) => {
     hideLoader();
 
-    return response;
+    return {
+      data: response.data,
+      hasError: false,
+      error: [],
+    };
   },
   (error) => {
     hideLoader();
+    if (error.response.status == 400) {
+      return {
+        data: null,
+        hasError: true,
+        error: [error.response.data],
+      };
+    }
     return Promise.reject(error);
   }
 );
