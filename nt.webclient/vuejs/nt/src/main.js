@@ -6,8 +6,10 @@ import axios from "axios";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import { getHttpHeader } from "./api/utils";
+//import VueSimpleAlert from "vue-simple-alert";
 // Init plugin
 Vue.use(Loading);
+//Vue.use(VueSimpleAlert);
 
 // Would store loader instance in between loading
 let loader;
@@ -18,7 +20,8 @@ axios.interceptors.request.use((request) => {
   loader = Vue.$loading.show({ color: "#75B7EC", loader: "bars" });
 
   const header = getHttpHeader();
-  request.headers = header;
+  console.log(header);
+  //request.headers = header;
 
   return request;
 });
@@ -35,14 +38,29 @@ axios.interceptors.response.use(
   },
   (error) => {
     hideLoader();
-    if (error.response.status == 400) {
-      return {
-        data: null,
-        hasError: true,
-        error: [error.response.data],
-      };
+    switch (error.response.status) {
+      case 400:
+        return {
+          data: null,
+          hasError: true,
+          error: [error.response.data],
+        };
+      case 401:
+        console.log("okay, in 401 case");
+        //this.$alert("Unauthorized access, please login.");
+        window.location.href = "/home";
+        break;
+      case 500:
+        // Handle 500 here
+        break;
+      // and so on..
     }
-    return Promise.reject(error);
+    // return Promise.reject(error);
+    return {
+      data: null,
+      hasError: true,
+      error: [error.response.data],
+    };
   }
 );
 
