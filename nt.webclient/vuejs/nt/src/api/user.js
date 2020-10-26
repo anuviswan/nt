@@ -8,17 +8,10 @@ const validateUser = async (userName, passKey) => {
     passKey: btoa(passKey),
   };
 
-  const headers = {
-    "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-    "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
-    "Content-Type": "application/json", // this shows the expected content type
-  };
-
   try {
     const response = await axios.post(
       "https://localhost:44353/api/User/ValidateUser",
-      userDetails,
-      { headers: headers }
+      userDetails
     );
     return {
       data: response.data,
