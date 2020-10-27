@@ -40,7 +40,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getUser } from '../../api/user'
+import { getUser } from "../../api/user";
 
 export default {
   name: "UserCard",
@@ -67,9 +67,9 @@ export default {
     this.selectedUser = this.userName;
 
     var response = await getUser(this.selectedUser);
-    if(response.hasError){
-    console.log(response.errors);
-    return;
+    if (response.hasError) {
+      console.log(response.errors);
+      return;
     }
     this.displayName = response.data.displayName;
     this.bio = response.data.bio;
@@ -78,5 +78,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

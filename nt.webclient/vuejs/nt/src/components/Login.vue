@@ -54,12 +54,11 @@
             value="Submit"
           />
         </div>
-        <div v-bind:class="showServerMessage()">
-          <ul>
-            <li v-for="(error, index) in serverMessage" :key="index">
-              <small>{{ error }}</small>
-            </li>
-          </ul>
+        <div class="justify-content-center">
+          <ValidationMessage
+            v-bind:messages="serverMessage"
+            v-bind:isError="hasServerError"
+          />
         </div>
       </form>
       <div>
@@ -73,8 +72,10 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { validateUser } from "../api/user";
+import ValidationMessage from "../components/generic/ValidationMessage";
 export default {
   name: "Login",
+  components: { ValidationMessage },
   data() {
     return {
       errors: [],
@@ -89,15 +90,6 @@ export default {
     ...mapActions(["updateCurrentUser"]),
     hasError(key) {
       return this.errors.indexOf(key) != -1;
-    },
-    showServerMessage() {
-      if (!this.serverMessage.length) {
-        return "d-none";
-      }
-
-      return this.hasServerError
-        ? "text-danger text-left"
-        : "text-success text-left";
     },
     async onSubmit(e) {
       e.preventDefault();

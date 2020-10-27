@@ -52,6 +52,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Collection of Users who matches partial user name</returns>
         [HttpGet]
         [Route("SearchUser")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserProfileResponse>>> SearchUser(string partialString)
         {
@@ -67,6 +68,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User Profile if Single User found. Throws exception otherwise.</returns>
         [HttpGet]
         [Route("GetUser")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserProfileResponse>> GetUser(string userName)
@@ -124,6 +126,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns User details if User is created sucessfully. Returns token with Error Message if User already exists with same username</returns>
         [HttpPost]
         [Route("CreateUser")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CreateUserProfileResponse>> CreateUser(CreateUserProfileRequest user)
