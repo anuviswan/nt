@@ -6,12 +6,13 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
+    /// <summary>
+    /// Exposes API end points for creation and maintaining of movie titles
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MovieController:BaseController
@@ -26,7 +27,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <returns>Returns Movie details.Error Message would be set in case of an error</returns>
         [HttpPost]
         [Route("CreateMovie")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]

@@ -2,13 +2,9 @@
 using Microsoft.IdentityModel.Tokens;
 using Nt.Domain.Entities.User;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Authentication
 {
