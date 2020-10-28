@@ -32,7 +32,7 @@ namespace Nt.Controls.Login
 
             if (response.HasError)
             {
-                ViewModel.SetErrorState(response.ErrorMessage);
+                ViewModel.SetErrorState(response.Errors.First());
                 return false;
             }
             var currentUserService = IoC.Get<ICurrentUserService>();

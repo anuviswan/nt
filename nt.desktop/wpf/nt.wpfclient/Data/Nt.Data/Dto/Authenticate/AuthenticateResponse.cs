@@ -1,4 +1,5 @@
-﻿using Nt.Data.Dto.BaseDto;
+﻿using Nt.Data.Contracts.Dto.Base;
+using Nt.Data.Dto.BaseDto;
 
 namespace Nt.Data.Dto.Authenticate
 {
