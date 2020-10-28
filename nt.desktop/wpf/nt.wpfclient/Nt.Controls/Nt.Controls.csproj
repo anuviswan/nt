@@ -70,6 +70,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Nt.Data.Contracts\Nt.Data.Contracts.csproj">
+      <Project>{a5a93e0f-8820-457a-8b11-bad5023f26cf}</Project>
+      <Name>Nt.Data.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Nt.Data\Nt.Data.csproj">
       <Project>{ECDB588E-B5D0-47AC-91FC-3BF76C00FD5B}</Project>
       <Name>Nt.Data</Name>

@@ -1,7 +1,13 @@
-﻿using Nt.Utils.Helper;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Nt.Data.Contracts.Dto.Base;
+using Nt.Utils.Helper;
 using Nt.Utils.ServiceInterfaces;
 using RestSharp;
 using RestSharp.Authenticators;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using static Nt.Utils.Helper.HttpUtils;
 
@@ -20,13 +26,32 @@ namespace Nt.Utils.Services
             return await _restClient.GetAsync<TResponse>(restRequest);
         }
 
-        public async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest request)
+        public async Task<TResponse> PostAsync<TRequest, TResponse>(string url, TRequest request) where TResponse:IBaseResponse,new()
         {
             var restRequest = new RestRequest(url, Method.POST);
             restRequest.JsonSerializer = new RestSharpJsonNetSerializer();
             restRequest.AddJsonBody(request);
-            var response = await _restClient.PostAsync<TResponse>(restRequest);
-            return response;
+            try
+            {
+                var response = await _restClient.ExecuteAsync(restRequest);
+                return ProcesssResponse<TResponse>(response);
+            }
+            catch(Exception e)
+            {
+                return new TResponse();
+            }
+            
         }
+
+        private TResponse ProcesssResponse<TResponse>(IRestResponse response) where TResponse:IBaseResponse,new()
+        {
+            return response.StatusCode switch
+            {
+                HttpStatusCode.OK => JsonConvert.DeserializeObject<TResponse>(response.Content),
+                HttpStatusCode.BadRequest => new TResponse { Errors = new[] { response.Content } },
+                _ => new TResponse { Errors = new[] { "" } },
+            };
+        }
+
     }
 }

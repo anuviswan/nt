@@ -90,5 +90,11 @@
       <Version>106.11.4</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Nt.Data.Contracts\Nt.Data.Contracts.csproj">
+      <Project>{a5a93e0f-8820-457a-8b11-bad5023f26cf}</Project>
+      <Name>Nt.Data.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
