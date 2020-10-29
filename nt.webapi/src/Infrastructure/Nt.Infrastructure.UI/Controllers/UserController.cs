@@ -13,11 +13,14 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
+    /// <summary>
+    /// Exposes API End points for User Creation and Maintaince
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController
@@ -171,7 +174,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 UserName = userName
             };
 
-            var result = await _userProfileService.UpdateUserAsync(userProfileEntity);
+            var _ = await _userProfileService.UpdateUserAsync(userProfileEntity);
             return NoContent();
         }
 

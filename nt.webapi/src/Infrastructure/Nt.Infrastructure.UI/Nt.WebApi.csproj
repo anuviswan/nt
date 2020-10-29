@@ -7,6 +7,7 @@
     <LangVersion>preview</LangVersion>
     <AssemblyName>Nt.Infrastructure.WebApi</AssemblyName>
     <RootNamespace>Nt.Infrastructure.WebApi</RootNamespace>
+    <noWarn>1591</noWarn>
   </PropertyGroup>
 
   <ItemGroup>
