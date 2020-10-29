@@ -10,6 +10,6 @@ namespace Nt.Data.Dto.BaseDto
     public class BaseResponse:IBaseResponse
     {
         public IEnumerable<string> Errors { get; set; }
-        public bool HasError => Errors.Any();
+        public bool HasError => Errors?.Any() == true;
     }
 }
