@@ -16,7 +16,7 @@
 
         <TextBlock Text="{x:Static localize:Resources.LL_Common_AppTitle}" Padding="5,0,0,0" Background="Yellow"
                VerticalAlignment="Center"  FontSize="16" FontWeight="Bold" Foreground="Black"/>
-        <helpercontrols:Avataar Padding="0,0,5,0" HorizontalAlignment="Right" 
+        <helpercontrols:Avataar Padding="0,0,5,0" HorizontalAlignment="Right"
                                 ImagePosition="Right" UserName="{Binding UserName}"
                                 Grid.Column="1" />
     </Grid>

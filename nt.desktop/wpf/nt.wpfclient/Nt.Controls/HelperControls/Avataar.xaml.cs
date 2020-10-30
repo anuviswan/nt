@@ -14,6 +14,7 @@ namespace Nt.Controls.HelperControls
         public Avataar()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         public string UserName
@@ -23,32 +24,19 @@ namespace Nt.Controls.HelperControls
         }
 
         public static readonly DependencyProperty UserNameProperty =
-            DependencyProperty.Register(nameof(UserName), typeof(string), typeof(Avataar), new PropertyMetadata("Naina",UserNameChanged));
-
-        private static void UserNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-        }
-
+            DependencyProperty.Register(nameof(UserName), typeof(string), typeof(Avataar), new PropertyMetadata("Naina"));
         public Direction ImagePosition
         {
             get { return (Direction)GetValue( ImagePositionProperty); }
             set 
             { 
                 SetValue(ImagePositionProperty, value);
-                this.ContentTemplate = this.ContentTemplateSelector.SelectTemplate(value,this);
             }
         }
 
 
         public static readonly DependencyProperty ImagePositionProperty =
-            DependencyProperty.Register(nameof(ImagePosition), typeof(Direction), typeof(Avataar), new PropertyMetadata(Direction.Left,DirectionChanged));
+            DependencyProperty.Register(nameof(ImagePosition), typeof(Direction), typeof(Avataar), new PropertyMetadata(Direction.Left));
 
-        private static void DirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if(d is Avataar instance)
-            {
-                instance.ContentTemplate = instance.ContentTemplateSelector.SelectTemplate((Direction)e.NewValue,instance);
-            }
-        }
     }
 }

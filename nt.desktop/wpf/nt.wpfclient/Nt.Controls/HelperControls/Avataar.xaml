@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:Nt.Controls.HelperControls"
              mc:Ignorable="d" 
              Background="Red"
-             x:Name="AvataarControl"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -22,7 +21,7 @@
                         <ImageBrush ImageSource="YourImage.png"/>
                     </Ellipse.Fill>-->
                 </Ellipse>
-                <TextBlock Grid.Column="1" Text="{Binding UserName}" HorizontalAlignment="Left" 
+                <TextBlock Grid.Column="1" Text="{Binding UserName}" HorizontalAlignment="Left" Foreground="Wheat"
                    Padding="5,0,5,0" VerticalAlignment="Center"/>
             </Grid>
         </DataTemplate>
@@ -34,26 +33,24 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-              
-
-                <TextBlock Grid.Column="0" Foreground="Red"
+                <TextBlock Grid.Column="0" Foreground="White"
                            Text="{Binding UserName}"
                            HorizontalAlignment="Left" 
                    Padding="5,0,5,0" VerticalAlignment="Center"/>
                 <Ellipse Grid.Column="1" Height="25" Width="25" Fill="Red">
-                    <!--<Ellipse.Fill>
-                        <ImageBrush ImageSource="YourImage.png"/>
-                    </Ellipse.Fill>-->
+                   
                 </Ellipse>
             </Grid>
         </DataTemplate>
 
-       
+        <local:AvataarContentTemplateSelector x:Key="AvataarContentTemplateSelector" 
+                                              ImageOnLeftTemplate="{StaticResource ImageOnLeft}" 
+                                              ImageOnRightTemplate="{StaticResource ImageOnRight}"/>
+
     </UserControl.Resources>
 
-    <UserControl.ContentTemplateSelector>
-        <local:AvataarContentTemplateSelector 
-            ImageOnLeftTemplate="{StaticResource ImageOnLeft}" 
-            ImageOnRightTemplate="{StaticResource ImageOnRight}"/>
-    </UserControl.ContentTemplateSelector>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type local:Avataar}}}">
+        <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource AvataarContentTemplateSelector}"/>
+    </Grid>
 </UserControl>
