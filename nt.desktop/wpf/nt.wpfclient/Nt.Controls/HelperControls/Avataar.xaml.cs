@@ -14,7 +14,6 @@ namespace Nt.Controls.HelperControls
         public Avataar()
         {
             InitializeComponent();
-          //  DataContext = this;
         }
 
         public string UserName
@@ -46,7 +45,10 @@ namespace Nt.Controls.HelperControls
 
         private static void DirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            
+            if(d is Avataar instance)
+            {
+                instance.ContentTemplate = instance.ContentTemplateSelector.SelectTemplate((Direction)e.NewValue,instance);
+            }
         }
     }
 }

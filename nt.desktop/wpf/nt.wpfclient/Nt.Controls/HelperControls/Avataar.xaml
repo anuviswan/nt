@@ -48,8 +48,7 @@
             </Grid>
         </DataTemplate>
 
-        <local:AvataarContentTemplateSelector x:Key="AvataarContentSelector" ImageOnLeftTemplate="{StaticResource ImageOnLeft}" 
-ImageOnRightTemplate="{StaticResource ImageOnRight}" />
+       
     </UserControl.Resources>
 
     <UserControl.ContentTemplateSelector>
