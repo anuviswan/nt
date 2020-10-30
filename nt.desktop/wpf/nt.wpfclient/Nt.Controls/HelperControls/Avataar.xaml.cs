@@ -1,4 +1,6 @@
 ﻿using Nt.Utils.Helper.Enumerations;
+using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,6 +14,7 @@ namespace Nt.Controls.HelperControls
         public Avataar()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         public string UserName
@@ -22,19 +25,18 @@ namespace Nt.Controls.HelperControls
 
         public static readonly DependencyProperty UserNameProperty =
             DependencyProperty.Register(nameof(UserName), typeof(string), typeof(Avataar), new PropertyMetadata("Naina"));
-
-
-
-
         public Direction ImagePosition
         {
             get { return (Direction)GetValue( ImagePositionProperty); }
-            set { SetValue(ImagePositionProperty, value); }
+            set 
+            { 
+                SetValue(ImagePositionProperty, value);
+            }
         }
+
 
         public static readonly DependencyProperty ImagePositionProperty =
             DependencyProperty.Register(nameof(ImagePosition), typeof(Direction), typeof(Avataar), new PropertyMetadata(Direction.Left));
-
 
     }
 }

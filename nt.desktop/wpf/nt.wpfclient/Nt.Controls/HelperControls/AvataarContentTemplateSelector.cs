@@ -18,8 +18,8 @@ namespace Nt.Controls.HelperControls
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is null) return base.SelectTemplate(item, container);
-            switch ((Direction)item)
+            if (!(item is Avataar avataar)) return base.SelectTemplate(item, container);
+            switch ((Direction)avataar.ImagePosition)
             {
                 case Direction.Left: return ImageOnLeftTemplate;
                 case Direction.Right: return ImageOnRightTemplate;

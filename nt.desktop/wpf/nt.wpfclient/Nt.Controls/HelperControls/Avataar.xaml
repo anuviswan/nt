@@ -5,11 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nt.Controls.HelperControls"
              mc:Ignorable="d" 
-             x:Name="AvataarControl"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <ControlTemplate x:Key="ImageOnLeft" >
+        <DataTemplate x:Key="ImageOnLeft" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -21,39 +20,36 @@
                         <ImageBrush ImageSource="YourImage.png"/>
                     </Ellipse.Fill>-->
                 </Ellipse>
-                <TextBlock Grid.Column="1" Text="{Binding UserName}" HorizontalAlignment="Left" 
+                <TextBlock Grid.Column="1" Text="{Binding UserName}" HorizontalAlignment="Left" Foreground="White"
                    Padding="5,0,5,0" VerticalAlignment="Center"/>
             </Grid>
-        </ControlTemplate>
+        </DataTemplate>
 
-        <ControlTemplate x:Key="ImageOnRight" >
+        <DataTemplate x:Key="ImageOnRight" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <ContentPresenter HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
-
-                <TextBlock Grid.Column="0" Foreground="Red"
-                           Text="{Binding Path=UserName, RelativeSource={RelativeSource TemplatedParent}}"
+                <TextBlock Grid.Column="0" Foreground="White"
+                           Text="{Binding UserName}"
                            HorizontalAlignment="Left" 
                    Padding="5,0,5,0" VerticalAlignment="Center"/>
-                <Ellipse Grid.Column="1" Height="25" Width="25" Fill="Red">
-                    <!--<Ellipse.Fill>
-                        <ImageBrush ImageSource="YourImage.png"/>
-                    </Ellipse.Fill>-->
+                <Ellipse Grid.Column="1" Height="25" Width="25"  Fill="Red">
+                   
                 </Ellipse>
             </Grid>
-        </ControlTemplate>
+        </DataTemplate>
 
-        <local:AvataarContentTemplateSelector x:Key="AvataarContentSelector" />
+        <local:AvataarContentTemplateSelector x:Key="AvataarContentTemplateSelector" 
+                                              ImageOnLeftTemplate="{StaticResource ImageOnLeft}" 
+                                              ImageOnRightTemplate="{StaticResource ImageOnRight}"/>
+
     </UserControl.Resources>
 
-    <Grid>
-        
-        <ContentPresenter x:Name="btn" ContentTemplateSelector="{StaticResource AvataarContentSelector}" 
-                 DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Avataar}, Mode=FindAncestor}}"/>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type local:Avataar}}}">
+        <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource AvataarContentTemplateSelector}"/>
     </Grid>
 </UserControl>

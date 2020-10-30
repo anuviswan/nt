@@ -4,7 +4,16 @@ namespace Nt.Controls.Navbar
 {
     public class NavbarViewModel:NtViewModelBase<NavbarControl>
     {
-        public string UserName { get; set; }
+        private string _userName;
+        public string UserName 
+        {
+            get => _userName;
+            set
+            {
+                _userName = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         protected override void OnViewLoaded(object view)
         {
