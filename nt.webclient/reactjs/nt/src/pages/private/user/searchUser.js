@@ -5,14 +5,13 @@ import { searchUserList } from "../../../api/user";
 import UserContext from "../../../context/user/userContext";
 
 const SearchUser = () => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
   const userContext = useContext(UserContext);
   const authToken = userContext.userToken;
 
   const searchForUsers = async (authToken, text) => {
     const res = await searchUserList(authToken, text);
     setSearchResults((current) => res.data);
-    console.log(searchResults);
   };
 
   return (
