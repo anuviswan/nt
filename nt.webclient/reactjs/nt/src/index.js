@@ -38,7 +38,7 @@ axios.interceptors.response.use(
       case 401:
         console.log("okay, in 401 case");
         alert("Unauthorized access, please login.");
-        this.props.history.push("/");
+        window.location.href = "/";
         break;
       case 500:
         // Handle 500 here

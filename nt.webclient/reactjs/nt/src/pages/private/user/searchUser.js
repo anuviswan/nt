@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import UserSearchBar from "../../../components/User/userSearchBar";
-import axios from "axios";
 import Users from "./users";
+import { searchUserList } from "../../../api/user";
 
 const SearchUser = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   const searchForUsers = async (text) => {
-    const res = await axios.get(
-      `https://localhost:44353/api/User/SearchUser?partialString=${text}`
-    );
+    const res = await searchUserList(text);
     setSearchResults((current) => res.data);
     console.log(searchResults);
   };
