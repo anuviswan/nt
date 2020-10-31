@@ -51,22 +51,19 @@ const Login = () => {
         bio,
       } = result.data;
 
-      if (isAuthenticated) {
-        console.log("User Authenticated");
-        userContext.setCurrentUser({
-          authToken: token,
-          currentUser: {
-            userName: userName,
-            displayName: displayName,
-            bio: bio,
-            rating: 5,
-          },
-          isAuthenticated: isAuthenticated,
-        });
-        console.log(history);
-        history.push("/home");
-        console.log("Redirecting...");
-      }
+      userContext.setCurrentUser({
+        authToken: token,
+        currentUser: {
+          userName: userName,
+          displayName: displayName,
+          bio: bio,
+          rating: 5,
+        },
+        isAuthenticated: isAuthenticated,
+      });
+      console.log(history);
+      history.push("/home");
+      console.log("Redirecting...");
     }
   };
 
