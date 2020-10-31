@@ -56,9 +56,14 @@ const changePassword = async (oldPassword, newPassword) => {
   return response;
 };
 
-const searchUserList = async (keyword) => {
+const searchUserList = async (authToken, keyword) => {
+  const headers = {
+    Authorization: `Bearer ${authToken}`,
+  };
+
   const response = await axios.get(
-    `https://localhost:44353/api/User/SearchUser?partialString=${keyword}`
+    `https://localhost:44353/api/User/SearchUser?partialString=${keyword}`,
+    { headers }
   );
 
   return response;

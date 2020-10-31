@@ -6,11 +6,16 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 
 axios.interceptors.request.use((request) => {
+  const authToken = request.headers.Authorization;
   const headers = {
     "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
     "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
     "Content-Type": "application/json", // this shows the expected content type
   };
+
+  if (authToken) {
+    headers.Authorization = authToken;
+  }
   request.headers = headers;
 
   console.log(request);
@@ -38,7 +43,7 @@ axios.interceptors.response.use(
       case 401:
         console.log("okay, in 401 case");
         alert("Unauthorized access, please login.");
-        window.location.href = "/";
+        // window.location.href = "/";
         break;
       case 500:
         // Handle 500 here
