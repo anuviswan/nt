@@ -2,12 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const ValidationMessage = ({ isVisible, isValid, message }) => {
+  console.log(message);
   if (isVisible) {
-    return isValid ? (
-      <div className='valid-feedback d-block '>{message}</div>
-    ) : (
-      <div className='invalid-feedback d-block '>{message}</div>
-    );
+    const messageList = isValid
+      ? message.map((msg) => <li className='valid-feedback d-block '>{msg}</li>)
+      : message.map((msg) => (
+          <li className='invalid-feedback d-block '>{msg}</li>
+        ));
+
+    return <ul>{messageList}</ul>;
   }
 
   return null;
@@ -16,7 +19,7 @@ const ValidationMessage = ({ isVisible, isValid, message }) => {
 ValidationMessage.protoType = {
   isVisible: PropTypes.bool.isRequired,
   isValid: PropTypes.bool.isRequired,
-  message: PropTypes.string,
+  message: PropTypes.array,
 };
 
 export default ValidationMessage;

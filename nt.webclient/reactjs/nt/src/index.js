@@ -6,6 +6,13 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 
 axios.interceptors.request.use((request) => {
+  const headers = {
+    "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+    "Content-Type": "application/json", // this shows the expected content type
+  };
+  request.headers = headers;
+
   console.log(request);
   return request;
 });
@@ -19,6 +26,7 @@ axios.interceptors.response.use(
     };
   },
   (error) => {
+    console.log(error);
     switch (error.response.status) {
       case 400:
         return {

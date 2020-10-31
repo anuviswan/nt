@@ -40,7 +40,7 @@ const Login = () => {
       setValidationMsg({
         isVisible: true,
         isValid: false,
-        message: result.error[0], //errorMessage,
+        message: result.error, //errorMessage,
       });
     } else {
       const {
@@ -66,12 +66,6 @@ const Login = () => {
         console.log(history);
         history.push("/home");
         console.log("Redirecting...");
-      } else {
-        setValidationMsg({
-          isVisible: true,
-          isValid: false,
-          message: "", //errorMessage,
-        });
       }
     }
   };
