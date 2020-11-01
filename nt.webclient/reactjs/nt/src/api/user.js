@@ -48,7 +48,11 @@ const updateUserProfile = async (authToken, user) => {
 };
 
 // Change Password
-const changePassword = async (oldPassword, newPassword) => {
+const changePassword = async (authToken, oldPassword, newPassword) => {
+  const headers = {
+    Authorization: `Bearer ${authToken}`,
+  };
+
   var recordToUpdate = {
     oldPassword: oldPassword,
     newPassword: newPassword,
@@ -56,7 +60,8 @@ const changePassword = async (oldPassword, newPassword) => {
 
   var response = await axios.post(
     "https://localhost:44353/api/User/ChangePassword",
-    recordToUpdate
+    recordToUpdate,
+    { headers }
   );
   return response;
 };

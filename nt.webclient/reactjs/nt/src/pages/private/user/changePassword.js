@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import Axios from "axios";
 import UserContext from "../../../context/user/userContext";
 import ValidationMessage from "../../../components/layout/validationMessage";
 import EditUserMenu, {
   CHANGE_PWD,
 } from "../../../components/User/editUserMenu";
+import { changePassword } from "../../../api/user";
 
 const ChangePassword = ({ location }) => {
   const userContext = useContext(UserContext);
@@ -30,37 +30,26 @@ const ChangePassword = ({ location }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const headers = {
-      "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-      "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
-      "Content-Type": "application/json", // this shows the expected content type
-      Authorization: `Bearer ${authToken}`,
-    };
-
-    const response = await Axios.post(
-      "https://localhost:44353/api/User/ChangePassword",
-      {
-        oldPassword: userDetails.oldPassword,
-        newPassword: userDetails.newPassword,
-      },
-      { headers: headers }
+    const response = await changePassword(
+      authToken,
+      userDetails.oldPassword,
+      userDetails.newPassword
     );
-
-    validateResponse(response.data.errorMessage);
+    validateResponse(response);
   };
 
-  const validateResponse = (errorMessage) => {
-    if (errorMessage) {
+  const validateResponse = (response) => {
+    if (response.hasError) {
       setFormValidation({
         isValid: false,
         isVisible: true,
-        message: errorMessage,
+        message: response.error,
       });
     } else {
       setFormValidation({
         isValid: true,
         isVisible: true,
-        message: "Password changed successfully",
+        message: ["Password changed successfully"],
       });
     }
   };
