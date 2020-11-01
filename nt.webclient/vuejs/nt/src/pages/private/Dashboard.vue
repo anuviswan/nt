@@ -1,12 +1,15 @@
 <template>
-  <h1>User has successfully logged in, This is Dashboard</h1>
+  <div>
+    <SearchBar />
+  </div>
 </template>
 
 <script>
+import SearchBar from "../../components/generic/SearchBar";
 export default {
   name: "Dashboard",
+  components: { SearchBar },
 };
 </script>
 
-<style>
-</style>
+<style></style>
