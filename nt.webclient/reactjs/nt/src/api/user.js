@@ -29,7 +29,11 @@ const getUser = async (userName) => {
 };
 
 // Update Profile
-const updateUserProfile = async (user) => {
+const updateUserProfile = async (authToken, user) => {
+  const headers = {
+    Authorization: `Bearer ${authToken}`,
+  };
+
   const userDetails = {
     displayName: user.displayName,
     bio: user.bio,
@@ -37,7 +41,8 @@ const updateUserProfile = async (user) => {
 
   var response = await axios.post(
     "https://localhost:44353/api/User/UpdateUser",
-    userDetails
+    userDetails,
+    { headers }
   );
   return response;
 };

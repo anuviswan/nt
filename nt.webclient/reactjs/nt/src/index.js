@@ -11,14 +11,13 @@ axios.interceptors.request.use((request) => {
     "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
     "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
     "Content-Type": "application/json", // this shows the expected content type
+    Accept: "application/json",
   };
 
   if (authToken) {
     headers.Authorization = authToken;
   }
   request.headers = headers;
-
-  console.log(request);
   return request;
 });
 
@@ -31,13 +30,28 @@ axios.interceptors.response.use(
     };
   },
   (error) => {
-    console.log(error);
     switch (error.response.status) {
       case 400:
+        const errorMessages = error.response.data.errors;
+        let errorCollection = [];
+        for (var key in errorMessages) {
+          // skip loop if the property is from prototype
+          if (!errorMessages.hasOwnProperty(key)) continue;
+
+          var obj = errorMessages[key];
+          for (var prop in obj) {
+            // skip loop if the property is from prototype
+            if (!obj.hasOwnProperty(prop)) continue;
+
+            // your code
+            errorCollection.push(obj[prop]);
+          }
+        }
+
         return {
           data: null,
           hasError: true,
-          error: [error.response.data],
+          error: errorCollection,
         };
 
       case 401:
