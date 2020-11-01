@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const UserSearchBar = ({ searchUsers }) => {
+const UserSearchBar = ({ searchUsers, authToken }) => {
   const [text, setText] = useState("");
 
   const onChange = (e) => {
@@ -10,7 +10,7 @@ const UserSearchBar = ({ searchUsers }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    searchUsers(text);
+    searchUsers(authToken, text);
     setText("");
   };
 

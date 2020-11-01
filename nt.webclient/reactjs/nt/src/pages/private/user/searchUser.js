@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import UserSearchBar from "../../../components/User/userSearchBar";
-import axios from "axios";
 import Users from "./users";
+import { searchUserList } from "../../../api/user";
+import UserContext from "../../../context/user/userContext";
 
 const SearchUser = () => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
+  const userContext = useContext(UserContext);
+  const authToken = userContext.userToken;
 
-  const searchForUsers = async (text) => {
-    const res = await axios.get(
-      `https://localhost:44353/api/User/SearchUser?partialString=${text}`
-    );
+  const searchForUsers = async (authToken, text) => {
+    const res = await searchUserList(authToken, text);
     setSearchResults((current) => res.data);
-    console.log(searchResults);
   };
 
   return (
     <div>
       <div>
-        <UserSearchBar searchUsers={searchForUsers} />
+        <UserSearchBar searchUsers={searchForUsers} authToken={authToken} />
       </div>
       <div>
         <Users users={searchResults} />

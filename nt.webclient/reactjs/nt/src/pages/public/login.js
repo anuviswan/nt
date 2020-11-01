@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import UserContext from "../../context/user/userContext";
 import ValidationMessage from "../../components/layout/validationMessage";
 import { Link } from "react-router-dom";
-import { Base64 } from "js-base64";
 import { useHistory } from "react-router-dom";
+import { validateUser } from "../../api/user";
 
 const Login = () => {
   const history = useHistory();
@@ -28,41 +27,30 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const headers = {
-      "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-      "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
-      "Content-Type": "application/json", // this shows the expected content type
-    };
 
-    const base64PassKey = Base64.encode(userProfile.passKey);
-    setLoginProfile({
-      ...userProfile,
-      passKey: base64PassKey,
-    });
-
-    console.log(base64PassKey);
-
-    setLoginProfile({ ...userProfile, passKey: base64PassKey });
-
-    const result = await axios.post(
-      "https://localhost:44353/api/User/ValidateUser",
-      { ...userProfile, passKey: base64PassKey },
-      { headers: headers }
+    const result = await validateUser(
+      userProfile.userName,
+      userProfile.passKey
     );
 
-    console.log(result.data);
+    if (result.hasError) {
+      console.log("login error");
+      console.log(result);
 
-    const {
-      isAuthenticated,
-      token,
-      userName,
-      errorMessage,
-      displayName,
-      bio,
-    } = result.data;
+      setValidationMsg({
+        isVisible: true,
+        isValid: false,
+        message: result.error, //errorMessage,
+      });
+    } else {
+      const {
+        isAuthenticated,
+        token,
+        userName,
+        displayName,
+        bio,
+      } = result.data;
 
-    if (isAuthenticated) {
-      console.log("User Authenticated");
       userContext.setCurrentUser({
         authToken: token,
         currentUser: {
@@ -76,12 +64,6 @@ const Login = () => {
       console.log(history);
       history.push("/home");
       console.log("Redirecting...");
-    } else {
-      setValidationMsg({
-        isVisible: true,
-        isValid: false,
-        message: errorMessage,
-      });
     }
   };
 
