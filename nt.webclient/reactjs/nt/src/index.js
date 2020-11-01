@@ -33,6 +33,14 @@ axios.interceptors.response.use(
     switch (error.response.status) {
       case 400:
         const errorMessages = error.response.data.errors;
+        if (typeof error.response.data == "string") {
+          return {
+            data: null,
+            hasError: true,
+            error: [error.response.data],
+          };
+        }
+        console.log(error.response.data);
         let errorCollection = [];
         for (var key in errorMessages) {
           // skip loop if the property is from prototype
