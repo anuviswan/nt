@@ -66,6 +66,7 @@ const changePassword = async (authToken, oldPassword, newPassword) => {
   return response;
 };
 
+// Search user list
 const searchUserList = async (authToken, keyword) => {
   const headers = {
     Authorization: `Bearer ${authToken}`,
@@ -79,10 +80,25 @@ const searchUserList = async (authToken, keyword) => {
   return response;
 };
 
+const registerUser = async (userName, displayName, passKey) => {
+  const userDetails = {
+    userName: userName,
+    displayName: displayName,
+    passKey: passKey,
+  };
+  const response = await axios.post(
+    "https://localhost:44353/api/User/CreateUser",
+    userDetails
+  );
+
+  return response;
+};
+
 export {
   changePassword,
   validateUser,
   getUser,
   updateUserProfile,
   searchUserList,
+  registerUser,
 };

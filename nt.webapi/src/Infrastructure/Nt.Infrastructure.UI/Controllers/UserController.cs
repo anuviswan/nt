@@ -147,8 +147,17 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 PassKey = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(user.PassKey))
             };
 
-            var result = await _userProfileService.CreateUserAsync(formattedUser);
-            return Ok(Mapper.Map<CreateUserProfileResponse>(result));
+            try
+            {
+                var result = await _userProfileService.CreateUserAsync(formattedUser);
+                return Ok(Mapper.Map<CreateUserProfileResponse>(result));
+            }
+            catch (UserNameExistsException)
+            {
+                return BadRequest("User Name already exists");
+            }
+
+           
         }
 
         /// <summary>

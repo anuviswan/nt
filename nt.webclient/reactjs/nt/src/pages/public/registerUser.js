@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import ValidationMessage from "../../components/layout/validationMessage";
+import { registerUser } from "../../api/user";
 const RegisterUser = () => {
   const initialValue = {
     userName: "",
@@ -36,7 +36,7 @@ const RegisterUser = () => {
       updateUserValidation({
         isVisible: true,
         isValid: false,
-        message: "UserName cannot be empty",
+        message: ["UserName cannot be empty"],
       });
       return;
     }
@@ -45,7 +45,7 @@ const RegisterUser = () => {
       updateUserValidation({
         isVisible: true,
         isValid: false,
-        message: "UserName should be minimum 6 characters",
+        message: ["UserName should be minimum 6 characters"],
       });
       return;
     }
@@ -54,7 +54,7 @@ const RegisterUser = () => {
       updateUserValidation({
         isVisible: true,
         isValid: false,
-        message: "Username can include only alphanumeric characters",
+        message: ["Username can include only alphanumeric characters"],
       });
       return;
     }
@@ -67,7 +67,7 @@ const RegisterUser = () => {
       updatedisplayNameValidation({
         isVisible: true,
         isValid: false,
-        message: "Display Name cannot be empty",
+        message: ["Display Name cannot be empty"],
       });
       return;
     }
@@ -76,14 +76,14 @@ const RegisterUser = () => {
       updatedisplayNameValidation({
         isVisible: true,
         isValid: false,
-        message: "Display Name should be minimum 2 characters",
+        message: ["Display Name should be minimum 2 characters"],
       });
       return;
     }
     updatedisplayNameValidation({
       isVisible: false,
       isValid: true,
-      message: "",
+      message: [],
     });
   };
 
@@ -92,7 +92,7 @@ const RegisterUser = () => {
       updatePasswordValidation({
         isVisible: true,
         isValid: false,
-        message: "Password cannot be empty",
+        message: ["Password cannot be empty"],
       });
       return;
     }
@@ -101,7 +101,7 @@ const RegisterUser = () => {
       updatePasswordValidation({
         isVisible: true,
         isValid: false,
-        message: "Password should be minimum 6 characters",
+        message: ["Password should be minimum 6 characters"],
       });
       return;
     }
@@ -120,34 +120,28 @@ const RegisterUser = () => {
       displayNameValidation.isValid &&
       passwordValidation.isValid
     ) {
-      console.log("all valid - register now");
-      const headers = {
-        "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
-        "Content-Type": "application/json", // this shows the expected content type
-      };
-
-      const res = await axios.post(
-        "https://localhost:44353/api/User/CreateUser",
-        formData,
-        {
-          headers: headers,
-        }
+      const response = await registerUser(
+        formData.userName,
+        formData.displayName,
+        formData.passKey
       );
-      if (!res.data.errorMessage) {
+
+      console.log(response);
+
+      if (!response.hasError) {
         updateformValidation({
           isVisible: true,
           isValid: true,
-          message: "User is successfully registered",
+          message: ["User is successfully registered"],
         });
       } else {
+        console.log(response.error);
         updateformValidation({
           isVisible: true,
           isValid: false,
-          message: res.data.errorMessage,
+          message: response.error,
         });
       }
-      console.log(res);
     }
   };
   return (
