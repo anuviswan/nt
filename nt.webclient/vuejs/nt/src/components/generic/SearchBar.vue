@@ -1,11 +1,5 @@
 <template>
-  <form
-    action=""
-    autocomplete="off"
-    class="form-horizontal"
-    method="post"
-    accept-charset="utf-8"
-  >
+  <form autocomplete="off" class="form-horizontal" v-on:submit="onSubmit">
     <div class="input-group">
       <input name="searchtext" value="" class="form-control" type="text" />
       <button class="btn btn-primary btn-rounded" type="submit">
@@ -26,6 +20,12 @@
 <script>
 export default {
   name: "SearchBar",
+  methods: {
+    onSubmit(e) {
+      e.preventDefault();
+      this.$emit("searched", "KEY", "USER");
+    },
+  },
 };
 </script>
 
