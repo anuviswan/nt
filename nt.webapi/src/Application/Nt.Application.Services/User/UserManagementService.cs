@@ -43,7 +43,7 @@ namespace Nt.Application.Services.User
             return userSearchResult.Where(x=>x.UserName.Equals(userName,StringComparison.InvariantCultureIgnoreCase)) switch
             {
                 IEnumerable<UserProfileEntity> users when !users.Any() => throw new EntityNotFoundException(),
-                IEnumerable<UserProfileEntity> users when  users.Count() == 1 => userSearchResult.Single(),
+                IEnumerable<UserProfileEntity> users when  users.Count() == 1 => users.Single(),
                 _ => throw new Exception("Multiple Users Found.")
             };
         }

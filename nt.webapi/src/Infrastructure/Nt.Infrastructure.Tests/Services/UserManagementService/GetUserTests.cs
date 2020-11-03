@@ -29,6 +29,7 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
                 new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", IsDeleted = false },
                 new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", IsDeleted = false },
                 new UserProfileEntity { UserName = "ManuViswan", DisplayName = "Manu Viswan", IsDeleted = false },
+                new UserProfileEntity { UserName = "jiaanu", DisplayName = "anuviswan", IsDeleted = false },
                 new UserProfileEntity { UserName = "AnuViswan", DisplayName = "AnuViswan", IsDeleted = true },
             };
         }
