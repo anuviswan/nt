@@ -8,15 +8,15 @@ Current Implementations
 ### Server ###
 |  Framework     | Status |
 | ----------- | ----------- |
-| [.Net 5](https://github.com/anuviswan/nt/tree/master/nt.webapi/src) |  _In Progress_     |
+| [.Net 5 Web Api](https://github.com/anuviswan/nt/tree/master/nt.webapi/src) |  _In Progress_     |
 
 ### Client ###
 |  Framework     | Status |
 | ----------- | ----------- |
 | [ReactJs](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs)|  _In Progress_     |
 | [VueJs](https://github.com/anuviswan/nt/tree/master/nt.webclient/vuejs/nt)|  _In Progress_     |
-| [Flutter/Dart]()|  _To do_     |
-| [.Net/Wpf](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient)|  _In Progress_     |
+| [Flutter-Dart]()|  _To do_     |
+| [.Net-Wpf](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient)|  _In Progress_     |
 
 ### Database ###
 |  Database     | Status |
