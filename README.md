@@ -1,5 +1,7 @@
 # nt
-NT, or November Talkies is a Instagram-modeled Movie Review application. This project services as a _playground_ for experimenting with different laguages/frameworks
+NT, or November Talkies is a Instagram-modeled Movie Review application. 
+
+Inspired from gothinkster's famous realworld repository, this project services as a _playground_ for experimenting with different tech stacks. This provides a good oppurtunity to learn and experiment with different frameworks while working on a real world sample project.
 
 Current Implementations
 
