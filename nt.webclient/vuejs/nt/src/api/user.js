@@ -56,4 +56,19 @@ const changePassword = async (oldPassword, newPassword) => {
   return response;
 };
 
-export { changePassword, validateUser, getUser, updateUserProfile };
+const searchUser = async (searchTerm) => {
+  const params = {
+    params: {
+      partialString: searchTerm,
+    },
+  };
+  var response = await axios.get(
+    "https://localhost:44353/api/User/SearchUser",
+    params
+  );
+
+  console.log(response);
+  return response;
+};
+
+export { changePassword, validateUser, getUser, updateUserProfile, searchUser };

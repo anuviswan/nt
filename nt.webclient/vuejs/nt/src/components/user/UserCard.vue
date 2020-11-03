@@ -64,6 +64,7 @@ export default {
   },
   computed: mapGetters(["currentUser"]),
   async created() {
+    console.log(this.userName);
     this.selectedUser = this.userName;
 
     var response = await getUser(this.selectedUser);
