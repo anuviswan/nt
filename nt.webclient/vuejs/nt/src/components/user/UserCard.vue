@@ -18,7 +18,7 @@
       <h4 class="card-title block text-uppercase text-center">
         {{ this.displayName }}
       </h4>
-      {{ this.selectedUser }}
+      {{ this.userName }}
       <!-- <Rating value="{5}" totalStars="{5}" /> -->
     </div>
 
@@ -40,18 +40,17 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getUser } from "../../api/user";
 
 export default {
   name: "UserCard",
   props: {
-    userName: {
+    user: {
       required: true,
     },
   },
   data() {
     return {
-      selectedUser: "",
+      userName: "",
       displayName: "",
       bio: "",
       rating: 0,
@@ -63,17 +62,12 @@ export default {
     },
   },
   computed: mapGetters(["currentUser"]),
-  async created() {
-    this.selectedUser = this.userName;
-
-    var response = await getUser(this.selectedUser);
-    if (response.hasError) {
-      console.log(response.errors);
-      return;
-    }
-    this.displayName = response.data.displayName;
-    this.bio = response.data.bio;
-    this.rating = response.data.rating;
+  created() {
+    console.log("In usercard" + this.user);
+    this.userName = this.user.userName;
+    this.displayName = this.user.displayName;
+    this.bio = this.user.bio;
+    this.rating = this.user.rating;
   },
 };
 </script>

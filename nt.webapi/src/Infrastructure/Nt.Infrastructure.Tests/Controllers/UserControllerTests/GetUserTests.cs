@@ -31,6 +31,12 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                 UserName = $"username{x}",
                 PassKey = $"passKey{x}"
             }).ToList();
+
+            EntityCollection.AddRange(new[]
+            {
+                new UserProfileEntity{ UserName = "jiaanu", DisplayName="nainaanu" },
+                new UserProfileEntity{ UserName = "nainaanu", DisplayName="jiaanu" }
+            });
         }
 
         #region ResponseStatus 200
@@ -56,6 +62,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         public static IEnumerable<object[]> GetUser_ResponseStatus_200_TestData => new List<object[]>
         {
             new object[]{"username2", new UserProfileResponse{ UserName="username2",DisplayName="User Name 2" } },
+            new object[]{"jiaanu", new UserProfileResponse{ UserName="jiaanu",DisplayName="nainaanu" } },
         };
         #endregion
 
