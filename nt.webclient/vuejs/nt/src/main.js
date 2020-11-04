@@ -17,7 +17,10 @@ let loader;
 Vue.config.productionTip = false;
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.interceptors.request.use((request) => {
-  loader = Vue.$loading.show({ color: "#75B7EC", loader: "bars" });
+  console.log("Enabling loader");
+  console.log(request);
+
+  showLoader();
 
   const header = getHttpHeader();
   request.headers = header;
@@ -36,6 +39,7 @@ axios.interceptors.response.use(
     };
   },
   (error) => {
+    console.log("disabling loader");
     hideLoader();
     switch (error.response.status) {
       case 400:
@@ -62,6 +66,12 @@ axios.interceptors.response.use(
     };
   }
 );
+
+function showLoader() {
+  if (loader) return;
+
+  loader = Vue.$loading.show({ color: "#75B7EC", loader: "bars" });
+}
 
 function hideLoader() {
   loader && loader.hide();

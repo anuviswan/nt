@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="grid-contaniner">
     <div v-for="(user, index) in userList" :key="index">
-      <UserCard v-bind:userName="user.userName" />
+      <UserCard v-bind:user="user" />
     </div>
   </div>
 </template>
@@ -21,4 +21,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 1rem;
+}
+</style>
