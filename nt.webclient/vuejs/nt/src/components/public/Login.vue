@@ -71,8 +71,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { validateUser } from "../api/user";
-import ValidationMessage from "../components/generic/ValidationMessage";
+import { validateUser } from "../../api/user";
+import ValidationMessage from "../../components/generic/ValidationMessage";
 export default {
   name: "Login",
   components: { ValidationMessage },
