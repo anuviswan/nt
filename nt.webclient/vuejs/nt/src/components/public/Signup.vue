@@ -72,8 +72,11 @@
             value="Submit"
           />
         </div>
-        <div v-bind:class="showServerMessage()">
-          <small>{{ serverMessage }}</small>
+        <div class="d-flex justify-content-center">
+          <ValidationMessage
+            v-bind:messages="serverMessage"
+            v-bind:isError="hasServerError"
+          />
         </div>
       </form>
       <div>
@@ -85,14 +88,19 @@
 </template>
 
 <script>
-import axios from "axios";
+import { registerUser } from "../../api/user";
+import ValidationMessage from "../../components/generic/ValidationMessage";
 export default {
   name: "Signup",
+  components: {
+    ValidationMessage,
+  },
   data() {
     return {
       errors: [],
       userName: "",
       password: "",
+      displayName: "",
       confirmPassword: "",
       serverMessage: "",
       hasServerError: false,
@@ -120,23 +128,22 @@ export default {
         return;
       }
 
-      const userDetails = {
-        userName: this.userName,
-        passKey: this.password,
-        displayName: this.userName,
-      };
-      const response = await axios.post(
-        "https://localhost:44353/api/User/CreateUser",
-        userDetails
+      this.hasServerError = false;
+      this.serverMessage = [];
+
+      const response = await registerUser(
+        this.userName,
+        this.displayName,
+        this.password
       );
 
-      this.hasServerError = response.data.hasError;
-      if (this.hasServerError) {
-        this.serverMessage = response.data.errorMessage;
-      } else {
-        this.serverMessage = "User created successfully.";
+      if (response.hasError) {
+        this.hasServerError = true;
+        this.serverMessage = response.error;
+        return;
       }
-      console.log(this.showServerMessage());
+
+      this.serverMessage.push("User registered successfully.");
     },
     validateForm() {
       let isValidFlag = true;

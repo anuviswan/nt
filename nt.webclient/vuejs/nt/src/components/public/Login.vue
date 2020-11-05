@@ -54,7 +54,7 @@
             value="Submit"
           />
         </div>
-        <div class="justify-content-center">
+        <div class="d-flex justify-content-center">
           <ValidationMessage
             v-bind:messages="serverMessage"
             v-bind:isError="hasServerError"
