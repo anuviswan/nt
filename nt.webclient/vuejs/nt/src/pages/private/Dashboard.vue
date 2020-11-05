@@ -1,43 +1,92 @@
 <template>
-  <div>
-    <div>
-      <SearchBar v-on:searched="onSearch" />
-    </div>
-    <div v-if="userList.length">
-      <UserList v-bind:userList="userList" />
-    </div>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import SearchBar from "../../components/generic/SearchBar";
-import UserList from "../../components/user/UserList";
-import { searchUser } from "../../api/user";
 export default {
   name: "Dashboard",
-  components: { SearchBar, UserList },
   data() {
     return {
-      userList: [],
+      movies: [
+        {
+          title: "Matrix",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Matrix",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Lost World",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/11/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Jurassic Park",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/9/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Avataar",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "8/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "The Shawshank Redemption",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Forrest Gump",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Lion King",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+        {
+          title: "Sherlock",
+          image: "https://picsum.photos/200/300?random=1",
+          rating: "3",
+          releaseDate: "10/10/2020",
+          language: "English",
+          genre: "Action",
+        },
+      ],
+      recentReleases: [],
+      trendingThrillers: [],
+      trendingAction: [],
     };
   },
-  methods: {
-    async onSearch(key, searchType) {
-      switch (searchType) {
-        case "USER": {
-          const response = await searchUser(key);
-          console.log(response);
-          if (response.hasError) {
-            console.log(response.error);
-          } else {
-            console.log(response.data);
-            this.userList = response.data;
-          }
-          break;
-        }
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 
