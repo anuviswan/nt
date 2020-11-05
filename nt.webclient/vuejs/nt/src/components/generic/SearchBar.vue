@@ -10,14 +10,6 @@
       <button class="btn btn-primary btn-rounded" type="submit">
         Search
       </button>
-      <div>
-        <label class="radio-inline"
-          ><input type="radio" name="optradio" checked />User</label
-        >
-        <label class="radio-inline"
-          ><input type="radio" name="optradio" />Movie</label
-        >
-      </div>
     </div>
   </form>
 </template>
@@ -33,7 +25,7 @@ export default {
   methods: {
     onSubmit(e) {
       e.preventDefault();
-      this.$emit("searched", this.searchKey, "USER");
+      this.$emit("searched", this.searchKey);
     },
   },
 };

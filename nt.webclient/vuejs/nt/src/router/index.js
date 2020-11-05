@@ -8,6 +8,7 @@ import PrivateContainer from "../pages/private/PrivateContainer";
 import ViewProfile from "../pages/private/user/ViewProfile";
 import EditProfile from "../pages/private/user/EditProfile";
 import ChangePassword from "../pages/private/user/ChangePassword";
+import UserSearch from "../pages/private/search/UserSearch";
 Vue.use(VueRouter);
 
 const routes = [
@@ -38,6 +39,10 @@ const routes = [
       {
         path: "dashboard",
         component: Dashboard,
+      },
+      {
+        path: "usersearch",
+        component: UserSearch,
       },
       {
         path: "user/:userid",

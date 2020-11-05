@@ -115,7 +115,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Users</a>
+          <router-link class="nav-link" exact to="/p/UserSearch"
+            >Users</router-link
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Movies</a>
