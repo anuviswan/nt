@@ -58,12 +58,14 @@ export default {
   },
   methods: {
     isEditable() {
-      return this.userName == this.currentUser.userName;
+      return true;
+      // return this.userName == this.currentUser.userName;
     },
   },
   computed: mapGetters(["currentUser"]),
   created() {
-    console.log("In usercard" + this.user);
+    console.log("inside user");
+    console.log(this.user);
     this.userName = this.user.userName;
     this.displayName = this.user.displayName;
     this.bio = this.user.bio;

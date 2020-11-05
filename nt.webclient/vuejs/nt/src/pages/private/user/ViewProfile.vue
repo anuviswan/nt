@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-4 col-lg-3 col-lx-2">
-      <UserCard :user="this.user" />
+      <UserCard v-bind:user="this.user" />
     </div>
     <div class="col-md-8 col-lg-9 col-lx-10">
       <div class="card">
@@ -56,18 +56,16 @@ export default {
   async created() {
     this.userName = this.$route.params.userid;
 
-    var response = await getUser(this.selectedUser);
+    var response = await getUser(this.userName);
     if (response.hasError) {
       console.log(response.errors);
       return;
     }
 
     this.user.userName = this.userName;
-    this.user.displayName = response.displayName;
-    this.user.bio = response.bio;
-    this.user.rating = 5;
-
-    console.log(this.user);
+    this.user.displayName = response.data.displayName;
+    this.user.bio = response.data.bio;
+    this.user.rating = response.data.rating;
   },
 };
 </script>

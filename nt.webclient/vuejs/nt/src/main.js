@@ -17,14 +17,9 @@ let loader;
 Vue.config.productionTip = false;
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.interceptors.request.use((request) => {
-  console.log("Enabling loader");
-  console.log(request);
-
   showLoader();
-
   const header = getHttpHeader();
   request.headers = header;
-
   return request;
 });
 
@@ -39,7 +34,6 @@ axios.interceptors.response.use(
     };
   },
   (error) => {
-    console.log("disabling loader");
     hideLoader();
     switch (error.response.status) {
       case 400:
@@ -49,7 +43,6 @@ axios.interceptors.response.use(
           error: [error.response.data],
         };
       case 401:
-        console.log("okay, in 401 case");
         alert("Unauthorized access, please login.");
         router.push("/");
         break;
