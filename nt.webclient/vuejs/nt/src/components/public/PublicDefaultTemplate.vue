@@ -2,12 +2,13 @@
   <div class="container-fluid">
     <div class="row no-gutter">
       <!-- The image half -->
-      <div class="col-md-6 d-none d-md-flex bg-image">
+      <div class="col-md-6 d-none d-md-flex bg-indigo">
         <div
           class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center"
         >
           <div class="logoarea pt-5 pb-5">
-            World of Cinemas !!
+            <i class="fa fa-film fa-4x fa-fw" aria-hidden="true"></i>
+            <h1 class="display-4 navbar-brand">November Talkies</h1>
           </div>
         </div>
       </div>
@@ -19,10 +20,6 @@
           <div class="container">
             <div class="row">
               <div class="col-lg-10 col-xl-7 mx-auto">
-                <h3 class="display-4">November Talkies!</h3>
-                <p class="text-muted mb-4">
-                  Movies - Nothing more.
-                </p>
                 <slot></slot>
               </div>
             </div>
@@ -54,6 +51,12 @@ export default {
 }
 
 .bg-indigo {
-  background: indigo;
+  background: #4b1076;
+}
+
+.navbar-brand {
+  font-family: "Pacifico";
+  font-size: xx-large;
+  margin: 0px;
 }
 </style>
