@@ -1,89 +1,103 @@
 <template>
-  <div></div>
+  <div>
+    <div class="row">
+      <div
+        v-for="(review, index) in reviewCollection"
+        :key="index"
+        class="col-md-3 col-6 my-1"
+      >
+        <ReviewMiniCard v-bind:reviewMetaInfo="review" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import ReviewMiniCard from "../../components/review/ReviewMiniCard";
 export default {
   name: "Dashboard",
+  components: {
+    ReviewMiniCard,
+  },
   data() {
     return {
-      movies: [
+      reviewCollection: [
         {
-          title: "Matrix",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/10/2020",
-          language: "English",
-          genre: "Action",
+          review: {
+            reviewTitle: "Awesome action !!",
+            movieTitle: "Matrix",
+            review:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type ",
+            upvotes: 3,
+            downvotes: 6,
+          },
+          user: {
+            userName: "Anu Viswan",
+            rating: 5,
+            followers: 345,
+          },
         },
         {
-          title: "Matrix",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/10/2020",
-          language: "English",
-          genre: "Action",
+          review: {
+            reviewTitle: "Average action !!",
+            movieTitle: "Matrix",
+            review:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type ",
+            upvotes: 3,
+            downvotes: 6,
+          },
+          user: {
+            userName: "Manu Viswan",
+            rating: 5,
+            followers: 345,
+          },
         },
         {
-          title: "Lost World",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/11/2020",
-          language: "English",
-          genre: "Action",
+          review: {
+            reviewTitle: "Super",
+            movieTitle: "Lion King",
+            review:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type ",
+            upvotes: 3,
+            downvotes: 6,
+          },
+          user: {
+            userName: "Jia Anu",
+            rating: 5,
+            followers: 345,
+          },
         },
         {
-          title: "Jurassic Park",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/9/2020",
-          language: "English",
-          genre: "Action",
+          review: {
+            reviewTitle: "aha....",
+            movieTitle: "Boss Baby",
+            review:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type ",
+            upvotes: 3,
+            downvotes: 6,
+          },
+          user: {
+            userName: "Naina Anu",
+            rating: 5,
+            followers: 345,
+          },
         },
         {
-          title: "Avataar",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "8/10/2020",
-          language: "English",
-          genre: "Action",
-        },
-        {
-          title: "The Shawshank Redemption",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/10/2020",
-          language: "English",
-          genre: "Action",
-        },
-        {
-          title: "Forrest Gump",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/10/2020",
-          language: "English",
-          genre: "Action",
-        },
-        {
-          title: "Lion King",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/10/2020",
-          language: "English",
-          genre: "Action",
-        },
-        {
-          title: "Sherlock",
-          image: "https://picsum.photos/200/300?random=1",
-          rating: "3",
-          releaseDate: "10/10/2020",
-          language: "English",
-          genre: "Action",
+          review: {
+            reviewTitle: "aha....",
+            movieTitle: "Jumbo",
+            review:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type ",
+            upvotes: 3,
+            downvotes: 6,
+          },
+          user: {
+            userName: "Sreena Anu",
+            rating: 5,
+            followers: 345,
+          },
         },
       ],
-      recentReleases: [],
-      trendingThrillers: [],
-      trendingAction: [],
     };
   },
   methods: {},
