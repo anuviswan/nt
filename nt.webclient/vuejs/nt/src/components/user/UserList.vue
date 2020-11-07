@@ -5,13 +5,13 @@
       :key="index"
       class="col-md-3 col-6 my-1"
     >
-      <UserCard v-bind:user="user" class="card h-100" />
+      <UserMiniCard v-bind:user="user" class="card h-100" />
     </div>
   </div>
 </template>
 
 <script>
-import UserCard from "./UserCard";
+import UserMiniCard from "./UserMiniCard";
 export default {
   name: "UserList",
   props: {
@@ -20,7 +20,7 @@ export default {
     },
   },
   components: {
-    UserCard,
+    UserMiniCard,
   },
 };
 </script>

@@ -34,8 +34,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   name: "UserCard",
   props: {
@@ -52,13 +50,7 @@ export default {
       rating: 0,
     };
   },
-  methods: {
-    isEditable() {
-      return true;
-      // return this.userName == this.currentUser.userName;
-    },
-  },
-  computed: mapGetters(["currentUser"]),
+
   created() {
     console.log("inside user");
     console.log(this.user);
