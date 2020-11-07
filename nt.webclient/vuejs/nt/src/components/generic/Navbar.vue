@@ -39,9 +39,16 @@
             <router-link
               class="dropdown-item"
               exact
+              v-bind:to="`/p/movie/search`"
+            >
+              Search
+            </router-link>
+            <router-link
+              class="dropdown-item"
+              exact
               v-bind:to="`/p/movie/create`"
             >
-              Create Movie
+              Create
             </router-link>
             <a class="dropdown-item" href="#">Link 2</a>
             <a class="dropdown-item" href="#">Link 3</a>

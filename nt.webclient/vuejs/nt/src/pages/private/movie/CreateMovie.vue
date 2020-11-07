@@ -25,7 +25,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="language">language</label>
+                <label for="language">Language</label>
                 <input
                   type="text"
                   v-model="language"
@@ -39,13 +39,26 @@
                 />
               </div>
               <div class="form-group">
-                <label for="releaseDate">releaseDate</label>
+                <label for="releaseDate">Release Date</label>
                 <input
                   v-model="releaseDate"
                   placeholder="Date of Release"
                   name="releaseDate"
                   v-bind:class="
                     hasError('releaseDate')
+                      ? 'form-control block is-invalid'
+                      : 'form-control block'
+                  "
+                />
+              </div>
+              <div class="form-group">
+                <label for="tags">Cast And Crew</label>
+                <input
+                  v-model="tags"
+                  placeholder="Cast And Crew"
+                  name="tags"
+                  v-bind:class="
+                    hasError('tags')
                       ? 'form-control block is-invalid'
                       : 'form-control block'
                   "
