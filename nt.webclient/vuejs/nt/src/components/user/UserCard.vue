@@ -1,24 +1,19 @@
 <template>
   <div class="card border-primary mb-3">
-    <router-link
-      exact
-      v-bind:to="`/p/user/${this.userName}/edit`"
-      v-if="isEditable()"
-      >Edit User</router-link
-    >
-    <div class="card-avataar">
+    <div class="card-avataar py-2">
       <img
-        class="card-img-top rounded-circle img-thumbnail"
+        class=" rounded-circle img-thumbnail"
         src="https://cdn3.iconfinder.com/data/icons/avatars-flat/33/woman_9-512.png"
         alt="Avataar Pic"
+        width="100"
       />
     </div>
 
     <div class="card-body mx-auto">
       <h4 class="card-title block text-uppercase text-center">
-        {{ this.displayName }}
+        {{ this.user.displayName }}
       </h4>
-      {{ this.userName }}
+      {{ this.user.userName }}
       <!-- <Rating value="{5}" totalStars="{5}" /> -->
     </div>
 
@@ -34,7 +29,7 @@
         <div class="col-lg-4 card-metadata-footer text-center">Followers</div>
       </div>
     </div>
-    <div class="card-body mx-auto">{{ this.bio }}</div>
+    <div class="card-body mx-auto">{{ this.user.bio }}</div>
   </div>
 </template>
 
@@ -46,6 +41,7 @@ export default {
   props: {
     user: {
       required: true,
+      type: Object,
     },
   },
   data() {
@@ -70,8 +66,16 @@ export default {
     this.displayName = this.user.displayName;
     this.bio = this.user.bio;
     this.rating = this.user.rating;
+
+    console.log(this.displayName);
+    console.log(this.user.displayName);
+    console.log(this.user);
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.card {
+  max-width: 350px;
+}
+</style>

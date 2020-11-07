@@ -16,7 +16,6 @@
             mauris laoreet tempus eu non turpis. Nam in porttitor erat. Mauris
             non lorem mi. Praesent ac hendrerit quam.
           </p>
-          <a href="/more" class="btn btn-info">more</a>
         </div>
         <div class="card-body">
           <h5 class="card-title">Life of Pie</h5>
@@ -28,7 +27,6 @@
             mauris laoreet tempus eu non turpis. Nam in porttitor erat. Mauris
             non lorem mi. Praesent ac hendrerit quam.
           </p>
-          <a href="/more" class="btn btn-info">more</a>
         </div>
       </div>
     </div>

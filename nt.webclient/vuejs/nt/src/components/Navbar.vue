@@ -109,10 +109,9 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">
-            Home
-            <span class="sr-only">(current)</span>
-          </a>
+          <router-link class="nav-link" exact to="/p/dashboard"
+            >Home</router-link
+          >
         </li>
         <li class="nav-item">
           <router-link class="nav-link" exact to="/p/UserSearch"
@@ -157,8 +156,16 @@
             >
               View Profile
             </router-link>
-            <a class="dropdown-item" href="#">Edit Profile</a>
-            <a class="dropdown-item" href="#">Change Password</a>
+            <router-link
+              exact
+              v-bind:to="`/p/user/${currentUser.userName}/edit`"
+              class="dropdown-item"
+            >
+              Edit User
+            </router-link>
+            <router-link class="dropdown-item" to="./chpwd"
+              >Change Password</router-link
+            >
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Log out</a>
           </div>

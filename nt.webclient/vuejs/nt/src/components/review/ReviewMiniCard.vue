@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="card" style="max-width: 500px;">
+    <div class="card">
       <div class="row no-gutters">
-        <div class="col-sm-5 bg-primary">
+        <div class="col-sm-5 bg-secondary">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
@@ -79,5 +79,17 @@ export default {
 .card-horizontal {
   display: flex;
   flex: 1 1 auto;
+}
+
+.card {
+  max-width: 500px;
+}
+
+.fill-height-or-more > div {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 </style>

@@ -4,7 +4,7 @@
       <div
         v-for="(review, index) in reviewCollection"
         :key="index"
-        class="col-md-3 col-6 my-1"
+        class="col-md-3 col-6 "
       >
         <ReviewMiniCard v-bind:reviewMetaInfo="review" />
       </div>

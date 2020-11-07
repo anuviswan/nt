@@ -1,16 +1,16 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2 col-md-2 col-lg-2">
-        <EditUserMenu />
-      </div>
-      <div class="col-sm-8 col-md-8 col-lg-10">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-sm-12 col-md-10 col-lg-8">
         <div class="card">
           <div class="card-header font-weight-bold text-uppercase">
             Edit User Profile
           </div>
           <div class="card-body">
-            <form class="form needs-validation" v-on:submit="onSubmit">
+            <form
+              class="form-horizontal needs-validation"
+              v-on:submit="onSubmit"
+            >
               <div class="form-group">
                 <label for="userName">User Name</label>
                 <input
@@ -46,7 +46,7 @@
                 />
               </div>
               <div class="form-group">
-                <input type="submit" value="Update" />
+                <input type="submit" value="Save Changes" class="btn-primary" />
               </div>
               <div v-bind:class="showServerMessage()">
                 <ul>
@@ -64,14 +64,10 @@
 </template>
 
 <script>
-import EditUserMenu from "../../../components/user/EditUserMenu";
 import { mapGetters, mapActions } from "vuex";
 import { updateUserProfile } from "../../../api/user";
 export default {
   name: "EditProfile",
-  components: {
-    EditUserMenu,
-  },
   data() {
     return {
       authToken: "",

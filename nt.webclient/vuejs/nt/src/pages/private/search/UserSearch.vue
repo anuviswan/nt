@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <SearchBar v-on:searched="onSearch" />
+      <SearchBar v-on:searched="onSearch" promptString="Search Users..." />
     </div>
     <div v-if="userList.length">
       <UserList v-bind:userList="userList" />
