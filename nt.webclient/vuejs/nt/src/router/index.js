@@ -9,6 +9,7 @@ import ViewProfile from "../pages/private/user/ViewProfile";
 import EditProfile from "../pages/private/user/EditProfile";
 import ChangePassword from "../pages/private/user/ChangePassword";
 import UserSearch from "../pages/private/search/UserSearch";
+import CreateMovie from "../pages/private/movie/CreateMovie";
 Vue.use(VueRouter);
 
 const routes = [
@@ -55,6 +56,10 @@ const routes = [
       {
         path: "user/:userid/chpwd",
         component: ChangePassword,
+      },
+      {
+        path: "movie/create",
+        component: CreateMovie,
       },
     ],
   },
