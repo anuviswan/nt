@@ -62,8 +62,6 @@ export default {
     };
   },
   created() {
-    console.log(this.reviewMetaInfo);
-
     this.reviewTitle = this.reviewMetaInfo.review.reviewTitle;
     this.movieTitle = this.reviewMetaInfo.review.movieTitle;
     this.review = this.reviewMetaInfo.review.review;

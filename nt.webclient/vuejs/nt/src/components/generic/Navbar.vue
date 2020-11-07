@@ -50,8 +50,6 @@
             >
               Create
             </router-link>
-            <a class="dropdown-item" href="#">Link 2</a>
-            <a class="dropdown-item" href="#">Link 3</a>
           </div>
         </li>
         <li class="nav-item dropdown">

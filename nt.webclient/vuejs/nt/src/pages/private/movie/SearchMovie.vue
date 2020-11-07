@@ -19,6 +19,11 @@ export default {
       movieList: [],
     };
   },
+  methods: {
+    onSearch(key) {
+      console.log(key);
+    },
+  },
 };
 </script>
 
