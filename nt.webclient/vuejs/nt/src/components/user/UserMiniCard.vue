@@ -2,7 +2,7 @@
   <div>
     <div class="card">
       <div class="row no-gutters">
-        <div class="col-sm-5 bg-secondary">
+        <div class="col-sm-5 bg-primary">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
@@ -10,7 +10,7 @@
                   src="https://bootdey.com/img/Content/avatar/avatar7.png"
                   alt="Admin"
                   class="rounded-circle"
-                  width="100"
+                  width="75"
                 />
               </div>
             </div>
