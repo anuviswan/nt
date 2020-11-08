@@ -2,7 +2,7 @@
   <div class="card card-block rounded shadow shadow-sm">
     <div class="card-header bg-primary text-light text-uppercase">
       <div class="card-title align-middle">
-        <h5 class="mb-0">Sign In</h5>
+        <h5 class="mb-0">Sign Up</h5>
       </div>
     </div>
     <div class="card-body">
@@ -38,13 +38,31 @@
             placeholder="Password"
           />
         </div>
-
         <div
           v-bind:class="
             hasError('password') ? 'text-danger text-left' : 'd-none'
           "
         >
           <small>Password cannot be empty</small>
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            v-model="confirmPassword"
+            v-bind:class="
+              hasError('confirmPassword')
+                ? 'form-control block is-invalid'
+                : 'form-control block'
+            "
+            placeholder="Confirm Password"
+          />
+        </div>
+        <div
+          v-bind:class="
+            hasError('confirmPassword') ? 'text-danger text-left' : 'd-none'
+          "
+        >
+          <small>Password does not match</small>
         </div>
 
         <div class="form-group">
@@ -54,7 +72,7 @@
             value="Submit"
           />
         </div>
-        <div class="justify-content-center">
+        <div class="d-flex justify-content-center">
           <ValidationMessage
             v-bind:messages="serverMessage"
             v-bind:isError="hasServerError"
@@ -62,61 +80,74 @@
         </div>
       </form>
       <div>
-        Not a member ?
-        <router-link to="/register">Sign up here</router-link>
+        Already a member ?
+        <router-link to="/">Sign in here</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { validateUser } from "../api/user";
-import ValidationMessage from "../components/generic/ValidationMessage";
+import { registerUser } from "../../api/user";
+import ValidationMessage from "../../components/generic/ValidationMessage";
 export default {
-  name: "Login",
-  components: { ValidationMessage },
+  name: "Signup",
+  components: {
+    ValidationMessage,
+  },
   data() {
     return {
       errors: [],
       userName: "",
       password: "",
-      serverMessage: [],
+      displayName: "",
+      confirmPassword: "",
+      serverMessage: "",
       hasServerError: false,
     };
   },
-  computed: mapGetters(["currentUser"]),
   methods: {
-    ...mapActions(["updateCurrentUser"]),
     hasError(key) {
       return this.errors.indexOf(key) != -1;
     },
+    showServerMessage() {
+      if (!this.serverMessage) {
+        return "d-none";
+      }
+
+      return this.hasServerError
+        ? "text-danger text-left"
+        : "text-success text-left";
+    },
     async onSubmit(e) {
       e.preventDefault();
-      if (this.validateForm()) {
-        var response = await validateUser(this.userName, this.password);
 
-        if (response.hasError) {
-          this.hasServerError = true;
-          this.serverMessage = response.error;
-          return;
-        }
-
-        this.updateCurrentUser({
-          userName: response.data.userName,
-          displayName: response.data.displayName,
-          bio: response.data.bio,
-          token: response.data.token,
-        });
-
-        console.log("User authenticated and updated, redirecting now..");
-        this.$router.push("/p/dashboard");
+      if (!this.validateForm()) {
+        // has Error
+        console.log(this.userName);
+        return;
       }
+
+      this.hasServerError = false;
+      this.serverMessage = [];
+
+      const response = await registerUser(
+        this.userName,
+        this.displayName,
+        this.password
+      );
+
+      if (response.hasError) {
+        this.hasServerError = true;
+        this.serverMessage = response.error;
+        return;
+      }
+
+      this.serverMessage.push("User registered successfully.");
     },
     validateForm() {
       let isValidFlag = true;
       this.errors = [];
-
       if (!this.userName) {
         this.errors.push("userName");
         isValidFlag = false;
@@ -126,10 +157,15 @@ export default {
         this.errors.push("password");
         isValidFlag = false;
       }
+
+      if (this.password != this.confirmPassword) {
+        this.errors.push("confirmPassword");
+        isValidFlag = false;
+      }
       return isValidFlag;
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style></style>

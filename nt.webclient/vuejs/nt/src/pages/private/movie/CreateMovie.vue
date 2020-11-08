@@ -4,7 +4,7 @@
       <div class="col-sm-12 col-md-10 col-lg-8">
         <div class="card">
           <div class="card-header font-weight-bold text-uppercase">
-            Edit User Profile
+            Create Movie
           </div>
           <div class="card-body">
             <form
@@ -12,34 +12,53 @@
               v-on:submit="onSubmit"
             >
               <div class="form-group">
-                <label for="userName">User Name</label>
+                <label for="movieTitle">Movie Title</label>
                 <input
                   type="text"
-                  v-bind:placeholder="userName"
-                  name="userName"
-                  readOnly
-                />
-              </div>
-              <div class="form-group">
-                <label for="displayName">Display Name</label>
-                <input
-                  type="text"
-                  v-model="displayName"
-                  name="displayName"
+                  placeholder="Movie Title"
+                  name="movieTitle"
                   v-bind:class="
-                    hasError('displayName')
+                    hasError('movieTitle')
                       ? 'form-control block is-invalid'
                       : 'form-control block'
                   "
                 />
               </div>
               <div class="form-group">
-                <label for="bio">Bio</label>
-                <textarea
-                  v-model="bio"
-                  name="bio"
+                <label for="language">Language</label>
+                <input
+                  type="text"
+                  v-model="language"
+                  name="language"
+                  placeholder="Language"
                   v-bind:class="
-                    hasError('bio')
+                    hasError('language')
+                      ? 'form-control block is-invalid'
+                      : 'form-control block'
+                  "
+                />
+              </div>
+              <div class="form-group">
+                <label for="releaseDate">Release Date</label>
+                <input
+                  v-model="releaseDate"
+                  placeholder="Date of Release"
+                  name="releaseDate"
+                  v-bind:class="
+                    hasError('releaseDate')
+                      ? 'form-control block is-invalid'
+                      : 'form-control block'
+                  "
+                />
+              </div>
+              <div class="form-group">
+                <label for="tags">Cast And Crew</label>
+                <input
+                  v-model="tags"
+                  placeholder="Cast And Crew"
+                  name="tags"
+                  v-bind:class="
+                    hasError('tags')
                       ? 'form-control block is-invalid'
                       : 'form-control block'
                   "
@@ -64,75 +83,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { updateUserProfile } from "../../../api/user";
 export default {
-  name: "EditProfile",
+  name: "CreateMovie",
   data() {
     return {
-      authToken: "",
-      userName: "sampleUserName",
-      displayName: "sample Display Name",
-      bio: "sample Bio",
+      title: "",
+      releaseDate: "",
+      language: "",
+      tags: "",
       errors: [],
       serverMessage: [],
       hasServerError: false,
     };
   },
-  created: function() {
-    this.userName = this.$route.params.userid;
-    this.authToken = this.currentUser.token;
-    this.displayName = this.currentUser.displayName;
-    this.bio = this.currentUser.bio;
-  },
-  computed: mapGetters(["currentUser"]),
   methods: {
-    ...mapActions(["updateCurrentUser"]),
-    async onSubmit(e) {
-      e.preventDefault();
-      if (this.validateForm()) {
-        console.log("User Profile Update:Submiting data....");
-
-        const userRecordToUpdate = {
-          displayName: this.displayName,
-          bio: this.bio,
-        };
-
-        var response = await updateUserProfile(userRecordToUpdate);
-
-        if (response.hasError) {
-          this.hasServerError = true;
-          this.serverMessage = response.error;
-          return;
-        }
-        this.updateCurrentUser({
-          userName: this.userName,
-          displayName: this.displayName,
-          bio: this.bio,
-          token: this.authToken,
-        });
-
-        this.serverMessage.push("User Profile updated successfully");
-      }
-    },
+    onSubmit() {},
     hasError(key) {
       return this.errors.indexOf(key) != -1;
-    },
-    validateForm() {
-      let isValidFlag = true;
-      this.errors = [];
-
-      if (!this.displayName) {
-        this.errors.push("displayName");
-        isValidFlag = false;
-      }
-
-      if (!this.bio) {
-        this.errors.push("bio");
-        isValidFlag = false;
-      }
-
-      return isValidFlag;
     },
     showServerMessage() {
       if (!this.serverMessage.length) {

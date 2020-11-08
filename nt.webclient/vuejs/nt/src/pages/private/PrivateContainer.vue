@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/generic/Navbar";
 export default {
   name: "PrivateContainer",
   components: {
@@ -17,5 +17,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

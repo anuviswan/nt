@@ -67,8 +67,29 @@ const searchUser = async (searchTerm) => {
     params
   );
 
-  console.log(response);
   return response;
 };
 
-export { changePassword, validateUser, getUser, updateUserProfile, searchUser };
+const registerUser = async (userName, displayName, passKey) => {
+  const userDetails = {
+    userName: userName,
+    passKey: passKey,
+    displayName: displayName,
+  };
+
+  const response = await axios.post(
+    "https://localhost:44353/api/User/CreateUser",
+    userDetails
+  );
+
+  return response;
+};
+
+export {
+  changePassword,
+  validateUser,
+  getUser,
+  updateUserProfile,
+  searchUser,
+  registerUser,
+};

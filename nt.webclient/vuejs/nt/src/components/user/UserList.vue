@@ -1,13 +1,17 @@
 <template>
-  <div class="grid-contaniner">
-    <div v-for="(user, index) in userList" :key="index">
-      <UserCard v-bind:user="user" />
+  <div class="row">
+    <div
+      v-for="(user, index) in userList"
+      :key="index"
+      class="col-md-3 col-6 my-1"
+    >
+      <UserMiniCard v-bind:user="user" class="card h-100" />
     </div>
   </div>
 </template>
 
 <script>
-import UserCard from "./UserCard";
+import UserMiniCard from "./UserMiniCard";
 export default {
   name: "UserList",
   props: {
@@ -16,7 +20,7 @@ export default {
     },
   },
   components: {
-    UserCard,
+    UserMiniCard,
   },
 };
 </script>

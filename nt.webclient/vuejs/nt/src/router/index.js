@@ -8,6 +8,9 @@ import PrivateContainer from "../pages/private/PrivateContainer";
 import ViewProfile from "../pages/private/user/ViewProfile";
 import EditProfile from "../pages/private/user/EditProfile";
 import ChangePassword from "../pages/private/user/ChangePassword";
+import UserSearch from "../pages/private/user/UserSearch";
+import CreateMovie from "../pages/private/movie/CreateMovie";
+import SearchMovie from "../pages/private/movie/SearchMovie";
 Vue.use(VueRouter);
 
 const routes = [
@@ -40,6 +43,10 @@ const routes = [
         component: Dashboard,
       },
       {
+        path: "usersearch",
+        component: UserSearch,
+      },
+      {
         path: "user/:userid",
         component: ViewProfile,
       },
@@ -50,6 +57,14 @@ const routes = [
       {
         path: "user/:userid/chpwd",
         component: ChangePassword,
+      },
+      {
+        path: "movie/search",
+        component: SearchMovie,
+      },
+      {
+        path: "movie/create",
+        component: CreateMovie,
       },
     ],
   },

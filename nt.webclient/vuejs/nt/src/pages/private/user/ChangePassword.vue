@@ -1,10 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2 col-md-2 col-lg-2">
-        <EditUserMenu />
-      </div>
-      <div class="col-sm-8 col-md-8 col-lg-10">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-sm-8 col-md-6 col-lg-6">
         <div class="card">
           <div class="card-header font-weight-bold text-uppercase">
             Change Password
@@ -54,7 +51,11 @@
               </div>
 
               <div class="form-group">
-                <input type="submit" value="Update Password" />
+                <input
+                  type="submit"
+                  class="btn-primary"
+                  value="Update Password"
+                />
               </div>
               <div class="form-group">
                 <div v-bind:class="showServerMessage()">
@@ -70,7 +71,6 @@
 </template>
 
 <script>
-import EditUserMenu from "../../../components/user/EditUserMenu.vue";
 import { changePassword } from "../../../api/user";
 export default {
   name: "ChangePassword",
@@ -83,9 +83,6 @@ export default {
       serverMessage: [],
       hasServerError: false,
     };
-  },
-  components: {
-    EditUserMenu,
   },
   methods: {
     async onSubmit(e) {
