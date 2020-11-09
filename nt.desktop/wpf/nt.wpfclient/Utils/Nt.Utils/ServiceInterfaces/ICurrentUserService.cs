@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nt.Utils.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,10 @@ namespace Nt.Utils.ServiceInterfaces
 {
     public interface ICurrentUserService
     {
-        public bool IsAuthenticated { get; }
+        Task<bool> Authenticate(string userName, string passKey, NtRef<string> errorMessage);
+        bool IsAuthenticated { get; }
 
-        public string UserName { get; set; }
-        public string DisplayName { get; set; }
+        string UserName { get; set; }
+        string DisplayName { get; set; }
     }
 }

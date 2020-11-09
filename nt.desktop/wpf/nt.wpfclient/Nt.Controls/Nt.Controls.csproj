@@ -49,18 +49,12 @@
       <DependentUpon>Avataar.xaml</DependentUpon>
     </Compile>
     <Compile Include="HelperControls\AvataarContentTemplateSelector.cs" />
-    <Compile Include="Login\LoginControl.cs" />
-    <Compile Include="Login\LoginViewModel.cs" />
     <Compile Include="Navbar\NavbarControl.cs" />
     <Compile Include="Navbar\NavbarViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="HelperControls\Avataar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Login\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -35,7 +35,7 @@ namespace Nt.WpfClient.Utils.Bootstrap
             // MahApps
             _unityContainer.RegisterInstance<IDialogCoordinator>(new DialogCoordinator());
             //View Models
-            _unityContainer.RegisterInstance(new ShellViewModel(_unityContainer.Resolve<IDialogCoordinator>()));
+            _unityContainer.RegisterInstance(new ShellViewModel(_unityContainer.Resolve<IDialogCoordinator>(),_unityContainer.Resolve<ICurrentUserService>()));
 
 
             foreach (var vm in ViewModelLoader.GetViewModels())
