@@ -1,12 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Nt.Data.Contracts.Dto.Base;
 using Nt.Utils.Helper;
 using Nt.Utils.ServiceInterfaces;
 using RestSharp;
-using RestSharp.Authenticators;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using static Nt.Utils.Helper.HttpUtils;
@@ -48,8 +45,8 @@ namespace Nt.Utils.Services
             return response.StatusCode switch
             {
                 HttpStatusCode.OK => JsonConvert.DeserializeObject<TResponse>(response.Content),
-                HttpStatusCode.BadRequest => new TResponse { Errors = new[] { response.Content } },
-                _ => new TResponse { Errors = new[] { "" } },
+                HttpStatusCode.BadRequest => new TResponse { Errors = new[] { JsonConvert.DeserializeObject<string>(response.Content)} },
+                _ => new TResponse { Errors = new[] { string.Empty } },
             };
         }
 
