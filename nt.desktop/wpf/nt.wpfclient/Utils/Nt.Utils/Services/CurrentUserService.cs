@@ -27,8 +27,7 @@ namespace Nt.Utils.Services
 
             if (response.HasError)
             {
-                // ViewModel.SetErrorState(response.Errors.First());
-                errorMessage = response.Errors.First();
+                errorMessage.Value = response.Errors.First();
                 return false;
             }
             var currentUserService = IoC.Get<ICurrentUserService>();
