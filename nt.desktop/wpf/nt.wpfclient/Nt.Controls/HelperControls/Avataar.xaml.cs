@@ -24,7 +24,12 @@ namespace Nt.Controls.HelperControls
         }
 
         public static readonly DependencyProperty UserNameProperty =
-            DependencyProperty.Register(nameof(UserName), typeof(string), typeof(Avataar), new PropertyMetadata("Naina"));
+            DependencyProperty.Register(nameof(UserName), typeof(string), typeof(Avataar), new PropertyMetadata("Default",UserNamePropertyChanged));
+
+        private static void UserNamePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
         public Direction ImagePosition
         {
             get { return (Direction)GetValue( ImagePositionProperty); }

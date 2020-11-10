@@ -12,9 +12,10 @@ namespace Nt.Controls.Navbar
             _currentUserService = currentUserService;
         }
 
+        public string UserName { get; set; }
         public void LoadUserDetails()
         {
-            ViewModel.UserName = _currentUserService.DisplayName;
+            UserName = _currentUserService.DisplayName;
         }
     }
 }

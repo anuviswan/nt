@@ -64,6 +64,8 @@
     <Compile Include="Helper\HttpUtils.cs" />
     <Compile Include="Helper\NtRef.cs" />
     <Compile Include="Helper\RestSharpJsonNetSerializer.cs" />
+    <Compile Include="Messages\NtMessageBase.cs" />
+    <Compile Include="Messages\UserLoggedInMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInterfaces\ICurrentUserService.cs" />
     <Compile Include="ServiceInterfaces\IHttpService.cs" />

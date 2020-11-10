@@ -13,6 +13,16 @@ namespace Nt.Utils.ControlInterfaces
     }
     public class NtViewModelBase<TControl> : NtViewModelBase where TControl:NtControlBase
     {
+        public NtViewModelBase()
+        {
+            TypedControl.PropertyChanged += ControlPropertyChanged;
+        }
+
+        private void ControlPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(nameof(e.PropertyName));
+        }
+
         public TControl TypedControl 
         {
             get => (TControl)Control;

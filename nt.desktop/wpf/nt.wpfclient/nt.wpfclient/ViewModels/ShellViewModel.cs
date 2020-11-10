@@ -4,25 +4,23 @@ using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.Helper;
+using Nt.Utils.Messages;
 using Nt.Utils.ServiceInterfaces;
-using System;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows;
-using Unity.Injection;
 
 namespace Nt.WpfClient.ViewModels
 {
-    public class ShellViewModel:Conductor<object>
+    public class ShellViewModel:Conductor<object>, IHandle<UserLoggedInMessage>
     {
         private ICurrentUserService _currentUserService;
         private readonly IDialogCoordinator _dialogCordinator;
+        private readonly IEventAggregator _eventAggregator;
 
-
-        public ShellViewModel(IDialogCoordinator dialogCoordinator,ICurrentUserService currentUserService)
+        public ShellViewModel(IDialogCoordinator dialogCoordinator,ICurrentUserService currentUserService, IEventAggregator eventAggregator)
         {
-            (_dialogCordinator,_currentUserService) = (dialogCoordinator,currentUserService);
+            (_dialogCordinator,_currentUserService, _eventAggregator) = (dialogCoordinator,currentUserService,eventAggregator);
+            _eventAggregator.Subscribe(this);
         }
 
         public NtViewModelBase Navbar { get; set; }
@@ -31,13 +29,6 @@ namespace Nt.WpfClient.ViewModels
         {
             base.OnViewLoaded(view);
             InvokeLogin();
-            //_currentUserService = IoC.Get<ICurrentUserService>();
-            //if (!_currentUserService.IsAuthenticated)
-            //{ 
-            //    Application.Current.Shutdown(); 
-            //}
-
-            Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
         
         private async Task InvokeLogin()
@@ -61,14 +52,14 @@ namespace Nt.WpfClient.ViewModels
                 }
             }
             while (!isLoggedIn);
+
+            _eventAggregator.PublishOnUIThread(new UserLoggedInMessage(this));
             
-
-            //var dialogResult = await _dialogCordinator.ShowLoginAsync(this, "Login", "lll");
-
-            //var windowManager = IoC.Get<IWindowManager>();
-            //var loginControl = IoC.Get<LoginControl>();
-            //windowManager.ShowNtDialog(loginControl.ViewModel,NtWindowSize.SmallLandscape); 
         }
 
+        public void Handle(UserLoggedInMessage message)
+        {
+            Navbar = IoC.Get<NavbarControl>().ViewModel;
+        }
     }
 }
