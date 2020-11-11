@@ -12,7 +12,7 @@ namespace Nt.Controls.Navbar
             _currentUserService = currentUserService;
         }
 
-        public string UserName { get; set; }
+        public string UserName { get; set; } = "Sreena";
         public void LoadUserDetails()
         {
             UserName = _currentUserService.DisplayName;

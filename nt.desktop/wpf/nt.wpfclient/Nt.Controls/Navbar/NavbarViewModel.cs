@@ -1,4 +1,5 @@
 ﻿using Nt.Utils.ControlInterfaces;
+using System.ComponentModel;
 
 namespace Nt.Controls.Navbar
 {
@@ -14,6 +15,12 @@ namespace Nt.Controls.Navbar
         {
             base.OnViewLoaded(view);
             TypedControl.LoadUserDetails();
+        }
+
+        protected override void ControlPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.ControlPropertyChanged(sender, e);
+            NotifyOfPropertyChange(e.PropertyName);
         }
     }
 }
