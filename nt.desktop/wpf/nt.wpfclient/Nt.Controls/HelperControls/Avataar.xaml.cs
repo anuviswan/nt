@@ -14,7 +14,6 @@ namespace Nt.Controls.HelperControls
         public Avataar()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         public string UserName
@@ -41,7 +40,11 @@ namespace Nt.Controls.HelperControls
 
 
         public static readonly DependencyProperty ImagePositionProperty =
-            DependencyProperty.Register(nameof(ImagePosition), typeof(Direction), typeof(Avataar), new PropertyMetadata(Direction.Left));
+            DependencyProperty.Register(nameof(ImagePosition), typeof(Direction), typeof(Avataar), new PropertyMetadata(Direction.Left,OnImagePositionChanged));
 
+        private static void OnImagePositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            
+        }
     }
 }
