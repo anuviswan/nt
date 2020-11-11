@@ -7,14 +7,38 @@
         xmlns:local="clr-namespace:Nt.WpfClient.Views"
         mc:Ignorable="d"
         Title="ShellView" Height="600" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
-        </Grid.RowDefinitions>
+    <Window.Resources>
+        <DataTemplate x:Key="MenuHeaderTemplate">
+            <TextBlock HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontSize="16"
+           Foreground="White"
+           Text="Pictures" />
+        </DataTemplate>
+    </Window.Resources>
+    <mah:HamburgerMenu DisplayMode="CompactOverlay" HamburgerMenuHeaderTemplate="{StaticResource MenuHeaderTemplate}">
 
-        <ContentControl Grid.Row="0" x:Name="Navbar"/>
-        <ContentControl Grid.Row="1" x:Name="ActiveItem" />
-    </Grid>
+        <mah:HamburgerMenu.ItemsSource>
+            <mah:HamburgerMenuItemCollection>
+                <mah:HamburgerMenuItem Label="asdasd"/>
+            </mah:HamburgerMenuItemCollection>
+        </mah:HamburgerMenu.ItemsSource>
+
+        <mah:HamburgerMenu.Content>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <ContentControl Grid.Column="0" Grid.Row="0" x:Name="Navbar"/>
+                <ContentControl Grid.Column="0" Grid.Row="1" x:Name="ActiveItem" />
+
+            </Grid>
+            
+        </mah:HamburgerMenu.Content>
+    </mah:HamburgerMenu>
+    
+    
 </mah:MetroWindow>
