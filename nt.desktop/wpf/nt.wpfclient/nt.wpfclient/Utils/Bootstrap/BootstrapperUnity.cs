@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls.Dialogs;
 using Nt.Utils.ServiceInterfaces;
 using Nt.WpfClient.ViewModels;
 using System;
@@ -31,8 +32,12 @@ namespace Nt.WpfClient.Utils.Bootstrap
             // Register Services
             ServiceLoader.RegisterServices(_unityContainer);
 
+            // MahApps
+            _unityContainer.RegisterInstance<IDialogCoordinator>(new DialogCoordinator());
             //View Models
-            _unityContainer.RegisterInstance(new ShellViewModel());
+            _unityContainer.RegisterInstance(new ShellViewModel(_unityContainer.Resolve<IDialogCoordinator>(),
+                                                                _unityContainer.Resolve<ICurrentUserService>(),
+                                                                _unityContainer.Resolve<IEventAggregator>()));
 
 
             foreach (var vm in ViewModelLoader.GetViewModels())

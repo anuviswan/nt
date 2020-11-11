@@ -1,22 +1,26 @@
 ﻿using Caliburn.Micro;
-using Nt.Controls.Login;
+using MahApps.Metro.Controls.Dialogs;
 using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
+using Nt.Utils.Helper;
+using Nt.Utils.Messages;
 using Nt.Utils.ServiceInterfaces;
-using System;
-using System.Web.UI.WebControls;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Nt.WpfClient.ViewModels
 {
-    public class ShellViewModel:Conductor<object>
+    public class ShellViewModel:Conductor<object>, IHandle<UserLoggedInMessage>
     {
         private ICurrentUserService _currentUserService;
+        private readonly IDialogCoordinator _dialogCordinator;
+        private readonly IEventAggregator _eventAggregator;
 
-        public ShellViewModel()
+        public ShellViewModel(IDialogCoordinator dialogCoordinator,ICurrentUserService currentUserService, IEventAggregator eventAggregator)
         {
-            
+            (_dialogCordinator,_currentUserService, _eventAggregator) = (dialogCoordinator,currentUserService,eventAggregator);
+            _eventAggregator.Subscribe(this);
         }
 
         public NtViewModelBase Navbar { get; set; }
@@ -25,21 +29,37 @@ namespace Nt.WpfClient.ViewModels
         {
             base.OnViewLoaded(view);
             InvokeLogin();
-            _currentUserService = IoC.Get<ICurrentUserService>();
-            if (!_currentUserService.IsAuthenticated)
-            { 
-                Application.Current.Shutdown(); 
-            }
-
-            Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
         
-        private void InvokeLogin()
+        private async Task InvokeLogin()
         {
-            var windowManager = IoC.Get<IWindowManager>();
-            var loginControl = IoC.Get<LoginControl>();
-            windowManager.ShowNtDialog(loginControl.ViewModel,NtWindowSize.SmallLandscape); 
+            var isLoggedIn = false;
+            do
+            {
+                var loginData = await _dialogCordinator.ShowNtLogin(this);
+                if(loginData == null)
+                {
+                    // User has cancelled Login, Should exist.
+                    Application.Current.Shutdown();
+                }
+
+                var errorMsg = new NtRef<string>();
+                isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password, errorMsg);
+
+                if (!isLoggedIn)
+                {
+                    await _dialogCordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
+                }
+            }
+            while (!isLoggedIn);
+
+            _eventAggregator.PublishOnUIThread(new UserLoggedInMessage(this));
+            
         }
 
+        public void Handle(UserLoggedInMessage message)
+        {
+            Navbar = IoC.Get<NavbarControl>().ViewModel;
+        }
     }
 }
