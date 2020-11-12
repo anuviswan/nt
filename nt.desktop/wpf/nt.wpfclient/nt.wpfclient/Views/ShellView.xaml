@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mah:DialogParticipation.Register="{Binding}"
         xmlns:local="clr-namespace:Nt.WpfClient.Views"
-        mc:Ignorable="d"
+                  mc:Ignorable="d"
+                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
         Title="ShellView" Height="600" Width="800">
     <Window.Resources>
         <DataTemplate x:Key="MenuHeaderTemplate">
@@ -15,14 +16,40 @@
            Foreground="White"
            Text="Pictures" />
         </DataTemplate>
+
+        <DataTemplate x:Key="MenuItemTemplate">
+            <Grid x:Name="RootGrid"
+          Height="48"
+          Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ContentControl Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding Icon}"
+                        Focusable="False" />
+                <TextBlock Grid.Column="1"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Text="{Binding Label}" />
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
-    <mah:HamburgerMenu DisplayMode="CompactOverlay" HamburgerMenuHeaderTemplate="{StaticResource MenuHeaderTemplate}">
+    <mah:HamburgerMenu DisplayMode="CompactOverlay" 
+                       HamburgerMenuHeaderTemplate="{StaticResource MenuHeaderTemplate}"
+                       ItemTemplate="{StaticResource MenuItemTemplate}">
 
         <mah:HamburgerMenu.ItemsSource>
             <mah:HamburgerMenuItemCollection>
-                <mah:HamburgerMenuItem Label="asdasd"/>
+                <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Home}"
+                                               Label="Home"/>
+                <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=AccountStar}"
+                               Label="User"/>
             </mah:HamburgerMenuItemCollection>
         </mah:HamburgerMenu.ItemsSource>
+        
 
         <mah:HamburgerMenu.Content>
             <Grid>
