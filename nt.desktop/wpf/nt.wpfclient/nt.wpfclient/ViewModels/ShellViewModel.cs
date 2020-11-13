@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
@@ -6,6 +7,9 @@ using Nt.Utils.ExtensionMethods;
 using Nt.Utils.Helper;
 using Nt.Utils.Messages;
 using Nt.Utils.ServiceInterfaces;
+using Nt.WpfClient.ViewModels.Base;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -54,12 +58,29 @@ namespace Nt.WpfClient.ViewModels
             while (!isLoggedIn);
 
             _eventAggregator.PublishOnUIThread(new UserLoggedInMessage(this));
-            
+
+            MenuItems = InitializeMenuItems();
+            NotifyOfPropertyChange(nameof(MenuItems));
+
         }
 
         public void Handle(UserLoggedInMessage message)
         {
             Navbar = IoC.Get<NavbarControl>().ViewModel;
+        }
+
+        public IEnumerable<NtMenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<NtMenuItemViewModelBase>();
+
+        public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
+        {
+            yield return new CurrentUserViewModel();
+        }
+
+        public void MenuSelectionChanged(object sender, ItemClickEventArgs eventArgs)
+        {
+            if (eventArgs.ClickedItem is HamburgerMenuIconItem menuItem)
+                ActivateItem(menuItem.Tag);
+
         }
     }
 }
