@@ -6,6 +6,6 @@ namespace Nt.WpfClient.ViewModels
     public class CurrentUserViewModel : NtMenuItemViewModelBase
     {
         public override string Title => "User";
-        public override object Icon => new MaterialExtension(PackIconMaterialKind.AccountStar);
+        public override object Icon => new PackIconMaterial { Kind = PackIconMaterialKind.AccountStar };
     }
 }

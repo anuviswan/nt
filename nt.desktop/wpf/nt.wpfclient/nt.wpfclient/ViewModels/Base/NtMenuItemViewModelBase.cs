@@ -2,7 +2,7 @@
 
 namespace Nt.WpfClient.ViewModels.Base
 {
-    public class NtMenuItemViewModelBase : NtPageViewModelBase, IMenuItem
+    public class NtMenuItemViewModelBase : NtPageViewModelBase, IHasMenuReference
     {
         public virtual string Title { get; }
         public virtual NtPageViewModelBase ViewModel { get; }

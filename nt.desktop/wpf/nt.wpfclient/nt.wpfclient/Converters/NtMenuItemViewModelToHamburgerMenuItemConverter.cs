@@ -1,7 +1,9 @@
 ﻿using MahApps.Metro.Controls;
 using Nt.WpfClient.ViewModels.Base;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 
 namespace Nt.WpfClient.Converters
@@ -10,14 +12,14 @@ namespace Nt.WpfClient.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is NtMenuItemViewModelBase nmItem)
+            if(value is IEnumerable<NtMenuItemViewModelBase> nmItemCollection)
             {
-                return new HamburgerMenuIconItem
+                return nmItemCollection.Select(item => new HamburgerMenuIconItem
                 {
-                    Tag = nmItem,
-                    Icon = nmItem.Icon,
-                    Label = nmItem.Title
-                };
+                    Tag = item,
+                    Icon = item.Icon,
+                    Label = item.Title
+                });
             }
             return value;
         }

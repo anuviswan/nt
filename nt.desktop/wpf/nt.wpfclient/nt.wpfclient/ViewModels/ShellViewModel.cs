@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
@@ -59,6 +60,7 @@ namespace Nt.WpfClient.ViewModels
             _eventAggregator.PublishOnUIThread(new UserLoggedInMessage(this));
 
             MenuItems = InitializeMenuItems();
+            NotifyOfPropertyChange(nameof(MenuItems));
 
         }
 
@@ -74,13 +76,10 @@ namespace Nt.WpfClient.ViewModels
             yield return new CurrentUserViewModel();
         }
 
-        public void MenuSelectionChanged(object h, object eventArgs)
+        public void MenuSelectionChanged(object sender, ItemClickEventArgs eventArgs)
         {
-
-        }
-
-        public void MenuSelectionChanged()
-        {
+            if (eventArgs.ClickedItem is HamburgerMenuIconItem menuItem)
+                ActivateItem(menuItem.Tag);
 
         }
     }

@@ -64,7 +64,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\NtMenuItemViewModelToHamburgerMenuItemConverter.cs" />
-    <Compile Include="Interfaces\IMenuItem.cs" />
+    <Compile Include="Interfaces\IHasMenuReference.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapLogger.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapperUnity.cs" />
     <Compile Include="Utils\Bootstrap\ServiceLoader.cs" />

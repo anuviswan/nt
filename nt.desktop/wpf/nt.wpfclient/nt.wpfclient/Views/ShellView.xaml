@@ -10,8 +10,10 @@
                   xmlns:cal="http://www.caliburnproject.org"
                   mc:Ignorable="d"
                   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
-        Title="ShellView" Height="600" Width="800">
-    <Window.Resources>
+                  xmlns:converters="clr-namespace:Nt.WpfClient.Converters"
+                  Title="ShellView" Height="600" Width="800">
+    <mah:MetroWindow.Resources>
+        <converters:NtMenuItemViewModelToHamburgerMenuItemConverter x:Key="MenuItemConverter"/>
         <DataTemplate x:Key="MenuHeaderTemplate">
             <TextBlock HorizontalAlignment="Center"
            VerticalAlignment="Center"
@@ -39,22 +41,12 @@
                    Text="{Binding Label}" />
             </Grid>
         </DataTemplate>
-    </Window.Resources>
+    </mah:MetroWindow.Resources>
     <mah:HamburgerMenu DisplayMode="CompactOverlay" 
-                       ItemsSource="{Binding MenuItems}"
+                       ItemsSource="{Binding MenuItems,Converter={StaticResource MenuItemConverter}}"
                        cal:Message.Attach="[Event ItemClick]=[Action MenuSelectionChanged($source,$eventArgs)]"
                        HamburgerMenuHeaderTemplate="{StaticResource MenuHeaderTemplate}"
                        ItemTemplate="{StaticResource MenuItemTemplate}">
-
-        <mah:HamburgerMenu.ItemsSource>
-            <mah:HamburgerMenuItemCollection>
-                <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Home}" 
-                                               Label="Home"/>
-                <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=AccountStar}"
-                               Label="User"/>
-            </mah:HamburgerMenuItemCollection>
-        </mah:HamburgerMenu.ItemsSource>
-        
 
         <mah:HamburgerMenu.Content>
             <Grid>
