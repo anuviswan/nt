@@ -63,10 +63,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\NtMenuItemViewModelToHamburgerMenuItemConverter.cs" />
+    <Compile Include="Interfaces\IMenuItem.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapLogger.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapperUnity.cs" />
     <Compile Include="Utils\Bootstrap\ServiceLoader.cs" />
     <Compile Include="Utils\Bootstrap\ViewModelLoader.cs" />
+    <Compile Include="ViewModels\Base\NtMenuItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Base\NtPageViewModelBase.cs" />
     <Compile Include="ViewModels\CurrentUserViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\CurrentUserView.xaml.cs">
@@ -161,5 +165,6 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mah:DialogParticipation.Register="{Binding}"
+                  xmlns:vms="clr-namespace:Nt.WpfClient.ViewModels"
+                  d:DataContext="{d:DesignInstance vms:ShellViewModel}"
         xmlns:local="clr-namespace:Nt.WpfClient.Views"
                   xmlns:cal="http://www.caliburnproject.org"
                   mc:Ignorable="d"
@@ -39,7 +41,7 @@
         </DataTemplate>
     </Window.Resources>
     <mah:HamburgerMenu DisplayMode="CompactOverlay" 
-                       
+                       ItemsSource="{Binding MenuItems}"
                        cal:Message.Attach="[Event ItemClick]=[Action MenuSelectionChanged($source,$eventArgs)]"
                        HamburgerMenuHeaderTemplate="{StaticResource MenuHeaderTemplate}"
                        ItemTemplate="{StaticResource MenuItemTemplate}">
