@@ -67,7 +67,11 @@
     <Compile Include="Utils\Bootstrap\BootstrapperUnity.cs" />
     <Compile Include="Utils\Bootstrap\ServiceLoader.cs" />
     <Compile Include="Utils\Bootstrap\ViewModelLoader.cs" />
+    <Compile Include="ViewModels\CurrentUserViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\CurrentUserView.xaml.cs">
+      <DependentUpon>CurrentUserView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
@@ -97,6 +101,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\CurrentUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

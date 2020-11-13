@@ -61,5 +61,15 @@ namespace Nt.WpfClient.ViewModels
         {
             Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
+
+        public void MenuSelectionChanged(object h, object eventArgs)
+        {
+
+        }
+
+        public void MenuSelectionChanged()
+        {
+
+        }
     }
 }
