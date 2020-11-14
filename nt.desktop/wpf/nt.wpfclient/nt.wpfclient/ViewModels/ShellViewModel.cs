@@ -34,6 +34,8 @@ namespace Nt.WpfClient.ViewModels
             base.OnViewLoaded(view);
             InvokeLogin();
         }
+
+        public bool IsBusy { get; set; }
         
         private async Task InvokeLogin()
         {
@@ -47,9 +49,10 @@ namespace Nt.WpfClient.ViewModels
                     Application.Current.Shutdown();
                 }
 
+                IsBusy = true;
                 var errorMsg = new NtRef<string>();
                 isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password, errorMsg);
-
+                IsBusy = false;
                 if (!isLoggedIn)
                 {
                     await _dialogCordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
