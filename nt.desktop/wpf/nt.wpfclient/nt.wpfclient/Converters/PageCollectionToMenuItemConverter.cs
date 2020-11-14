@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace Nt.WpfClient.Converters
 {
-    public class NtMenuItemViewModelToHamburgerMenuItemConverter : IValueConverter
+    public class PageCollectionToMenuItemConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

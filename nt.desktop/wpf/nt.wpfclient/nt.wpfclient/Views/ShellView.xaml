@@ -1,19 +1,19 @@
-﻿<mah:MetroWindow  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="Nt.WpfClient.Views.ShellView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mah:DialogParticipation.Register="{Binding}"
-                  xmlns:vms="clr-namespace:Nt.WpfClient.ViewModels"
-                  d:DataContext="{d:DesignInstance vms:ShellViewModel}"
-        xmlns:local="clr-namespace:Nt.WpfClient.Views"
-                  xmlns:cal="http://www.caliburnproject.org"
-                  mc:Ignorable="d"
-                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
-                  xmlns:converters="clr-namespace:Nt.WpfClient.Converters"
-                  Title="ShellView" Height="600" Width="800">
+﻿<mah:MetroWindow   x:Class="Nt.WpfClient.Views.ShellView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:cal="http://www.caliburnproject.org"
+                   xmlns:converters="clr-namespace:Nt.WpfClient.Converters"
+                   xmlns:vms="clr-namespace:Nt.WpfClient.ViewModels"
+                   mah:DialogParticipation.Register="{Binding}"
+                   d:DataContext="{d:DesignInstance vms:ShellViewModel}"
+                   mc:Ignorable="d"
+                   Title="ShellView" Height="600" Width="800">
     <mah:MetroWindow.Resources>
-        <converters:NtMenuItemViewModelToHamburgerMenuItemConverter x:Key="MenuItemConverter"/>
+        <converters:MenuItemToPageViewModelConverter x:Key="SelectedItemConverter"/>
+        <converters:PageCollectionToMenuItemConverter x:Key="MenuItemConverter"/>
         <DataTemplate x:Key="MenuHeaderTemplate">
             <TextBlock HorizontalAlignment="Center"
            VerticalAlignment="Center"
@@ -44,8 +44,8 @@
     </mah:MetroWindow.Resources>
     <mah:HamburgerMenu DisplayMode="CompactOverlay" 
                        ItemsSource="{Binding MenuItems,Converter={StaticResource MenuItemConverter}}"
-                       cal:Message.Attach="[Event ItemClick]=[Action MenuSelectionChanged($source,$eventArgs)]"
                        HamburgerMenuHeaderTemplate="{StaticResource MenuHeaderTemplate}"
+                       SelectedItem="{Binding ActiveItem,Converter={StaticResource SelectedItemConverter}}"
                        ItemTemplate="{StaticResource MenuItemTemplate}">
 
         <mah:HamburgerMenu.Content>

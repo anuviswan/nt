@@ -63,7 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\NtMenuItemViewModelToHamburgerMenuItemConverter.cs" />
+    <Compile Include="Converters\MenuItemToPageViewModelConverter.cs" />
+    <Compile Include="Converters\PageCollectionToMenuItemConverter.cs" />
     <Compile Include="Interfaces\IHasMenuReference.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapLogger.cs" />
     <Compile Include="Utils\Bootstrap\BootstrapperUnity.cs" />

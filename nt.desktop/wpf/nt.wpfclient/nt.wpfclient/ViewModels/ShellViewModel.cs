@@ -68,19 +68,11 @@ namespace Nt.WpfClient.ViewModels
         {
             Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
-
         public IEnumerable<NtMenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<NtMenuItemViewModelBase>();
-
         public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
         {
             yield return new CurrentUserViewModel();
         }
-
-        public void MenuSelectionChanged(object sender, ItemClickEventArgs eventArgs)
-        {
-            if (eventArgs.ClickedItem is HamburgerMenuIconItem menuItem)
-                ActivateItem(menuItem.Tag);
-
-        }
+        
     }
 }
