@@ -5,4 +5,8 @@
         <ResourceDictionary Source="Textbox.xaml" />
         <ResourceDictionary Source="Label.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="NtPage" TargetType="{x:Type Grid}">
+        <Setter Property="Margin" Value="10"/>
+    </Style>
 </ResourceDictionary>

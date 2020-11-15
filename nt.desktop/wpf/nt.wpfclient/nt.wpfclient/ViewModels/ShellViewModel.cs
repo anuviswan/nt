@@ -74,7 +74,7 @@ namespace Nt.WpfClient.ViewModels
         public IEnumerable<NtMenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<NtMenuItemViewModelBase>();
         public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
         {
-            yield return new CurrentUserViewModel();
+            yield return IoC.Get<CurrentUserViewModel>();
         }
         
     }

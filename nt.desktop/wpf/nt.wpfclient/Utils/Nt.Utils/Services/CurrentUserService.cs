@@ -13,6 +13,7 @@ namespace Nt.Utils.Services
         public bool IsAuthenticated =>!string.IsNullOrEmpty(UserName);
         public string UserName { get; set; }
         public string DisplayName { get; set; }
+        public string Bio { get; set; }
         public async Task<bool> Authenticate(string userName, string password, NtRef<string> errorMessage)
         {
             var request = new AuthenticateRequest
@@ -33,6 +34,7 @@ namespace Nt.Utils.Services
             var currentUserService = IoC.Get<ICurrentUserService>();
             currentUserService.UserName = response.UserName;
             currentUserService.DisplayName = response.DisplayName;
+            currentUserService.Bio = response.UserName;
             return true;
         }
     }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Nt.WpfClient.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Current User"/>
+    <Grid Style="{StaticResource NtPage}">
+        <ContentControl x:Name="CurrentUser"/>
     </Grid>
 </UserControl>

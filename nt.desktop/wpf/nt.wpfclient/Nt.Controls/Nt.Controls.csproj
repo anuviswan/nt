@@ -52,6 +52,11 @@
     <Compile Include="Navbar\NavbarControl.cs" />
     <Compile Include="Navbar\NavbarViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserProfile\UserProfileControl.cs" />
+    <Compile Include="UserProfile\UserProfileView.xaml.cs">
+      <DependentUpon>UserProfileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfile\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="HelperControls\Avataar.xaml">
@@ -59,6 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Navbar\NavbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserProfile\UserProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
