@@ -126,4 +126,13 @@
   <data name="LL_Common_Username" xml:space="preserve">
     <value>Username</value>
   </data>
+  <data name="LL_Page_UserProfile_Title" xml:space="preserve">
+    <value>User Profile</value>
+  </data>
+  <data name="LL_User_Bio" xml:space="preserve">
+    <value>User Bio</value>
+  </data>
+  <data name="LL_User_DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
 </root>

@@ -86,5 +86,32 @@ namespace Nt.Utils.Resources.Properties {
                 return ResourceManager.GetString("LL_Common_Username", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Profile.
+        /// </summary>
+        public static string LL_Page_UserProfile_Title {
+            get {
+                return ResourceManager.GetString("LL_Page_UserProfile_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Bio.
+        /// </summary>
+        public static string LL_User_Bio {
+            get {
+                return ResourceManager.GetString("LL_User_Bio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Name.
+        /// </summary>
+        public static string LL_User_DisplayName {
+            get {
+                return ResourceManager.GetString("LL_User_DisplayName", resourceCulture);
+            }
+        }
     }
 }

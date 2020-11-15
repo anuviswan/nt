@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nt.WpfClient.Views"
+              xmlns:localize="clr-namespace:Nt.Utils.Resources.Properties;assembly=Nt.Utils.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <GroupBox Grid.Row="0"
                   Grid.Column="0"
                   Margin="4 2"
-                  Header="TextBox"
+                  Header="{x:Static localize:Resources.LL_Page_UserProfile_Title}"
               Style="{StaticResource NtPage}">
         <Grid>
         <Grid.RowDefinitions>
