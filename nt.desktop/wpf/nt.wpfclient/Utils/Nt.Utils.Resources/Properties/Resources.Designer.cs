@@ -113,5 +113,23 @@ namespace Nt.Utils.Resources.Properties {
                 return ResourceManager.GetString("LL_User_DisplayName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Info.
+        /// </summary>
+        public static string LL_User_ProfileInfo {
+            get {
+                return ResourceManager.GetString("LL_User_ProfileInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Reviews.
+        /// </summary>
+        public static string LL_User_RecentReviews {
+            get {
+                return ResourceManager.GetString("LL_User_RecentReviews", resourceCulture);
+            }
+        }
     }
 }

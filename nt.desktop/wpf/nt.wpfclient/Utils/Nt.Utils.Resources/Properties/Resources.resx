@@ -135,4 +135,10 @@
   <data name="LL_User_DisplayName" xml:space="preserve">
     <value>Display Name</value>
   </data>
+  <data name="LL_User_ProfileInfo" xml:space="preserve">
+    <value>Profile Info</value>
+  </data>
+  <data name="LL_User_RecentReviews" xml:space="preserve">
+    <value>Recent Reviews</value>
+  </data>
 </root>

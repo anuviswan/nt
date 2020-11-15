@@ -15,8 +15,14 @@
         <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <ContentControl x:Name="CurrentUser"/>
-    </Grid>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Expander Header="{x:Static localize:Resources.LL_User_ProfileInfo}" IsExpanded="True" Grid.Row="0">
+                <ContentControl x:Name="CurrentUser"/>
+            </Expander>
+            <Expander Header="{x:Static localize:Resources.LL_User_RecentReviews}" IsExpanded="True" Grid.Row="1">
+            </Expander>
+
+        </Grid>
     </GroupBox>
 </UserControl>
