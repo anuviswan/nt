@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -19,16 +19,23 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="AvataarSection">
-            <TextBlock Text="Photo to be added later"/>
+            <Ellipse Height="100" Width="100" Margin="5" Stroke="Black">
+                <Ellipse.Effect>
+                    <DropShadowEffect Direction="225" Color="#FFB6C2CB" ShadowDepth="5" BlurRadius="14" />
+                </Ellipse.Effect>
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="https://picsum.photos/200"/>
+                </Ellipse.Fill>
+            </Ellipse>
         </Grid>
 
         <Grid Grid.Column="1" Grid.Row="0">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="8*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="{x:Static localize:Resources.LL_Common_Username}" Style="{StaticResource NtFormLabel}" />
                     <Label Grid.Column="2" Content="{Binding UserName}"/>
@@ -36,9 +43,9 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="8*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="{x:Static localize:Resources.LL_User_DisplayName}" Style="{StaticResource NtFormLabel}"/>
                     <Label Grid.Column="2" Content="{Binding UserDisplayName}"/>
@@ -46,9 +53,9 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="8*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="{x:Static localize:Resources.LL_User_Bio}" Style="{StaticResource NtFormLabel}"/>
                     <Label Grid.Column="2" Content="{Binding Bio}"/>
