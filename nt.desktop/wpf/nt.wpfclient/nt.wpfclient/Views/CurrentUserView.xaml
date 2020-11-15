@@ -13,14 +13,22 @@
                   Header="{x:Static localize:Resources.LL_Page_UserProfile_Title}"
               Style="{StaticResource NtPage}">
         <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Expander Header="{x:Static localize:Resources.LL_User_ProfileInfo}" IsExpanded="True" Grid.Row="0">
+
+            <Expander Header="{x:Static localize:Resources.LL_User_ProfileInfo}" IsExpanded="True" Grid.Row="0" Style="{StaticResource NtExpander}">
                 <ContentControl x:Name="CurrentUser"/>
             </Expander>
-            <Expander Header="{x:Static localize:Resources.LL_User_RecentReviews}" IsExpanded="True" Grid.Row="1">
+            <Expander Header="{x:Static localize:Resources.LL_User_Ratings}" IsExpanded="True" Grid.Row="0" Grid.Column="1" Style="{StaticResource NtExpander}">
+            </Expander>
+
+            <Expander Header="{x:Static localize:Resources.LL_User_RecentReviews}" IsExpanded="True" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource NtExpander}">
             </Expander>
 
         </Grid>

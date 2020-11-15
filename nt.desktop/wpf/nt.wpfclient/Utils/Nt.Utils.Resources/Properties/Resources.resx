@@ -138,6 +138,9 @@
   <data name="LL_User_ProfileInfo" xml:space="preserve">
     <value>Profile Info</value>
   </data>
+  <data name="LL_User_Ratings" xml:space="preserve">
+    <value>User Ratings</value>
+  </data>
   <data name="LL_User_RecentReviews" xml:space="preserve">
     <value>Recent Reviews</value>
   </data>

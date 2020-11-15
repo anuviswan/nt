@@ -124,6 +124,15 @@ namespace Nt.Utils.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Ratings.
+        /// </summary>
+        public static string LL_User_Ratings {
+            get {
+                return ResourceManager.GetString("LL_User_Ratings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recent Reviews.
         /// </summary>
         public static string LL_User_RecentReviews {
