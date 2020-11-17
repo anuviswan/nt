@@ -27,7 +27,7 @@ namespace Nt.WpfClient.Utils.Bootstrap
         protected override void Configure()
         {
             _unityContainer = new UnityContainer();
-            _unityContainer.RegisterInstance((Caliburn.Micro.IWindowManager)new NtWindowManager());
+            _unityContainer.RegisterSingleton<IWindowManager, NtWindowManager>();
             _unityContainer.RegisterInstance<IEventAggregator>(new EventAggregator(), new ContainerControlledLifetimeManager());
 
             // Register Services

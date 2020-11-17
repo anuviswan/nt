@@ -33,15 +33,25 @@ namespace Nt.Utils.Helper
             settings.Width = width;
             settings.SizeToContent = SizeToContent.Manual;
 
-            var window = (Window)CreateWindow(viewModel, true, context, settings);
-            return window.ShowDialog();
+            return ShowDialog(viewModel,context,settings);
         }
         protected override Window EnsureWindow(object model, object view, bool isDialog)
         {
-            return new MetroWindow
+            if (view == null) return default;
+
+            if (view is MetroWindow metroWindow) return metroWindow;
+
+            var window = new MetroWindow
             {
                  Content = view,
+                SizeToContent = SizeToContent.WidthAndHeight
             };
+            window.SetValue(View.IsGeneratedProperty, true);
+            var owner = InferOwnerOf(window);
+
+            if(owner!=null)
+            window.Owner = owner;
+            return window;
         }
     }
 }

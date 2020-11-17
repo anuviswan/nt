@@ -34,9 +34,8 @@ namespace Nt.Utils.ExtensionMethods
             settings.Width = width;
             settings.SizeToContent = SizeToContent.Manual;
 
-            var ntWindow = (NtWindow)source;
-            var windowInstance = ntWindow.CreateWindowInternal(viewModel, true, context, settings);
-            return windowInstance.ShowDialog();
+            return source.ShowDialog(viewModel, context, settings);
+
         }
 
         
