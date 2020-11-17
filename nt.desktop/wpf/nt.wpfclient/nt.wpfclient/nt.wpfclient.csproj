@@ -74,9 +74,6 @@
     <Compile Include="ViewModels\Base\NtPageViewModelBase.cs" />
     <Compile Include="ViewModels\CurrentUserViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="Views\CurrentUserView.xaml.cs">
-      <DependentUpon>CurrentUserView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />

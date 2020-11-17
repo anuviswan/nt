@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nt.Controls.UserProfile"
              mc:Ignorable="d" 
-              xmlns:localize="clr-namespace:Nt.Utils.Resources.Properties;assembly=Nt.Utils.Resources"
+             xmlns:localize="clr-namespace:Nt.Utils.Resources.Properties;assembly=Nt.Utils.Resources" 
+             
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>

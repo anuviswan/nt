@@ -12,8 +12,8 @@ namespace Nt.Controls.UserProfile
 
         public string UserDisplayName 
         {
-            get => TypedControl.DisplayName;
-            set => TypedControl.DisplayName = value;
+            get => TypedControl.UserDisplayName;
+            set => TypedControl.UserDisplayName = value;
         }
 
         public string Bio

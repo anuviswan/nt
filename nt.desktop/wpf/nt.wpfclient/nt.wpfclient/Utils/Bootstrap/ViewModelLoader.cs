@@ -1,6 +1,6 @@
-﻿using Nt.Utils.ControlInterfaces;
+﻿using Nt.Controls.UserProfile;
+using Nt.Utils.ControlInterfaces;
 using System;
-using Nt.Controls.Navbar;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,8 +9,8 @@ namespace Nt.WpfClient.Utils.Bootstrap
 {
     public static class ViewModelLoader
     {
-        public static IEnumerable<Assembly> GetAssemblies()=>new Assembly[] { typeof(NavbarControl).Assembly};
-        public static IEnumerable<NtViewModelBase> GetViewModels() => typeof(NavbarControl).Assembly
+        public static IEnumerable<Assembly> GetAssemblies()=>new Assembly[] { typeof(UserProfileControl).Assembly};
+        public static IEnumerable<NtViewModelBase> GetViewModels() => typeof(UserProfileControl).Assembly
                 .GetTypes()
                 .Where(x => typeof(NtControlBase<>).IsAssignableFrom(x))
                 .Select(x => x.GetGenericArguments().First()).Select(x=> (NtViewModelBase)Activator.CreateInstance(x));

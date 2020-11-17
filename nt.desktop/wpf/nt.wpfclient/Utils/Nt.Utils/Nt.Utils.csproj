@@ -63,6 +63,7 @@
     <Compile Include="Helper\Enumerations\Direction.cs" />
     <Compile Include="Helper\HttpUtils.cs" />
     <Compile Include="Helper\NtRef.cs" />
+    <Compile Include="Helper\NtWindowManager.cs" />
     <Compile Include="Helper\RestSharpJsonNetSerializer.cs" />
     <Compile Include="Messages\NtMessageBase.cs" />
     <Compile Include="Messages\UserLoggedInMessage.cs" />

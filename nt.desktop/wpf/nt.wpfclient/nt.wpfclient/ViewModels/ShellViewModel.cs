@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Nt.Controls.Navbar;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.Helper;
@@ -69,7 +68,7 @@ namespace Nt.WpfClient.ViewModels
 
         public void Handle(UserLoggedInMessage message)
         {
-            Navbar = IoC.Get<NavbarControl>().ViewModel;
+           // Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
         public IEnumerable<NtMenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<NtMenuItemViewModelBase>();
         public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
