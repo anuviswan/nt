@@ -14,7 +14,7 @@ namespace Nt.Utils.ExtensionMethods
     public static class IWindowManagerExtentions
     {
 
-        public static bool? ShowNtDialog(this IWindowManager source, object context,  NtViewModelBase viewModel,NtWindowSize windowModel)
+        public static bool? ShowNtDialog(this IWindowManager source, NtViewModelBase viewModel,NtWindowSize windowModel,string title)
         {
             var (height, width) = windowModel switch
             {
@@ -23,19 +23,18 @@ namespace Nt.Utils.ExtensionMethods
                 _ => (500,400)
             };
 
-            return source.ShowNtDialog(context, viewModel, height,width);
+            return source.ShowNtDialog(viewModel, height,width,title);
         }
 
-        private static bool? ShowNtDialog(this IWindowManager source,object context, NtViewModelBase viewModel,double width,double height)
+        private static bool? ShowNtDialog(this IWindowManager source,NtViewModelBase viewModel,double width,double height,string title)
         {
-
             dynamic settings = new ExpandoObject();
             settings.Height = height;
             settings.Width = width;
             settings.SizeToContent = SizeToContent.Manual;
+            settings.Title = title;
 
-            return source.ShowDialog(viewModel, context, settings);
-
+            return source.ShowDialog(viewModel, null, settings);
         }
 
         
@@ -43,11 +42,6 @@ namespace Nt.Utils.ExtensionMethods
 
     public class NtWindow : WindowManager
     {
-        public Window CreateWindowInternal(object rootModel, bool isDialog, object context, IDictionary<string, object> settings)
-        {
-            return CreateWindow(rootModel, isDialog, context, settings);
-        }
-
         protected override Window EnsureWindow(object model, object view, bool isDialog)
         {
             var window = new MetroWindow()

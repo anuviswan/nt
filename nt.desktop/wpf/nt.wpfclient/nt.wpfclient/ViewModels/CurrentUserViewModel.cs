@@ -41,7 +41,7 @@ namespace Nt.WpfClient.ViewModels
             editUser.Bio = _currentUserService.Bio;
 
             var windowManager = IoC.Get<IWindowManager>();
-            windowManager.ShowNtDialog(this,editUser.ViewModel, NtWindowSize.LargeLandscape);
+            windowManager.ShowNtDialog(editUser.ViewModel,NtWindowSize.MediumPortrait,"Edit User");
         }
 
     }
