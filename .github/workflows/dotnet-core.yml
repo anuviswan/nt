@@ -62,12 +62,15 @@ jobs:
   BuildWpfClient:
     name: Build Wpf Desktop Client
     runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v2
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.1
         with:
           vs-version: 16.0
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS : 'true'
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
       - name: Restore NuGet Packages
