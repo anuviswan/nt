@@ -70,7 +70,7 @@ jobs:
         with:
           vs-version: 16.0
         env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS : 'true'
+          ACTIONS_ALLOW_UNSECURE_COMMANDS : 'true'   # Patch for build, this has to be fixed later
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
       - name: Restore NuGet Packages
