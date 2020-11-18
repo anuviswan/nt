@@ -7,6 +7,8 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using static Nt.Utils.Helper.HttpUtils;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Linq;
 
 namespace Nt.Utils.Services
 {
@@ -45,10 +47,83 @@ namespace Nt.Utils.Services
             return response.StatusCode switch
             {
                 HttpStatusCode.OK => JsonConvert.DeserializeObject<TResponse>(response.Content),
-                HttpStatusCode.BadRequest => new TResponse { Errors = new[] { JsonConvert.DeserializeObject<string>(response.Content)} },
+                HttpStatusCode.BadRequest => ParseErrorResponse<TResponse>(response.Content),
                 _ => new TResponse { Errors = new[] { string.Empty } },
             };
         }
 
+        // This methos/approach has to be improved later
+        private TResponse ParseErrorResponse<TResponse>(string content) where TResponse : IBaseResponse, new()
+        {
+            try
+            {
+                var defaultSchema = JSchema.Parse(GetDefaultSchema());
+                var jsonString = JObject.Parse(content);
+
+                if (jsonString.IsValid(defaultSchema))
+                {
+                    return JsonConvert.DeserializeObject<TResponse>(content);
+                }
+                else
+                {
+                    return new TResponse
+                    {
+                        Errors = new[] { JsonConvert.DeserializeObject<string>(content) }
+                    };
+                }
+            }
+            catch
+            {
+                return new TResponse
+                {
+                    Errors = new[] { JsonConvert.DeserializeObject<string>(content) }
+                };
+            }
+        }
+
+        private string GetDefaultSchema()
+        {
+            return @"{
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'type': 'object',
+  'properties': {
+    'type': {
+      'type': 'string'
+    },
+    'title': {
+      'type': 'string'
+    },
+    'status': {
+      'type': 'integer'
+    },
+    'traceId': {
+      'type': 'string'
+    },
+    'errors': {
+      'type': 'object',
+      'properties': {
+        'PassKey': {
+          'type': 'array',
+          'items': [
+            {
+              'type': 'string'
+            }
+          ]
+        }
+      },
+      'required': [
+        'PassKey'
+      ]
+    }
+  },
+  'required': [
+    'type',
+    'title',
+    'status',
+    'traceId',
+    'errors'
+  ]
+}";
+        }
     }
 }
