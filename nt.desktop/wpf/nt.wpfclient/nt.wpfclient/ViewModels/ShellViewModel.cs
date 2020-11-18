@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Nt.Controls.Navbar;
+using Nt.Controls.EditUserProfile;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.Helper;
@@ -34,6 +34,8 @@ namespace Nt.WpfClient.ViewModels
             base.OnViewLoaded(view);
             InvokeLogin();
         }
+
+        public bool IsBusy { get; set; }
         
         private async Task InvokeLogin()
         {
@@ -47,9 +49,10 @@ namespace Nt.WpfClient.ViewModels
                     Application.Current.Shutdown();
                 }
 
+                IsBusy = true;
                 var errorMsg = new NtRef<string>();
                 isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password, errorMsg);
-
+                IsBusy = false;
                 if (!isLoggedIn)
                 {
                     await _dialogCordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
@@ -66,12 +69,12 @@ namespace Nt.WpfClient.ViewModels
 
         public void Handle(UserLoggedInMessage message)
         {
-            Navbar = IoC.Get<NavbarControl>().ViewModel;
+           // Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
         public IEnumerable<NtMenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<NtMenuItemViewModelBase>();
         public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
         {
-            yield return new CurrentUserViewModel();
+            yield return IoC.Get<CurrentUserViewModel>();
         }
         
     }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Nt.WpfClient.Views
+namespace Nt.Controls.ChangePassword
 {
     /// <summary>
-    /// Interaction logic for CurrentUserView.xaml
+    /// Interaction logic for ChangePasswordView.xaml
     /// </summary>
-    public partial class CurrentUserView : UserControl
+    public partial class ChangePasswordView : UserControl
     {
-        public CurrentUserView()
+        public ChangePasswordView()
         {
             InitializeComponent();
         }

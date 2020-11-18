@@ -86,5 +86,86 @@ namespace Nt.Utils.Resources.Properties {
                 return ResourceManager.GetString("LL_Common_Username", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Profile.
+        /// </summary>
+        public static string LL_Page_UserProfile_Title {
+            get {
+                return ResourceManager.GetString("LL_Page_UserProfile_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Bio.
+        /// </summary>
+        public static string LL_User_Bio {
+            get {
+                return ResourceManager.GetString("LL_User_Bio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string LL_User_ConfirmPassword {
+            get {
+                return ResourceManager.GetString("LL_User_ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Password.
+        /// </summary>
+        public static string LL_User_CurrentPassword {
+            get {
+                return ResourceManager.GetString("LL_User_CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Name.
+        /// </summary>
+        public static string LL_User_DisplayName {
+            get {
+                return ResourceManager.GetString("LL_User_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string LL_User_NewPassword {
+            get {
+                return ResourceManager.GetString("LL_User_NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Info.
+        /// </summary>
+        public static string LL_User_ProfileInfo {
+            get {
+                return ResourceManager.GetString("LL_User_ProfileInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Ratings.
+        /// </summary>
+        public static string LL_User_Ratings {
+            get {
+                return ResourceManager.GetString("LL_User_Ratings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Reviews.
+        /// </summary>
+        public static string LL_User_RecentReviews {
+            get {
+                return ResourceManager.GetString("LL_User_RecentReviews", resourceCulture);
+            }
+        }
     }
 }

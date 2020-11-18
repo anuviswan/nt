@@ -9,4 +9,10 @@
         <Setter Property="Foreground" Value="Red"/>
     </Style>
 
+    <Style x:Key="NtFormLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource MahApps.Styles.Label}">
+        <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+
 </ResourceDictionary>
