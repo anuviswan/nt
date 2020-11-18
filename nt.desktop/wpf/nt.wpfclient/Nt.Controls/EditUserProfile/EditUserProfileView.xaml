@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="{x:Static localize:Resources.LL_Common_Username}" Style="{StaticResource NtFormLabel}" />
-                <Label Grid.Column="2" Content="{Binding UserName}" Style="{StaticResource NtTextBox}"/>
+                <Label Grid.Column="2" Content="{Binding UserName}"/>
             </Grid>
 
             <Grid Style="{StaticResource FormRow}">
