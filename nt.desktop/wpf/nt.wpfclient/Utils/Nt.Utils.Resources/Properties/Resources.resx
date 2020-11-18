@@ -132,8 +132,17 @@
   <data name="LL_User_Bio" xml:space="preserve">
     <value>User Bio</value>
   </data>
+  <data name="LL_User_ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="LL_User_CurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
   <data name="LL_User_DisplayName" xml:space="preserve">
     <value>Display Name</value>
+  </data>
+  <data name="LL_User_NewPassword" xml:space="preserve">
+    <value>New Password</value>
   </data>
   <data name="LL_User_ProfileInfo" xml:space="preserve">
     <value>Profile Info</value>

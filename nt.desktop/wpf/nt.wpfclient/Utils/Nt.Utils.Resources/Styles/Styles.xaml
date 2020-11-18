@@ -6,5 +6,6 @@
         <ResourceDictionary Source="Label.xaml" />
         <ResourceDictionary Source="GroupBox.xaml" />
         <ResourceDictionary Source="Expander.xaml" />
+        <ResourceDictionary Source="Grid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

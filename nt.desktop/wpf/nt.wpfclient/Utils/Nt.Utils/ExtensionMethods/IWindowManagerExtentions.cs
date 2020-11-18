@@ -20,6 +20,10 @@ namespace Nt.Utils.ExtensionMethods
             {
                 NtWindowSize.SmallLandscape => (300, 200),
                 NtWindowSize.MediumLandscape => (400, 300),
+                NtWindowSize.LargeLandscape => (500, 400),
+                NtWindowSize.SmallPortrait => (200, 300),
+                NtWindowSize.MediumPortrait => (300, 400),
+                NtWindowSize.LargePortrait => (400,500),
                 _ => (500,400)
             };
 
@@ -60,6 +64,6 @@ namespace Nt.Utils.ExtensionMethods
 
         SmallPortrait,
         MediumPortrait,
-        LargePrtrait
+        LargePortrait
     }
 }

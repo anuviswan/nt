@@ -47,7 +47,7 @@
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
-                        <Button  Style="{StaticResource NtButton.Circle}" ToolTip="Change Password">
+                        <Button x:Name="ChangePassword"  Style="{StaticResource NtButton.Circle}" ToolTip="Change Password">
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <iconPacks:PackIconModern Width="20"  Height="20" Kind="InterfacePassword" />

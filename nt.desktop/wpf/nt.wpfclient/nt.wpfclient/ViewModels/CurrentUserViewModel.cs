@@ -6,6 +6,7 @@ using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ServiceInterfaces;
 using Nt.WpfClient.ViewModels.Base;
 using Nt.Utils.ExtensionMethods;
+using Nt.Controls.ChangePassword;
 
 namespace Nt.WpfClient.ViewModels
 {
@@ -41,7 +42,15 @@ namespace Nt.WpfClient.ViewModels
             editUser.Bio = _currentUserService.Bio;
 
             var windowManager = IoC.Get<IWindowManager>();
-            windowManager.ShowNtDialog(editUser.ViewModel,NtWindowSize.MediumPortrait,"Edit User");
+            windowManager.ShowNtDialog(editUser.ViewModel,NtWindowSize.MediumLandscape,"Edit User");
+        }
+
+        public void ChangePassword()
+        {
+            var changePassword = IoC.Get<ChangePasswordControl>();
+
+            var windowManager = IoC.Get<IWindowManager>();
+            windowManager.ShowNtDialog(changePassword.ViewModel, NtWindowSize.MediumLandscape, "Change Password");
         }
 
     }

@@ -106,11 +106,38 @@ namespace Nt.Utils.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string LL_User_ConfirmPassword {
+            get {
+                return ResourceManager.GetString("LL_User_ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Password.
+        /// </summary>
+        public static string LL_User_CurrentPassword {
+            get {
+                return ResourceManager.GetString("LL_User_CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display Name.
         /// </summary>
         public static string LL_User_DisplayName {
             get {
                 return ResourceManager.GetString("LL_User_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string LL_User_NewPassword {
+            get {
+                return ResourceManager.GetString("LL_User_NewPassword", resourceCulture);
             }
         }
         

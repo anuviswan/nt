@@ -45,6 +45,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangePassword\ChangePasswordControl.cs" />
+    <Compile Include="ChangePassword\ChangePasswordView.xaml.cs">
+      <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePassword\ChangePasswordViewModel.cs" />
     <Compile Include="EditUserProfile\EditUserProfileControl.cs" />
     <Compile Include="EditUserProfile\EditUserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +57,10 @@
     <Compile Include="UserProfile\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ChangePassword\ChangePasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditUserProfile\EditUserProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
