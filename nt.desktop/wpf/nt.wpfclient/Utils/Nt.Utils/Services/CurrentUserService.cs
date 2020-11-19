@@ -1,10 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Caliburn.Micro;
 using Nt.Data.Dto.Authenticate;
 using Nt.Utils.Helper;
 using Nt.Utils.ServiceInterfaces;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nt.Utils.Services
 {
@@ -34,7 +34,7 @@ namespace Nt.Utils.Services
             var currentUserService = IoC.Get<ICurrentUserService>();
             currentUserService.UserName = response.UserName;
             currentUserService.DisplayName = response.DisplayName;
-            currentUserService.Bio = response.UserName;
+            currentUserService.Bio = response.Bio;
             return true;
         }
     }

@@ -1,17 +1,15 @@
-﻿using Caliburn.Micro;
-using MahApps.Metro.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using Caliburn.Micro;
 using MahApps.Metro.Controls.Dialogs;
-using Nt.Controls.EditUserProfile;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.ExtensionMethods;
 using Nt.Utils.Helper;
 using Nt.Utils.Messages;
 using Nt.Utils.ServiceInterfaces;
 using Nt.WpfClient.ViewModels.Base;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Nt.WpfClient.ViewModels
 {
@@ -61,15 +59,15 @@ namespace Nt.WpfClient.ViewModels
             while (!isLoggedIn);
 
             _eventAggregator.PublishOnUIThread(new UserLoggedInMessage(this));
-
-            MenuItems = InitializeMenuItems();
-            NotifyOfPropertyChange(nameof(MenuItems));
-
         }
 
         public void Handle(UserLoggedInMessage message)
         {
-           // Navbar = IoC.Get<NavbarControl>().ViewModel;
+            
+
+            MenuItems = InitializeMenuItems();
+            NotifyOfPropertyChange(nameof(MenuItems));
+            // Navbar = IoC.Get<NavbarControl>().ViewModel;
         }
         public IEnumerable<NtMenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<NtMenuItemViewModelBase>();
         public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
