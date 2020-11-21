@@ -1,4 +1,7 @@
-﻿using Nt.Data.Dto.UpdateUser;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Nt.Data.Dto.UpdateUser;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.Helper;
 using Nt.Utils.ServiceInterfaces;
@@ -9,29 +12,51 @@ namespace Nt.Controls.EditUserProfile
     {
         public EditUserProfileViewModel(IHttpService httpService):base(httpService)
         {
-
         }
         public string UserName => TypedControl.UserName;
         public string UserDisplayName
         {
             get => TypedControl.UserDisplayName;
-            set => TypedControl.UserDisplayName = value;
+            set
+            {
+                if (Equals(TypedControl.UserDisplayName, value)) return;
+
+                TypedControl.UserDisplayName = value;
+                NotifyOfPropertyChange();
+                ValidateProperty(value);
+            }
         }
 
         public string Bio
         {
             get => TypedControl.Bio;
-            set => TypedControl.Bio = value;
+            set
+            {
+
+                if (Equals(TypedControl.Bio, value)) return;
+
+                TypedControl.Bio = value;
+                NotifyOfPropertyChange();
+                ValidateProperty(value);
+            }
         }
 
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
+            if (HasErrors) return;
+
             var request = new UpdateUserRequest
             {
                 DisplayName = UserDisplayName,
                 Bio = Bio
             };
-            var response = HttpService.PostAsync<UpdateUserRequest, UpdateUserResponse>(HttpUtils.UpdateUserUrl,request);
+            var response = await HttpService.PostAsync<UpdateUserRequest, UpdateUserResponse>(HttpUtils.UpdateUserUrl,request);
+            if (response.HasError)
+            {
+
+            }
+            TryClose(true);
         }
+        
     }
 }
