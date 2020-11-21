@@ -15,5 +15,6 @@ namespace Nt.Utils.ServiceInterfaces
         string UserName { get; set; }
         string DisplayName { get; set; }
         string Bio { get; set; }
+        string AuthToken { get; set; }
     }
 }

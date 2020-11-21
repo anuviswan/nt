@@ -8,7 +8,7 @@ namespace Nt.Controls.EditUserProfile
         [Required]
         [StringLength(15, MinimumLength = 6, ErrorMessage ="Username should be minimum 6 characters and maximum 15")]
         public string UserName { get; set; }
-        [Required(ErrorMessage = "Display Name Field cannot be empty"]
+        [Required(ErrorMessage = "Display Name Field cannot be empty")]
         [StringLength(15, MinimumLength = 3, ErrorMessage = "Display Name should be minimum 3 characters and maximum 30")]
         public string UserDisplayName { get; set; }
 

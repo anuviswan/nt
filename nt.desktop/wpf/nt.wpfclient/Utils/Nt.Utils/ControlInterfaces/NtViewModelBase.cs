@@ -79,5 +79,10 @@ namespace Nt.Utils.ControlInterfaces
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
             return Task.CompletedTask;
         }
+
+        public virtual void Cancel()
+        {
+            TryClose(false);
+        }
     }
 }

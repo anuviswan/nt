@@ -14,10 +14,12 @@ namespace Nt.Utils.Services
 {
     public class HttpService : IHttpService
     {
-        private RestClient _restClient;
-        public HttpService()
+        private readonly RestClient _restClient;
+        private readonly ICurrentUserService _currentUserService;
+        public HttpService(ICurrentUserService currentUserService)
         {
             _restClient = new RestClient(ServerUrl);
+            _currentUserService = currentUserService;
         }
         public async Task<TResponse> GetAsync<TRequest, TResponse>(string url, TRequest request)
         {
@@ -30,6 +32,10 @@ namespace Nt.Utils.Services
             var restRequest = new RestRequest(url, Method.POST);
             restRequest.JsonSerializer = new RestSharpJsonNetSerializer();
             restRequest.AddJsonBody(request);
+            if (_currentUserService.IsAuthenticated)
+            {
+                restRequest.AddHeader("authorization", "Bearer " + _currentUserService.AuthToken);
+            }
             try
             {
                 var response = await _restClient.ExecuteAsync(restRequest);
@@ -48,6 +54,7 @@ namespace Nt.Utils.Services
             {
                 HttpStatusCode.OK => JsonConvert.DeserializeObject<TResponse>(response.Content),
                 HttpStatusCode.BadRequest => ParseErrorResponse<TResponse>(response.Content),
+                HttpStatusCode.NoContent => new TResponse(),
                 _ => new TResponse { Errors = new[] { string.Empty } },
             };
         }

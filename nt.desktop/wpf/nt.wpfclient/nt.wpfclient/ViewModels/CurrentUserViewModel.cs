@@ -42,7 +42,13 @@ namespace Nt.WpfClient.ViewModels
             editUser.Bio = _currentUserService.Bio;
 
             var windowManager = IoC.Get<IWindowManager>();
-            windowManager.ShowNtDialog(editUser.ViewModel,NtWindowSize.MediumLandscape,"Edit User");
+            var result = windowManager.ShowNtDialog(editUser.ViewModel,NtWindowSize.MediumLandscape,"Edit User");
+            if (result==true)
+            {
+                
+                (CurrentUser as UserProfileViewModel).Bio = _currentUserService.Bio = editUser.Bio;
+                (CurrentUser as UserProfileViewModel).UserDisplayName = _currentUserService.DisplayName = editUser.UserDisplayName;
+            }
         }
 
         public void ChangePassword()
