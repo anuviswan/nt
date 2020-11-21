@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Nt.Data.Dto.UpdateUser;
 using Nt.Utils.ControlInterfaces;
 using Nt.Utils.Helper;
