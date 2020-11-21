@@ -41,14 +41,13 @@ namespace Nt.WpfClient.Utils.Bootstrap
                                                                 _unityContainer.Resolve<IEventAggregator>()));
 
 
-            foreach (var vm in ViewModelLoader.GetViewModels())
+            foreach (var vmTypes in ViewModelLoader.GetViewModels())
             {
-                _unityContainer.RegisterInstance(vm.GetType(), vm);
+                _unityContainer.RegisterType(vmTypes);
             }
 
             LogManager.GetLog = type => new BootstrapLogger(type);
             ConfigureNameTransformer();
-
         }
         
         private void ConfigureNameTransformer()

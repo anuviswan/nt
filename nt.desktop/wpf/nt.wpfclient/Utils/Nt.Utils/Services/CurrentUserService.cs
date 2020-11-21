@@ -1,10 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Caliburn.Micro;
 using Nt.Data.Dto.Authenticate;
 using Nt.Utils.Helper;
 using Nt.Utils.ServiceInterfaces;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nt.Utils.Services
 {
@@ -14,6 +14,7 @@ namespace Nt.Utils.Services
         public string UserName { get; set; }
         public string DisplayName { get; set; }
         public string Bio { get; set; }
+        public string AuthToken { get; set; }
         public async Task<bool> Authenticate(string userName, string password, NtRef<string> errorMessage)
         {
             var request = new AuthenticateRequest
@@ -31,10 +32,10 @@ namespace Nt.Utils.Services
                 errorMessage.Value = response.Errors.First();
                 return false;
             }
-            var currentUserService = IoC.Get<ICurrentUserService>();
-            currentUserService.UserName = response.UserName;
-            currentUserService.DisplayName = response.DisplayName;
-            currentUserService.Bio = response.UserName;
+            UserName = response.UserName;
+            DisplayName = response.DisplayName;
+            Bio = response.Bio;
+            AuthToken = response.AuthToken;
             return true;
         }
     }

@@ -11,5 +11,6 @@ namespace Nt.Utils.Helper
         public static string ServerUrl = "https://localhost:44353";
 
         public static string ValidateUserUrl = @"/api/User/ValidateUser";
+        public static string UpdateUserUrl = @"/api/User/UpdateUser";
     }
 }

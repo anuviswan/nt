@@ -32,7 +32,16 @@
                     <ColumnDefinition Width="7*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="{x:Static localize:Resources.LL_User_DisplayName}" Style="{StaticResource NtFormLabel}"/>
-                <TextBox Grid.Column="2" Text="{Binding UserDisplayName}" Style="{StaticResource NtTextBox}"/>
+                <TextBox Grid.Column="2" Text="{Binding UserDisplayName,ValidatesOnNotifyDataErrors=True}" Style="{StaticResource NtTextBox}">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
             </Grid>
 
             <Grid Style="{StaticResource FormRow}">
@@ -47,8 +56,8 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right">
-            <Button Content="Cancel" Style="{StaticResource NtButton}"/>
-            <Button Content="Save" Style="{StaticResource NtButton}"/>
+            <Button x:Name="Cancel" Content="Cancel" Style="{StaticResource NtButton}"/>
+            <Button x:Name="SaveChanges" Content="Save" Style="{StaticResource NtButton}"/>
         </StackPanel>
     </Grid>
 </UserControl>

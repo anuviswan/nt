@@ -10,15 +10,14 @@ namespace Nt.WpfClient.Utils.Bootstrap
     public static class ViewModelLoader
     {
         public static IEnumerable<Assembly> GetAssemblies()=>new Assembly[] { typeof(UserProfileControl).Assembly};
-        public static IEnumerable<NtViewModelBase> GetViewModels()
+        public static IEnumerable<Type> GetViewModels()
         {
             var controls= typeof(UserProfileControl).Assembly
                             .GetTypes()
                             .Where(x => IsSubclassOfRawGeneric(typeof(NtControlBase<>), x));
             
             var viewModels = controls.Where(x => x.BaseType.GetGenericArguments().Any())
-                            .Select(x=> x.BaseType.GetGenericArguments().First())
-                            .Select(x => (NtViewModelBase)Activator.CreateInstance(x));
+                            .Select(x=> x.BaseType.GetGenericArguments().First());
             return viewModels;
         }
 
