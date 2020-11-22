@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Nt.Data.Dto.BaseDto;
 
 namespace Nt.Data.Dto.UpdateUser
 {
-    public class UpdateUserRequest
+    public class UpdateUserRequest:BaseRequest
     {
         [JsonProperty("displayName")]
         public string DisplayName { get; set; }

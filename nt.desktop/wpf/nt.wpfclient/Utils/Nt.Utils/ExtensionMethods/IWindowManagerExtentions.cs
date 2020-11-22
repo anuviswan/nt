@@ -1,26 +1,21 @@
-﻿using Caliburn.Micro;
+﻿using System.Dynamic;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using Caliburn.Micro;
 using MahApps.Metro.Controls;
 using Nt.Utils.ControlInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Nt.Utils.ExtensionMethods
 {
     public static class IWindowManagerExtentions
     {
-
         public static bool? ShowNtDialog(this IWindowManager source, NtViewModelBase viewModel,NtWindowSize windowModel,string title)
         {
             var (height, width) = windowModel switch
             {
                 NtWindowSize.SmallLandscape => (300, 200),
-                NtWindowSize.MediumLandscape => (400, 300),
-                NtWindowSize.LargeLandscape => (500, 400),
+                NtWindowSize.MediumLandscape => (500, 400),
+                NtWindowSize.LargeLandscape => (600, 400),
                 NtWindowSize.SmallPortrait => (200, 300),
                 NtWindowSize.MediumPortrait => (300, 400),
                 NtWindowSize.LargePortrait => (400,500),
@@ -37,11 +32,12 @@ namespace Nt.Utils.ExtensionMethods
             settings.Width = width;
             settings.SizeToContent = SizeToContent.Manual;
             settings.Title = title;
+            settings.PopupAnimation = PopupAnimation.Fade;
+            settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            settings.ResizeMode = ResizeMode.NoResize;
 
             return source.ShowDialog(viewModel, null, settings);
         }
-
-        
     }
 
     public class NtWindow : WindowManager
