@@ -10,6 +10,8 @@
                    mah:DialogParticipation.Register="{Binding}"
                    d:DataContext="{d:DesignInstance vms:ShellViewModel}"
                    mc:Ignorable="d"
+                   WindowStartupLocation="CenterScreen"
+                   WindowState="Maximized"
                    Title="ShellView" Height="600" Width="800">
     <mah:MetroWindow.Resources>
         <converters:MenuItemToPageViewModelConverter x:Key="SelectedItemConverter"/>

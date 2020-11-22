@@ -12,5 +12,6 @@ namespace Nt.Utils.Helper
 
         public static string ValidateUserUrl = @"/api/User/ValidateUser";
         public static string UpdateUserUrl = @"/api/User/UpdateUser";
+        public static string ChangePasswordUrl = @"/api/User/ChangePassword";
     }
 }

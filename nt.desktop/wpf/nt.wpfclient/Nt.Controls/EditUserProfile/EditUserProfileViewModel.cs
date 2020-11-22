@@ -51,7 +51,7 @@ namespace Nt.Controls.EditUserProfile
             var response = await HttpService.PostAsync<UpdateUserRequest, UpdateUserResponse>(HttpUtils.UpdateUserUrl,request);
             if (response.HasError)
             {
-
+                // TODO : Global Error Handling
             }
             TryClose(true);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nt.Data.Dto.BaseDto
 {
-    class BaseRequest
+    public class BaseRequest
     {
     }
 }
