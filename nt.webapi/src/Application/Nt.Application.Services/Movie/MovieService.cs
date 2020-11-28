@@ -1,11 +1,11 @@
-﻿using Nt.Domain.Entities.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.Movie;
-using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace Nt.Application.Services.Movie
 {
@@ -33,5 +33,17 @@ namespace Nt.Application.Services.Movie
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount = -1)
+        {
+            if(string.IsNullOrEmpty(partialTitle))
+            {
+                return await Task.FromResult(Enumerable.Empty<MovieEntity>());
+            }
+
+            var result = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Contains(partialTitle.ToLower()));
+            return maxCount == -1 ? result : result.Take(maxCount);
+        }
+       
     }
 }

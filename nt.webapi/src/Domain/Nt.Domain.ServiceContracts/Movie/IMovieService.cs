@@ -1,9 +1,6 @@
-﻿using Nt.Domain.Entities.Movie;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Nt.Domain.Entities.Movie;
 
 namespace Nt.Domain.ServiceContracts.Movie
 {
@@ -11,6 +8,6 @@ namespace Nt.Domain.ServiceContracts.Movie
     {
         Task<MovieEntity> CreateAsync(MovieEntity movie);
         Task<MovieEntity> GetOne(MovieEntity movie);
-
+        Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount=-1);
     }
 }

@@ -36,7 +36,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         }
 
-        #region Http Status Response 201
+        #region Http Status Response 200
         [Theory]
         [MemberData(nameof(CreateMovieTest_ResponseStatus_200_TestData))]
         public async Task CreateMovieTest_ResponseStatus_200(CreateMovieRequest request, CreateMovieResponse expectedResult)

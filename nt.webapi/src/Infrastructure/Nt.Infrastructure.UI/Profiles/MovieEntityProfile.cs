@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Nt.Domain.Entities.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace Nt.Infrastructure.WebApi.Profiles
 
         private void FromMovieEntity()
         {
-            CreateMap<MovieEntity,CreateMovieResponse>();
+            CreateMap<MovieEntity, CreateMovieResponse>();
+            CreateMap<MovieEntity, SearchMovieByTitleResponse>();
         }
 
         private void ToMovieEntity()
