@@ -54,6 +54,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Search for movie by movie title
+        /// </summary>
+        /// <param name="request">Movie to search</param>
+        /// <returns>Returns a collection of movie that matches the search term. Empty if not found</returns>
         [HttpPost]
         [Route("SearchMovieByTitle")]
         [Authorize]
