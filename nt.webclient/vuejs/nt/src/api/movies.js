@@ -14,4 +14,18 @@ const createMovie = async (movie) => {
   return response;
 };
 
-export { getAllMovies, createMovie };
+const searchMovieByTitle = async (searchTerm, maxItems) => {
+  const request = {
+    searchString: searchTerm,
+    criteria: {
+      maxItems: maxItems,
+    },
+  };
+  var response = await axios.post(
+    "https://localhost:44353/api/Movie/SearchMovieByTitle",
+    request
+  );
+
+  return response;
+};
+export { getAllMovies, createMovie, searchMovieByTitle };

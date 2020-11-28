@@ -11,6 +11,7 @@
 
 <script>
 import SearchBar from "../../../components/generic/SearchBar";
+import { searchMovieByTitle } from "../../../api/movies";
 export default {
   name: "SearchMovie",
   components: { SearchBar },
@@ -20,8 +21,10 @@ export default {
     };
   },
   methods: {
-    onSearch(key) {
+    async onSearch(key) {
       console.log(key);
+      var response = await searchMovieByTitle(key, -1);
+      console.log(response);
     },
   },
 };
