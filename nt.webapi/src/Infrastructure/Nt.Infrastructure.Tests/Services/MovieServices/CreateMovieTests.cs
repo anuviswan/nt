@@ -15,9 +15,9 @@ using Xunit.Abstractions;
 
 namespace Nt.Infrastructure.Tests.Services.MovieServices
 {
-    public class MovieServiceTest : ServiceTestBase<MovieEntity>
+    public class CreateMovieTests : ServiceTestBase<MovieEntity>
     {
-        public MovieServiceTest(ITestOutputHelper output) : base(output)
+        public CreateMovieTests(ITestOutputHelper output) : base(output)
         {
         }
 
