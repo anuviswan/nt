@@ -19,7 +19,7 @@
                   name="movieTitle"
                   v-model="title"
                   v-bind:class="
-                    hasError('movieTitle')
+                    hasError('title')
                       ? 'form-control block is-invalid'
                       : 'form-control block'
                   "
