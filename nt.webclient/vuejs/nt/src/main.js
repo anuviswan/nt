@@ -7,6 +7,10 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import { getHttpHeader } from "./api/utils";
 import VueSimpleAlert from "vue-simple-alert";
+import VCalendar from "v-calendar";
+
+Vue.use(VCalendar);
+
 // Init plugin
 Vue.use(Loading);
 Vue.use(VueSimpleAlert);

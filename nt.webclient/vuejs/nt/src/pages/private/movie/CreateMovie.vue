@@ -40,16 +40,15 @@
               </div>
               <div class="form-group">
                 <label for="releaseDate">Release Date</label>
-                <input
-                  v-model="releaseDate"
-                  placeholder="Date of Release"
-                  name="releaseDate"
-                  v-bind:class="
-                    hasError('releaseDate')
-                      ? 'form-control block is-invalid'
-                      : 'form-control block'
-                  "
-                />
+                <v-date-picker v-model="date">
+                  <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                      class="form-control block"
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+                  </template>
+                </v-date-picker>
               </div>
               <div class="form-group">
                 <label for="tags">Cast And Crew</label>
@@ -88,7 +87,7 @@ export default {
   data() {
     return {
       title: "",
-      releaseDate: "",
+      releaseDate: new Date(),
       language: "",
       tags: "",
       errors: [],
