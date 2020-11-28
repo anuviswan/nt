@@ -6,6 +6,8 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Controllers
@@ -45,6 +47,24 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 {
                     return Conflict("Movie with same meta data already exists");
                 }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPost]
+        [Route("SearchMovieByTitle")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<SearchMovieByTitleResponse>>> SearchMovieByTitle(SearchMovieByTitleRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var searchResult = await _movieService.SearchMovie(request.SearchString);
+                return Ok(Mapper.Map<SearchMovieByTitleResponse>(searchResult));
             }
             else
             {

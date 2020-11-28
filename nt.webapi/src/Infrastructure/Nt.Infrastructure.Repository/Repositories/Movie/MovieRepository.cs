@@ -16,8 +16,5 @@ namespace Nt.Infrastructure.Data.Repositories.Movie
         {
 
         }
-
-        
-
     }
 }
