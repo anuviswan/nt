@@ -17,6 +17,7 @@
                   type="text"
                   placeholder="Movie Title"
                   name="movieTitle"
+                  v-model="title"
                   v-bind:class="
                     hasError('movieTitle')
                       ? 'form-control block is-invalid'
@@ -40,10 +41,14 @@
               </div>
               <div class="form-group">
                 <label for="releaseDate">Release Date</label>
-                <v-date-picker v-model="date">
+                <v-date-picker v-model="releaseDate">
                   <template v-slot="{ inputValue, inputEvents }">
                     <input
-                      class="form-control block"
+                      v-bind:class="
+                        hasError('tags')
+                          ? 'form-control block is-invalid'
+                          : 'form-control block'
+                      "
                       :value="inputValue"
                       v-on="inputEvents"
                     />
@@ -82,6 +87,8 @@
 </template>
 
 <script>
+import { createMovie } from "../../../api/movies";
+
 export default {
   name: "CreateMovie",
   data() {
@@ -96,7 +103,28 @@ export default {
     };
   },
   methods: {
-    onSubmit() {},
+    async onSubmit(e) {
+      e.preventDefault();
+      if (!this.validateForm()) {
+        console.log(this.errors);
+        console.log("Form is INVALID");
+        return;
+      }
+
+      var movie = {
+        title: this.title,
+        language: this.language,
+        releaseDate: this.releaseDate,
+        actors: [],
+      };
+      var response = await createMovie(movie);
+      if (response.hasError) {
+        this.hasServerError = true;
+        this.serverMessage = response.error;
+        return;
+      }
+      this.serverMessage.push("Movie created successfully");
+    },
     hasError(key) {
       return this.errors.indexOf(key) != -1;
     },
@@ -108,6 +136,27 @@ export default {
       return this.hasServerError
         ? "text-danger text-left"
         : "text-success text-left";
+    },
+    validateForm() {
+      let isValidFlag = true;
+      this.errors = [];
+
+      if (!this.title) {
+        this.errors.push("title");
+        isValidFlag = false;
+      }
+
+      if (!this.releaseDate) {
+        this.errors.push("releaseDate");
+        isValidFlag = false;
+      }
+
+      if (!this.language) {
+        this.errors.push("language");
+        isValidFlag = false;
+      }
+
+      return isValidFlag;
     },
   },
 };

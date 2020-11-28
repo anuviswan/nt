@@ -28,7 +28,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [HttpPost]
         [Route("CreateMovie")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<CreateMovieResponse>>  CreateMovie(CreateMovieRequest movie)
@@ -39,7 +39,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 {
                     var movieEntity = Mapper.Map<MovieEntity>(movie);
                     var result = await _movieService.CreateAsync(movieEntity);
-                    return CreatedAtAction(GetLocationString(this), Mapper.Map<CreateMovieResponse>(result));
+                    return Ok(Mapper.Map<CreateMovieResponse>(result));
                 }
                 catch (EntityAlreadyExistException)
                 {
