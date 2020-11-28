@@ -115,7 +115,7 @@ export default {
         title: this.title,
         language: this.language,
         releaseDate: this.releaseDate,
-        actors: [],
+        actors: this.tags.split(","),
       };
       var response = await createMovie(movie);
       if (response.hasError) {
