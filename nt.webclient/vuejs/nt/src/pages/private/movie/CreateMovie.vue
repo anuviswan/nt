@@ -17,8 +17,9 @@
                   type="text"
                   placeholder="Movie Title"
                   name="movieTitle"
+                  v-model="title"
                   v-bind:class="
-                    hasError('movieTitle')
+                    hasError('title')
                       ? 'form-control block is-invalid'
                       : 'form-control block'
                   "
@@ -40,16 +41,19 @@
               </div>
               <div class="form-group">
                 <label for="releaseDate">Release Date</label>
-                <input
-                  v-model="releaseDate"
-                  placeholder="Date of Release"
-                  name="releaseDate"
-                  v-bind:class="
-                    hasError('releaseDate')
-                      ? 'form-control block is-invalid'
-                      : 'form-control block'
-                  "
-                />
+                <v-date-picker v-model="releaseDate">
+                  <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                      v-bind:class="
+                        hasError('tags')
+                          ? 'form-control block is-invalid'
+                          : 'form-control block'
+                      "
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+                  </template>
+                </v-date-picker>
               </div>
               <div class="form-group">
                 <label for="tags">Cast And Crew</label>
@@ -83,12 +87,14 @@
 </template>
 
 <script>
+import { createMovie } from "../../../api/movies";
+
 export default {
   name: "CreateMovie",
   data() {
     return {
       title: "",
-      releaseDate: "",
+      releaseDate: new Date(),
       language: "",
       tags: "",
       errors: [],
@@ -97,7 +103,28 @@ export default {
     };
   },
   methods: {
-    onSubmit() {},
+    async onSubmit(e) {
+      e.preventDefault();
+      if (!this.validateForm()) {
+        console.log(this.errors);
+        console.log("Form is INVALID");
+        return;
+      }
+
+      var movie = {
+        title: this.title,
+        language: this.language,
+        releaseDate: this.releaseDate,
+        actors: this.tags.split(","),
+      };
+      var response = await createMovie(movie);
+      if (response.hasError) {
+        this.hasServerError = true;
+        this.serverMessage = response.error;
+        return;
+      }
+      this.serverMessage.push("Movie created successfully");
+    },
     hasError(key) {
       return this.errors.indexOf(key) != -1;
     },
@@ -109,6 +136,27 @@ export default {
       return this.hasServerError
         ? "text-danger text-left"
         : "text-success text-left";
+    },
+    validateForm() {
+      let isValidFlag = true;
+      this.errors = [];
+
+      if (!this.title) {
+        this.errors.push("title");
+        isValidFlag = false;
+      }
+
+      if (!this.releaseDate) {
+        this.errors.push("releaseDate");
+        isValidFlag = false;
+      }
+
+      if (!this.language) {
+        this.errors.push("language");
+        isValidFlag = false;
+      }
+
+      return isValidFlag;
     },
   },
 };
