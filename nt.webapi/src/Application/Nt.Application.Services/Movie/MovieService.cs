@@ -42,7 +42,8 @@ namespace Nt.Application.Services.Movie
                 return await Task.FromResult(Enumerable.Empty<MovieEntity>());
             }
 
-            return await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Contains(partialTitle.ToLower()));
+            var result = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Contains(partialTitle.ToLower()));
+            return maxCount == -1 ? result : result.Take(maxCount);
         }
        
     }

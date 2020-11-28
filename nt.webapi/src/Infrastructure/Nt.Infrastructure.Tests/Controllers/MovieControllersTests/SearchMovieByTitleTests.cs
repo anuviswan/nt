@@ -34,12 +34,14 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         #region Http Response Code 200
 
-        public async Task SearchMovieByTitle_200(SearchMovieByTitleRequest request,int maxCount,IEnumerable<SearchMovieByTitleResponse> expectedOutput)
+        [Theory]
+        [MemberData(nameof(SearchMovieByTitle_200_TestData))]
+        public async Task SearchMovieByTitle_200(SearchMovieByTitleRequest request,IEnumerable<SearchMovieByTitleResponse> expectedOutput)
         {
             // Arrange
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.SearchMovie(It.IsAny<string>(),It.IsAny<int>()))
-                .Returns(Task.FromResult(EntityCollection.Where(x=>x.Title.Contains(request.SearchString))));
+                .Returns(Task.FromResult(EntityCollection.Where(x=>x.Title.Contains(request.SearchString,StringComparison.OrdinalIgnoreCase))));
 
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
@@ -53,7 +55,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             Assert.Equal(expectedOutput.Select(x=>x.Title), result.Select(x => x.Title));
         }
 
-        public IEnumerable<object[]> SearchMovieByTitle_200_TestData => new List<object[]>
+        public static IEnumerable<object[]> SearchMovieByTitle_200_TestData => new List<object[]>
         {
             new object[]
             {
@@ -66,10 +68,10 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             },
             new object[]
             {
-                new SearchMovieByTitleRequest{SearchString = "titl",Criteria = new MovieSearchCriteria{ MaxItems = 1} },
+                new SearchMovieByTitleRequest{SearchString = "mov" },
                 new List<SearchMovieByTitleResponse>
                 {
-                    new SearchMovieByTitleResponse{ Title = "Title 1",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
+                    new SearchMovieByTitleResponse{ Title = "SomeMovie 1",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
                 }
             }
         };

@@ -64,7 +64,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
             if (ModelState.IsValid)
             {
                 var searchResult = await _movieService.SearchMovie(request.SearchString);
-                return Ok(Mapper.Map<SearchMovieByTitleResponse>(searchResult));
+                return Ok(Mapper.Map<IEnumerable<SearchMovieByTitleResponse>>(searchResult));
             }
             else
             {

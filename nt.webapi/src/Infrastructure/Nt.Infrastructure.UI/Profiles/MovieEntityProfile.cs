@@ -19,7 +19,7 @@ namespace Nt.Infrastructure.WebApi.Profiles
 
         private void FromMovieEntity()
         {
-            CreateMap<MovieEntity,CreateMovieResponse>();
+            CreateMap<MovieEntity, CreateMovieResponse>();
             CreateMap<MovieEntity, SearchMovieByTitleResponse>();
         }
 
