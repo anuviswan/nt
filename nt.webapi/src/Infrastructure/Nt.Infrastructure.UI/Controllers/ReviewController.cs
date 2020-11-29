@@ -10,6 +10,7 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Controllers
@@ -19,22 +20,29 @@ namespace Nt.Infrastructure.WebApi.Controllers
     public class ReviewController : BaseController
     {
         private readonly IReviewService _reviewService;
-        private readonly IMovieService _movieService;
-        private readonly IUserProfileService _userProfileService;
-        public ReviewController(IMapper mapper, IReviewService reviewService, IUserProfileService userProfileService, IMovieService movieService) : base(mapper)
-        {
-            (_reviewService, _userProfileService, _movieService) = (reviewService,userProfileService,movieService);
-        }
+        public ReviewController(IMapper mapper, IReviewService reviewService) : base(mapper) => _reviewService = reviewService;
 
-        public async Task<ActionResult<IActionResult>> CreateReview(CreateReviewRequest request)
+        [HttpPost]
+        [Route("CreateReview")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateReview(CreateReviewRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userId = User.Identity.Name;
-            return default;
+            try
+            {
+                var response = await _reviewService.CreateAsync(Mapper.Map<CreateReviewRequest,ReviewEntity>(request), User.Identity.Name);
+                return NoContent();
+            }
+            catch(EntityAlreadyExistException)
+            {
+                return BadRequest("Duplicate Review.Only one review is accepted for a movie per user");
+            }
         }
     }
 }

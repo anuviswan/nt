@@ -43,8 +43,6 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     ReviewDescription = "This is a good movie"
                 },
             };
-
-            
         }
 
         [Theory]

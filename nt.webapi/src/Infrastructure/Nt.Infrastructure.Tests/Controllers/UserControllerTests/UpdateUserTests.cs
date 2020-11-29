@@ -38,7 +38,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
                 .Returns(Task.FromResult(true));
 
             var userController = new UserController(Mapper, mockUserProfileService.Object, null, null);
-            userController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+            userController.ControllerContext.HttpContext = new DefaultHttpContext{ User = user };
             MockModelState(request, userController);
 
             // Act
