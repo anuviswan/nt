@@ -19,7 +19,6 @@ namespace Nt.Domain.Entities.Movie
         public string Language { get; init; }
         [BsonElement("actors")]
         public List<string> Actors { get; init; }
-        [BsonElement("Reviews")]
-        public List<ReviewEntity> Reviews { get; init; }
+        
     }
 }
