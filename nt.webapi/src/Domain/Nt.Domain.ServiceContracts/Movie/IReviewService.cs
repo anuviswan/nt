@@ -9,6 +9,6 @@ namespace Nt.Domain.ServiceContracts.Movie
 {
     public interface IReviewService
     {
-        Task<ReviewEntity> CreateAsync(ReviewEntity review);
+        Task<ReviewEntity> CreateAsync(ReviewEntity review,string authorUserName);
     }
 }

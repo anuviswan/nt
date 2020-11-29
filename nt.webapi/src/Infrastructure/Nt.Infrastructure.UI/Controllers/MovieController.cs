@@ -33,7 +33,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<CreateMovieResponse>>  CreateMovie(CreateMovieRequest movie)
+        public async Task<ActionResult<CreateMovieResponse>> CreateMovie(CreateMovieRequest movie)
         {
             if (ModelState.IsValid)
             {
