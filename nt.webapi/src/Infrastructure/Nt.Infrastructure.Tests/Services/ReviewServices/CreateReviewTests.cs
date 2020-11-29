@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Nt.Application.Services.Movie;
+using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
@@ -27,35 +28,11 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
             {
                 new ReviewEntity
                 {
-                    AuthorId = "U1",
+                    AuthorId = "A1",
                     MovieId = "M1",
                     Id  = "R1",
                     ReviewTitle = "Good Movie",
                     ReviewDescription = "This is a good movie"
-                },
-                new ReviewEntity
-                {
-                    AuthorId = "U1",
-                    MovieId = "M2",
-                    Id  = "R2",
-                    ReviewTitle = "Average Movie",
-                    ReviewDescription = "This is a average movie"
-                },
-                new ReviewEntity
-                {
-                    AuthorId = "U2",
-                    MovieId = "M2",
-                    Id  = "R3",
-                    ReviewTitle = "Average Movie",
-                    ReviewDescription = "This is a average movie"
-                },
-                new ReviewEntity
-                {
-                    AuthorId = "U2",
-                    MovieId = "M1",
-                    Id  = "R4",
-                    ReviewTitle = "Good Movie",
-                    ReviewDescription = "This is a average movie"
                 },
             };
         }
@@ -93,6 +70,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
         public static IEnumerable<object[]> CreateReviewSuccessTestData => new List<object[]>
         {
+            // New Movie, New Author
             new[]
             {
                 new ReviewEntity
@@ -110,7 +88,86 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     ReviewTitle = "Review Title",
                     ReviewDescription = "Review Description"
                 },
-            }
+            },
+            // New Movie, Existing Author
+            new[]
+            {
+                new ReviewEntity
+                {
+                    AuthorId = "A1",
+                    MovieId = "M4",
+                    ReviewTitle = "Review Title",
+                    ReviewDescription = "Review Description"
+                },
+                new ReviewEntity
+                {
+                    Id = "MockId",
+                    AuthorId = "A1",
+                    MovieId = "M4",
+                    ReviewTitle = "Review Title",
+                    ReviewDescription = "Review Description"
+                },
+            },
+            // Existing Movie, New Author
+            new[]
+            {
+                new ReviewEntity
+                {
+                    AuthorId = "A4",
+                    MovieId = "M1",
+                    ReviewTitle = "Review Title",
+                    ReviewDescription = "Review Description"
+                },
+                new ReviewEntity
+                {
+                    Id = "MockId",
+                    AuthorId = "A4",
+                    MovieId = "M1",
+                    ReviewTitle = "Review Title",
+                    ReviewDescription = "Review Description"
+                },
+            },
+        };
+
+
+        [Theory]
+        [MemberData(nameof(CreateReviewFailureTestData))]
+        public async Task CreateReviewFailureTest(ReviewEntity reviewEntity)
+        {
+            // Arrange
+            var mockReviewRepository = new Mock<IReviewRepository>();
+            mockReviewRepository.Setup(x => x.CreateAsync(It.IsAny<ReviewEntity>()))
+                .Returns(Task.FromResult(default(ReviewEntity)));
+            mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()))
+                .Throws<EntityAlreadyExistException>();
+
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
+
+            // Act
+            var reviewService = new ReviewService(mockUnitOfWork.Object);
+            await Assert.ThrowsAsync<EntityAlreadyExistException>(()=>reviewService.CreateAsync(reviewEntity));
+
+            // Assert
+            
+            mockReviewRepository.Verify(x => x.CreateAsync(It.IsAny<ReviewEntity>()), Times.Never);
+            mockReviewRepository.Verify(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()), Times.Once);
+        }
+
+        public static IEnumerable<object[]> CreateReviewFailureTestData => new List<object[]>
+        {
+            // Existing Movie, Existing Author
+            new[]
+            {
+                new ReviewEntity
+                {
+                    AuthorId = "A1",
+                    MovieId = "M1",
+                    ReviewTitle = "Review Title",
+                    ReviewDescription = "Review Description"
+                }
+            },
         };
     }
 }
