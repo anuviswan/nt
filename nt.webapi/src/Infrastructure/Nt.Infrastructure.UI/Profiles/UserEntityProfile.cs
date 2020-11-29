@@ -8,16 +8,14 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
 
 namespace Nt.Infrastructure.WebApi.Profiles
 {
-    public class UserEntityProfile : Profile
+    public class UserEntityProfile : BaseProfileMapper
     {
-        public UserEntityProfile()
+        public UserEntityProfile():base()
         {
-
-            ToUserProfileEntity();
-            FromUserProfileEntity();
+         
         }
 
-        public void ToUserProfileEntity()
+        protected override void ToEntity()
         {
             // TO UserEntity
             CreateMap<CreateUserProfileRequest, UserProfileEntity>();
@@ -26,7 +24,7 @@ namespace Nt.Infrastructure.WebApi.Profiles
             CreateMap<ChangePasswordRequest, UserProfileEntity>().ForMember(dest => dest.PassKey, opt => opt.MapFrom(src => src.OldPassword));
         }
 
-        public void FromUserProfileEntity()
+        protected override void FromEntity()
         { 
             // From UserEntity
             CreateMap<UserProfileEntity, UserProfileResponse>();

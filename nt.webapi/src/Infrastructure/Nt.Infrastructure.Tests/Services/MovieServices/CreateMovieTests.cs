@@ -96,7 +96,6 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             await Assert.ThrowsAsync<EntityAlreadyExistException>(()=>movieService.CreateAsync(request));
             
             // Assert
-            Assert.Equal(expected.Title, request.Title);
             mockMovieRepository.Verify(x => x.CreateAsync(It.IsAny<MovieEntity>()), Times.Never);
             mockMovieRepository.Verify(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()), Times.Once);
         }

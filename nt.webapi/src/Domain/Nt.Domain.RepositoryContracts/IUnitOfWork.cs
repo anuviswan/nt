@@ -7,5 +7,6 @@ namespace Nt.Domain.RepositoryContracts
     {
         IGenericRepository<UserProfileEntity> UserProfileRepository { get; }
         IGenericRepository<MovieEntity> MovieRepository { get; }
+        IGenericRepository<ReviewEntity> ReviewRepository { get; }
     }
 }

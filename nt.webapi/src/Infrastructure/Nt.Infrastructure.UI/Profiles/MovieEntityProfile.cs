@@ -9,21 +9,20 @@ using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Profiles
 {
-    public class MovieEntityProfile:Profile
+    public class MovieEntityProfile:BaseProfileMapper
     {
-        public MovieEntityProfile()
+        public MovieEntityProfile():base()
         {
-            ToMovieEntity();
-            FromMovieEntity();
+           
         }
 
-        private void FromMovieEntity()
+        protected override void FromEntity()
         {
             CreateMap<MovieEntity, CreateMovieResponse>();
             CreateMap<MovieEntity, SearchMovieByTitleResponse>();
         }
 
-        private void ToMovieEntity()
+        protected override void ToEntity()
         {
             CreateMap<CreateMovieRequest, MovieEntity>();
         }
