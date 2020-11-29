@@ -13,7 +13,8 @@
           Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
         </p>
         <p class="card-text">Ratings : {{ this.ratings }}</p>
-        <a href="#" class="btn btn-primary">See Reviews</a>
+        <p><a href="#" class="btn btn-primary">See Reviews</a></p>
+        <p><a href="#" class="btn btn-primary">Add Review</a></p>
       </div>
     </div>
   </div>
