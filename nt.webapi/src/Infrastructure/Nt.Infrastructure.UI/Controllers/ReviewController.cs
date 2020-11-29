@@ -1,17 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
-using Nt.Domain.ServiceContracts.User;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
