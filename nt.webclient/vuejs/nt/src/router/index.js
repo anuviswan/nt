@@ -11,6 +11,7 @@ import ChangePassword from "../pages/private/user/ChangePassword";
 import UserSearch from "../pages/private/user/UserSearch";
 import CreateMovie from "../pages/private/movie/CreateMovie";
 import SearchMovie from "../pages/private/movie/SearchMovie";
+import CreateReview from "../pages/private/reviews/CreateReview";
 Vue.use(VueRouter);
 
 const routes = [
@@ -65,6 +66,10 @@ const routes = [
       {
         path: "movie/create",
         component: CreateMovie,
+      },
+      {
+        path: "movie/addreview",
+        component: CreateReview,
       },
     ],
   },

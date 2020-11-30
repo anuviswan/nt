@@ -1,28 +1,63 @@
 <template>
   <div>
     <div class="card">
-      <img
-        class="card-img-top"
-        src="https://cdn3.iconfinder.com/data/icons/avatars-flat/33/woman_9-512.png"
-        alt="Movie Poster"
-      />
+      <div class="row">
+        <div class="col-10 card-header">
+          <h4>{{ this.title }}</h4>
+        </div>
+        <div class="col-2 card-header">
+          <Ratings v-bind:rating="this.ratings" />
+        </div>
+      </div>
+
       <div class="card-body">
-        <h4 class="card-title">{{ this.title }}</h4>
-        <p class="card-text">Language : {{ this.language }}</p>
-        <p class="card-text">
-          Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
-        </p>
-        <p class="card-text">Ratings : {{ this.ratings }}</p>
+        <div class="row">
+          <!-- First Column -->
+          <div class="col-3">
+            <div class="card-text text-left">
+              This is a mock plot of the movie, which would be displayed in the
+              movie card
+            </div>
+          </div>
+          <!-- Second Column -->
+          <div class="col-3">
+            <div class="card-text text-left">
+              Language : {{ this.language }}
+            </div>
+            <div class="card-text text-left">
+              Genre : Sci-fi
+            </div>
+            <div class="card-text text-left">
+              Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
+            </div>
+          </div>
+          <!-- Third Column -->
+          <div class="col-3">
+            <div class="card-text text-left">
+              Genre : Sci-fi
+            </div>
+            <div class="card-text text-left">
+              Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
+            </div>
+          </div>
+        </div>
+
         <p><a href="#" class="btn btn-primary">See Reviews</a></p>
-        <p><a href="#" class="btn btn-primary">Add Review</a></p>
+        <p>
+          <router-link to="/p/movie/addreview" class="btn btn-primary"
+            >Add Review</router-link
+          >
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Ratings from "../../components/generic/Ratings";
 export default {
   name: "MovieMiniCard",
+  components: { Ratings },
   props: {
     movie: {
       required: true,
@@ -34,7 +69,7 @@ export default {
       title: "Default Title",
       language: "Default Language",
       releaseDate: "20/08/2020",
-      ratings: 4.6,
+      ratings: 4,
     };
   },
   created() {
@@ -60,8 +95,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.card {
-  width: 300px;
-}
-</style>
+<style scoped></style>

@@ -4,11 +4,7 @@
       <SearchBar v-on:searched="onSearch" promptString="Search Movies..." />
     </div>
     <div class="row">
-      <div
-        v-for="(movie, index) in movieList"
-        :key="index"
-        class="col-md-3 col-6 pt-4"
-      >
+      <div v-for="(movie, index) in movieList" :key="index" class="col-12 pt-4">
         <MovieMiniCard v-bind:movie="movie" />
       </div>
     </div>
