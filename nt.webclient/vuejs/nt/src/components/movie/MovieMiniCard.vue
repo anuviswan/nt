@@ -1,20 +1,28 @@
 <template>
   <div>
     <div class="card">
-      <div class="row">
-        <div class="col-10 card-header">
-          <h4>{{ this.title }}</h4>
-        </div>
-        <div class="col-2 card-header">
-          <Ratings v-bind:rating="this.ratings" />
-        </div>
-      </div>
-
       <div class="card-body">
         <div class="row">
           <!-- First Column -->
-          <div class="col-3">
+          <div class="col-5">
             <div class="card-text text-left">
+              <h5>
+                <strong>{{ this.title }}</strong>
+              </h5>
+            </div>
+            <div class="row">
+              <div class="col-3 card-text text-left small text-capitalize">
+                {{ this.language }}
+              </div>
+              <div class="col-3 card-text text-left small text-capitalize">
+                {{ this.releaseDate.getFullYear() }}
+              </div>
+              <div class="col-3 card-text text-left small text-capitalize">
+                {{ this.genre }}
+              </div>
+            </div>
+            <div class="card-text text-left">
+              <br />
               This is a mock plot of the movie, which would be displayed in the
               movie card
             </div>
@@ -22,42 +30,43 @@
           <!-- Second Column -->
           <div class="col-3">
             <div class="card-text text-left">
-              Language : {{ this.language }}
-            </div>
-            <div class="card-text text-left">
               Genre : Sci-fi
             </div>
             <div class="card-text text-left">
               Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
             </div>
+            <div class="card-text text-left"><Ratings rating="4" /></div>
           </div>
           <!-- Third Column -->
           <div class="col-3">
-            <div class="card-text text-left">
-              Genre : Sci-fi
-            </div>
-            <div class="card-text text-left">
-              Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
-            </div>
+            <p><a href="#" class="btn btn-primary">See Reviews</a></p>
+            <p>
+              <router-link to="/p/movie/addreview" class="btn btn-primary"
+                >Add Review</router-link
+              >
+            </p>
           </div>
         </div>
-
-        <p><a href="#" class="btn btn-primary">See Reviews</a></p>
-        <p>
-          <router-link to="/p/movie/addreview" class="btn btn-primary"
-            >Add Review</router-link
-          >
-        </p>
+      </div>
+      <div class="card-footer text-left">
+        <span
+          class="card-text text-left"
+          v-for="(tag, index) in tags"
+          :key="index"
+        >
+          <tags v-bind:text="tag" />
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Ratings from "../../components/generic/Ratings";
+import Ratings from "../generic/Ratings";
+import Tags from "../generic/Tags";
 export default {
   name: "MovieMiniCard",
-  components: { Ratings },
+  components: { Ratings, Tags },
   props: {
     movie: {
       required: true,
@@ -68,17 +77,19 @@ export default {
     return {
       title: "Default Title",
       language: "Default Language",
-      releaseDate: "20/08/2020",
+      releaseDate: new Date(),
       ratings: 4,
+      genre: "Thriller",
+      tags: ["John Doe", "Jia Anu", "Naina Anu"],
     };
   },
   created() {
     this.title = this.movie.title;
     this.language = this.movie.language;
-    this.releaseDate = this.movie.releaseDate;
+    this.releaseDate = new Date(this.movie.releaseDate);
 
     console.log(this.title);
-    console.log(this.language);
+    console.log(this.releaseDate);
   },
   methods: {
     getFormattedDate(date) {
