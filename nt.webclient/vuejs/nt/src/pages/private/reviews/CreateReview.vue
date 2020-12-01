@@ -12,6 +12,12 @@
 <script>
 export default {
   name: "CreateReview",
+  props: {
+    movie: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 

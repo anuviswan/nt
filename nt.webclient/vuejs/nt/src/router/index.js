@@ -69,7 +69,9 @@ const routes = [
       },
       {
         path: "movie/addreview",
+        name: "AddReview",
         component: CreateReview,
+        props: true,
       },
     ],
   },

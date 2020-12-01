@@ -41,7 +41,9 @@
           <div class="col-3">
             <p><a href="#" class="btn btn-primary">See Reviews</a></p>
             <p>
-              <router-link to="/p/movie/addreview" class="btn btn-primary"
+              <router-link
+                to="{name:'PrivateContainer/AddReview','params:{movie:title}"
+                class="btn btn-primary"
                 >Add Review</router-link
               >
             </p>
@@ -81,6 +83,7 @@ export default {
       ratings: 4,
       genre: "Thriller",
       tags: ["John Doe", "Jia Anu", "Naina Anu"],
+      movieMeta: { m: "s" },
     };
   },
   created() {
