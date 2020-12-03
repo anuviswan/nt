@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JExtensions.Linq;
+using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.RepositoryContracts;
@@ -29,9 +31,44 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public Task<MovieEntity> GetOne(MovieEntity movie)
+        public async Task<MovieDetailedDto> GetOne(string movieId)
         {
-            throw new NotImplementedException();
+            var movies = await UnitOfWork.MovieRepository.GetAsync(x => x.Id == movieId);
+
+            if (!movies.ContainsExactly(1))
+            {
+                throw new MultipleEntityFoundException();
+            }
+
+            var movie = movies.Single();
+            var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movie.Id);
+
+            var movieDetailed = new MovieDetailedDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                PlotSummary = movie.PlotSummary,
+                Director = movie.Director,
+                Language = movie.Language,
+                ReleaseDate = movie.ReleaseDate
+            };
+            foreach(var review in reviews)
+            {
+                var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)
+                    .ContinueWith((users) => users.Result.Single());
+
+                movieDetailed.Reviews.Add(new ReviewDto
+                {
+                    Author = new UserDto { Id = user.Id, DisplayName = user.DisplayName, UserName = user.UserName },
+                    Description = review.ReviewDescription,
+                    Id = review.Id,
+                    Title = review.ReviewTitle,
+                    DownvotedBy = review.DownVotedBy,
+                    UpvotedBy = review.UpVotedBy
+                });
+            }
+
+            return movieDetailed;
         }
 
         public async Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount = -1)

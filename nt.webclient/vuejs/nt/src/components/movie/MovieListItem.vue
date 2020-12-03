@@ -42,7 +42,7 @@
             <p><a href="#" class="btn btn-primary">See Reviews</a></p>
             <p>
               <router-link
-                to="{name:'PrivateContainer/AddReview','params:{movie:title}"
+                v-bind:to="`/p/movie/addreview/${this.userName}`"
                 class="btn btn-primary"
                 >Add Review</router-link
               >
@@ -67,7 +67,7 @@
 import Ratings from "../generic/Ratings";
 import Tags from "../generic/Tags";
 export default {
-  name: "MovieMiniCard",
+  name: "MovieListItem",
   components: { Ratings, Tags },
   props: {
     movie: {
@@ -77,6 +77,7 @@ export default {
   },
   data() {
     return {
+      Id: "",
       title: "Default Title",
       language: "Default Language",
       releaseDate: new Date(),
@@ -87,6 +88,7 @@ export default {
     };
   },
   created() {
+    this.Id = this.movie.Id;
     this.title = this.movie.title;
     this.language = this.movie.language;
     this.releaseDate = new Date(this.movie.releaseDate);

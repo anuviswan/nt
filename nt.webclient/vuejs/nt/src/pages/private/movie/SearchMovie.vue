@@ -5,7 +5,7 @@
     </div>
     <div class="row">
       <div v-for="(movie, index) in movieList" :key="index" class="col-12 pt-4">
-        <MovieMiniCard v-bind:movie="movie" />
+        <MovieListItem v-bind:movie="movie" />
       </div>
     </div>
   </div>
@@ -13,12 +13,12 @@
 
 <script>
 import SearchBar from "../../../components/generic/SearchBar";
-import MovieMiniCard from "../../../components/movie/MovieMiniCard";
+import MovieListItem from "../../../components/movie/MovieListItem";
 import { searchMovieByTitle } from "../../../api/movies";
 
 export default {
   name: "SearchMovie",
-  components: { SearchBar, MovieMiniCard },
+  components: { SearchBar, MovieListItem },
   data() {
     return {
       movieList: [],

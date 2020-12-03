@@ -68,7 +68,7 @@ const routes = [
         component: CreateMovie,
       },
       {
-        path: "movie/addreview",
+        path: "movie/addreview/:movieId",
         name: "AddReview",
         component: CreateReview,
         props: true,

@@ -6,6 +6,7 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -76,5 +77,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 return BadRequest(ModelState);
             }
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult<GetMovieResponse>> GetMovie(string movieId)
+        //{
+
+        //}
     }
 }

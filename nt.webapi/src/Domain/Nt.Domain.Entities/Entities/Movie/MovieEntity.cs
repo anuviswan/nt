@@ -11,6 +11,8 @@ namespace Nt.Domain.Entities.Movie
     {
         [BsonElement("movieTitle")]
         public string Title { get; init; }
+        [BsonElement("plotSummary")]
+        public string PlotSummary { get; init; }
         [BsonElement("releaseDate")]
         public DateTime ReleaseDate { get; init; }
         [BsonElement("directorName")]
