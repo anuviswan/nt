@@ -57,6 +57,11 @@ namespace Nt.Application.Services.Movie
                 var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)
                     .ContinueWith((users) => users.Result.Single());
 
+                if(movieDetailed.Reviews == null)
+                {
+                    movieDetailed.Reviews = new List<ReviewDto>();
+                }
+
                 movieDetailed.Reviews.Add(new ReviewDto
                 {
                     Author = new UserDto { Id = user.Id, DisplayName = user.DisplayName, UserName = user.UserName },

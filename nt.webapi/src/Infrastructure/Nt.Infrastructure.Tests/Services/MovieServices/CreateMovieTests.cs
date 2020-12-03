@@ -17,6 +17,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 {
     public class CreateMovieTests : ServiceTestBase<MovieEntity>
     {
+        private static readonly DateTime ReleaseDate = new DateTime(2020, 8, 20);
         public CreateMovieTests(ITestOutputHelper output) : base(output)
         {
         }
@@ -26,9 +27,9 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             base.InitializeCollection();
             EntityCollection = new List<MovieEntity>
             {
-                new MovieEntity { Title = "Movie Sample 1",Language = "Malayalam", ReleaseDate = DateTime.Now },
-                new MovieEntity { Title = "Movie Sample 2",Language = "Malayalam", ReleaseDate = DateTime.Now },
-                new MovieEntity { Title = "Movie Sample 3",Language = "Malayalam", ReleaseDate = DateTime.Now },
+                new MovieEntity { Title = "Movie Sample 1",Language = "Malayalam", ReleaseDate = ReleaseDate},
+                new MovieEntity { Title = "Movie Sample 2",Language = "Malayalam", ReleaseDate = ReleaseDate },
+                new MovieEntity { Title = "Movie Sample 3",Language = "Malayalam", ReleaseDate = ReleaseDate },
             };
         }
 
@@ -58,19 +59,19 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         {
             new []
             {
-                 new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now, Language = "English", Actors = new List<string>{ "Actor 1", "Actor 2" } },
-                 new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now, Language = "english", Actors = new List<string>{ "Actor 1", "Actor 2" }, Id = "RandomId" }
+                 new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate, Language = "English", Actors = new List<string>{ "Actor 1", "Actor 2" } },
+                 new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate, Language = "english", Actors = new List<string>{ "Actor 1", "Actor 2" }, Id = "RandomId" }
                
             },
             new[]
             {
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now, Language = "english", Actors = new List<string>{ "Actor 1", "Actor 2" } },
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now, Language = "english", Actors = new List<string>{ "Actor 1", "Actor 2" } , Id = "RandomId"}
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate, Language = "english", Actors = new List<string>{ "Actor 1", "Actor 2" } },
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate, Language = "english", Actors = new List<string>{ "Actor 1", "Actor 2" } , Id = "RandomId"}
             },
             new[]
             {
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now.AddYears(-1), Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now.AddYears(-1), Language = "malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } , Id = "RandomId"}
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate.AddYears(-1), Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate.AddYears(-1), Language = "malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } , Id = "RandomId"}
             },
         };
 
@@ -104,18 +105,18 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         {
             new[]
             {
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now, Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now, Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" }}
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate, Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate, Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" }}
             },
             new[]
             {
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now.AddMonths(1), Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now.AddMonths(1), Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" }}
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate.AddMonths(1), Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate.AddMonths(1), Language = "Malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" }}
             },
                         new[]
             {
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now.AddMonths(1), Language = "malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
-                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = DateTime.Now.AddMonths(1), Language = "malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" }}
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate.AddMonths(1), Language = "malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" } },
+                new MovieEntity { Title = "Movie Sample 1", ReleaseDate = ReleaseDate.AddMonths(1), Language = "malayalam", Actors = new List<string>{ "Actor 1", "Actor 2" }}
             },
         };
     }
