@@ -50,17 +50,13 @@ namespace Nt.Application.Services.Movie
                 PlotSummary = movie.PlotSummary,
                 Director = movie.Director,
                 Language = movie.Language,
-                ReleaseDate = movie.ReleaseDate
+                ReleaseDate = movie.ReleaseDate,
+                Actors = movie.Actors
             };
             foreach(var review in reviews)
             {
                 var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)
                     .ContinueWith((users) => users.Result.Single());
-
-                if(movieDetailed.Reviews == null)
-                {
-                    movieDetailed.Reviews = new List<ReviewDto>();
-                }
 
                 movieDetailed.Reviews.Add(new ReviewDto
                 {

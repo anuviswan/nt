@@ -14,8 +14,8 @@ namespace Nt.Domain.Entities.Dto
         public DateTime ReleaseDate { get; set; }
         public string Director { get; set; }
         public string Language { get; set; }
-        public List<string> Actors { get; set; }
-        public List<ReviewDto> Reviews { get; set; }
+        public List<string> Actors { get; set; } = new List<string>();
+        public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
     }
 
     public record ReviewDto
@@ -23,8 +23,8 @@ namespace Nt.Domain.Entities.Dto
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public IEnumerable<string> UpvotedBy { get; set; }
-        public IEnumerable<string> DownvotedBy { get; set; }
+        public IEnumerable<string> UpvotedBy { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<string> DownvotedBy { get; set; } = Enumerable.Empty<string>();
         public UserDto Author { get; set; }
     }
 

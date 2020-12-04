@@ -84,15 +84,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new List<MovieEntity>
-            {
-                new MovieEntity { Id = "M1", Title = "Movie Sample 1",Language = "Malayalam", ReleaseDate = DateTime.Now },
-                new MovieEntity { Id = "M2", Title = "Movie Sample 2",Language = "Malayalam", ReleaseDate = DateTime.Now },
-                new MovieEntity { Id = "M3", Title = "Movie Sample 3",Language = "Malayalam", ReleaseDate = DateTime.Now },
-            };
-
+            EntityCollection = new List<MovieEntity>(MovieCollection);
             
-
         }
 
         [Theory]
@@ -124,6 +117,14 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 
             // Assert
             Assert.Equal(expectedResult.Id, result.Id);
+            Assert.Equal(expectedResult.Title, result.Title);
+            Assert.Equal(expectedResult.PlotSummary, result.PlotSummary);
+            Assert.Equal(expectedResult.Director, result.Director);
+            Assert.Equal(expectedResult.Actors, result.Actors);
+            Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
+            Assert.Equal(expectedResult.Language, result.Language);
+            Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
+            Assert.Equal(expectedResult.Reviews, result.Reviews);
         }
 
         public static IEnumerable<object[]> GetMovieSuccessTestData => new List<object[]>
@@ -131,8 +132,19 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             new object[]
             {
                 "M1",
-                MovieCollection.Where(c=>c.Id == "M1")
-                                .Select(movie=> new MovieDetailedDto
+                GetMovieForMovieId("M1")
+            },
+             new object[]
+             {
+                 "M3",
+                 GetMovieForMovieId("M3")
+             }
+        };
+
+        private static MovieDetailedDto GetMovieForMovieId(string movieId)
+        {
+            return MovieCollection.Where(c => c.Id == movieId)
+                                .Select(movie => new MovieDetailedDto
                                 {
                                     Id = movie.Id,
                                     Director = movie.Director,
@@ -141,24 +153,23 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                                     Title = movie.Title,
                                     ReleaseDate = movie.ReleaseDate,
                                     Actors = movie.Actors,
-                                    Reviews = ReviewCollection.Where(review=>review.MovieId == "M1")
-                                                               .Select(review=> new ReviewDto
+                                    Reviews = ReviewCollection.Where(review => review.MovieId == movieId)
+                                                               .Select(review => new ReviewDto
                                                                {
                                                                    Id = review.Id,
                                                                    Description = review.ReviewDescription,
                                                                    Title = review.ReviewTitle,
                                                                    DownvotedBy = review.DownVotedBy,
                                                                    UpvotedBy = review.UpVotedBy,
-                                                                   Author = UserCollection.Where(user=>user.Id == review.AuthorId)
-                                                                                           .Select(user=> new UserDto
+                                                                   Author = UserCollection.Where(user => user.Id == review.AuthorId)
+                                                                                           .Select(user => new UserDto
                                                                                            {
                                                                                                Id = user.Id,
                                                                                                UserName = user.UserName,
                                                                                                DisplayName = user.DisplayName
-                                                                                           }).Single() 
+                                                                                           }).Single()
                                                                }).ToList()
-                                }).Single()
-            }
-        };
+                                }).Single();
+        }
     }
 }
