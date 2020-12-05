@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
@@ -78,10 +79,18 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<GetMovieResponse>> GetMovie(string movieId)
-        //{
-
-        //}
+        [HttpGet]
+        public async Task<ActionResult<GetMovieResponse>> GetMovie(string movieId)
+        {
+            if (ModelState.IsValid)
+            {
+                var searchResult = await _movieService.GetOne(movieId);
+                return Ok(Mapper.Map<MovieDetailedDto, GetMovieResponse>(searchResult));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
     }
 }

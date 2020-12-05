@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Application.Services.Movie;
 using Nt.Domain.Entities.Dto;
-using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
-using Nt.Domain.RepositoryContracts.Movie;
-using Nt.Domain.RepositoryContracts.User;
+using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.WebApi.Controllers;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Nt.Infrastructure.Tests.Services.MovieServices
+namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 {
-    public class GetMovieTests:ServiceTestBase<MovieEntity>
+    public class GetMovieTests:ControllerTestBase<MovieEntity>
     {
+        public GetMovieTests(ITestOutputHelper output) : base(output)
+        {
+
+        }
+
         public static List<UserProfileEntity> UserCollection { get; set; } = GetUserCollection();
         public static List<ReviewEntity> ReviewCollection { get; set; } = GetReviewCollection();
         public static List<MovieEntity> MovieCollection { get; set; } = GetMovieCollection();
@@ -39,8 +44,6 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             new MovieEntity { Id = "M1", Title = "Movie Sample 1",Language = "Malayalam", ReleaseDate = DateTime.Now },
             new MovieEntity { Id = "M2", Title = "Movie Sample 2",Language = "Malayalam", ReleaseDate = DateTime.Now },
             new MovieEntity { Id = "M3", Title = "Movie Sample 3",Language = "Malayalam", ReleaseDate = DateTime.Now },
-            new MovieEntity { Id = "M4", Title = "Movie Sample 3",Language = "Malayalam", ReleaseDate = DateTime.Now },
-            new MovieEntity { Id = "M4", Title = "Movie Sample 3",Language = "Malayalam", ReleaseDate = DateTime.Now },
         };
 
 
@@ -80,9 +83,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                 Rating = 4
             }
         };
-        public GetMovieTests(ITestOutputHelper output) : base(output)
-        {
-        }
+
 
         protected override void InitializeCollection()
         {
@@ -90,47 +91,38 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             EntityCollection = new List<MovieEntity>(MovieCollection);
         }
 
-
         [Theory]
-        [MemberData(nameof(GetMovieSuccessTestData))]
-        public async Task GetMovieSuccessTest(string movieId,MovieDetailedDto expectedResult)
+        [MemberData(nameof(GetMovie_200_TestData))]
+        public async Task GetMovie_200(string movieId,MovieDetailedDto expectedMovie)
         {
             // Arrange
-            var mockMovieRepository = new Mock<IMovieRepository>();
-            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()))
-                                .Returns(Task.FromResult(EntityCollection.Where(x => x.Id == movieId)));
-
-            var mockReviewRepository = new Mock<IReviewRepository>();
-            mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()))
-                                .Returns(Task.FromResult(ReviewCollection.Where(x => x.MovieId == movieId)));
-
-            var mockUserRepository = new Mock<IUserProfileRepository>();
-            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
-                                .Returns((Expression<Func<UserProfileEntity, bool>> x) => 
-                                Task.FromResult(UserCollection.AsQueryable<UserProfileEntity>().Where(x).AsEnumerable()));
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            unitOfWork.SetupGet(x => x.MovieRepository).Returns(mockMovieRepository.Object);
-            unitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserRepository.Object);
-            unitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
-
+            var expectedResult = Mapper.Map<MovieDetailedDto, GetMovieResponse>(expectedMovie);
+            var mockMovieService = new Mock<IMovieService>();
+            mockMovieService.Setup(x => x.GetOne(It.IsAny<string>()))
+                            .Returns((string mId) => Task.FromResult(GetMovieForMovieId(mId)));
             // Act
-            var movieService = new MovieService(unitOfWork.Object);
-            var result = await movieService.GetOne(movieId);
+            var movieController = new MovieController(Mapper, mockMovieService.Object);
+            var response = await movieController.GetMovie(movieId);
 
             // Assert
+            var okResponse = Assert.IsType<OkObjectResult>(response.Result);
+            var result = Assert.IsAssignableFrom<GetMovieResponse>(okResponse.Value);
+
             Assert.Equal(expectedResult.Id, result.Id);
             Assert.Equal(expectedResult.Title, result.Title);
             Assert.Equal(expectedResult.PlotSummary, result.PlotSummary);
             Assert.Equal(expectedResult.Director, result.Director);
-            Assert.Equal(expectedResult.Actors, result.Actors);
+            Assert.Equal(expectedResult.Tags, result.Tags);
             Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.Equal(expectedResult.Language, result.Language);
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
             Assert.Equal(expectedResult.Reviews, result.Reviews);
+
+            var averageRating = result.Reviews.Average(c => c.Rating);
+            Assert.Equal(expectedResult.Rating, averageRating);
         }
 
-        public static IEnumerable<object[]> GetMovieSuccessTestData => new List<object[]>
+        public static IEnumerable<object[]> GetMovie_200_TestData => new List<object[]>
         {
             new object[]
             {
@@ -143,50 +135,6 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                  GetMovieForMovieId("M3")
              }
         };
-
-        [Theory]
-        [MemberData(nameof(GetMovieFailureTestData))]
-        public async Task GetMovieFailureTest(string movieId,Exception exception)
-        {
-            var mockMovieRepository = new Mock<IMovieRepository>();
-            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()))
-                                .Returns(Task.FromResult(EntityCollection.Where(x => x.Id == movieId)));
-
-            var mockReviewRepository = new Mock<IReviewRepository>();
-            mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()))
-                                .Returns(Task.FromResult(ReviewCollection.Where(x => x.MovieId == movieId)));
-
-            var mockUserRepository = new Mock<IUserProfileRepository>();
-            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
-                                .Returns((Expression<Func<UserProfileEntity, bool>> x) =>
-                                Task.FromResult(UserCollection.AsQueryable<UserProfileEntity>().Where(x).AsEnumerable()));
-
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            unitOfWork.SetupGet(x => x.MovieRepository).Returns(mockMovieRepository.Object);
-            unitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserRepository.Object);
-            unitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
-
-            // Act
-            var movieService = new MovieService(unitOfWork.Object);
-            await Assert.ThrowsAsync(exception.GetType(), () => movieService.GetOne(movieId));
-        }
-
-
-        public static IEnumerable<object[]> GetMovieFailureTestData => new List<object[]>
-        {
-            new object[]
-            {
-                "M4",
-                new MultipleEntityFoundException()
-            },
-            new object[]
-            {
-                "M5",
-                new EntityNotFoundException()
-            }
-        };
-
 
         private static MovieDetailedDto GetMovieForMovieId(string movieId)
         {
@@ -218,5 +166,6 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                                                                }).ToList()
                                 }).Single();
         }
+
     }
 }

@@ -13,14 +13,16 @@ namespace Nt.Domain.Entities.Movie
         public string Title { get; init; }
         [BsonElement("plotSummary")]
         public string PlotSummary { get; init; }
-        [BsonElement("releaseDate")]
-        public DateTime ReleaseDate { get; init; }
-        [BsonElement("directorName")]
-        public string Director { get; init; }
         [BsonElement("language")]
         public string Language { get; init; }
+        [BsonElement("releaseDate")]
+        public DateTime ReleaseDate { get; init; }
+        [BsonElement("genre")]
+        public string Genre { get; init; }
+        public double Rating { get; init; }
+        [BsonElement("directorName")]
+        public string Director { get; init; }
         [BsonElement("actors")]
         public List<string> Actors { get; init; }
-        
     }
 }

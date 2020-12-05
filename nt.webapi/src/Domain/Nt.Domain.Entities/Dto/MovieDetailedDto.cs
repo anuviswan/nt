@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nt.Domain.Entities.Movie;
 
 namespace Nt.Domain.Entities.Dto
 {
-    public class MovieDetailedDto
+    public record MovieDetailedDto:MovieEntity
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string PlotSummary { get; set; }
-        public DateTime ReleaseDate { get; set; }
-        public string Director { get; set; }
-        public string Language { get; set; }
-        public List<string> Actors { get; set; } = new List<string>();
         public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
     }
 
