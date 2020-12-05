@@ -22,7 +22,7 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie
     {
         public string Id { get; init; }
         public string Title { get; init; }
-        public string Detail { get; init; }
+        public string Description { get; init; }
         public double Rating { get; init; }
         public int UpVotes { get; init; }
         public int DownVotes { get; init; }

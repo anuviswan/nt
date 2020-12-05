@@ -118,7 +118,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
             Assert.Equal(expectedResult.Reviews, result.Reviews);
 
-            var averageRating = result.Reviews.Average(c => c.Rating);
+            var averageRating = result.Reviews.Any() ? result.Reviews.Average(c => c.Rating):0;
             Assert.Equal(expectedResult.Rating, averageRating);
         }
 

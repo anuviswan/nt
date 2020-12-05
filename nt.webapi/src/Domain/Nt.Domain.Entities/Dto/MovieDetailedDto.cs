@@ -14,18 +14,19 @@ namespace Nt.Domain.Entities.Dto
 
     public record ReviewDto
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public IEnumerable<string> UpvotedBy { get; set; } = Enumerable.Empty<string>();
-        public IEnumerable<string> DownvotedBy { get; set; } = Enumerable.Empty<string>();
+        public string Id { get; init; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public IEnumerable<string> UpvotedBy { get; init; } = Enumerable.Empty<string>();
+        public IEnumerable<string> DownvotedBy { get; init; } = Enumerable.Empty<string>();
         public UserDto Author { get; set; }
+        public double Rating { get; init; }
     }
 
     public record UserDto
     {
-        public string Id { get; set; }
-        public string UserName { get; set; }
-        public string DisplayName { get; set; }
+        public string Id { get; init; }
+        public string UserName { get; init; }
+        public string DisplayName { get; init; }
     }
 }
