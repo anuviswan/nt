@@ -9,6 +9,7 @@ using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -84,8 +85,24 @@ namespace Nt.Infrastructure.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var searchResult = await _movieService.GetOne(movieId);
-                return Ok(Mapper.Map<MovieDetailedDto, GetMovieResponse>(searchResult));
+                try
+                {
+                    var searchResult = await _movieService.GetOne(movieId);
+                    return Ok(Mapper.Map<MovieDetailedDto, GetMovieResponse>(searchResult));
+                }
+                catch (EntityNotFoundException)
+                {
+                    return BadRequest("Invalid Movie Id");
+                }
+                catch (MultipleEntityFoundException)
+                {
+                    return BadRequest("Multiple Entity Found");
+                }
+                catch(Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+
             }
             else
             {

@@ -91,6 +91,10 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             EntityCollection = new List<MovieEntity>(MovieCollection);
         }
 
+
+
+        #region Response 200
+
         [Theory]
         [MemberData(nameof(GetMovie_200_TestData))]
         public async Task GetMovie_200(string movieId,MovieDetailedDto expectedMovie)
@@ -135,6 +139,38 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
              }
         };
 
+        #endregion
+
+        #region Response 400
+
+        [Theory]
+        [MemberData(nameof(GetMovie_400_TestData))]
+        public async Task GetMovie_400(string movieId)
+        {
+            // Arrange
+            var mockMovieService = new Mock<IMovieService>();
+            mockMovieService.Setup(x => x.GetOne(It.IsAny<string>()))
+                            .Returns((string mId) => Task.FromResult(GetMovieForMovieId(mId)));
+            // Act
+            var movieController = new MovieController(Mapper, mockMovieService.Object);
+            var response = await movieController.GetMovie(movieId);
+
+            // Assert
+            var badRequest = Assert.IsType<BadRequestObjectResult>(response.Result);
+         //   var result = Assert.IsAssignableFrom<GetMovieResponse>(badRequest.Value);
+        }
+
+        public static IEnumerable<object[]> GetMovie_400_TestData => new List<object[]>
+        {
+            new object[]
+            {
+                string.Empty,
+            },
+        };
+
+        #endregion
+
+
         private static MovieDetailedDto GetMovieForMovieId(string movieId)
         {
             return MovieCollection.Where(c => c.Id == movieId)
@@ -165,6 +201,8 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                                                                }).ToList()
                                 }).Single();
         }
+
+
 
     }
 }
