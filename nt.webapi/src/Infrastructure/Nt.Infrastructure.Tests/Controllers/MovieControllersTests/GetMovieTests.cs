@@ -69,7 +69,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                 ReviewDescription = $"{nameof(ReviewEntity.ReviewDescription)} 02",
                 DownVotedBy = new List<string>{"A2","A3","A4" },
                 UpVotedBy = new List<string>{"A1","A5","A6"},
-                Rating = 4
+                Rating = 3
             },
             new ReviewEntity
             {
@@ -80,7 +80,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                 ReviewDescription = $"{nameof(ReviewEntity.ReviewDescription)} 01",
                 DownVotedBy = new List<string>{"A2","A3","A4" },
                 UpVotedBy = new List<string>{"A1","A5","A6"},
-                Rating = 4
+                Rating = 2
             }
         };
 
@@ -118,8 +118,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
             Assert.Equal(expectedResult.Reviews, result.Reviews);
 
-            var averageRating = result.Reviews.Any() ? result.Reviews.Average(c => c.Rating):0;
-            Assert.Equal(expectedResult.Rating, averageRating);
+            Assert.Equal(expectedResult.Rating, result.Rating);
         }
 
         public static IEnumerable<object[]> GetMovie_200_TestData => new List<object[]>
