@@ -13,5 +13,9 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie
         [Required]
         public DateTime ReleaseDate{get;init;}
         public List<string> Actors { get; init; }
+        [Required]
+        [MaxLength(200,ErrorMessage = "Plot summary should be maximum 200 characters")]
+        [MinLength(3,ErrorMessage = "Plot summary should be minimum 3 characters")]
+        public string PlotSummary { get; init; }
     }
 }

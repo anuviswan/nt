@@ -30,8 +30,8 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             base.InitializeCollection();
             EntityCollection = new ()
             {
-                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
+                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = new DateTime(2020, 8, 20), PlotSummary = nameof(MovieEntity.PlotSummary) },
+                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20), PlotSummary = nameof(MovieEntity.PlotSummary) }
             };
 
         }
@@ -64,18 +64,18 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         {
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate = new DateTime(2020,8,20)},
-                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = new DateTime(2020,8,20)}
+                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate = new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)},
+                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)}
             },
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =new DateTime(2020,8,20)  },
-                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = new DateTime(2020,8,20)  }
+                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)  },
+                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)  }
             },
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =new DateTime(2019,8,20)  },
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2019,8,20)   }
+                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =new DateTime(2019,8,20) ,PlotSummary = nameof(MovieEntity.PlotSummary) },
+                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2019,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)   }
             },
         };
         #endregion

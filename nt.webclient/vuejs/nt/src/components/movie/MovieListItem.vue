@@ -35,7 +35,19 @@
             <div class="card-text text-left">
               Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
             </div>
-            <div class="card-text text-left"><Ratings rating=4 /></div>
+            <div class="card-text text-left">
+              <Star-rating
+                inline="true"
+                star-size="15"
+                read-only="true"
+                :rating="ratings"
+                animate="true"
+                show-rating="false"
+                text-class="invisible"
+              /><span class="small font-italic"
+                >({{ this.numberOfReviews }} reviews)</span
+              >
+            </div>
           </div>
           <!-- Third Column -->
           <div class="col-3">
@@ -64,11 +76,11 @@
 </template>
 
 <script>
-import Ratings from "../generic/Ratings";
+import StarRating from "vue-star-rating";
 import Tags from "../generic/Tags";
 export default {
   name: "MovieListItem",
-  components: { Ratings, Tags },
+  components: { StarRating, Tags },
   props: {
     movie: {
       required: true,
@@ -85,10 +97,10 @@ export default {
       genre: "Thriller",
       tags: ["John Doe", "Jia Anu", "Naina Anu"],
       movieMeta: { m: "s" },
+      numberOfReviews: 43,
     };
   },
   created() {
-
     this.Id = this.movie.id;
     this.title = this.movie.title;
     this.language = this.movie.language;
