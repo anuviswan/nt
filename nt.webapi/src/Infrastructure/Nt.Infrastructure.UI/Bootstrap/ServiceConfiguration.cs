@@ -19,7 +19,7 @@ namespace Nt.Infrastructure.WebApi.Bootstrap
             services.AddSingleton<IUserManagementService>(x => new UserManagementService(x.GetRequiredService<IUnitOfWork>()));
             services.AddSingleton<IUserProfileService>(x => new UserProfileService(x.GetRequiredService<IUnitOfWork>(), x.GetRequiredService<IUserManagementService>()));
             services.AddSingleton<IMovieService>(x => new MovieService(x.GetRequiredService<IUnitOfWork>()));
-           
+            services.AddSingleton<IReviewService>(x => new ReviewService(x.GetRequiredService<IUnitOfWork>()));
             services.AddSingleton<ITokenGenerator>(x => new JwtTokenGenerator(x.GetRequiredService<IConfiguration>()));
         }
 

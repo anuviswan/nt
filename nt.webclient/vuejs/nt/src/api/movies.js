@@ -28,4 +28,17 @@ const searchMovieByTitle = async (searchTerm, maxItems) => {
 
   return response;
 };
-export { getAllMovies, createMovie, searchMovieByTitle };
+
+
+const getMovie = async (movieId)=>{
+
+  const params = {
+    params: {
+      movieId: movieId,
+    },
+  };
+
+  var response = await axios.get("https://localhost:44353/api/Movie/GetMovieMetaInfo",params);
+  return response;
+}
+export { getAllMovies, createMovie, searchMovieByTitle,getMovie };

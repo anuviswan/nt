@@ -163,19 +163,6 @@ export default {
 </script>
 
 <style scoped>
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-select,
-textarea {
-  display: block;
-  width: 100%;
-  padding: 0.4rem;
-  font-size: 1.2rem;
-  border: 1px solid #ccc;
-}
-
 .form-group {
   align-items: left;
 }

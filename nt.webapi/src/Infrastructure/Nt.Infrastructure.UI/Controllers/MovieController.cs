@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -70,6 +73,40 @@ namespace Nt.Infrastructure.WebApi.Controllers
             {
                 var searchResult = await _movieService.SearchMovie(request.SearchString);
                 return Ok(Mapper.Map<IEnumerable<SearchMovieByTitleResponse>>(searchResult));
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetMovieMetaInfo")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<GetMovieResponse>> GetMovieMetaInfo(string movieId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var searchResult = await _movieService.GetOne(movieId);
+                    return Ok(Mapper.Map<MovieDetailedDto, GetMovieResponse>(searchResult));
+                }
+                catch (EntityNotFoundException)
+                {
+                    return BadRequest("Invalid Movie Id");
+                }
+                catch (MultipleEntityFoundException)
+                {
+                    return BadRequest("Multiple Entity Found");
+                }
+                catch(Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+
             }
             else
             {
