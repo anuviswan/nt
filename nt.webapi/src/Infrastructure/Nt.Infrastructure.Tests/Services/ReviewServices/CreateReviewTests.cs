@@ -74,6 +74,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
             Assert.Equal(expected.AuthorId, result.AuthorId);
             Assert.Equal(expected.ReviewTitle, result.ReviewTitle);
             Assert.Equal(expected.ReviewDescription, result.ReviewDescription);
+            Assert.Equal(expected.Rating, result.Rating);
 
             mockReviewRepository.Verify(x => x.CreateAsync(It.IsAny<ReviewEntity>()), Times.Once);
             mockReviewRepository.Verify(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity,bool>>>()), Times.Once);
@@ -89,7 +90,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     AuthorId = "A4",
                     MovieId = "M4",
                     ReviewTitle = "Review Title",
-                    ReviewDescription = "Review Description"
+                    ReviewDescription = "Review Description",
+                    Rating = 2
                 },
                 "A4UserName",
                 new ReviewEntity
@@ -98,7 +100,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     AuthorId = "A4",
                     MovieId = "M4",
                     ReviewTitle = "Review Title",
-                    ReviewDescription = "Review Description"
+                    ReviewDescription = "Review Description",
+                    Rating = 2
                 },
             },
             // New Movie, Existing Author
@@ -109,7 +112,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     AuthorId = "A1",
                     MovieId = "M4",
                     ReviewTitle = "Review Title",
-                    ReviewDescription = "Review Description"
+                    ReviewDescription = "Review Description",
+                    Rating = 2
                 },
                 "A1UserName",
                 new ReviewEntity
@@ -118,7 +122,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     AuthorId = "A1",
                     MovieId = "M4",
                     ReviewTitle = "Review Title",
-                    ReviewDescription = "Review Description"
+                    ReviewDescription = "Review Description",
+                    Rating =2 
                 },
             },
             // Existing Movie, New Author
@@ -129,7 +134,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     AuthorId = "A4",
                     MovieId = "M1",
                     ReviewTitle = "Review Title",
-                    ReviewDescription = "Review Description"
+                    ReviewDescription = "Review Description",
+                    Rating = 2
                 },
                 "A4UserName",
                 new ReviewEntity
@@ -138,7 +144,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     AuthorId = "A4",
                     MovieId = "M1",
                     ReviewTitle = "Review Title",
-                    ReviewDescription = "Review Description"
+                    ReviewDescription = "Review Description",
+                    Rating = 2
                 },
             },
         };

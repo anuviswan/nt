@@ -9,7 +9,20 @@
               <h5>
                 <strong>{{ this.title }}</strong>
               </h5>
-              <div class="card-text text-left"><Ratings v-bind:rating='4' /></div>
+              <div class="card-text text-left">
+                <Star-rating
+                  inline="true"
+                  star-size="15"
+                  read-only="true"
+                  :rating="ratings"
+                  animate="true"
+                  show-rating="false"
+                  text-class="invisible"
+                />
+                <span class="small font-italic"
+                  >({{ this.numberOfReviews }} reviews)</span
+                >
+              </div>
             </div>
             <div class="row">
               <div class="col-3 card-text text-left small text-capitalize">
@@ -24,11 +37,9 @@
             </div>
             <div class="card-text text-left">
               <br />
-              <div>{{this.plotSummary}}</div>
+              <div>{{ this.plotSummary }}</div>
             </div>
           </div>
-         
-          
         </div>
       </div>
       <div class="card-footer text-left">
@@ -45,11 +56,12 @@
 </template>
 
 <script>
-import Ratings from "../generic/Ratings";
 import Tags from "../generic/Tags";
+import StarRating from "vue-star-rating";
+
 export default {
   name: "MovieItem",
-  components: { Ratings, Tags },
+  components: { Tags, StarRating },
   props: {
     movie: {
       required: true,
@@ -65,8 +77,8 @@ export default {
       ratings: 4,
       genre: "Thriller",
       tags: ["John Doe", "Jia Anu", "Naina Anu"],
-      plotSummary:'',
-
+      numberOfReviews: 4,
+      plotSummary: "",
     };
   },
   created() {

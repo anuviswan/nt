@@ -30,7 +30,8 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
                     MovieId = "M1",
                     Id  = "R1",
                     ReviewTitle = "Good Movie",
-                    ReviewDescription = "This is a good movie"
+                    ReviewDescription = "This is a good movie",
+                    Rating = 2
                 },
             };
         }
@@ -71,7 +72,8 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
                 { 
                     Description = nameof(CreateReviewRequest.Description),
                     MovieId = nameof(CreateReviewRequest.MovieId),
-                    Title = nameof(CreateReviewRequest.Title)
+                    Title = nameof(CreateReviewRequest.Title),
+                    Rating = 2
                 }
             }
         };

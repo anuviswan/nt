@@ -16,10 +16,10 @@
                 v-on:submit="onSubmit"
               >
                 <div class="form-group">
-                  <label for="movieTitle">Review Title</label>
+                  <label for="reviewTitle">Review Title</label>
                   <input
                     type="text"
-                    placeholder="Movie Title"
+                    placeholder="Review Title"
                     name="reviewTitle"
                     v-model="reviewTitle"
                     v-bind:class="
@@ -30,7 +30,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="language">Description</label>
+                  <label for="reviewDescription">Description</label>
                   <input
                     type="text"
                     v-model="reviewDescription"
@@ -41,6 +41,15 @@
                         ? 'form-control block is-invalid'
                         : 'form-control block'
                     "
+                  />
+                </div>
+
+                <div class="form-group">
+                  <Star-rating
+                    star-size="25"
+                    animate="true"
+                    show-rating="false"
+                    text-class="invisible"
                   />
                 </div>
 
@@ -69,11 +78,13 @@
 
 <script>
 import { getMovie } from "../../../api/movies";
+import { createReview } from "../../../api/reviews";
 import MovieItem from "../../../components/movie/MovieItem";
+import StarRating from "vue-star-rating";
 
 export default {
   name: "CreateReview",
-  components: { MovieItem },
+  components: { MovieItem, StarRating },
   data() {
     return {
       movie: {
@@ -89,11 +100,32 @@ export default {
       errors: [],
       serverMessage: [],
       hasServerError: false,
+      currentRating: 4,
     };
   },
   methods: {
     async onSubmit(e) {
       e.preventDefault();
+
+      if (!this.validateForm()) {
+        console.log(this.errors);
+        console.log("Form is INVALID");
+        return;
+      }
+
+      const response = await createReview(
+        this.movie.id,
+        this.reviewTitle,
+        this.reviewDescription,
+        this.currentRating
+      );
+
+      if (response.hasError) {
+        this.hasServerError = true;
+        this.serverMessage = response.error;
+        return;
+      }
+      this.serverMessage.push("Review added successfully");
     },
     hasError(key) {
       return this.errors.indexOf(key) != -1;
@@ -107,9 +139,24 @@ export default {
         ? "text-danger text-left"
         : "text-success text-left";
     },
+    validateForm() {
+      let isValidFlag = true;
+      this.errors = [];
+
+      if (!this.reviewTitle) {
+        this.errors.push("reviewTitle");
+        isValidFlag = false;
+      }
+
+      if (!this.reviewDescription) {
+        this.errors.push("reviewDescription");
+        isValidFlag = false;
+      }
+
+      return isValidFlag;
+    },
   },
   async created() {
-    console.log("Fetching info");
     this.movie.id = this.$route.params.movieId;
     var response = await getMovie(this.movie.id);
 

@@ -18,7 +18,7 @@ namespace Nt.Application.Services.Movie
         }
         public async Task<ReviewEntity> CreateAsync(ReviewEntity review,string authorUserName)
         {
-            var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == authorUserName.ToLower() && x.IsDeleted != false);
+            var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == authorUserName.ToLower() && x.IsDeleted == false);
             var userID = user.Single().Id;
             review = new ReviewEntity() with { AuthorId = userID };
 
