@@ -28,9 +28,7 @@ export default {
       default: 23,
     },
   },
-  created() {
-    console.log(this.rating);
-  },
+  
 };
 </script>
 

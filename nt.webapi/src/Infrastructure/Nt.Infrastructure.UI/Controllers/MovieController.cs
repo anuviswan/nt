@@ -81,7 +81,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GetMovieResponse>> GetMovie(string movieId)
+        [Route("GetMovieMetaInfo")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<GetMovieResponse>> GetMovieMetaInfo(string movieId)
         {
             if (ModelState.IsValid)
             {

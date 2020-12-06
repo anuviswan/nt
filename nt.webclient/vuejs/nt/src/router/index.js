@@ -71,7 +71,6 @@ const routes = [
         path: "movie/addreview/:movieId",
         name: "AddReview",
         component: CreateReview,
-        props: true,
       },
     ],
   },

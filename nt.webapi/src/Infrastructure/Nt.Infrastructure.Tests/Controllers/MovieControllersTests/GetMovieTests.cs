@@ -106,7 +106,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                             .Returns((string mId) => Task.FromResult(GetMovieForMovieId(mId)));
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
-            var response = await movieController.GetMovie(movieId);
+            var response = await movieController.GetMovieMetaInfo(movieId);
 
             // Assert
             var okResponse = Assert.IsType<OkObjectResult>(response.Result);
@@ -153,7 +153,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                             .Returns((string mId) => Task.FromResult(GetMovieForMovieId(mId)));
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
-            var response = await movieController.GetMovie(movieId);
+            var response = await movieController.GetMovieMetaInfo(movieId);
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(response.Result);

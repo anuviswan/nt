@@ -35,14 +35,14 @@
             <div class="card-text text-left">
               Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
             </div>
-            <div class="card-text text-left"><Ratings rating="4" /></div>
+            <div class="card-text text-left"><Ratings rating=4 /></div>
           </div>
           <!-- Third Column -->
           <div class="col-3">
             <p><a href="#" class="btn btn-primary">See Reviews</a></p>
             <p>
               <router-link
-                v-bind:to="`/p/movie/addreview/${this.userName}`"
+                v-bind:to="`/p/movie/addreview/${this.Id}`"
                 class="btn btn-primary"
                 >Add Review</router-link
               >
@@ -88,13 +88,13 @@ export default {
     };
   },
   created() {
-    this.Id = this.movie.Id;
+
+    this.Id = this.movie.id;
     this.title = this.movie.title;
     this.language = this.movie.language;
     this.releaseDate = new Date(this.movie.releaseDate);
 
-    console.log(this.title);
-    console.log(this.releaseDate);
+    console.log(this.movie);
   },
   methods: {
     getFormattedDate(date) {
