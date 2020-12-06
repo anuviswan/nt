@@ -83,7 +83,9 @@
               >Change Password</router-link
             >
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Log out</a>
+            <label class="dropdown-item" href="#" v-on:click="logout"
+              >Log out</label
+            >
           </div>
         </li>
       </ul>
@@ -92,11 +94,18 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Navbar",
   computed: mapGetters(["currentUser"]),
+  methods: {
+    ...mapActions(["clearUser"]),
+    logout() {
+      this.clearUser();
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 
