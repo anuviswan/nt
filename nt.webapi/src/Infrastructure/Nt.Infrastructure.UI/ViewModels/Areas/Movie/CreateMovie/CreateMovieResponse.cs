@@ -8,5 +8,6 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie
         public string Language { get; init; }
         public DateTime ReleaseDate { get; init; }
         public string PlotSummary { get; init; }
+        public string Genre { get; init; }
     }
 }

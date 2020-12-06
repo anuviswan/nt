@@ -8,7 +8,7 @@ namespace Nt.Domain.ServiceContracts.Movie
     public interface IMovieService
     {
         Task<MovieEntity> CreateAsync(MovieEntity movie);
-        Task<MovieDetailedDto> GetOne(string movieId);
+        Task<MovieReviewDto> GetOne(string movieId);
         Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount=-1);
     }
 }

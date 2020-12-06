@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle
 {
@@ -8,6 +9,11 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle
         public string Title { get; init; }
         public DateTime ReleaseDate { get; init; }
         public string Language { get; init; }
-        // TODO: This would be further developed to link reviews
+        public string PlotSummary { get; init; }
+        public string Genre { get; init; }
+        public double Rating { get; init; }
+        public double NumberOfReviews { get;init; }
+        public string Director { get; init; }
+        public List<string> Actors { get; init; }
     }
 }

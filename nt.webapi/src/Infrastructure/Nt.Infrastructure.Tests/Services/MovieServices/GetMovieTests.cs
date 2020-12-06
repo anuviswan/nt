@@ -93,7 +93,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 
         [Theory]
         [MemberData(nameof(GetMovieSuccessTestData))]
-        public async Task GetMovieSuccessTest(string movieId,MovieDetailedDto expectedResult)
+        public async Task GetMovieSuccessTest(string movieId,MovieReviewDto expectedResult)
         {
             // Arrange
             var mockMovieRepository = new Mock<IMovieRepository>();
@@ -188,10 +188,10 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         };
 
 
-        private static MovieDetailedDto GetMovieForMovieId(string movieId)
+        private static MovieReviewDto GetMovieForMovieId(string movieId)
         {
             return MovieCollection.Where(c => c.Id == movieId)
-                                .Select(movie => new MovieDetailedDto
+                                .Select(movie => new MovieReviewDto
                                 {
                                     Id = movie.Id,
                                     Director = movie.Director,

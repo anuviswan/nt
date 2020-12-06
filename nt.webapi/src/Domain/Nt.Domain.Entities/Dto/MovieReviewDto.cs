@@ -7,7 +7,7 @@ using Nt.Domain.Entities.Movie;
 
 namespace Nt.Domain.Entities.Dto
 {
-    public record MovieDetailedDto:MovieEntity
+    public record MovieReviewDto:MovieEntity
     {
         public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
     }

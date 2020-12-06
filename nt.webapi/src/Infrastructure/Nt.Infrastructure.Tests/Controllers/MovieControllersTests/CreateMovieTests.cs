@@ -4,6 +4,7 @@ using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
 using Nt.Infrastructure.WebApi.ViewModels.Common;
@@ -21,6 +22,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 {
     public class CreateMovieTests : ControllerTestBase<MovieEntity>
     {
+        private static readonly DateTime ReleaseDate = new DateTime(2020, 8, 20);
         public CreateMovieTests(ITestOutputHelper output) : base(output)
         {
         }
@@ -28,11 +30,17 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new ()
+            EntityCollection = Enumerable.Range(1, 3).Select(x => new MovieEntity
             {
-                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = new DateTime(2020, 8, 20), PlotSummary = nameof(MovieEntity.PlotSummary) },
-                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20), PlotSummary = nameof(MovieEntity.PlotSummary) }
-            };
+                Id = string.Format(Utils.MockIdFormat, x),
+                Title = $"Movie Sample {x}",
+                PlotSummary = Utils.TwoHundredCharacterString,
+                Language = "English",
+                ReleaseDate = ReleaseDate,
+                Actors = new[] { "John Doe", "Jane Doe", "Jaden Doe" },
+                Director = "Stephen Brown",
+                Genre = "Drama",
+            }).ToList();
 
         }
 
@@ -54,28 +62,86 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             // Assert
             var okObjectResponse = Assert.IsType<OkObjectResult>(response.Result);
             var movieResponse = Assert.IsType<CreateMovieResponse>(okObjectResponse.Value);
-            Assert.Equal(expectedResult.Title, movieResponse.Title);
-            Assert.Equal(expectedResult.Language, movieResponse.Language);
-            Assert.Equal(expectedResult.ReleaseDate, movieResponse.ReleaseDate);
+            Assert.Equal(expectedResult, movieResponse);
         }
 
 
         public static IEnumerable<object[]> CreateMovieTest_ResponseStatus_200_TestData => new[]
         {
-            new object[]
+            new []
             {
-                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate = new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)},
-                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)}
+                 new MovieEntity
+                 {
+                     Title = "Movie Sample 10",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "English",
+                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 },
+                 new MovieEntity
+                 {
+                     Id = string.Format(Utils.MockIdFormat,99),
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "English",
+                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 }
+
             },
-            new object[]
+            // Existing Movie name, different year of release
+            new []
             {
-                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)  },
-                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = new DateTime(2020,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)  }
+                 new MovieEntity
+                 {
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate.AddYears(-1),
+                     Language = "English",
+                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 },
+                 new MovieEntity
+                 {
+                     Id = string.Format(Utils.MockIdFormat,99),
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate.AddYears(-1),
+                     Language = "English",
+                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 }
             },
-            new object[]
+            // Existing Movie name, different language
+            new []
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =new DateTime(2019,8,20) ,PlotSummary = nameof(MovieEntity.PlotSummary) },
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2019,8,20),PlotSummary = nameof(MovieEntity.PlotSummary)   }
+                 new MovieEntity
+                 {
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "Spanish",
+                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 },
+                 new MovieEntity
+                 {
+                     Id = string.Format(Utils.MockIdFormat,99),
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "Spanish",
+                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 }
             },
         };
         #endregion
@@ -109,6 +175,33 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             new object[]
             {
                 new CreateMovieRequest { Title = "Title 1" }
+            },
+            new object[]
+            {
+                new CreateMovieRequest 
+                { 
+                    Title = "Title 1",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                }
+            },
+            new object[]
+            {
+                new CreateMovieRequest
+                {
+                    Title = "Title 1",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    Language = "English"
+                }
+            },
+            new object[]
+            {
+                new CreateMovieRequest
+                {
+                    Title = "Title 1",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    Language = "English",
+                    ReleaseDate = ReleaseDate
+                }
             }
         };
         #endregion
@@ -138,18 +231,19 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         {
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate = DateTime.Now  }
+                new MovieEntity
+                {
+                    Title = "Movie Sample 1",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    ReleaseDate = ReleaseDate,
+                    Language = "English",
+                    Actors = new List<string>{ "Actor 1", "Actor 2" },
+                    Genre = "Drama",
+                    Director = "Will Brown"
+                }
             }
         };
         #endregion
-
-        #region Http Status Response 409
-        #endregion
-
-
-
-
-
-
+                
     }
 }

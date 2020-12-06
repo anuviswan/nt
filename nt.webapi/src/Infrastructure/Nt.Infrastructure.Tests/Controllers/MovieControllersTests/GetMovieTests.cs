@@ -97,10 +97,10 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         [Theory]
         [MemberData(nameof(GetMovie_200_TestData))]
-        public async Task GetMovie_200(string movieId,MovieDetailedDto expectedMovie)
+        public async Task GetMovie_200(string movieId,MovieReviewDto expectedMovie)
         {
             // Arrange
-            var expectedResult = Mapper.Map<MovieDetailedDto, GetMovieResponse>(expectedMovie);
+            var expectedResult = Mapper.Map<MovieReviewDto, GetMovieResponse>(expectedMovie);
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.GetOne(It.IsAny<string>()))
                             .Returns((string mId) => Task.FromResult(GetMovieForMovieId(mId)));
@@ -171,10 +171,10 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         #endregion
 
 
-        private static MovieDetailedDto GetMovieForMovieId(string movieId)
+        private static MovieReviewDto GetMovieForMovieId(string movieId)
         {
             return MovieCollection.Where(c => c.Id == movieId)
-                                .Select(movie => new MovieDetailedDto
+                                .Select(movie => new MovieReviewDto
                                 {
                                     Id = movie.Id,
                                     Director = movie.Director,

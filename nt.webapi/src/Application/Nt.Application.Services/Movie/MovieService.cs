@@ -31,7 +31,7 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public async Task<MovieDetailedDto> GetOne(string movieId)
+        public async Task<MovieReviewDto> GetOne(string movieId)
         {
             var movies = await UnitOfWork.MovieRepository.GetAsync(x => x.Id == movieId);
 
@@ -43,13 +43,13 @@ namespace Nt.Application.Services.Movie
             };
 
 
-            async Task<MovieDetailedDto> _(IEnumerable<MovieEntity> movieResult)
+            async Task<MovieReviewDto> _(IEnumerable<MovieEntity> movieResult)
             {
                 var movie = movieResult.Single();
                 var movieId = movie.Id;
                 var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movie.Id);
 
-                var movieDetailed = new MovieDetailedDto
+                var movieDetailed = new MovieReviewDto
                 {
                     Id = movie.Id,
                     Title = movie.Title,

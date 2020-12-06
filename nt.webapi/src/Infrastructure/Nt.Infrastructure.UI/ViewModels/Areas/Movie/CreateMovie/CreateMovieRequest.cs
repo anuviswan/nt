@@ -17,5 +17,7 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie
         [MaxLength(200,ErrorMessage = "Plot summary should be maximum 200 characters")]
         [MinLength(3,ErrorMessage = "Plot summary should be minimum 3 characters")]
         public string PlotSummary { get; init; }
+        [Required]
+        public string Genre { get; init; }
     }
 }
