@@ -24,6 +24,6 @@ namespace Nt.Domain.Entities.Movie
         [BsonElement("directorName")]
         public string Director { get; init; }
         [BsonElement("actors")]
-        public IEnumerable<string> Actors { get; init; }
+        public IEnumerable<string> CastAndCrew { get; init; }
     }
 }

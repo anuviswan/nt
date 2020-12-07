@@ -55,6 +55,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         }
 
         [Theory]
+        [Trait("Category", "Service")]
+        [Trait("Type", "Movie")]
         [MemberData(nameof(CreateMovieSuccessTestData))]
         public async Task CreateMovieSuccessTest(string movieTitle,int maxCount, IEnumerable<MovieEntity> expected)
         {

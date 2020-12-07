@@ -33,13 +33,15 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                 PlotSummary = Utils.TwoHundredCharacterString,
                 Language = "English",
                 ReleaseDate = ReleaseDate,
-                Actors = new[] { "John Doe", "Jane Doe", "Jaden Doe" },
+                CastAndCrew = new []{ "John Doe", "Jane Doe", "Jaden Doe" },
                 Director = "Stephen Brown",
                 Genre = "Drama",
             }).ToList();
         }
 
         [Theory]
+        [Trait("Category","Service")]
+        [Trait("Type", "Movie")]
         [MemberData(nameof(CreateMovieSuccessTestData))]
         public async Task CreateMovieSuccessTest(MovieEntity request,MovieEntity expected)
         {
@@ -71,7 +73,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate, 
                      Language = "English", 
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  },
@@ -82,7 +84,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate, 
                      Language = "English", 
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  }
@@ -97,7 +99,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate.AddYears(-1),
                      Language = "English",
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  },
@@ -108,7 +110,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate.AddYears(-1),
                      Language = "English",
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  }
@@ -122,7 +124,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate,
                      Language = "Spanish",
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  },
@@ -133,7 +135,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate,
                      Language = "Spanish",
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  }
@@ -143,6 +145,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 
 
         [Theory]
+        [Trait("Category", "Service")]
+        [Trait("Type","Movie")]
         [MemberData(nameof(CreateMovieFailureTestData))]
         public async Task CreateMovieFailureTest(MovieEntity request)
         {
@@ -175,7 +179,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate,
                      Language = "English",
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new[] { "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  }
@@ -188,7 +192,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate,
                      Language = "english",
-                     Actors = new List<string>{ "Actor 1", "Actor 2" },
+                     CastAndCrew = new []{ "Actor 1", "Actor 2" },
                      Genre = "Drama",
                      Director = "Will Brown"
                  }

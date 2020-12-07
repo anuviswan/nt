@@ -92,6 +92,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 
 
         [Theory]
+        [Trait("Category", "Service")]
+        [Trait("Type", "Movie")]
         [MemberData(nameof(GetMovieSuccessTestData))]
         public async Task GetMovieSuccessTest(string movieId,MovieReviewDto expectedResult)
         {
@@ -123,7 +125,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             Assert.Equal(expectedResult.Title, result.Title);
             Assert.Equal(expectedResult.PlotSummary, result.PlotSummary);
             Assert.Equal(expectedResult.Director, result.Director);
-            Assert.Equal(expectedResult.Actors, result.Actors);
+            Assert.Equal(expectedResult.CastAndCrew, result.CastAndCrew);
             Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.Equal(expectedResult.Language, result.Language);
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
@@ -145,6 +147,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         };
 
         [Theory]
+        [Trait("Category", "Service")]
+        [Trait("Type", "Movie")]
         [MemberData(nameof(GetMovieFailureTestData))]
         public async Task GetMovieFailureTest(string movieId,Exception exception)
         {
@@ -199,7 +203,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                                     Language = movie.Language,
                                     Title = movie.Title,
                                     ReleaseDate = movie.ReleaseDate,
-                                    Actors = movie.Actors,
+                                    CastAndCrew = movie.CastAndCrew,
                                     Reviews = ReviewCollection.Where(review => review.MovieId == movieId)
                                                                .Select(review => new ReviewDto
                                                                {

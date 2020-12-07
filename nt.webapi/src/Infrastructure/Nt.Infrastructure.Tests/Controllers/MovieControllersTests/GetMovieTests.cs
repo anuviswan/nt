@@ -182,7 +182,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
                                     Language = movie.Language,
                                     Title = movie.Title,
                                     ReleaseDate = movie.ReleaseDate,
-                                    Actors = movie.Actors,
+                                    CastAndCrew = movie.CastAndCrew,
                                     Reviews = ReviewCollection.Where(review => review.MovieId == movieId)
                                                                .Select(review => new ReviewDto
                                                                {

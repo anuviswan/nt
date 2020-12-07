@@ -57,14 +57,16 @@ namespace Nt.Application.Services.Movie
                     Director = movie.Director,
                     Language = movie.Language,
                     ReleaseDate = movie.ReleaseDate,
-                    Actors = movie.Actors
+                    CastAndCrew = movie.CastAndCrew
                 };
+
+                var reviewCollection = new List<ReviewDto>();
                 foreach (var review in reviews)
                 {
                     var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)
                         .ContinueWith((users) => users.Result.Single());
 
-                    movieDetailed.Reviews.Add(new ReviewDto
+                    reviewCollection.Add(new ReviewDto
                     {
                         Author = new UserDto { Id = user.Id, DisplayName = user.DisplayName, UserName = user.UserName },
                         Description = review.ReviewDescription,
@@ -75,7 +77,7 @@ namespace Nt.Application.Services.Movie
                     });
                 }
 
-                return movieDetailed;
+                return movieDetailed with { Reviews = reviewCollection };
             }
         }
 
