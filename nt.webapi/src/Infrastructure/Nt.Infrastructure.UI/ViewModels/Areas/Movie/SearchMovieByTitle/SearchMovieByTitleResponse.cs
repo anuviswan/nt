@@ -12,8 +12,9 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle
         public string PlotSummary { get; init; }
         public string Genre { get; init; }
         public double Rating { get; init; }
+        public int TotalReviews { get; init; }
         public double NumberOfReviews { get;init; }
         public string Director { get; init; }
-        public List<string> Actors { get; init; }
+        public IEnumerable<string> CastAndCrew { get; init; }
     }
 }

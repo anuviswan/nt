@@ -8,6 +8,7 @@ using Nt.Application.Services.Movie;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -22,36 +23,35 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new List<MovieEntity>
+            EntityCollection = Enumerable.Range(1, 10).Select(x => new MovieEntity
             {
-                new() 
-                { 
-                    Id = "1", 
-                    Title = "Title 1", 
-                    Language = "Malayalam", 
-                    ReleaseDate = new DateTime(2020, 8, 20),
-                    Genre = "Thriller",
-                    Rating = 4.5,
-                },
-                new() 
-                { 
-                    Id = "2", 
-                    Title = "Title 2", 
-                    Language = "Malayalam", 
-                    ReleaseDate = new DateTime(2020, 8, 20),
-                    Genre = "Drama",
-                    Rating  = 3,
-                },
-                new() 
-                { 
-                    Id = "3",
-                    Title = "SomeMovie 1", 
-                    Language = "Malayalam", 
-                    ReleaseDate = new DateTime(2020, 8, 20),
-                    Genre = "Comedy",
-                    Rating =2
-                }
-            };
+                Id = string.Format(Utils.MockIdFormat,x),
+                Title = $"{nameof(MovieEntity.Title)} {x}",
+                PlotSummary = Utils.TwoHundredCharacterString,
+                Language = "English",
+                Genre = x%2==0 ? "Drama":"Thriller",
+                Director = "Will Brown",
+                CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                ReleaseDate = Utils.Date,
+                Rating = 3,
+                TotalReviews = 27,
+            }).Concat(new MovieEntity[]
+            {
+                 new MovieEntity
+                 {
+                    Id = string.Format(Utils.MockIdFormat,1),
+                    Title = $"SomeMovie {1}",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    Language = "English",
+                    Genre ="Thriller",
+                    Director = "Will Brown",
+                    CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                    ReleaseDate = Utils.Date,
+                    Rating = 3,
+                    TotalReviews = 27,
+                 }
+            }).ToList();
+            
         }
 
         [Theory]
@@ -71,31 +71,76 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             var result = await movieService.SearchMovie(movieTitle,maxCount);
 
             Assert.Equal(expected.Count(), result.Count());
-           
+
+            foreach (var movie in result)
+            {
+                var expectedMovie = expected.Single(c => c.Id.Equals(movie.Id));
+                Assert.Equal(expectedMovie.Title, movie.Title);
+                Assert.Equal(expectedMovie.PlotSummary, movie.PlotSummary);
+                Assert.Equal(expectedMovie.Language, movie.Language);
+                Assert.Equal(expectedMovie.Director, movie.Director);
+                Assert.Equal(expectedMovie.Genre, movie.Genre);
+                Assert.Equal(expectedMovie.ReleaseDate, movie.ReleaseDate);
+                Assert.Equal(expectedMovie.Rating, movie.Rating);
+                Assert.Equal(expectedMovie.TotalReviews, movie.TotalReviews);
+                Assert.True(expectedMovie.CastAndCrew.OrderBy(x => x).SequenceEqual(movie.CastAndCrew.OrderBy(x => x)));
+            }
+
         }
 
         public static IEnumerable<object[]> CreateMovieSuccessTestData => new List<object[]>
         {
             new object[]
             {
-                 "titl",-1,new List<MovieEntity>
-                 {
-                      new() { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                      new() { Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                 }
+                 "titl",-1,
+                  Enumerable.Range(1, 10).Select(x => new MovieEntity
+                  {
+                        Id = string.Format(Utils.MockIdFormat,x),
+                        Title = $"{nameof(MovieEntity.Title)} {x}",
+                        PlotSummary = Utils.TwoHundredCharacterString,
+                        Language = "English",
+                        Genre = x%2==0 ? "Drama":"Thriller",
+                        Director = "Will Brown",
+                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                        ReleaseDate = Utils.Date,
+                        Rating = 3,
+                        TotalReviews = 27,
+                  }).ToList()
             },
             new object[]
             {
-                 "titl",1,new List<MovieEntity>
-                 {
-                      new() { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                 }
+                 "titl",5,
+                  Enumerable.Range(1, 5).Select(x => new MovieEntity
+                  {
+                        Id = string.Format(Utils.MockIdFormat,x),
+                        Title = $"{nameof(MovieEntity.Title)} {x}",
+                        PlotSummary = Utils.TwoHundredCharacterString,
+                        Language = "English",
+                        Genre = x%2==0 ? "Drama":"Thriller",
+                        Director = "Will Brown",
+                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                        ReleaseDate = Utils.Date,
+                        Rating = 3,
+                        TotalReviews = 27,
+                  }).ToList()
             },
             new object[]
             {
                  "movie",-1,new List<MovieEntity>
                  {
-                      new() { Title = "SomeMovie 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
+                     new MovieEntity
+                     {
+                        Id = string.Format(Utils.MockIdFormat,1),
+                        Title = $"SomeMovie {1}",
+                        PlotSummary = Utils.TwoHundredCharacterString,
+                        Language = "English",
+                        Genre ="Thriller",
+                        Director = "Will Brown",
+                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                        ReleaseDate = Utils.Date,
+                        Rating = 3,
+                        TotalReviews = 27,
+                     }
                  }
             },
             new object[]

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
 using Xunit;
@@ -24,12 +25,34 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new()
+            EntityCollection = Enumerable.Range(1, 10).Select(x => new MovieEntity
             {
-                new() { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                new() { Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                new() { Title = "SomeMovie 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
-            };
+                Id = string.Format(Utils.MockIdFormat, x),
+                Title = $"{nameof(MovieEntity.Title)} {x}",
+                PlotSummary = Utils.TwoHundredCharacterString,
+                Language = "English",
+                Genre = x % 2 == 0 ? "Drama" : "Thriller",
+                Director = "Will Brown",
+                CastAndCrew = new[] { "John Doe", "Jane Doe", "Jaden Doe" },
+                ReleaseDate = Utils.Date,
+                Rating = 3,
+                TotalReviews = 27,
+            }).Concat(new MovieEntity[]
+            {
+                 new MovieEntity
+                 {
+                    Id = string.Format(Utils.MockIdFormat,1),
+                    Title = $"SomeMovie {1}",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    Language = "English",
+                    Genre ="Thriller",
+                    Director = "Will Brown",
+                    CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                    ReleaseDate = Utils.Date,
+                    Rating = 3,
+                    TotalReviews = 27,
+                 }
+            }).ToList();
         }
 
         #region Http Response Code 200
@@ -59,19 +82,39 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         {
             new object[]
             {
-                new SearchMovieByTitleRequest{SearchString = "titl"}, 
-                new List<SearchMovieByTitleResponse>
+                new SearchMovieByTitleRequest{SearchString = "titl"},
+                Enumerable.Range(1, 10).Select(x => new SearchMovieByTitleResponse
                 {
-                    new SearchMovieByTitleResponse{ Title = "Title 1",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                    new SearchMovieByTitleResponse{ Title = "Title 2",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
-                }
+                    Id = string.Format(Utils.MockIdFormat,x),
+                    Title = $"{nameof(MovieEntity.Title)} {x}",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    Language = "English",
+                    Genre = x%2==0 ? "Drama":"Thriller",
+                    Director = "Will Brown",
+                    CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                    ReleaseDate = Utils.Date,
+                    Rating = 3,
+                    TotalReviews = 27,
+                }).ToList()
             },
             new object[]
             {
                 new SearchMovieByTitleRequest{SearchString = "mov" },
                 new List<SearchMovieByTitleResponse>
                 {
-                    new SearchMovieByTitleResponse{ Title = "SomeMovie 1",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
+                    new SearchMovieByTitleResponse
+                    {
+                        Id = string.Format(Utils.MockIdFormat,1),
+                        Title = $"SomeMovie {1}",
+                        PlotSummary = Utils.TwoHundredCharacterString,
+                        Language = "English",
+                        Genre ="Thriller",
+                        Director = "Will Brown",
+                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
+                        ReleaseDate = Utils.Date,
+                        Rating = 3,
+                        TotalReviews = 27,
+                    },
                 }
             }
         };
