@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Moq;
 using Nt.Application.Services.Movie;
 using Nt.Domain.Entities.Movie;
+using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
 using Nt.Infrastructure.Tests.Helpers;
+using Nt.Infrastructure.Tests.Helpers.TestData;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,6 +18,10 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 {
     public class SearchMovieByTitleTests:ServiceTestBase<MovieEntity>
     {
+        public static List<UserProfileEntity> UserCollection { get; set; } = MovieReviewCollectionHelper.UserCollection;
+        public static List<ReviewEntity> ReviewCollection { get; set; } = MovieReviewCollectionHelper.ReviewCollection;
+        public static List<MovieEntity> MovieCollection { get; set; } = MovieReviewCollectionHelper.MovieCollection;
+
         public SearchMovieByTitleTests(ITestOutputHelper output) : base(output)
         {
         }
@@ -23,50 +29,28 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = Enumerable.Range(1, 10).Select(x => new MovieEntity
-            {
-                Id = string.Format(Utils.MockIdFormat,x),
-                Title = $"{nameof(MovieEntity.Title)} {x}",
-                PlotSummary = Utils.TwoHundredCharacterString,
-                Language = "English",
-                Genre = x%2==0 ? "Drama":"Thriller",
-                Director = "Will Brown",
-                CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
-                ReleaseDate = Utils.Date,
-                Rating = 3,
-                TotalReviews = 27,
-            }).Concat(new MovieEntity[]
-            {
-                 new MovieEntity
-                 {
-                    Id = string.Format(Utils.MockIdFormat,1),
-                    Title = $"SomeMovie {1}",
-                    PlotSummary = Utils.TwoHundredCharacterString,
-                    Language = "English",
-                    Genre ="Thriller",
-                    Director = "Will Brown",
-                    CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
-                    ReleaseDate = Utils.Date,
-                    Rating = 3,
-                    TotalReviews = 27,
-                 }
-            }).ToList();
-            
+            EntityCollection = new List<MovieEntity>(MovieCollection);
+
         }
 
         [Theory]
         [Trait("Category", "Service")]
         [Trait("Type", "Movie")]
-        [MemberData(nameof(CreateMovieSuccessTestData))]
-        public async Task CreateMovieSuccessTest(string movieTitle,int maxCount, IEnumerable<MovieEntity> expected)
+        [MemberData(nameof(SearchMovieSuccessTestData))]
+        public async Task SearchMovieSuccessTest(string movieTitle,int maxCount, IEnumerable<MovieEntity> expected)
         {
             var mockMovieRepository = new Mock<IMovieRepository>();
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()))
                  .Returns(Task.FromResult(EntityCollection.Where(x => (x.Title.ToLower().Contains(movieTitle.ToLower())
                                                            || x.Title.ToLower().StartsWith(movieTitle.ToLower())))));
 
+            var mockReviewRepository = new Mock<IReviewRepository>();
+            mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()))
+                .Returns((Expression<Func<ReviewEntity, bool>> a) => Task.FromResult(ReviewCollection.Where(a.Compile())));
+
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.SetupGet(x => x.MovieRepository).Returns(mockMovieRepository.Object);
+            mockUnitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
             var movieService = new MovieService(mockUnitOfWork.Object);
             var result = await movieService.SearchMovie(movieTitle,maxCount);
 
@@ -88,60 +72,21 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 
         }
 
-        public static IEnumerable<object[]> CreateMovieSuccessTestData => new List<object[]>
+        public static IEnumerable<object[]> SearchMovieSuccessTestData => new List<object[]>
         {
             new object[]
             {
                  "titl",-1,
-                  Enumerable.Range(1, 10).Select(x => new MovieEntity
-                  {
-                        Id = string.Format(Utils.MockIdFormat,x),
-                        Title = $"{nameof(MovieEntity.Title)} {x}",
-                        PlotSummary = Utils.TwoHundredCharacterString,
-                        Language = "English",
-                        Genre = x%2==0 ? "Drama":"Thriller",
-                        Director = "Will Brown",
-                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
-                        ReleaseDate = Utils.Date,
-                        Rating = 3,
-                        TotalReviews = 27,
-                  }).ToList()
+                  MovieReviewCollectionHelper.GetMovies("titl")
             },
             new object[]
             {
                  "titl",5,
-                  Enumerable.Range(1, 5).Select(x => new MovieEntity
-                  {
-                        Id = string.Format(Utils.MockIdFormat,x),
-                        Title = $"{nameof(MovieEntity.Title)} {x}",
-                        PlotSummary = Utils.TwoHundredCharacterString,
-                        Language = "English",
-                        Genre = x%2==0 ? "Drama":"Thriller",
-                        Director = "Will Brown",
-                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
-                        ReleaseDate = Utils.Date,
-                        Rating = 3,
-                        TotalReviews = 27,
-                  }).ToList()
+                  MovieReviewCollectionHelper.GetMovies("titl").Take(5)
             },
             new object[]
             {
-                 "movie",-1,new List<MovieEntity>
-                 {
-                     new MovieEntity
-                     {
-                        Id = string.Format(Utils.MockIdFormat,1),
-                        Title = $"SomeMovie {1}",
-                        PlotSummary = Utils.TwoHundredCharacterString,
-                        Language = "English",
-                        Genre ="Thriller",
-                        Director = "Will Brown",
-                        CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
-                        ReleaseDate = Utils.Date,
-                        Rating = 3,
-                        TotalReviews = 27,
-                     }
-                 }
+                 "movie",-1,MovieReviewCollectionHelper.GetMovies("movie")
             },
             new object[]
             {

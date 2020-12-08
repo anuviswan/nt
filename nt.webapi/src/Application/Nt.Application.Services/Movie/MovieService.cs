@@ -81,15 +81,23 @@ namespace Nt.Application.Services.Movie
             }
         }
 
-        public async Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount = -1)
+        public async Task<List<MovieEntity>> SearchMovie(string partialTitle,int maxCount = -1)
         {
-            if(string.IsNullOrEmpty(partialTitle))
-            {
-                return await Task.FromResult(Enumerable.Empty<MovieEntity>());
-            }
+            if (string.IsNullOrEmpty(partialTitle))
+                return Enumerable.Empty<MovieEntity>().ToList();
 
             var result = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Contains(partialTitle.ToLower()));
-            return maxCount == -1 ? result : result.Take(maxCount);
+            var resultCollection = new List<MovieEntity>();
+            foreach (var movieItem in (maxCount==-1?result:result.Take(maxCount)))
+            {
+                var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => Equals(x.MovieId, movieItem.Id));
+                resultCollection.Add(movieItem with
+                {
+                    TotalReviews = reviews.Count(),
+                    Rating = reviews.Any() ? reviews.Average(x => x.Rating) : 0
+                });
+            }
+            return resultCollection;
         }
        
     }

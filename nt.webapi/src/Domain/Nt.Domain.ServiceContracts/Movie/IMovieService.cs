@@ -9,6 +9,6 @@ namespace Nt.Domain.ServiceContracts.Movie
     {
         Task<MovieEntity> CreateAsync(MovieEntity movie);
         Task<MovieReviewDto> GetOne(string movieId);
-        Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount=-1);
+        Task<List<MovieEntity>> SearchMovie(string partialTitle, int maxCount = -1);
     }
 }

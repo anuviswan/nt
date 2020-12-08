@@ -28,7 +28,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             base.InitializeCollection();
             EntityCollection = Enumerable.Range(1, 3).Select(x => new MovieEntity
             {
-                Id = string.Format(Utils.MockIdFormat,x),
+                Id = string.Format(Utils.MockMovieIdFormat,x),
                 Title = $"Movie Sample {x}",
                 PlotSummary = Utils.TwoHundredCharacterString,
                 Language = "English",
@@ -79,7 +79,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                  },
                  new MovieEntity 
                  {
-                     Id = string.Format(Utils.MockIdFormat,99),
+                     Id = string.Format(Utils.MockMovieIdFormat,99),
                      Title = "Movie Sample 1",
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate, 
@@ -105,7 +105,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                  },
                  new MovieEntity
                  {
-                     Id = string.Format(Utils.MockIdFormat,99),
+                     Id = string.Format(Utils.MockMovieIdFormat,99),
                      Title = "Movie Sample 1",
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate.AddYears(-1),
@@ -130,7 +130,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
                  },
                  new MovieEntity
                  {
-                     Id = string.Format(Utils.MockIdFormat,99),
+                     Id = string.Format(Utils.MockMovieIdFormat,99),
                      Title = "Movie Sample 1",
                      PlotSummary = Utils.TwoHundredCharacterString,
                      ReleaseDate = ReleaseDate,
