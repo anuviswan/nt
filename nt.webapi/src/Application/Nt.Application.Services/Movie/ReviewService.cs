@@ -20,10 +20,9 @@ namespace Nt.Application.Services.Movie
         {
             var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == authorUserName.ToLower() && x.IsDeleted == false);
             var userID = user.Single().Id;
-            review = new ReviewEntity() with { AuthorId = userID };
 
             var existingReview = await UnitOfWork.ReviewRepository
-                .GetAsync(x => x.MovieId == review.MovieId && x.AuthorId == review.AuthorId)
+                .GetAsync(x => x.MovieId == review.MovieId && x.AuthorId == userID)
                 .ConfigureAwait(false);
 
             if (existingReview.Any())
@@ -31,7 +30,7 @@ namespace Nt.Application.Services.Movie
                 throw new EntityAlreadyExistException();
             }
 
-            var result = await UnitOfWork.ReviewRepository.CreateAsync(review).ConfigureAwait(false);
+            var result = await UnitOfWork.ReviewRepository.CreateAsync(review with { AuthorId = userID }).ConfigureAwait(false);
             return result;
         }
     }
