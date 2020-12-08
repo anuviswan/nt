@@ -50,6 +50,7 @@
                     animate="true"
                     show-rating="false"
                     text-class="invisible"
+                    v-model="currentRating"
                   />
                 </div>
 

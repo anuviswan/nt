@@ -23,35 +23,36 @@
             </div>
             <div class="card-text text-left">
               <br />
-              This is a mock plot of the movie, which would be displayed in the
-              movie card
+              {{ this.plotSummary }}
             </div>
           </div>
           <!-- Second Column -->
           <div class="col-3">
             <div class="card-text text-left">
-              Genre : Sci-fi
-            </div>
-            <div class="card-text text-left">
               Released On : {{ getFormattedDate(new Date(this.releaseDate)) }}
             </div>
             <div class="card-text text-left">
+              Director : {{ this.director }}
+            </div>
+            <div class="card-text text-left">
               <Star-rating
-                inline="true"
-                star-size="15"
-                read-only="true"
-                :rating="ratings"
-                animate="true"
-                show-rating="false"
+                v-bind:inline="true"
+                v-bind:star-size="15"
+                v-bind:read-only="true"
+                v-bind:fixed-points="1"
+                v-bind:increment="0.5"
+                v-model="rating"
+                v-bind:animate="true"
+                v-bind:show-rating="false"
                 text-class="invisible"
               /><span class="small font-italic"
-                >({{ this.numberOfReviews }} reviews)</span
+                >({{ this.totalReviews }} reviews)</span
               >
             </div>
           </div>
           <!-- Third Column -->
           <div class="col-3">
-            <p><a href="#" class="btn btn-primary">See Reviews</a></p>
+            <p><a href="#" class="btn btn-primary">All Reviews</a></p>
             <p>
               <router-link
                 v-bind:to="`/p/movie/addreview/${this.Id}`"
@@ -93,11 +94,13 @@ export default {
       title: "Default Title",
       language: "Default Language",
       releaseDate: new Date(),
-      ratings: 4,
+      rating: 4,
       genre: "Thriller",
       tags: ["John Doe", "Jia Anu", "Naina Anu"],
       movieMeta: { m: "s" },
-      numberOfReviews: 43,
+      totalReviews: 43,
+      plotSummary: "",
+      director: "",
     };
   },
   created() {
@@ -105,7 +108,12 @@ export default {
     this.title = this.movie.title;
     this.language = this.movie.language;
     this.releaseDate = new Date(this.movie.releaseDate);
-
+    this.plotSummary = this.movie.plotSummary;
+    this.totalReviews = this.movie.totalReviews;
+    this.rating = this.movie.rating;
+    this.genre = this.movie.genre;
+    this.tags = this.movie.castAndCrew;
+    this.director = this.movie.director;
     console.log(this.movie);
   },
   methods: {
@@ -117,7 +125,7 @@ export default {
         .toString()
         .padStart(2, "0");
 
-      return month + "/" + day + "/" + year;
+      return day + "/" + month + "/" + year;
     },
   },
 };
