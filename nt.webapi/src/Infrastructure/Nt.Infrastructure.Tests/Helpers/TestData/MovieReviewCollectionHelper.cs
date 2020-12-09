@@ -141,6 +141,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                                                                    Title = review.ReviewTitle,
                                                                    DownvotedBy = review.DownVotedBy,
                                                                    UpvotedBy = review.UpVotedBy,
+                                                                   Rating = review.Rating,
                                                                    Author = UserCollection.Where(user => user.Id == review.AuthorId)
                                                                                            .Select(user => new UserDto
                                                                                            {
