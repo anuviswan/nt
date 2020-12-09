@@ -20,9 +20,10 @@ namespace Nt.Domain.Entities.Movie
         [BsonElement("genre")]
         public string Genre { get; init; }
         public double Rating { get; init; }
+        public int TotalReviews { get; init; }
         [BsonElement("directorName")]
         public string Director { get; init; }
         [BsonElement("actors")]
-        public List<string> Actors { get; init; }
+        public IEnumerable<string> CastAndCrew { get; init; }
     }
 }

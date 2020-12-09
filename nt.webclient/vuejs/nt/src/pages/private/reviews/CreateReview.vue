@@ -46,10 +46,11 @@
 
                 <div class="form-group">
                   <Star-rating
-                    star-size="25"
-                    animate="true"
-                    show-rating="false"
+                    v-bind:star-size="25"
+                    v-bind:animate="true"
+                    v-bind:show-rating="false"
                     text-class="invisible"
+                    v-model="currentRating"
                   />
                 </div>
 
@@ -94,6 +95,7 @@ export default {
         rating: 4,
         language: "",
         plotSummary: "Sample plot summary",
+        totalReviews: 0,
       },
       reviewTitle: "",
       reviewDescription: "",
@@ -101,6 +103,7 @@ export default {
       serverMessage: [],
       hasServerError: false,
       currentRating: 4,
+      existingReviews: [],
     };
   },
   methods: {
@@ -165,12 +168,22 @@ export default {
       return;
     }
 
+    console.log("heere");
     console.log(response.data);
 
     this.movie.title = response.data.title;
     this.movie.language = response.data.language;
     this.movie.release = response.data.releaseDate;
     this.movie.plotSummary = response.data.plotSummary;
+    this.movie.totalReviews = response.data.reviews.length;
+    this.existingReviews = response.data.reviews;
+
+    let sum = 0;
+    this.existingReviews.forEach((item) => (sum += item.rating));
+    this.movie.rating = sum / this.movie.totalReviews;
+    console.log("sum");
+    console.log(this.existingReviews);
+    console.log(sum);
   },
 };
 </script>

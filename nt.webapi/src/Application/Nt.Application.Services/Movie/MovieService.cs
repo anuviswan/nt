@@ -31,7 +31,7 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public async Task<MovieDetailedDto> GetOne(string movieId)
+        public async Task<MovieReviewDto> GetOne(string movieId)
         {
             var movies = await UnitOfWork.MovieRepository.GetAsync(x => x.Id == movieId);
 
@@ -43,13 +43,13 @@ namespace Nt.Application.Services.Movie
             };
 
 
-            async Task<MovieDetailedDto> _(IEnumerable<MovieEntity> movieResult)
+            async Task<MovieReviewDto> _(IEnumerable<MovieEntity> movieResult)
             {
                 var movie = movieResult.Single();
                 var movieId = movie.Id;
                 var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movie.Id);
 
-                var movieDetailed = new MovieDetailedDto
+                var movieDetailed = new MovieReviewDto
                 {
                     Id = movie.Id,
                     Title = movie.Title,
@@ -57,37 +57,48 @@ namespace Nt.Application.Services.Movie
                     Director = movie.Director,
                     Language = movie.Language,
                     ReleaseDate = movie.ReleaseDate,
-                    Actors = movie.Actors
+                    CastAndCrew = movie.CastAndCrew
                 };
+
+                var reviewCollection = new List<ReviewDto>();
                 foreach (var review in reviews)
                 {
                     var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)
                         .ContinueWith((users) => users.Result.Single());
 
-                    movieDetailed.Reviews.Add(new ReviewDto
+                    reviewCollection.Add(new ReviewDto
                     {
                         Author = new UserDto { Id = user.Id, DisplayName = user.DisplayName, UserName = user.UserName },
                         Description = review.ReviewDescription,
                         Id = review.Id,
                         Title = review.ReviewTitle,
                         DownvotedBy = review.DownVotedBy,
-                        UpvotedBy = review.UpVotedBy
+                        UpvotedBy = review.UpVotedBy,
+                        Rating = review.Rating
                     });
                 }
 
-                return movieDetailed;
+                return movieDetailed with { Reviews = reviewCollection };
             }
         }
 
-        public async Task<IEnumerable<MovieEntity>> SearchMovie(string partialTitle,int maxCount = -1)
+        public async Task<List<MovieEntity>> SearchMovie(string partialTitle,int maxCount = -1)
         {
-            if(string.IsNullOrEmpty(partialTitle))
-            {
-                return await Task.FromResult(Enumerable.Empty<MovieEntity>());
-            }
+            if (string.IsNullOrEmpty(partialTitle))
+                return Enumerable.Empty<MovieEntity>().ToList();
 
             var result = await UnitOfWork.MovieRepository.GetAsync(x => x.Title.ToLower().Contains(partialTitle.ToLower()));
-            return maxCount == -1 ? result : result.Take(maxCount);
+            var resultCollection = new List<MovieEntity>();
+            foreach (var movieItem in (maxCount==-1?result:result.Take(maxCount)))
+            {
+                var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => Equals(x.MovieId, movieItem.Id));
+                resultCollection.Add(movieItem with
+                {
+                    TotalReviews = reviews.Count(),
+                    Rating = reviews.Any() ? reviews.Average(x => x.Rating) : 0
+                });
+            }
+            return resultCollection;
         }
        
     }

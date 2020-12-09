@@ -45,6 +45,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
         }
 
         [Theory]
+        [Trait("Category", "Service")]
+        [Trait("Type", "Review")]
         [MemberData(nameof(CreateReviewSuccessTestData))]
         public async Task CreateReviewSuccessTest(ReviewEntity reviewEntity,string authorUserName,ReviewEntity expected)
         {
@@ -152,6 +154,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
 
         [Theory]
+        [Trait("Category", "Service")]
+        [Trait("Type", "Review")]
         [MemberData(nameof(CreateReviewFailureTestData))]
         public async Task CreateReviewFailureTest(ReviewEntity reviewEntity,string authorUserName)
         {

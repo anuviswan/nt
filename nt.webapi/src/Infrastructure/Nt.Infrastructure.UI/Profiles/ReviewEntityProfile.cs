@@ -21,7 +21,9 @@ namespace Nt.Infrastructure.WebApi.Profiles
 
         protected override void ToEntity()
         {
-            CreateMap<CreateReviewRequest, ReviewEntity>();
+            CreateMap<CreateReviewRequest, ReviewEntity>()
+                .ForMember(x => x.ReviewTitle, opt => opt.MapFrom(c => c.Title))
+                .ForMember(x => x.ReviewDescription, opt => opt.MapFrom(c=>c.Description));
         }
     }
 }

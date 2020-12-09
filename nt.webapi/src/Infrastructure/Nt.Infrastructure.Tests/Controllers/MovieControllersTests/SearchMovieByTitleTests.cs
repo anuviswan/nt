@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Domain.Entities.Movie;
+using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers.TestData;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
 using Xunit;
@@ -16,32 +17,33 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 {
     public class SearchMovieByTitleTests : ControllerTestBase<MovieEntity>
     {
+
         public SearchMovieByTitleTests(ITestOutputHelper output) : base(output)
         {
 
         }
 
+        public static List<UserProfileEntity> UserCollection { get; set; } = MovieReviewCollectionHelper.UserCollection;
+        public static List<ReviewEntity> ReviewCollection { get; set; } = MovieReviewCollectionHelper.ReviewCollection;
+        public static List<MovieEntity> MovieCollection { get; set; } = MovieReviewCollectionHelper.MovieCollection;
+
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new()
-            {
-                new() { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                new() { Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                new() { Title = "SomeMovie 1", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
-            };
+            EntityCollection = new List<MovieEntity>(MovieCollection);
         }
 
         #region Http Response Code 200
 
         [Theory]
         [MemberData(nameof(SearchMovieByTitle_200_TestData))]
-        public async Task SearchMovieByTitle_200(SearchMovieByTitleRequest request,IEnumerable<SearchMovieByTitleResponse> expectedOutput)
+        public async Task SearchMovieByTitle_200(SearchMovieByTitleRequest request,IEnumerable<MovieEntity> expectedOutput)
         {
             // Arrange
+            var expectedResponse = Mapper.Map<IEnumerable<SearchMovieByTitleResponse>>(expectedOutput);
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.SearchMovie(It.IsAny<string>(),It.IsAny<int>()))
-                .Returns(Task.FromResult(EntityCollection.Where(x=>x.Title.Contains(request.SearchString,StringComparison.OrdinalIgnoreCase))));
+                .Returns(Task.FromResult(EntityCollection.Where(x=>x.Title.Contains(request.SearchString,StringComparison.OrdinalIgnoreCase)).ToList()));
 
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
@@ -51,28 +53,22 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             // Assert
             var okResponse = Assert.IsType<OkObjectResult>(response.Result);
             var result = Assert.IsAssignableFrom<IEnumerable<SearchMovieByTitleResponse>>(okResponse.Value);
-            Assert.Equal(expectedOutput.Count(), result.Count());
-            Assert.Equal(expectedOutput.Select(x=>x.Title), result.Select(x => x.Title));
+            Assert.Equal(expectedResponse.Count(), result.Count());
+            Assert.Equal(expectedResponse.Select(x=>x.Title), result.Select(x => x.Title));
+            Assert.Equal(expectedResponse.Select(x => x.PlotSummary), result.Select(x => x.PlotSummary));
         }
 
         public static IEnumerable<object[]> SearchMovieByTitle_200_TestData => new List<object[]>
         {
             new object[]
             {
-                new SearchMovieByTitleRequest{SearchString = "titl"}, 
-                new List<SearchMovieByTitleResponse>
-                {
-                    new SearchMovieByTitleResponse{ Title = "Title 1",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                    new SearchMovieByTitleResponse{ Title = "Title 2",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
-                }
+                new SearchMovieByTitleRequest{SearchString = "title"},
+                MovieReviewCollectionHelper.GetMovies("title")
             },
             new object[]
             {
                 new SearchMovieByTitleRequest{SearchString = "mov" },
-                new List<SearchMovieByTitleResponse>
-                {
-                    new SearchMovieByTitleResponse{ Title = "SomeMovie 1",Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                }
+                MovieReviewCollectionHelper.GetMovies("mov")
             }
         };
         #endregion
@@ -86,7 +82,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             // Arrange
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.SearchMovie(It.IsAny<string>(), It.IsAny<int>()))
-                .Returns(Task.FromResult(EntityCollection.Where(x => x.Title.Contains(request.SearchString, StringComparison.OrdinalIgnoreCase))));
+                .Returns(Task.FromResult(EntityCollection.Where(x => request?.SearchString == null ? false: x.Title.Contains(request.SearchString, StringComparison.OrdinalIgnoreCase)).ToList()));
 
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);

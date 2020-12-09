@@ -1,26 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
-using Nt.Infrastructure.WebApi.ViewModels.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 {
     public class CreateMovieTests : ControllerTestBase<MovieEntity>
     {
+        private static readonly DateTime ReleaseDate = new DateTime(2020, 8, 20);
         public CreateMovieTests(ITestOutputHelper output) : base(output)
         {
         }
@@ -28,11 +25,17 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new ()
+            EntityCollection = Enumerable.Range(1, 3).Select(x => new MovieEntity
             {
-                new(){ Title = "Title 1", Language ="Malayalam", ReleaseDate = new DateTime(2020, 8, 20) },
-                new(){ Title = "Title 2", Language = "Malayalam", ReleaseDate = new DateTime(2020, 8, 20) }
-            };
+                Id = string.Format(Utils.MockMovieIdFormat, x),
+                Title = $"Movie Sample {x}",
+                PlotSummary = Utils.TwoHundredCharacterString,
+                Language = "English",
+                ReleaseDate = ReleaseDate,
+                CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                Director = "Stephen Brown",
+                Genre = "Drama",
+            }).ToList();
 
         }
 
@@ -42,9 +45,10 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         public async Task CreateMovieTest_ResponseStatus_200(CreateMovieRequest request, CreateMovieResponse expectedResult)
         {
             // Arrange
-            var expectedMovieEntity = Mapper.Map<MovieEntity>(request);
+            var expectedMovieEntity = Mapper.Map<MovieEntity>(expectedResult);
             var mockMovieService = new Mock<IMovieService>();
-            mockMovieService.Setup(x => x.CreateAsync(It.IsAny<MovieEntity>())).Returns(Task.FromResult(expectedMovieEntity));
+            mockMovieService.Setup(x => x.CreateAsync(It.IsAny<MovieEntity>()))
+                .Returns(Task.FromResult(expectedMovieEntity));
 
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
@@ -54,9 +58,15 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             // Assert
             var okObjectResponse = Assert.IsType<OkObjectResult>(response.Result);
             var movieResponse = Assert.IsType<CreateMovieResponse>(okObjectResponse.Value);
+
+            Assert.Equal(expectedResult.Id, movieResponse.Id);
             Assert.Equal(expectedResult.Title, movieResponse.Title);
+            Assert.Equal(expectedResult.PlotSummary, movieResponse.PlotSummary);
             Assert.Equal(expectedResult.Language, movieResponse.Language);
             Assert.Equal(expectedResult.ReleaseDate, movieResponse.ReleaseDate);
+            Assert.Equal(expectedResult.Genre, movieResponse.Genre);
+            Assert.Equal(expectedResult.Director, movieResponse.Director);
+            Assert.True(expectedResult.CastAndCrew.SequenceEqual(movieResponse.CastAndCrew));
         }
 
 
@@ -64,18 +74,78 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         {
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 3", Language="Malayalam", ReleaseDate = new DateTime(2020,8,20)},
-                new CreateMovieResponse { Title = "Title 3", Language = "Malayalam", ReleaseDate = new DateTime(2020,8,20)}
+                 new CreateMovieRequest
+                 {
+                     Title = "Movie Sample 10",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "English",
+                     CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 },
+                 new CreateMovieResponse
+                 {
+                     Id = string.Format(Utils.MockMovieIdFormat,99),
+                     Title = "Movie Sample 10",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "English",
+                     CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 }
+
             },
+            // Existing Movie name, different year of release
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="English", ReleaseDate =new DateTime(2020,8,20)  },
-                new CreateMovieResponse { Title = "Title 1", Language = "English", ReleaseDate = new DateTime(2020,8,20)  }
+                 new CreateMovieRequest
+                 {
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate.AddYears(-1),
+                     Language = "English",
+                     CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 },
+                 new CreateMovieResponse
+                 {
+                     Id = string.Format(Utils.MockMovieIdFormat,99),
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate.AddYears(-1),
+                     Language = "English",
+                     CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 }
             },
+            // Existing Movie name, different language
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate =new DateTime(2019,8,20)  },
-                new CreateMovieResponse { Title = "Title 1", Language = "Malayalam", ReleaseDate = new DateTime(2019,8,20)   }
+                 new CreateMovieRequest
+                 {
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "Spanish",
+                     CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 },
+                 new CreateMovieResponse
+                 {
+                     Id = string.Format(Utils.MockMovieIdFormat,99),
+                     Title = "Movie Sample 1",
+                     PlotSummary = Utils.TwoHundredCharacterString,
+                     ReleaseDate = ReleaseDate,
+                     Language = "Spanish",
+                     CastAndCrew = new List<string> { "John Doe", "Jane Doe", "Jaden Doe" },
+                     Genre = "Drama",
+                     Director = "Will Brown"
+                 }
             },
         };
         #endregion
@@ -106,10 +176,37 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             {
                 new CreateMovieRequest ()
             },
-            new object[]
-            {
-                new CreateMovieRequest { Title = "Title 1" }
-            }
+            //new object[]
+            //{
+            //    new CreateMovieRequest { Title = "Title 1" }
+            //},
+            //new object[]
+            //{
+            //    new CreateMovieRequest 
+            //    { 
+            //        Title = "Title 1",
+            //        PlotSummary = Utils.TwoHundredCharacterString,
+            //    }
+            //},
+            //new object[]
+            //{
+            //    new CreateMovieRequest
+            //    {
+            //        Title = "Title 1",
+            //        PlotSummary = Utils.TwoHundredCharacterString,
+            //        Language = "English"
+            //    }
+            //},
+            //new object[]
+            //{
+            //    new CreateMovieRequest
+            //    {
+            //        Title = "Title 1",
+            //        PlotSummary = Utils.TwoHundredCharacterString,
+            //        Language = "English",
+            //        ReleaseDate = ReleaseDate
+            //    }
+            //}
         };
         #endregion
 
@@ -138,18 +235,19 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         {
             new object[]
             {
-                new CreateMovieRequest { Title = "Title 1", Language="Malayalam", ReleaseDate = DateTime.Now  }
+                new CreateMovieRequest
+                {
+                    Title = "Movie Sample 1",
+                    PlotSummary = Utils.TwoHundredCharacterString,
+                    ReleaseDate = ReleaseDate,
+                    Language = "English",
+                    CastAndCrew = new List<string>{ "Actor 1", "Actor 2" },
+                    Genre = "Drama",
+                    Director = "Will Brown"
+                }
             }
         };
         #endregion
-
-        #region Http Status Response 409
-        #endregion
-
-
-
-
-
-
+                
     }
 }
