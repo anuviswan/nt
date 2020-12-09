@@ -11,6 +11,6 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review
         [Required(ErrorMessage = "Description cannot be empty")]
         [MaxLength(200, ErrorMessage = "Review cannot be more than 200 characters")]
         public string Description { get; init; }
-        public int Rating { get; init; }
+        public double Rating { get; init; }
     }
 }

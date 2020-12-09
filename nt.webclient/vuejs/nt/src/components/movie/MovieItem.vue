@@ -11,16 +11,16 @@
               </h5>
               <div class="card-text text-left">
                 <Star-rating
-                  inline="true"
-                  star-size="15"
-                  read-only="true"
-                  :rating="ratings"
-                  animate="true"
-                  show-rating="false"
+                  v-bind:inline="true"
+                  v-bind:star-size="15"
+                  v-bind:read-only="true"
+                  v-model="rating"
+                  v-bind:animate="true"
+                  v-bind:show-rating="false"
                   text-class="invisible"
                 />
                 <span class="small font-italic"
-                  >({{ this.numberOfReviews }} reviews)</span
+                  >({{ this.totalReviews }} reviews)</span
                 >
               </div>
             </div>
@@ -74,10 +74,10 @@ export default {
       title: "Default Title",
       language: "Default Language",
       releaseDate: new Date(),
-      ratings: 4,
+      rating: 4,
       genre: "Thriller",
       tags: ["John Doe", "Jia Anu", "Naina Anu"],
-      numberOfReviews: 4,
+      totalReviews: 4,
       plotSummary: "",
     };
   },
@@ -87,8 +87,8 @@ export default {
     this.language = this.movie.language;
     this.releaseDate = new Date(this.movie.releaseDate);
     this.plotSummary = this.movie.plotSummary;
-
-    console.log("reloaded");
+    this.totalReviews = this.movie.totalReviews;
+    this.rating = this.movie.rating;
     console.log(this.movie);
   },
   methods: {

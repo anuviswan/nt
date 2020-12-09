@@ -64,6 +64,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
             Assert.Equal(expectedResult.Reviews, result.Reviews);
 
+
             Assert.Equal(expectedResult.Rating, result.Rating);
         }
 

@@ -73,7 +73,8 @@ namespace Nt.Application.Services.Movie
                         Id = review.Id,
                         Title = review.ReviewTitle,
                         DownvotedBy = review.DownVotedBy,
-                        UpvotedBy = review.UpVotedBy
+                        UpvotedBy = review.UpVotedBy,
+                        Rating = review.Rating
                     });
                 }
 

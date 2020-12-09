@@ -55,6 +55,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             var result = Assert.IsAssignableFrom<IEnumerable<SearchMovieByTitleResponse>>(okResponse.Value);
             Assert.Equal(expectedResponse.Count(), result.Count());
             Assert.Equal(expectedResponse.Select(x=>x.Title), result.Select(x => x.Title));
+            Assert.Equal(expectedResponse.Select(x => x.PlotSummary), result.Select(x => x.PlotSummary));
         }
 
         public static IEnumerable<object[]> SearchMovieByTitle_200_TestData => new List<object[]>
