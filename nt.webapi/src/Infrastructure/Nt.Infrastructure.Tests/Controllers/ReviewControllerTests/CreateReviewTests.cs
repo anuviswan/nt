@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
 using Xunit;
@@ -39,6 +40,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
         #region Http Response 204
         [Theory]
         [MemberData(nameof(CreateReviewSuccessTestData))]
+        [ControllerTest(nameof(ReviewController)), Feature]
         public async Task CreateReviewSuccessTest(CreateReviewRequest request)
         {
             // Arrange
@@ -83,6 +85,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
         #region Http Response 400
         [Theory]
         [MemberData(nameof(CreateReviewFailedTestData))]
+        [ControllerTest(nameof(ReviewController)), Feature]
         public async Task CreateReviewFailedTest(CreateReviewRequest request)
         {
             // Arrange

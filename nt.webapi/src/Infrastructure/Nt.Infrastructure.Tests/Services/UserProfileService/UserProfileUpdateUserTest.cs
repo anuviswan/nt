@@ -4,6 +4,7 @@ using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
 
         [Theory]
         [MemberData(nameof(UpdateUserTestData))]
+        [ServiceTest(nameof(UserProfileService)), Feature]
         public async Task UpdateUserTest(UserProfileEntity request,bool expectedResult)
         {
             var mockUserManagementService = new Mock<IUserManagementService>();
@@ -68,9 +70,6 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileService
             new object[]{new UserProfileEntity{UserName="AnuViswan2",Bio="Bio"},false},
             new object[]{new UserProfileEntity{UserName="anuviswan",Bio="Bio"},true }
         };
-
-
-        
 
     }
 }

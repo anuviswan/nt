@@ -4,6 +4,7 @@ using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 204
         [Theory]
         [MemberData(nameof(ChangePassword_ResponseStatus_204_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task ChangePassword_ResponseStatus_204(ChangePasswordRequest request)
         { 
             // Arrange
@@ -60,6 +62,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 400
         [Theory]
         [MemberData(nameof(ChangePassword_ResponseStatus_400_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task ChangePassword_ResponseStatus_400(ChangePasswordRequest request)
         {
             // Arrange
@@ -92,10 +95,6 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             new object[]{new ChangePasswordRequest { OldPassword = "WrongPassword", NewPassword = "SampleNew" }},
         };
         #endregion
-
-
-
-
-        
+                
     }
 }

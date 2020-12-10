@@ -2,6 +2,7 @@
 using Moq;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
 using System;
@@ -33,6 +34,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         #region Status Code 200
         [Fact]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task GetAll_ResponseStatus_200()
         {
             // Arrange

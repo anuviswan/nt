@@ -10,6 +10,7 @@ using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
 using Nt.Infrastructure.Tests.Helpers;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.Tests.Helpers.TestData;
 using Xunit;
 using Xunit.Abstractions;
@@ -34,8 +35,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         }
 
         [Theory]
-        [Trait("Category", "Service")]
-        [Trait("Type", "Movie")]
+        [ServiceTest(nameof(MovieService)), Feature]
         [MemberData(nameof(SearchMovieSuccessTestData))]
         public async Task SearchMovieSuccessTest(string movieTitle,int maxCount, IEnumerable<MovieEntity> expected)
         {

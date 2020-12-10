@@ -5,6 +5,7 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 
         [Theory]
         [MemberData(nameof(AuthenticationFailureTestData))]
+        [ServiceTest(nameof(UserProfileService)), Feature]
         public async Task AuthenticationFailureTest(UserProfileEntity userProfile)
         {
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();
@@ -60,6 +62,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 
         [Theory]
         [MemberData(nameof(AuthenticationSuccessTestData))]
+        [ServiceTest(nameof(UserProfileService)), Feature]
         public async Task AuthenticationSuccessTest(UserProfileEntity userProfile)
         {
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();

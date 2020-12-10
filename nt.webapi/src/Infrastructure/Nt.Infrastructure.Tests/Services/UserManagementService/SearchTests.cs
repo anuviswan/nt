@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Linq.Expressions;
 using Xunit.Abstractions;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 
 namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
 {
@@ -33,6 +34,7 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
         }
         [Theory]
         [MemberData(nameof(SearchUserTestData))]
+        [ServiceTest(nameof(UserManagementService)), Feature]
         public async Task SearchUser(string userName, IEnumerable<string> expectedOutput)
         {
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();

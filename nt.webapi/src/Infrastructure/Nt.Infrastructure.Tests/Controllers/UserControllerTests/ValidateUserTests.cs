@@ -4,6 +4,7 @@ using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Authentication;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.Profiles;
@@ -40,6 +41,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 400
         [Theory]
         [MemberData(nameof(ValidateUser_ResponseStatus_200_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task ValidateUser_ResponseStatus_200(LoginRequest loginRequest, LoginResponse expectedResult)
         {
             // Arrange
@@ -78,6 +80,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 400
         [Theory]
         [MemberData(nameof(ValidateUser_ResponseStatus_400_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task ValidateUser_ResponseStatus_400(LoginRequest loginRequest, string expectedErrorMessage)
         {
             // Arrange
@@ -110,10 +113,6 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
              }
         };
         #endregion
-
-
-
-
 
     }
 }

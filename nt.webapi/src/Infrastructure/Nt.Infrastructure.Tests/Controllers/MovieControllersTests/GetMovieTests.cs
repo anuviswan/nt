@@ -8,6 +8,7 @@ using Nt.Domain.Entities.Movie;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.Tests.Helpers;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.Tests.Helpers.TestData;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie;
@@ -39,6 +40,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         [Theory]
         [MemberData(nameof(GetMovie_200_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task GetMovie_200(string movieId,MovieReviewDto expectedMovie)
         {
             // Arrange
@@ -88,6 +90,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         [Theory]
         [MemberData(nameof(GetMovie_400_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task GetMovie_400(string movieId)
         {
             // Arrange
@@ -111,11 +114,5 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         };
 
         #endregion
-
-
-        
-
-
-
     }
 }

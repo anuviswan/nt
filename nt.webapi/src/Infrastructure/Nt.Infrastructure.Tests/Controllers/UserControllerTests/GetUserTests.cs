@@ -3,6 +3,7 @@ using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
 using Nt.Infrastructure.WebApi.ViewModels.Common;
@@ -42,6 +43,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region ResponseStatus 200
         [Theory]
         [MemberData(nameof(GetUser_ResponseStatus_200_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task GetUser_ResponseStatus_200(string userName, UserProfileResponse expectedOutput)
         {
             // Arrange
@@ -69,6 +71,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region ResponseStatus 400
         [Theory]
         [MemberData(nameof(GetUser_ResponseStatus_400_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task GetUser_ResponseStatus_400(string userName)
         {
             // Arrange
@@ -91,6 +94,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Invalid Cases
         [Theory]
         [MemberData(nameof(GetUser_InvalidCasesTestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task GetUser_InvalidCases(string userName)
         {
             // Arrange

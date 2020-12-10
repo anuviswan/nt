@@ -8,6 +8,7 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.Tests.Helpers;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.CreateMovie;
 using Xunit;
@@ -42,6 +43,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         #region Http Status Response 200
         [Theory]
         [MemberData(nameof(CreateMovieTest_ResponseStatus_200_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task CreateMovieTest_ResponseStatus_200(CreateMovieRequest request, CreateMovieResponse expectedResult)
         {
             // Arrange
@@ -68,7 +70,6 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             Assert.Equal(expectedResult.Director, movieResponse.Director);
             Assert.True(expectedResult.CastAndCrew.SequenceEqual(movieResponse.CastAndCrew));
         }
-
 
         public static IEnumerable<object[]> CreateMovieTest_ResponseStatus_200_TestData => new[]
         {
@@ -153,6 +154,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         #region Http Status Response 400
         [Theory]
         [MemberData(nameof(CreateMovieTest_ResponseStatus_400_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task CreateMovieTest_ResponseStatus_400(CreateMovieRequest request)
         {
             // Arrange
@@ -213,6 +215,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         #region Http Status Response 409
         [Theory]
         [MemberData(nameof(CreateMovieTest_ResponseStatus_409_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task CreateMovieTest_ResponseStatus_409(CreateMovieRequest request)
         {
             // Arrange
@@ -248,6 +251,5 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             }
         };
         #endregion
-                
     }
 }

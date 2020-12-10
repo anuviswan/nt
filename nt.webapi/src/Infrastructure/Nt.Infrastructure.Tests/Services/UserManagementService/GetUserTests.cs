@@ -11,6 +11,7 @@ using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -37,6 +38,7 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
         #region Valid Cases
         [Theory]
         [MemberData(nameof(SearchUserTestData))]
+        [ServiceTest(nameof(UserManagementService)), Feature]
         public async Task GetUser(string userName, UserProfileEntity expectedOutput)
         {
             // Arrange
@@ -67,6 +69,7 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
         #region Invalid Cases
         [Theory]
         [MemberData(nameof(SearchUserInvalidCaseTestData))]
+        [ServiceTest(nameof(UserManagementService)), Feature]
         public async Task GetUser_InvalidCase(string userName,Type expectedException)
         {
             // Arrange
