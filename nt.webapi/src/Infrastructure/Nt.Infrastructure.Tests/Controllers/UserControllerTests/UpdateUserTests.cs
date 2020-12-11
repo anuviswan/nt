@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 204
         [Theory]
         [MemberData(nameof(UpdateUser_ResponseStatus_204_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task UpdateUser_ResponseStatus_204(UpdateUserProfileRequest request)
         {
             // Arrange
@@ -64,6 +66,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Respone Status 400
         [Theory]
         [MemberData(nameof(UpdateUser_ResponseStatus_400_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task UpdateUser_ResponseStatus_400(UpdateUserProfileRequest request)
         {
             // Arrange

@@ -5,6 +5,7 @@ using Nt.Domain.Entities.Movie;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
 using Nt.Infrastructure.Tests.Helpers;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +41,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         }
 
         [Theory]
-        [Trait("Category","Service")]
-        [Trait("Type", "Movie")]
+        [ServiceTest(nameof(MovieService)), Feature]
         [MemberData(nameof(CreateMovieSuccessTestData))]
         public async Task CreateMovieSuccessTest(MovieEntity request,MovieEntity expected)
         {
@@ -145,8 +145,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 
 
         [Theory]
-        [Trait("Category", "Service")]
-        [Trait("Type","Movie")]
+        [ServiceTest(nameof(MovieService)), Feature]
         [MemberData(nameof(CreateMovieFailureTestData))]
         public async Task CreateMovieFailureTest(MovieEntity request)
         {

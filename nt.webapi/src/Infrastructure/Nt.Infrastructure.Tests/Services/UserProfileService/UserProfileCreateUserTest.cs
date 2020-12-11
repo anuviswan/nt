@@ -13,6 +13,7 @@ using Xunit;
 using Nt.Domain.Entities.Exceptions;
 using System.Linq.Expressions;
 using Xunit.Abstractions;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 
 namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 {
@@ -24,7 +25,6 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
         }
         protected override void InitializeCollection()
         {
-            var random = new Random();
             EntityCollection = new()
             {
                 new UserProfileEntity { UserName = "AnuViswan", DisplayName = "Anu Viswan", IsDeleted = false },
@@ -35,6 +35,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 
         [Theory]
         [MemberData(nameof(CreateUserTestSuccessTestCases))]
+        [ServiceTest(nameof(UserProfileService)), Feature]
         public async Task CreateUserTestSuccess(UserProfileEntity request, UserProfileEntity response)
         {
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();
@@ -60,6 +61,7 @@ namespace Nt.Infrastructure.Tests.Services.UserProfileServiceTests
 
         [Theory]
         [MemberData(nameof(CreateUserTestExceptionTestCases))]
+        [ServiceTest(nameof(UserProfileService)), Feature]
         public async Task CreateUserTestException(UserProfileEntity request, UserProfileEntity response)
         {
             var mockUserProfileRepository = new Mock<IUserProfileRepository>();

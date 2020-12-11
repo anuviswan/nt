@@ -3,6 +3,7 @@ using Moq;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Common;
@@ -37,6 +38,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 200
         [Theory]
         [MemberData(nameof(CreateUser_ResponseStatus_200_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task CreateUser_ResponseStatus_200(CreateUserProfileRequest request, CreateUserProfileResponse expectedResult)
         {
             // Arrange
@@ -68,6 +70,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         #region Response Status 400
         [Theory]
         [MemberData(nameof(CreateUser_ResponseStatus_400_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task CreateUser_ResponseStatus_400(CreateUserProfileRequest request, SerializableError expectedResult)
         {
             // Arrange

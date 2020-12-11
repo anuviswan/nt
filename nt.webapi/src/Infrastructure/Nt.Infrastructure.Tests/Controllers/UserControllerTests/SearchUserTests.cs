@@ -11,6 +11,7 @@ using Xunit.Abstractions;
 using Nt.Infrastructure.WebApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 
 namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 {
@@ -36,6 +37,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         [Theory]
         [MemberData(nameof(SearchUser_ResponseStatus_200_TestData))]
+        [ControllerTest(nameof(UserController)), Feature]
         public async Task SearchUser_ResponseStatus_200(string userName, IEnumerable<string> expectedOutput)
         {
             // Arrange
@@ -55,12 +57,12 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         }
 
         public static IEnumerable<object[]> SearchUser_ResponseStatus_200_TestData => new List<object[]>
-    {
-        new object[]{"username2",new List<string>{"username2"} },
-        new object[]{"username1",new List<string>{"username1", "username10" } },
-        new object[]{"user", Enumerable.Range(1, 10).Select(x=>$"username{x}") },
-        new object[]{"doesn'texist", Enumerable.Empty<string>()},
-    };
+        {
+            new object[]{"username2",new List<string>{"username2"} },
+            new object[]{"username1",new List<string>{"username1", "username10" } },
+            new object[]{"user", Enumerable.Range(1, 10).Select(x=>$"username{x}") },
+            new object[]{"doesn'texist", Enumerable.Empty<string>()},
+        };
 
         #endregion
     }

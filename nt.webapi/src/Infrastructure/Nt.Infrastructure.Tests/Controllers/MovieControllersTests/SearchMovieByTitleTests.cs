@@ -7,6 +7,7 @@ using Moq;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.Entities.User;
 using Nt.Domain.ServiceContracts.Movie;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.Tests.Helpers.TestData;
 using Nt.Infrastructure.WebApi.Controllers;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.SearchMovieByTitle;
@@ -17,7 +18,6 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 {
     public class SearchMovieByTitleTests : ControllerTestBase<MovieEntity>
     {
-
         public SearchMovieByTitleTests(ITestOutputHelper output) : base(output)
         {
 
@@ -37,6 +37,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         [Theory]
         [MemberData(nameof(SearchMovieByTitle_200_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task SearchMovieByTitle_200(SearchMovieByTitleRequest request,IEnumerable<MovieEntity> expectedOutput)
         {
             // Arrange
@@ -77,6 +78,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         [Theory]
         [MemberData(nameof(SearchMovieByTitle_400_TestData))]
+        [ControllerTest(nameof(MovieController)), Feature]
         public async Task SearchMovieByTitle_400(SearchMovieByTitleRequest request)
         {
             // Arrange

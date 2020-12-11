@@ -11,6 +11,7 @@ using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
 using Nt.Domain.RepositoryContracts.User;
+using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -45,8 +46,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
         }
 
         [Theory]
-        [Trait("Category", "Service")]
-        [Trait("Type", "Review")]
+        [ServiceTest(nameof(ReviewService)), Feature]
         [MemberData(nameof(CreateReviewSuccessTestData))]
         public async Task CreateReviewSuccessTest(ReviewEntity reviewEntity,string authorUserName,ReviewEntity expected)
         {
@@ -154,8 +154,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
 
         [Theory]
-        [Trait("Category", "Service")]
-        [Trait("Type", "Review")]
+        [ServiceTest(nameof(ReviewService)), Feature]
         [MemberData(nameof(CreateReviewFailureTestData))]
         public async Task CreateReviewFailureTest(ReviewEntity reviewEntity,string authorUserName)
         {
