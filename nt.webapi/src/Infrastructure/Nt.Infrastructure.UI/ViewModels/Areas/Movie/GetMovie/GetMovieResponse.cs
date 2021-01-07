@@ -13,26 +13,8 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Movie.GetMovie
         public string Genre { get; init; }
         public IEnumerable<string> Tags { get; init; }
         public double Rating { get; init; }
-        public IEnumerable<ReviewItem> Reviews { get; init; }
-        
+        public long CountReviews { get; init; }
         public string Director { get; init; }
     }
 
-    public record ReviewItem
-    {
-        public string Id { get; init; }
-        public string Title { get; init; }
-        public string Description { get; init; }
-        public double Rating { get; init; }
-        public int UpVotes { get; init; }
-        public int DownVotes { get; init; }
-        public UserItem Author { get; init; }
-    }
-
-    public record UserItem
-    {
-        public string Id { get; init; }
-        public string UserName { get; init; }
-        public string DisplayName{get;init;}
-    }
 }

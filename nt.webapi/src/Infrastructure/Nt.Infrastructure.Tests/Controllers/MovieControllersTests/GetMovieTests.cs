@@ -44,7 +44,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         public async Task GetMovie_200(string movieId,MovieReviewDto expectedMovie)
         {
             // Arrange
-            var expectedResult = Mapper.Map<MovieReviewDto, GetMovieResponse>(expectedMovie);
+            var expectedResult = Mapper.Map<MovieEntity, GetMovieResponse>(expectedMovie);
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.GetOne(It.IsAny<string>()))
                             .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetMovieReview(mId)));

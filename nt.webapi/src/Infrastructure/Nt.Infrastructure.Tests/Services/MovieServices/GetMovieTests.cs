@@ -74,8 +74,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             Assert.Equal(expectedResult.CastAndCrew, result.CastAndCrew);
             Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.Equal(expectedResult.Language, result.Language);
-            Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
-            Assert.Equal(expectedResult.Reviews, result.Reviews);
+            Assert.Equal(expectedResult.Reviews.Count(), result.TotalReviews);
+            Assert.Equal(expectedResult.Rating, result.Rating);
         }
 
         public static IEnumerable<object[]> GetMovieSuccessTestData => new List<object[]>

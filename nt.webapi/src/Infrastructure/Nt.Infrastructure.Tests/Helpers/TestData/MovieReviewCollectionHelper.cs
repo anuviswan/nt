@@ -121,7 +121,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
             }
         };
 
-        internal static MovieReviewDto GetMovieReview(string movieId)
+        internal static MovieEntity GetMovieReview(string movieId)
         {
             var movieReview = MovieCollection.Where(c => c.Id == movieId)
                                 .Select(movie => new MovieReviewDto

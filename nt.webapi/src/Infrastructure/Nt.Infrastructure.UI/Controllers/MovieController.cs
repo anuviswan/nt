@@ -92,7 +92,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 try
                 {
                     var searchResult = await _movieService.GetOne(movieId);
-                    return Ok(Mapper.Map<MovieReviewDto, GetMovieResponse>(searchResult));
+                    return Ok(Mapper.Map<MovieEntity, GetMovieResponse>(searchResult));
                 }
                 catch (EntityNotFoundException)
                 {
