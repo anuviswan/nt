@@ -41,7 +41,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         [Theory]
         [ServiceTest(nameof(MovieService)), Feature]
         [MemberData(nameof(GetMovieSuccessTestData))]
-        public async Task GetMovieSuccessTest(string movieId,MovieReviewDto expectedResult)
+        public async Task GetMovieSuccessTest(string movieId,MovieEntity expectedResult)
         {
             // Arrange
             var mockMovieRepository = new Mock<IMovieRepository>();
@@ -74,7 +74,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             Assert.Equal(expectedResult.CastAndCrew, result.CastAndCrew);
             Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.Equal(expectedResult.Language, result.Language);
-            Assert.Equal(expectedResult.Reviews.Count(), result.TotalReviews);
+            Assert.Equal(expectedResult.TotalReviews, result.TotalReviews);
             Assert.Equal(expectedResult.Rating, result.Rating);
         }
 

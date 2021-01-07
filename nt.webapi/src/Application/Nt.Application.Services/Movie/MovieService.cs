@@ -49,7 +49,7 @@ namespace Nt.Application.Services.Movie
                 var movieId = movie.Id;
                 var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movie.Id);
 
-                return movie with { TotalReviews = reviews.Count(), Rating = reviews.Average(x => x.Rating) };
+                return movie with { TotalReviews = reviews.Count(), Rating = reviews.Any() ? reviews.Average(x => x.Rating) :0};
             }
         }
 

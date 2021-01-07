@@ -41,7 +41,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         [Theory]
         [MemberData(nameof(GetMovie_200_TestData))]
         [ControllerTest(nameof(MovieController)), Feature]
-        public async Task GetMovie_200(string movieId,MovieReviewDto expectedMovie)
+        public async Task GetMovie_200(string movieId,MovieEntity expectedMovie)
         {
             // Arrange
             var expectedResult = Mapper.Map<MovieEntity, GetMovieResponse>(expectedMovie);

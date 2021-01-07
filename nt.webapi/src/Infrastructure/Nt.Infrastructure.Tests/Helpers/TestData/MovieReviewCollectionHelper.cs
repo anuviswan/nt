@@ -32,7 +32,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                                     ReleaseDate = movie.ReleaseDate,
                                     CastAndCrew = movie.CastAndCrew,
                                     TotalReviews = reviews.Count(),
-                                    Rating = reviews.Average(x=>x.Rating)
+                                    Rating = reviews.Any() ? reviews.Average(x=>x.Rating):0
                                 }).Single();
 
             return movieReview;
