@@ -83,12 +83,12 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             new object[]
             {
                 string.Format(Utils.MockMovieIdFormat,1),
-                MovieReviewCollectionHelper.GetMovieReview(string.Format(Utils.MockMovieIdFormat,1))
+                MovieReviewCollectionHelper.GetMovie(string.Format(Utils.MockMovieIdFormat,1))
             },
              new object[]
              {
                  string.Format(Utils.MockMovieIdFormat,3),
-                 MovieReviewCollectionHelper.GetMovieReview(string.Format(Utils.MockMovieIdFormat,3))
+                 MovieReviewCollectionHelper.GetMovie(string.Format(Utils.MockMovieIdFormat,3))
              }
         };
 

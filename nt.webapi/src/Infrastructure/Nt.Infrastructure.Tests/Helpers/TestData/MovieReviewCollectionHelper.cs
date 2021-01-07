@@ -11,120 +11,18 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
 {
     public static class MovieReviewCollectionHelper
     {
-        public static List<UserProfileEntity> UserCollection { get; set; } = GetUserCollection();
-        public static List<ReviewEntity> ReviewCollection { get; set; } = GetReviewCollection();
-        public static List<MovieEntity> MovieCollection { get; set; } = GetMovieCollection();
+        public static List<UserProfileEntity> UserCollection { get; set; } = Users.GetUserCollection().ToList();
+        public static List<ReviewEntity> ReviewCollection { get; set; } = Reviews.GetReviewCollection().ToList();
+        public static List<MovieEntity> MovieCollection { get; set; } = Movies.GetMovieCollection().ToList();
 
 
-        private static List<UserProfileEntity> GetUserCollection() => Enumerable.Range(1, 10).Select(x => new UserProfileEntity
+
+
+        internal static MovieEntity GetMovie(string movieId)
         {
-            Id = string.Format(Utils.MockUserIdFormat, x),
-            UserName = $"{nameof(UserProfileEntity.UserName)} {x}",
-            DisplayName = $"{nameof(UserProfileEntity.DisplayName)} {x}",
-            Bio = $"{nameof(UserProfileEntity.Bio)} {x}",
-            IsDeleted = false,
-        }).ToList();
-
-        private static List<MovieEntity> GetMovieCollection() => Enumerable.Range(1, 10).Select(x => new MovieEntity
-        {
-            Id = string.Format(Utils.MockMovieIdFormat, x),
-            Title = $"{nameof(MovieEntity.Title)} {x}",
-            PlotSummary = Utils.TwoHundredCharacterString,
-            Language = "English",
-            Genre = x % 2 == 0 ? "Drama" : "Thriller",
-            Director = "Will Brown",
-            CastAndCrew = new[] { "John Doe", "Jane Doe", "Jaden Doe" },
-            ReleaseDate = Utils.Date,
-            Rating = 3,
-            TotalReviews = 27,
-        }).Concat(new MovieEntity[]
-        {
-                new MovieEntity
-                {
-                Id = string.Format(Utils.MockMovieIdFormat,11),
-                Title = $"SomeMovie {1}",
-                PlotSummary = Utils.TwoHundredCharacterString,
-                Language = "English",
-                Genre ="Thriller",
-                Director = "Will Brown",
-                CastAndCrew = new[] { "John Doe","Jane Doe","Jaden Doe" },
-                ReleaseDate = Utils.Date,
-                Rating = 3,
-                TotalReviews = 27,
-                }
-        }).ToList();
-
-
-        private static List<ReviewEntity> GetReviewCollection() => new List<ReviewEntity>
-        {
-            new ReviewEntity
-            {
-                Id = "R1",
-                MovieId = string.Format(Utils.MockMovieIdFormat,1),
-                AuthorId= string.Format(Utils.MockUserIdFormat,1),
-                ReviewTitle = $"{nameof(ReviewEntity.ReviewTitle)} 01",
-                ReviewDescription = $"{nameof(ReviewEntity.ReviewDescription)} 01",
-                DownVotedBy = new List<string>
-                {
-                    string.Format(Utils.MockUserIdFormat, 2),
-                    string.Format(Utils.MockUserIdFormat, 3),
-                    string.Format(Utils.MockUserIdFormat, 4)
-                },
-                UpVotedBy = new List<string>
-                {
-                    string.Format(Utils.MockUserIdFormat, 5),
-                    string.Format(Utils.MockUserIdFormat, 6)
-                },
-                Rating = 4
-            },
-            new ReviewEntity
-            {
-                Id = "R2",
-                MovieId = string.Format(Utils.MockMovieIdFormat,1),
-                AuthorId= string.Format(Utils.MockUserIdFormat,7),
-                ReviewTitle = $"{nameof(ReviewEntity.ReviewTitle)} 02",
-                ReviewDescription = $"{nameof(ReviewEntity.ReviewDescription)} 02",
-                DownVotedBy = new List<string>
-                {
-                    string.Format(Utils.MockUserIdFormat, 2),
-                    string.Format(Utils.MockUserIdFormat, 3),
-                    string.Format(Utils.MockUserIdFormat, 4)
-                },
-                UpVotedBy = new List<string>
-                {
-                    string.Format(Utils.MockUserIdFormat, 1),
-                    string.Format(Utils.MockUserIdFormat, 5),
-                    string.Format(Utils.MockUserIdFormat, 6)
-                },
-                Rating = 4
-            },
-            new ReviewEntity
-            {
-                Id = "R3",
-                MovieId = string.Format(Utils.MockMovieIdFormat,2),
-                AuthorId= string.Format(Utils.MockUserIdFormat,7),
-                ReviewTitle = $"{nameof(ReviewEntity.ReviewTitle)} 01",
-                ReviewDescription = $"{nameof(ReviewEntity.ReviewDescription)} 01",
-                DownVotedBy = new List<string>
-                {
-                    string.Format(Utils.MockUserIdFormat, 2),
-                    string.Format(Utils.MockUserIdFormat, 3),
-                    string.Format(Utils.MockUserIdFormat, 4)
-                },
-                UpVotedBy = new List<string>
-                {
-                    string.Format(Utils.MockUserIdFormat, 1),
-                    string.Format(Utils.MockUserIdFormat, 5),
-                    string.Format(Utils.MockUserIdFormat, 6)
-                },
-                Rating = 3
-            }
-        };
-
-        internal static MovieEntity GetMovieReview(string movieId)
-        {
+            var reviews = ReviewCollection.Where(review => review.MovieId == movieId);
             var movieReview = MovieCollection.Where(c => c.Id == movieId)
-                                .Select(movie => new MovieReviewDto
+                                .Select(movie => new MovieEntity
                                 {
                                     Id = movie.Id,
                                     Director = movie.Director,
@@ -133,30 +31,11 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                                     Title = movie.Title,
                                     ReleaseDate = movie.ReleaseDate,
                                     CastAndCrew = movie.CastAndCrew,
-                                    Reviews = ReviewCollection.Where(review => review.MovieId == movieId)
-                                                               .Select(review => new ReviewDto
-                                                               {
-                                                                   Id = review.Id,
-                                                                   Description = review.ReviewDescription,
-                                                                   Title = review.ReviewTitle,
-                                                                   DownvotedBy = review.DownVotedBy,
-                                                                   UpvotedBy = review.UpVotedBy,
-                                                                   Rating = review.Rating,
-                                                                   Author = UserCollection.Where(user => user.Id == review.AuthorId)
-                                                                                           .Select(user => new UserDto
-                                                                                           {
-                                                                                               Id = user.Id,
-                                                                                               UserName = user.UserName,
-                                                                                               DisplayName = user.DisplayName
-                                                                                           }).Single()
-                                                               }).ToList()
+                                    TotalReviews = reviews.Count(),
+                                    Rating = reviews.Average(x=>x.Rating)
                                 }).Single();
 
-            return movieReview with
-            {
-                TotalReviews = movieReview.Reviews?.Count()??0,
-                Rating = movieReview.Reviews.Any() ? movieReview.Reviews.Average(x => x.Rating):0
-            };
+            return movieReview;
         }
 
         internal static IEnumerable<MovieEntity> GetMovies(string movieTitle)
