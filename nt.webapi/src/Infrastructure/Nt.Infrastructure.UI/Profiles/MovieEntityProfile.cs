@@ -22,13 +22,10 @@ namespace Nt.Infrastructure.WebApi.Profiles
         {
             CreateMap<MovieEntity, CreateMovieResponse>();
             CreateMap<MovieEntity, SearchMovieByTitleResponse>();
-            CreateMap<UserDto, UserItem>();
-            CreateMap<ReviewDto, ReviewItem>()
-                .ForMember(x => x.UpVotes, opt => opt.MapFrom(x => x.UpvotedBy.Any() ? x.UpvotedBy.Count() : 0))
-                .ForMember(x => x.DownVotes, opt => opt.MapFrom(x => x.DownvotedBy.Any() ? x.DownvotedBy.Count() : 0));
-            CreateMap<MovieReviewDto, GetMovieResponse>()
+            CreateMap<MovieEntity, GetMovieResponse>()
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.CastAndCrew))
-                .ForMember(x=> x.Rating, opt => opt.MapFrom(x=> x.Reviews.Any() ? x.Reviews.Average(c=>c.Rating) : 0));
+                .ForMember(x=> x.Rating, opt => opt.MapFrom(x=> x.Rating))
+                .ForMember(x=> x.CountReviews, opt=> opt.MapFrom(x=> x.TotalReviews));
 
         }
 

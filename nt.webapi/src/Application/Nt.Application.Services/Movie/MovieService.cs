@@ -31,7 +31,7 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public async Task<MovieReviewDto> GetOne(string movieId)
+        public async Task<MovieEntity> GetOne(string movieId)
         {
             var movies = await UnitOfWork.MovieRepository.GetAsync(x => x.Id == movieId);
 
@@ -43,42 +43,13 @@ namespace Nt.Application.Services.Movie
             };
 
 
-            async Task<MovieReviewDto> _(IEnumerable<MovieEntity> movieResult)
+            async Task<MovieEntity> _(IEnumerable<MovieEntity> movieResult)
             {
                 var movie = movieResult.Single();
                 var movieId = movie.Id;
                 var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movie.Id);
 
-                var movieDetailed = new MovieReviewDto
-                {
-                    Id = movie.Id,
-                    Title = movie.Title,
-                    PlotSummary = movie.PlotSummary,
-                    Director = movie.Director,
-                    Language = movie.Language,
-                    ReleaseDate = movie.ReleaseDate,
-                    CastAndCrew = movie.CastAndCrew
-                };
-
-                var reviewCollection = new List<ReviewDto>();
-                foreach (var review in reviews)
-                {
-                    var user = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)
-                        .ContinueWith((users) => users.Result.Single());
-
-                    reviewCollection.Add(new ReviewDto
-                    {
-                        Author = new UserDto { Id = user.Id, DisplayName = user.DisplayName, UserName = user.UserName },
-                        Description = review.ReviewDescription,
-                        Id = review.Id,
-                        Title = review.ReviewTitle,
-                        DownvotedBy = review.DownVotedBy,
-                        UpvotedBy = review.UpVotedBy,
-                        Rating = review.Rating
-                    });
-                }
-
-                return movieDetailed with { Reviews = reviewCollection };
+                return movie with { TotalReviews = reviews.Count(), Rating = reviews.Any() ? reviews.Average(x => x.Rating) :0};
             }
         }
 

@@ -41,7 +41,7 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
         [Theory]
         [ServiceTest(nameof(MovieService)), Feature]
         [MemberData(nameof(GetMovieSuccessTestData))]
-        public async Task GetMovieSuccessTest(string movieId,MovieReviewDto expectedResult)
+        public async Task GetMovieSuccessTest(string movieId,MovieEntity expectedResult)
         {
             // Arrange
             var mockMovieRepository = new Mock<IMovieRepository>();
@@ -74,8 +74,8 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             Assert.Equal(expectedResult.CastAndCrew, result.CastAndCrew);
             Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.Equal(expectedResult.Language, result.Language);
-            Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
-            Assert.Equal(expectedResult.Reviews, result.Reviews);
+            Assert.Equal(expectedResult.TotalReviews, result.TotalReviews);
+            Assert.Equal(expectedResult.Rating, result.Rating);
         }
 
         public static IEnumerable<object[]> GetMovieSuccessTestData => new List<object[]>
@@ -83,12 +83,12 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             new object[]
             {
                 string.Format(Utils.MockMovieIdFormat,1),
-                MovieReviewCollectionHelper.GetMovieReview(string.Format(Utils.MockMovieIdFormat,1))
+                MovieReviewCollectionHelper.GetMovie(string.Format(Utils.MockMovieIdFormat,1))
             },
              new object[]
              {
                  string.Format(Utils.MockMovieIdFormat,3),
-                 MovieReviewCollectionHelper.GetMovieReview(string.Format(Utils.MockMovieIdFormat,3))
+                 MovieReviewCollectionHelper.GetMovie(string.Format(Utils.MockMovieIdFormat,3))
              }
         };
 

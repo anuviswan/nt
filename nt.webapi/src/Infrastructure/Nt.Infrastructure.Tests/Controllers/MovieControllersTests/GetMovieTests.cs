@@ -41,13 +41,13 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
         [Theory]
         [MemberData(nameof(GetMovie_200_TestData))]
         [ControllerTest(nameof(MovieController)), Feature]
-        public async Task GetMovie_200(string movieId,MovieReviewDto expectedMovie)
+        public async Task GetMovie_200(string movieId,MovieEntity expectedMovie)
         {
             // Arrange
-            var expectedResult = Mapper.Map<MovieReviewDto, GetMovieResponse>(expectedMovie);
+            var expectedResult = Mapper.Map<MovieEntity, GetMovieResponse>(expectedMovie);
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.GetOne(It.IsAny<string>()))
-                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetMovieReview(mId)));
+                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetMovie(mId)));
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
             var response = await movieController.GetMovieMetaInfo(movieId);
@@ -63,10 +63,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             Assert.Equal(expectedResult.Tags, result.Tags);
             Assert.Equal(expectedResult.ReleaseDate, result.ReleaseDate);
             Assert.Equal(expectedResult.Language, result.Language);
-            Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
-            Assert.Equal(expectedResult.Reviews, result.Reviews);
-
-
+            Assert.Equal(expectedResult.CountReviews, result.CountReviews);
             Assert.Equal(expectedResult.Rating, result.Rating);
         }
 
@@ -75,12 +72,12 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             new object[]
             {
                 string.Format(Utils.MockMovieIdFormat,1),
-                MovieReviewCollectionHelper.GetMovieReview(string.Format(Utils.MockMovieIdFormat,1))
+                MovieReviewCollectionHelper.GetMovie(string.Format(Utils.MockMovieIdFormat,1))
             },
              new object[]
              {
                  string.Format(Utils.MockMovieIdFormat,3),
-                 MovieReviewCollectionHelper.GetMovieReview(string.Format(Utils.MockMovieIdFormat,3))
+                 MovieReviewCollectionHelper.GetMovie(string.Format(Utils.MockMovieIdFormat,3))
              }
         };
 
@@ -96,7 +93,7 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             // Arrange
             var mockMovieService = new Mock<IMovieService>();
             mockMovieService.Setup(x => x.GetOne(It.IsAny<string>()))
-                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetMovieReview(mId)));
+                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetMovie(mId)));
             // Act
             var movieController = new MovieController(Mapper, mockMovieService.Object);
             var response = await movieController.GetMovieMetaInfo(movieId);

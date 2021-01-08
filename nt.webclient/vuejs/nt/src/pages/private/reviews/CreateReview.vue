@@ -175,15 +175,8 @@ export default {
     this.movie.language = response.data.language;
     this.movie.release = response.data.releaseDate;
     this.movie.plotSummary = response.data.plotSummary;
-    this.movie.totalReviews = response.data.reviews.length;
-    this.existingReviews = response.data.reviews;
-
-    let sum = 0;
-    this.existingReviews.forEach((item) => (sum += item.rating));
-    this.movie.rating = sum / this.movie.totalReviews;
-    console.log("sum");
-    console.log(this.existingReviews);
-    console.log(sum);
+    this.movie.rating = response.data.rating;
+    this.movie.totalReviews = response.data.countReviews;
   },
 };
 </script>
