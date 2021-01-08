@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -39,5 +39,6 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 return BadRequest("Duplicate Review.Only one review is accepted for a movie per user");
             }
         }
-    }
+
+            }
 }

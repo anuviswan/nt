@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Nt.Domain.Entities.Movie;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
 
 namespace Nt.Infrastructure.WebApi.Profiles
 {

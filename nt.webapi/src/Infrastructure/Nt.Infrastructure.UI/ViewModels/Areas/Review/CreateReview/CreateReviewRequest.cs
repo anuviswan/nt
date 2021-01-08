@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview
 {
     public record CreateReviewRequest
     {
