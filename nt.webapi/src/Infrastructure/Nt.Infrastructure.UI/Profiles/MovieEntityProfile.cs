@@ -24,7 +24,8 @@ namespace Nt.Infrastructure.WebApi.Profiles
             CreateMap<MovieEntity, SearchMovieByTitleResponse>();
             CreateMap<MovieEntity, GetMovieResponse>()
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.CastAndCrew))
-                .ForMember(x=> x.Rating, opt => opt.MapFrom(x=> x.Rating));
+                .ForMember(x=> x.Rating, opt => opt.MapFrom(x=> x.Rating))
+                .ForMember(x=> x.CountReviews, opt=> opt.MapFrom(x=> x.TotalReviews));
 
         }
 
