@@ -33,7 +33,7 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public Task<MovieReviewDto> GetAllReviews(string movieId)
+        public Task<MovieReviewDto> GetAllReviewsAsync(string movieId)
         {
             throw new System.NotImplementedException();
         }

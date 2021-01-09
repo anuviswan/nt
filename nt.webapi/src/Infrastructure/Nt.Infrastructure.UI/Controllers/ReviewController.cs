@@ -54,7 +54,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await _reviewService.GetAllReviews(request.MovieId);
+            var response = await _reviewService.GetAllReviewsAsync(request.MovieId);
             return Ok(Mapper.Map<GetAllReviewsResponse>(response));
         }
     }

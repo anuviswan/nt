@@ -19,9 +19,9 @@ using Xunit.Abstractions;
 
 namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
 {
-    public class GetAllMovieReviewsTest : ControllerTestBase<ReviewEntity>
+    public class GetAllMovieReviewsTests : ControllerTestBase<ReviewEntity>
     {
-        public GetAllMovieReviewsTest(ITestOutputHelper output) : base(output)
+        public GetAllMovieReviewsTests(ITestOutputHelper output) : base(output)
         {
 
         }
@@ -46,7 +46,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             // Arrange
             var expectedResult = Mapper.Map<MovieReviewDto,GetAllReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
-            mockReviewService.Setup(x => x.GetAllReviews(It.IsAny<string>()))
+            mockReviewService.Setup(x => x.GetAllReviewsAsync(It.IsAny<string>()))
                             .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetReviews(mId)));
             // Act
             var reviewController = new ReviewController(Mapper, mockReviewService.Object);
@@ -99,7 +99,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             // Arrange
             var expectedResult = Mapper.Map<MovieReviewDto, GetAllReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
-            mockReviewService.Setup(x => x.GetAllReviews(It.IsAny<string>()))
+            mockReviewService.Setup(x => x.GetAllReviewsAsync(It.IsAny<string>()))
                             .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetReviews(mId)));
             // Act
             var reviewController = new ReviewController(Mapper, mockReviewService.Object);
