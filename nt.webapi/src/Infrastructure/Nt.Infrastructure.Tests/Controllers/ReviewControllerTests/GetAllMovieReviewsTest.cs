@@ -87,5 +87,47 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
         };
 
         #endregion
+
+
+        #region Response 200
+
+        [Theory]
+        [MemberData(nameof(GetAllMovieReviews_400_TestData))]
+        [ControllerTest(nameof(ReviewController)), Feature]
+        public async Task GetAllMovieReviews_400(string movieId, MovieReviewDto expectedReviews)
+        {
+            // Arrange
+            var expectedResult = Mapper.Map<MovieReviewDto, GetAllReviewsResponse>(expectedReviews);
+            var mockReviewService = new Mock<IReviewService>();
+            mockReviewService.Setup(x => x.GetAllReviews(It.IsAny<string>()))
+                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetReviews(mId)));
+            // Act
+            var reviewController = new ReviewController(Mapper, mockReviewService.Object);
+            var request = new GetAllReviewsRequest
+            {
+                MovieId = movieId
+            };
+            var response = await reviewController.GetAllMovieReviews(request);
+
+            // Assert
+            var okResponse = Assert.IsType<OkObjectResult>(response.Result);
+            var result = Assert.IsAssignableFrom<GetAllReviewsResponse>(okResponse.Value);
+
+
+            Assert.Equal(movieId, result.MovieId);
+            Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
+            Assert.False(result.Reviews.Any());
+        }
+
+        public static IEnumerable<object[]> GetAllMovieReviews_400_TestData => new List<object[]>
+        {
+            new object[]
+            {
+                string.Format(Utils.MockMovieIdFormat,99),
+                MovieReviewCollectionHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,99))
+            },
+        };
+
+        #endregion
     }
 }

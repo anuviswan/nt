@@ -42,6 +42,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
             var response = new MovieReviewDto();
             var reviewCollection = ReviewCollection.Where(x => string.Equals(x.MovieId, movieId));
             var userCollection = UserCollection.Where(x => reviewCollection.Select(c => c.AuthorId).Contains(x.Id));
+            response.MovieId = movieId;
             response.Reviews = reviewCollection.Select(x => new ReviewDto
             {
                 Description = x.ReviewDescription,
