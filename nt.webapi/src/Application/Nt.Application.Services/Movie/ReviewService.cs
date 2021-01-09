@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.RepositoryContracts;
@@ -32,7 +33,7 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public Task<IEnumerable<ReviewEntity>> GetAllReviews(string movieId)
+        public Task<MovieReviewDto> GetAllReviews(string movieId)
         {
             throw new System.NotImplementedException();
         }

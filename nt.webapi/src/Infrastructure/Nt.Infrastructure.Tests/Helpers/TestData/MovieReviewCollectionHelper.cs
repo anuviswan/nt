@@ -16,8 +16,6 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
         public static List<MovieEntity> MovieCollection { get; set; } = Movies.GetMovieCollection().ToList();
 
 
-
-
         internal static MovieEntity GetMovie(string movieId)
         {
             var reviews = ReviewCollection.Where(review => review.MovieId == movieId);
@@ -36,6 +34,31 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                                 }).Single();
 
             return movieReview;
+        }
+
+
+        internal static MovieReviewDto GetReviews(string movieId)
+        {
+            var response = new MovieReviewDto();
+            var reviewCollection = ReviewCollection.Where(x => string.Equals(x.MovieId, movieId));
+            var userCollection = UserCollection.Where(x => reviewCollection.Select(c => c.AuthorId).Contains(x.Id));
+            response.Reviews = reviewCollection.Select(x => new ReviewDto
+            {
+                Description = x.ReviewDescription,
+                DownvotedBy = x.DownVotedBy,
+                UpvotedBy = x.UpVotedBy,
+                Rating = x.Rating,
+                Id = x.Id,
+                Title = x.ReviewTitle,
+                Author = userCollection.Where(c => string.Equals(x.AuthorId, c.Id)).Select(c=> new UserDto
+                {
+                    DisplayName = c.DisplayName,
+                    Id = c.Id,
+                    UserName = c.UserName
+                }).Single()
+            });
+
+            return response;
         }
 
         internal static IEnumerable<MovieEntity> GetMovies(string movieTitle)

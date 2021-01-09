@@ -1,8 +1,17 @@
-﻿namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews
+﻿using System.Collections.Generic;
+
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews
 {
     public class GetAllReviewsResponse
     {
         public string MovieId { get; set; }
+        public IEnumerable<ReviewItem> Reviews { get; set; }
+    }
+
+    public class ReviewItem
+    {
+        public string Id { get; set; }
+
         public string Title { get; set; }
         public string Rating { get; set; }
 

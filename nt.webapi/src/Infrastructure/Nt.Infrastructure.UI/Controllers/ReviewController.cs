@@ -47,7 +47,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<GetAllReviewsResponse>>> GetAllMovieReviews(GetAllReviewsRequest request)
+        public async Task<ActionResult<GetAllReviewsResponse>> GetAllMovieReviews(GetAllReviewsRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +55,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
 
             var response = await _reviewService.GetAllReviews(request.MovieId);
-            return Ok(Mapper.Map<IEnumerable<GetAllReviewsResponse>>(response));
+            return Ok(Mapper.Map<GetAllReviewsResponse>(response));
         }
     }
 }

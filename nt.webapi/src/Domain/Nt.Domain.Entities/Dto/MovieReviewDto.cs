@@ -9,6 +9,7 @@ namespace Nt.Domain.Entities.Dto
 {
     public record MovieReviewDto:MovieEntity
     {
+        public string MovieId { get; set; }
         public IEnumerable<ReviewDto> Reviews { get; set; } = Enumerable.Empty<ReviewDto>();
     }
 
