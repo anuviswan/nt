@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -40,5 +42,20 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("GetAllReviews")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<GetAllReviewsResponse>>> GetAllMovieReviews(GetAllReviewsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
+
+            var response = await _reviewService.GetAllReviews(request.MovieId);
+            return Ok(Mapper.Map<IEnumerable<GetAllReviewsResponse>>(response));
+        }
+    }
 }

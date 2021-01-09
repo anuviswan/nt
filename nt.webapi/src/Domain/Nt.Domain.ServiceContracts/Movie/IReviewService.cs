@@ -10,5 +10,6 @@ namespace Nt.Domain.ServiceContracts.Movie
     public interface IReviewService
     {
         Task<ReviewEntity> CreateAsync(ReviewEntity review,string authorUserName);
+        Task<IEnumerable<ReviewEntity>> GetAllReviews(string movieId);
     }
 }

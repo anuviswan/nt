@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
@@ -29,6 +30,11 @@ namespace Nt.Application.Services.Movie
 
             var result = await UnitOfWork.ReviewRepository.CreateAsync(review with { AuthorId = userID }).ConfigureAwait(false);
             return result;
+        }
+
+        public Task<IEnumerable<ReviewEntity>> GetAllReviews(string movieId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
