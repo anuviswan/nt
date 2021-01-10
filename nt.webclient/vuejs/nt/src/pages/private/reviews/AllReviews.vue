@@ -15,6 +15,7 @@
 <script>
 import ReviewMiniCard from "../../../components/review/ReviewMiniCard";
 import { getReviewsForMovie } from "../../../api/reviews";
+import { getMovie } from "../../../api/movies";
 export default {
   name: "AllReviews",
   components: {
@@ -29,9 +30,15 @@ export default {
   methods: {},
   async created() {
     this.movieId = this.$route.params.movieId;
+    const movieInfo = await getMovie(this.movieId);
     console.log("all revies for " + this.movieId);
     const response = await getReviewsForMovie(this.movieId);
     this.reviewCollection = response.data.reviews;
+    console.log(movieInfo);
+    this.reviewCollection.map((item) => {
+      item.movieId = this.movieId;
+      item.movieTitle = movieInfo.data.title;
+    });
     console.log(this.reviewCollection);
   },
 };

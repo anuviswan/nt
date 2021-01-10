@@ -29,5 +29,6 @@ namespace Nt.Domain.Entities.Dto
         public string Id { get; init; }
         public string UserName { get; init; }
         public string DisplayName { get; init; }
+        public int Followers { get; set; }
     }
 }

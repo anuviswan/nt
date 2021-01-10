@@ -36,19 +36,19 @@ namespace Nt.Application.Services.Movie
 
         public async Task<MovieReviewDto> GetAllReviewsAsync(string movieId)
         {
-            if (string.IsNullOrEmpty(movieId) || !(await UnitOfWork.MovieRepository.GetAsync(x => movieId.ToLower() == x.Id.ToLower())).Any())
+            if (string.IsNullOrEmpty(movieId) || !(await UnitOfWork.MovieRepository.GetAsync(x => movieId == x.Id)).Any())
             {
                 throw new ArgumentException("Invalid MovieId");
             }
 
             var result = new MovieReviewDto { MovieId = movieId };
-            var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId.ToLower() == movieId.ToLower());
+            var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movieId);
 
             var consolidatedReviews = new List<ReviewDto>();
 
             foreach(var review in reviews)
             {
-                var author = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id.ToLower() == review.AuthorId.ToLower());
+                var author = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId);
                 consolidatedReviews.Add(new ReviewDto
                 {
                     Id = review.Id,
