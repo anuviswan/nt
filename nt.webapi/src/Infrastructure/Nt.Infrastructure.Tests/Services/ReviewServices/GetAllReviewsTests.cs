@@ -48,6 +48,10 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
             mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity,bool>>>()))
                 .Returns(Task.FromResult(ReviewCollection.Where(x => string.Equals(x.MovieId, movieId, StringComparison.OrdinalIgnoreCase))));
 
+            var mockMovieRepository = new Mock<IMovieRepository>();
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()))
+                .Returns(Task.FromResult(MovieCollection.Where(x=>string.Equals(x.Id,movieId,StringComparison.OrdinalIgnoreCase))));
+
             var mockUserRepository = new Mock<IUserProfileRepository>();
             mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
                                            .Returns((Expression<Func<UserProfileEntity, bool>> x) =>
@@ -55,6 +59,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
             var unitOfWork = new Mock<IUnitOfWork>();
             unitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
+            unitOfWork.SetupGet(x => x.MovieRepository).Returns(mockMovieRepository.Object);
             unitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserRepository.Object);
 
             // Act
@@ -131,6 +136,55 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                     })
                 }
 
+            },
+        };
+
+
+        [Theory]
+        [ServiceTest(nameof(MovieService)), Feature]
+        [MemberData(nameof(GetReviewsFailureTestData))]
+        public async Task GetAllReviewsFailureTest(string movieId)
+        {
+            // Arrange
+            var mockReviewRepository = new Mock<IReviewRepository>();
+            mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()))
+                .Returns(Task.FromResult(ReviewCollection.Where(x => string.Equals(x.MovieId, movieId, StringComparison.OrdinalIgnoreCase))));
+
+            var mockMovieRepository = new Mock<IMovieRepository>();
+            mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()))
+                .Returns(Task.FromResult(Enumerable.Empty<MovieEntity>()));
+
+            var mockUserRepository = new Mock<IUserProfileRepository>();
+            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
+                                           .Returns((Expression<Func<UserProfileEntity, bool>> x) =>
+                                           Task.FromResult(UserCollection.AsQueryable<UserProfileEntity>().Where(x).AsEnumerable()));
+
+            var unitOfWork = new Mock<IUnitOfWork>();
+            unitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
+            unitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserRepository.Object);
+            unitOfWork.SetupGet(x => x.MovieRepository).Returns(mockMovieRepository.Object);
+
+            // Act
+            var reviewService = new ReviewService(unitOfWork.Object);
+            var response = await Assert.ThrowsAsync<ArgumentException>(() => reviewService.GetAllReviewsAsync(movieId));
+
+        }
+
+        public static IEnumerable<object[]> GetReviewsFailureTestData => new List<object[]>
+        {
+            new object[]
+            {
+                "InvalidID"
+            },
+
+            new object[]
+            {
+                string.Empty
+            },
+
+            new object[]
+            {
+                null
             },
         };
     }
