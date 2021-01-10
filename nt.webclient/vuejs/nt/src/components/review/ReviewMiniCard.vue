@@ -62,13 +62,14 @@ export default {
     };
   },
   created() {
-    this.reviewTitle = this.reviewMetaInfo.review.reviewTitle;
-    this.movieTitle = this.reviewMetaInfo.review.movieTitle;
-    this.review = this.reviewMetaInfo.review.review;
+    console.log(this.reviewMetaInfo);
+    this.reviewTitle = this.reviewMetaInfo.title;
+    this.movieTitle = "mock";
+    this.review = this.reviewMetaInfo.description;
 
-    this.user.displayName = this.reviewMetaInfo.user.userName;
-    this.user.rating = this.reviewMetaInfo.user.rating;
-    this.user.followers = this.reviewMetaInfo.user.followers;
+    this.user.displayName = this.reviewMetaInfo.authorUserName;
+    this.user.rating = this.reviewMetaInfo.rating;
+    this.user.followers = 5;
   },
 };
 </script>

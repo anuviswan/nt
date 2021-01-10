@@ -6,6 +6,16 @@ const getAllReviews = () => {
 };
 
 
+const getReviewsForMovie = async (movieId) => {
+  const request = {
+    movieId : movieId
+  };
+
+  const response = await axios.post("https://localhost:44353/api/Review/GetAllReviews",request);
+  return response;
+}
+
+
 const createReview = async (movieid,title,description,rating) => {
 
   const review = {
@@ -17,4 +27,4 @@ const createReview = async (movieid,title,description,rating) => {
   const response = await axios.post("https://localhost:44353/api/Review/CreateReview",review);
   return response;
 }
-export { getAllReviews,createReview };
+export { getAllReviews,createReview,getReviewsForMovie };
