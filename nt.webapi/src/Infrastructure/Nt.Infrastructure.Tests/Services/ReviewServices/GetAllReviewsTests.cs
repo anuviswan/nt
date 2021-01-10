@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
@@ -10,6 +11,7 @@ using Nt.Domain.Entities.Movie;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.Movie;
+using Nt.Domain.RepositoryContracts.User;
 using Nt.Infrastructure.Tests.Helpers;
 using Nt.Infrastructure.Tests.Helpers.CustomTraits;
 using Nt.Infrastructure.Tests.Helpers.TestData;
@@ -43,11 +45,17 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
         {
             // Arrange
             var mockReviewRepository = new Mock<IReviewRepository>();
-            mockReviewRepository.Setup(x => x.GetAsync(c => c.MovieId.ToLower() == movieId.ToLower()))
+            mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity,bool>>>()))
                 .Returns(Task.FromResult(ReviewCollection.Where(x => string.Equals(x.MovieId, movieId, StringComparison.OrdinalIgnoreCase))));
+
+            var mockUserRepository = new Mock<IUserProfileRepository>();
+            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
+                                           .Returns((Expression<Func<UserProfileEntity, bool>> x) =>
+                                           Task.FromResult(UserCollection.AsQueryable<UserProfileEntity>().Where(x).AsEnumerable()));
 
             var unitOfWork = new Mock<IUnitOfWork>();
             unitOfWork.SetupGet(x => x.ReviewRepository).Returns(mockReviewRepository.Object);
+            unitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserRepository.Object);
 
             // Act
             var reviewService = new ReviewService(unitOfWork.Object);
@@ -56,6 +64,17 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
             // Assert
             Assert.Equal(movieId, response.MovieId);
             Assert.Equal(expectedResult.MovieId, response.MovieId);
+            Assert.Equal(expectedResult.Reviews.Count(), response.Reviews.Count());
+
+            foreach(var (expected,actual) in expectedResult.Reviews.OrderBy(x=>x.Id).Zip(response.Reviews.OrderBy(x=>x.Id)))
+            {
+                Assert.Equal(expected.Title, actual.Title);
+                Assert.Equal(expected.Description, actual.Description);
+                Assert.Equal(expected.Id, actual.Id);
+                Assert.Equal(expected.Rating, actual.Rating);
+                Assert.Equal(expected.UpvotedBy.OrderBy(x => x), actual.UpvotedBy.OrderBy(x => x));
+                Assert.Equal(expected.DownvotedBy.OrderBy(x => x), actual.DownvotedBy.OrderBy(x => x));
+            }
 
         }
 
@@ -67,6 +86,24 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                 new MovieReviewDto
                 {
                     MovieId = string.Format(Utils.MockMovieIdFormat,1),
+                    Reviews = ReviewCollection.Where(x=> string.Equals(x.MovieId,string.Format(Utils.MockMovieIdFormat,1)))
+                    .Select(x=> new ReviewDto
+                    {
+                        Title = x.ReviewTitle,
+                        Description = x.ReviewDescription,
+                        Id = x.Id,
+                        DownvotedBy = x.DownVotedBy,
+                        UpvotedBy = x.UpVotedBy,
+                        Rating = x.Rating,
+                        Author = UserCollection.Where(c=> string.Equals(c.Id,x.AuthorId))
+                                    .Select(c=> 
+                                    new UserDto
+                                    { 
+                                        Id = c.Id,
+                                        DisplayName = c.DisplayName,
+                                        UserName = c.UserName
+                                    }).Single()
+                    })
                 }
             },
             new object[]
@@ -75,8 +112,25 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                 new MovieReviewDto
                 {
                     MovieId = string.Format(Utils.MockMovieIdFormat,5),
+                    Reviews = ReviewCollection.Where(x=> string.Equals(x.MovieId,string.Format(Utils.MockMovieIdFormat,5)))
+                    .Select(x=> new ReviewDto
+                    {
+                        Title = x.ReviewTitle,
+                        Description = x.ReviewDescription,
+                        Id = x.Id,
+                        DownvotedBy = x.DownVotedBy,
+                        UpvotedBy = x.UpVotedBy,
+                        Author = UserCollection.Where(c=> string.Equals(c.Id,x.Id))
+                                    .Select(c=>
+                                    new UserDto
+                                    {
+                                        Id = c.Id,
+                                        DisplayName = c.DisplayName,
+                                        UserName = c.UserName
+                                    }).Single()
+                    })
                 }
-                
+
             },
         };
     }

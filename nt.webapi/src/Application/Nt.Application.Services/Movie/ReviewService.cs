@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Nt.Domain.Entities.Dto;
@@ -33,9 +34,40 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public Task<MovieReviewDto> GetAllReviewsAsync(string movieId)
+        public async Task<MovieReviewDto> GetAllReviewsAsync(string movieId)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(movieId))
+            {
+                throw new ArgumentException("Invalid MovieId");
+            }
+
+            var result = new MovieReviewDto { MovieId = movieId };
+            var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId.ToLower() == movieId.ToLower());
+            var consolidatedReviews = new List<ReviewDto>();
+
+            foreach(var review in reviews)
+            {
+                var author = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id.ToLower() == review.AuthorId.ToLower());
+                consolidatedReviews.Add(new ReviewDto
+                {
+                    Id = review.Id,
+                    Description = review.ReviewDescription,
+                    Rating = review.Rating,
+                    DownvotedBy = review.DownVotedBy,
+                    UpvotedBy = review.UpVotedBy,
+                    Title = review.ReviewTitle,
+                    Author = author.Select(x => new UserDto
+                    {
+                        DisplayName = x.DisplayName,
+                        UserName = x.UserName,
+                        Id = x.Id
+                    }).Single()
+                }); 
+            }
+
+            result.Reviews = consolidatedReviews;
+
+            return result;
         }
     }
 }
