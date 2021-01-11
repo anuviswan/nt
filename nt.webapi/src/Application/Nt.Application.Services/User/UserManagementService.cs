@@ -16,12 +16,8 @@ namespace Nt.Application.Services.User
         {
 
         }
-        public Task ApproveFollowRequestAsync(UserProfileEntity currentUser, UserProfileEntity approveUserRequest)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task FollowUserRequestGetAsync(UserProfileEntity currentUser, UserProfileEntity userToFollow)
+        public Task FollowUserAsync(string currentUserId, string userToFollow)
         {
             throw new NotImplementedException();
         }
@@ -58,6 +54,11 @@ namespace Nt.Application.Services.User
             return await UnitOfWork.UserProfileRepository.GetAsync(x => (x.DisplayName.ToLower().StartsWith(userName.ToLower()) 
                                                                         || x.UserName.ToLower().StartsWith(userName.ToLower())) 
                                                                         && !x.IsDeleted);
+        }
+
+        public Task UnfollowUserAsync(UserProfileEntity currentUser, UserProfileEntity userToUnfollow)
+        {
+            throw new NotImplementedException();
         }
     }
 }
