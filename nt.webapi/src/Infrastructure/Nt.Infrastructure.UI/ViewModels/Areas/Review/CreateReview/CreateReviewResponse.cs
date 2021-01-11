@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview
 {
     public class CreateReviewResponse
     {

@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 using Nt.Domain.Entities.Attributes;
 using Nt.Domain.Entities.Entities;
 
@@ -20,6 +21,9 @@ namespace Nt.Domain.Entities.User
         [BsonElement("isDeleted")]
         [BsonDefaultValue(false)]
         public bool IsDeleted { get; init; } 
+
+        [BsonCollection("followers")]
+        public IEnumerable<string> Followers { get; init; }
 
     }
 }

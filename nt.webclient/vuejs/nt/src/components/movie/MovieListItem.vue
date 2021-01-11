@@ -52,7 +52,14 @@
           </div>
           <!-- Third Column -->
           <div class="col-3">
-            <p><a href="#" class="btn btn-primary">All Reviews</a></p>
+            <p>
+              <router-link
+                v-bind:to="`/p/movie/allreviews/${this.Id}`"
+                class="btn btn-primary"
+                >All Reviews</router-link
+              >
+            </p>
+
             <p>
               <router-link
                 v-bind:to="`/p/movie/addreview/${this.Id}`"

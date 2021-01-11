@@ -7,8 +7,9 @@ using Nt.Domain.Entities.Movie;
 
 namespace Nt.Domain.Entities.Dto
 {
-    public record MovieReviewDto:MovieEntity
+    public record MovieReviewDto
     {
+        public string MovieId { get; set; }
         public IEnumerable<ReviewDto> Reviews { get; set; } = Enumerable.Empty<ReviewDto>();
     }
 
@@ -28,5 +29,6 @@ namespace Nt.Domain.Entities.Dto
         public string Id { get; init; }
         public string UserName { get; init; }
         public string DisplayName { get; init; }
+        public int Followers { get; set; }
     }
 }

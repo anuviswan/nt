@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -6,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -38,6 +40,22 @@ namespace Nt.Infrastructure.WebApi.Controllers
             {
                 return BadRequest("Duplicate Review.Only one review is accepted for a movie per user");
             }
+        }
+
+        [HttpPost]
+        [Route("GetAllReviews")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<GetAllReviewsResponse>> GetAllMovieReviews(GetAllReviewsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _reviewService.GetAllReviewsAsync(request.MovieId);
+            return Ok(Mapper.Map<GetAllReviewsResponse>(response));
         }
     }
 }

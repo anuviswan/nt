@@ -12,6 +12,7 @@ import UserSearch from "../pages/private/user/UserSearch";
 import CreateMovie from "../pages/private/movie/CreateMovie";
 import SearchMovie from "../pages/private/movie/SearchMovie";
 import CreateReview from "../pages/private/reviews/CreateReview";
+import AllReviews from "../pages/private/reviews/AllReviews";
 Vue.use(VueRouter);
 
 const routes = [
@@ -71,6 +72,11 @@ const routes = [
         path: "movie/addreview/:movieId",
         name: "AddReview",
         component: CreateReview,
+      },
+      {
+        path: "movie/allreviews/:movieId",
+        name: "AllReviews",
+        component: AllReviews,
       },
     ],
   },

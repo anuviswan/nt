@@ -14,9 +14,11 @@
                 />
                 <div class="mt-3">
                   <h4>{{ this.user.displayName }}</h4>
-                  <p class="text-secondary mb-1">6 Followers</p>
+                  <p class="text-secondary mb-1">
+                    {{ this.user.followers }} Followers
+                  </p>
                   <p class="text-muted font-size-sm">
-                    Rating: 5
+                    User Rating: 5
                   </p>
                 </div>
               </div>
@@ -28,6 +30,17 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <h5 class="card-title">{{ this.reviewTitle }}</h5>
+                <Star-rating
+                  v-bind:inline="true"
+                  v-bind:star-size="15"
+                  v-bind:read-only="true"
+                  v-bind:fixed-points="1"
+                  v-bind:increment="0.5"
+                  v-model="movieRating"
+                  v-bind:animate="true"
+                  v-bind:show-rating="false"
+                  text-class="invisible"
+                />
               </li>
               <li class="list-group-item">
                 <b class="card-title">{{ this.movieTitle }}</b>
@@ -45,8 +58,12 @@
 </template>
 
 <script>
+import StarRating from "vue-star-rating";
 export default {
   name: "ReviewMiniCard",
+  components: {
+    StarRating,
+  },
   props: {
     reviewMetaInfo: {
       required: true,
@@ -58,17 +75,19 @@ export default {
       reviewTitle: "",
       movieTitle: "",
       review: "",
+      movieRating: 5,
       user: {},
     };
   },
   created() {
-    this.reviewTitle = this.reviewMetaInfo.review.reviewTitle;
-    this.movieTitle = this.reviewMetaInfo.review.movieTitle;
-    this.review = this.reviewMetaInfo.review.review;
-
-    this.user.displayName = this.reviewMetaInfo.user.userName;
-    this.user.rating = this.reviewMetaInfo.user.rating;
-    this.user.followers = this.reviewMetaInfo.user.followers;
+    console.log(this.reviewMetaInfo);
+    this.reviewTitle = this.reviewMetaInfo.title;
+    this.movieTitle = this.reviewMetaInfo.movieTitle;
+    this.review = this.reviewMetaInfo.description;
+    this.movieRating = this.reviewMetaInfo.rating;
+    this.user.displayName = this.reviewMetaInfo.authorUserName;
+    this.user.rating = this.reviewMetaInfo.rating;
+    this.user.followers = this.reviewMetaInfo.authorFollowers;
   },
 };
 </script>

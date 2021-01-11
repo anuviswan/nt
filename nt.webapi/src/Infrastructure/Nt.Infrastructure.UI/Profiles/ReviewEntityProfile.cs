@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Movie;
-using Nt.Infrastructure.WebApi.ViewModels.Areas.Review;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
 
 namespace Nt.Infrastructure.WebApi.Profiles
 {
@@ -17,6 +14,8 @@ namespace Nt.Infrastructure.WebApi.Profiles
         protected override void FromEntity()
         {
             CreateMap<ReviewEntity, CreateReviewResponse>();
+            CreateMap<ReviewDto, ReviewItem>();
+            CreateMap<MovieReviewDto, GetAllReviewsResponse>();
         }
 
         protected override void ToEntity()
