@@ -17,9 +17,15 @@ namespace Nt.Application.Services.User
 
         }
 
-        public Task FollowUserAsync(string currentUserId, string userToFollow)
+        public async Task FollowUserAsync(string currentUserName, string userNameToFollow)
         {
-            throw new NotImplementedException();
+            var userEntityToFollow = await GetUserAsync(currentUserName);
+            var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
+            followers.Add(userNameToFollow);
+
+            var updatedUser = userEntityToFollow with { Followers = followers };
+
+            var _ = await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUser);
         }
 
         public async Task<IEnumerable<UserProfileEntity>> GetAllUsersAsync()

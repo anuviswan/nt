@@ -73,7 +73,8 @@ namespace Nt.Application.Services.User
             var userToChange = userFound.Single() with
             {
                 Bio = user.Bio,
-                DisplayName = user.DisplayName
+                DisplayName = user.DisplayName,
+                Followers = user.Followers
             };
 
             return await UnitOfWork.UserProfileRepository.UpdateAsync(userToChange);

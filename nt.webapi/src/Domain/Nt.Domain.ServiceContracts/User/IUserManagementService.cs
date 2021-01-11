@@ -9,7 +9,7 @@ namespace Nt.Domain.ServiceContracts.User
         Task<IEnumerable<UserProfileEntity>> GetAllUsersAsync();
         Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName=null);
         Task<UserProfileEntity> GetUserAsync(string userName);
-        Task FollowUserAsync(string currentUserId, string userToFollow);
+        Task FollowUserAsync(string currentUserName, string userNameToFollow);
         Task UnfollowUserAsync(UserProfileEntity currentUser, UserProfileEntity userToUnfollow);
     }
 }
