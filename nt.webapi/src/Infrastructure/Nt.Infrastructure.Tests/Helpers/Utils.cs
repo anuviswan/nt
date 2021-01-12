@@ -12,5 +12,7 @@ namespace Nt.Infrastructure.Tests.Helpers
         public static string MockMovieIdFormat = "MABCDEF{0}";
         public static string MockUserIdFormat = "UABCDEF{0}";
         public static readonly DateTime Date = new DateTime(2020, 8, 20);
+
+        public static string GenerateUserIdString(long userId) => string.Format(MockUserIdFormat, userId);
     }
 }

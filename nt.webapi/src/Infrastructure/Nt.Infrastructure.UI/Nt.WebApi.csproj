@@ -12,13 +12,9 @@
 
   <ItemGroup>
     <Compile Remove="Interfaces\**" />
-    <Compile Remove="ViewModels\Areas\User\NewFolder\**" />
     <Content Remove="Interfaces\**" />
-    <Content Remove="ViewModels\Areas\User\NewFolder\**" />
     <EmbeddedResource Remove="Interfaces\**" />
-    <EmbeddedResource Remove="ViewModels\Areas\User\NewFolder\**" />
     <None Remove="Interfaces\**" />
-    <None Remove="ViewModels\Areas\User\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
