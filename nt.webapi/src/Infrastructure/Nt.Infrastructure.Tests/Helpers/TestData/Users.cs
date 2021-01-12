@@ -18,6 +18,10 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 1",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 1",
                 IsDeleted = false,
+                Followers = new[]
+                {
+                    "UserName 3"
+                }
             };
 
 
@@ -28,6 +32,10 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 2",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 2",
                 IsDeleted = false,
+                Followers = new[]
+                {
+                    "UserName 3"
+                }
             };
 
 

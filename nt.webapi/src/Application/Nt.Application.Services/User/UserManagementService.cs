@@ -16,14 +16,21 @@ namespace Nt.Application.Services.User
         {
 
         }
-        public Task ApproveFollowRequestAsync(UserProfileEntity currentUser, UserProfileEntity approveUserRequest)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task FollowUserRequestGetAsync(UserProfileEntity currentUser, UserProfileEntity userToFollow)
+        public async Task FollowUserAsync(string currentUserName, string userNameToFollow)
         {
-            throw new NotImplementedException();
+            var currentUserEntity = await GetUserAsync(currentUserName);
+            if (currentUserEntity == null) 
+                throw new EntityNotFoundException();
+
+            var userEntityToFollow = await GetUserAsync(userNameToFollow);
+            var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
+
+            followers.Add(currentUserName);
+
+            var updatedUser = userEntityToFollow with { Followers = followers };
+
+            var _ = await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUser);
         }
 
         public async Task<IEnumerable<UserProfileEntity>> GetAllUsersAsync()
@@ -58,6 +65,11 @@ namespace Nt.Application.Services.User
             return await UnitOfWork.UserProfileRepository.GetAsync(x => (x.DisplayName.ToLower().StartsWith(userName.ToLower()) 
                                                                         || x.UserName.ToLower().StartsWith(userName.ToLower())) 
                                                                         && !x.IsDeleted);
+        }
+
+        public Task UnfollowUserAsync(UserProfileEntity currentUser, UserProfileEntity userToUnfollow)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,6 +8,7 @@ using Nt.Domain.ServiceContracts.User;
 using Nt.Infrastructure.WebApi.Authentication;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.FollowUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
@@ -221,6 +222,37 @@ namespace Nt.Infrastructure.WebApi.Controllers
             catch (InvalidPasswordOrUsernameException)
             {
                 return BadRequest("Incorrect old password");
+            }
+        }
+
+
+        /// <summary>
+        /// Mark User to Follow
+        /// </summary>
+        /// <param name="request">User to Follow</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ChangePassword")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> FollowUser(FollowUserRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var currentUser = User.Identity.Name;
+                await _userManagementService.FollowUserAsync(currentUser, request.UserToFollow);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
+            {
+
+                return BadRequest("User not found");
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews
 {
-    public class GetAllReviewsRequest
+    public record GetAllReviewsRequest
     {
         [Required(ErrorMessage = "Movie Id cannot be empty")]
         public string MovieId { get; set; }

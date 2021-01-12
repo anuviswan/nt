@@ -2,13 +2,13 @@
 
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews
 {
-    public class GetAllReviewsResponse
+    public record GetAllReviewsResponse
     {
         public string MovieId { get; set; }
         public IEnumerable<ReviewItem> Reviews { get; set; }
     }
 
-    public class ReviewItem
+    public record ReviewItem
     {
         public string Id { get; set; }
 
