@@ -20,7 +20,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 IsDeleted = false,
                 Followers = new[]
                 {
-                    "UserName 2"
+                    "UserName 3"
                 }
             };
 
@@ -34,7 +34,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 IsDeleted = false,
                 Followers = new[]
                 {
-                    "UserName 1"
+                    "UserName 3"
                 }
             };
 

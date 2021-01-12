@@ -46,6 +46,8 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
                 {
                     var userToUpdate = EntityCollection.Single(x => string.Equals(x.UserName, user.UserName));
                     userToUpdate = userToUpdate with { Followers = user.Followers };
+                    EntityCollection.Remove(EntityCollection.Single(x => string.Equals(x.UserName, user.UserName)));
+                    EntityCollection.Add(userToUpdate);
                 });
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -67,6 +69,11 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
             {
                 "UserName 1",
                 "UserName 2",
+            },
+            new object[]
+            {
+                "UserName 3",
+                "UserName 4",
             }
         };
         #endregion
