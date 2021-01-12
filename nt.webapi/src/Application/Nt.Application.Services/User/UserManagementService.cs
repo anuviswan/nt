@@ -19,8 +19,13 @@ namespace Nt.Application.Services.User
 
         public async Task FollowUserAsync(string currentUserName, string userNameToFollow)
         {
+            var currentUserEntity = await GetUserAsync(currentUserName);
+            if (currentUserEntity == null) 
+                throw new EntityNotFoundException();
+
             var userEntityToFollow = await GetUserAsync(userNameToFollow);
             var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
+
             followers.Add(currentUserName);
 
             var updatedUser = userEntityToFollow with { Followers = followers };

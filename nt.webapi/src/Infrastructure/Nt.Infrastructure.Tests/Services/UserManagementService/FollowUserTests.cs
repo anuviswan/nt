@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Moq;
 using Nt.Application.Services.User;
+using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.RepositoryContracts.User;
@@ -75,6 +76,78 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
                 "UserName 3",
                 "UserName 4",
             }
+        };
+        #endregion
+
+
+        #region Valid Cases 
+        [Theory]
+        [MemberData(nameof(FollowUserFailureTestData))]
+        [ServiceTest(nameof(UserManagementService)), Feature]
+        public async Task FollowUserFailure(string currentUser, string userToFollow)
+        {
+            // Arrange
+            var mockUserRepository = new Mock<IUserProfileRepository>();
+            mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
+                               .Returns((Expression<Func<UserProfileEntity, bool>> x) =>
+                               Task.FromResult(EntityCollection.AsQueryable<UserProfileEntity>().Where(x).AsEnumerable()));
+
+            mockUserRepository.Setup(x => x.UpdateAsync(It.IsAny<UserProfileEntity>()))
+                .Callback((UserProfileEntity user) =>
+                {
+                    var userToUpdate = EntityCollection.Single(x => string.Equals(x.UserName, user.UserName));
+                    userToUpdate = userToUpdate with { Followers = user.Followers };
+                    EntityCollection.Remove(EntityCollection.Single(x => string.Equals(x.UserName, user.UserName)));
+                    EntityCollection.Add(userToUpdate);
+                });
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.SetupGet(x => x.UserProfileRepository).Returns(mockUserRepository.Object);
+
+            // Act
+            var userManagementService = new UserManagementService(mockUnitOfWork.Object);
+            await Assert.ThrowsAsync<EntityNotFoundException>(()=> userManagementService.FollowUserAsync(currentUser, userToFollow));
+
+        }
+
+        public static IEnumerable<object[]> FollowUserFailureTestData => new List<object[]>
+        {
+            new object[]
+            {
+                "InvalidUser",
+                "UserName 2",
+            },
+            new object[]
+            {
+                "UserName 3",
+                "InvalidUser",
+            },
+            new object[]
+            {
+                string.Empty,
+                "UserName 3",
+            },
+
+            new object[]
+            {
+
+                "UserName 3",
+                string.Empty,
+            },
+
+            new object[]
+            {
+                null,
+                "UserName 3",
+            },
+
+            new object[]
+            {
+
+                "UserName 3",
+                null,
+            },
+
         };
         #endregion
     }
