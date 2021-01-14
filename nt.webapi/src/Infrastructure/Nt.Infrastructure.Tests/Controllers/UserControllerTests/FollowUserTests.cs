@@ -29,7 +29,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
         protected override void InitializeCollection()
         {
             base.InitializeCollection();
-            EntityCollection = new List<UserProfileEntity>(MovieReviewCollectionHelper.UserCollection);
+            EntityCollection = new List<UserProfileEntity>(MockDataHelper.UserCollection);
         }
 
         #region Response Status 204

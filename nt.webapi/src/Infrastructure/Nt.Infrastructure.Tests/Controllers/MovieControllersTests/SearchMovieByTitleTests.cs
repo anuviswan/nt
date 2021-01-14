@@ -23,9 +23,9 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
 
         }
 
-        public static List<UserProfileEntity> UserCollection { get; set; } = MovieReviewCollectionHelper.UserCollection;
-        public static List<ReviewEntity> ReviewCollection { get; set; } = MovieReviewCollectionHelper.ReviewCollection;
-        public static List<MovieEntity> MovieCollection { get; set; } = MovieReviewCollectionHelper.MovieCollection;
+        public static List<UserProfileEntity> UserCollection { get; set; } = MockDataHelper.UserCollection;
+        public static List<ReviewEntity> ReviewCollection { get; set; } = MockDataHelper.ReviewCollection;
+        public static List<MovieEntity> MovieCollection { get; set; } = MockDataHelper.MovieCollection;
 
         protected override void InitializeCollection()
         {
@@ -64,12 +64,12 @@ namespace Nt.Infrastructure.Tests.Controllers.MovieControllersTests
             new object[]
             {
                 new SearchMovieByTitleRequest{SearchString = "title"},
-                MovieReviewCollectionHelper.GetMovies("title")
+                MockDataHelper.GetMovies("title")
             },
             new object[]
             {
                 new SearchMovieByTitleRequest{SearchString = "mov" },
-                MovieReviewCollectionHelper.GetMovies("mov")
+                MockDataHelper.GetMovies("mov")
             }
         };
         #endregion

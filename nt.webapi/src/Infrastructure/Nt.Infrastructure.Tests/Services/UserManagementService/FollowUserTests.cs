@@ -26,7 +26,7 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
         protected override void InitializeCollection()
         {
             Output.WriteLine("Initialized"); //TODO: Fix this removing this line causes InitializeCollection not being called randomly
-            EntityCollection = new List<UserProfileEntity>(MovieReviewCollectionHelper.UserCollection);
+            EntityCollection = new List<UserProfileEntity>(MockDataHelper.UserCollection);
         }
 
 

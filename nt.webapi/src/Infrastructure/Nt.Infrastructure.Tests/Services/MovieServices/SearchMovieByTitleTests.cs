@@ -19,9 +19,9 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
 {
     public class SearchMovieByTitleTests:ServiceTestBase<MovieEntity>
     {
-        public static List<UserProfileEntity> UserCollection { get; set; } = MovieReviewCollectionHelper.UserCollection;
-        public static List<ReviewEntity> ReviewCollection { get; set; } = MovieReviewCollectionHelper.ReviewCollection;
-        public static List<MovieEntity> MovieCollection { get; set; } = MovieReviewCollectionHelper.MovieCollection;
+        public static List<UserProfileEntity> UserCollection { get; set; } = MockDataHelper.UserCollection;
+        public static List<ReviewEntity> ReviewCollection { get; set; } = MockDataHelper.ReviewCollection;
+        public static List<MovieEntity> MovieCollection { get; set; } = MockDataHelper.MovieCollection;
 
         public SearchMovieByTitleTests(ITestOutputHelper output) : base(output)
         {
@@ -77,16 +77,16 @@ namespace Nt.Infrastructure.Tests.Services.MovieServices
             new object[]
             {
                  "titl",-1,
-                  MovieReviewCollectionHelper.GetMovies("titl")
+                  MockDataHelper.GetMovies("titl")
             },
             new object[]
             {
                  "titl",5,
-                  MovieReviewCollectionHelper.GetMovies("titl").Take(5)
+                  MockDataHelper.GetMovies("titl").Take(5)
             },
             new object[]
             {
-                 "movie",-1,MovieReviewCollectionHelper.GetMovies("movie")
+                 "movie",-1,MockDataHelper.GetMovies("movie")
             },
             new object[]
             {

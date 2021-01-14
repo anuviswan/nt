@@ -27,9 +27,9 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
         }
 
-        public static List<UserProfileEntity> UserCollection { get; set; } = MovieReviewCollectionHelper.UserCollection;
-        public static List<ReviewEntity> ReviewCollection { get; set; } = MovieReviewCollectionHelper.ReviewCollection;
-        public static List<MovieEntity> MovieCollection { get; set; } = MovieReviewCollectionHelper.MovieCollection;
+        public static List<UserProfileEntity> UserCollection { get; set; } = MockDataHelper.UserCollection;
+        public static List<ReviewEntity> ReviewCollection { get; set; } = MockDataHelper.ReviewCollection;
+        public static List<MovieEntity> MovieCollection { get; set; } = MockDataHelper.MovieCollection;
 
         protected override void InitializeCollection()
         {

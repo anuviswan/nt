@@ -9,7 +9,7 @@ using Nt.Domain.Entities.User;
 
 namespace Nt.Infrastructure.Tests.Helpers.TestData
 {
-    public static class MovieReviewCollectionHelper
+    public static class MockDataHelper
     {
         public static List<UserProfileEntity> UserCollection { get; set; } = Users.GetUserCollection().ToList();
         public static List<ReviewEntity> ReviewCollection { get; set; } = Reviews.GetReviewCollection().ToList();
