@@ -29,7 +29,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
             {
                 DisplayName = $"User Name {x}",
                 UserName = $"username{x}",
-                PassKey = $"passKey{x}"
+                PassKey = $"passKey{x}",
             }).ToList();
         }
 

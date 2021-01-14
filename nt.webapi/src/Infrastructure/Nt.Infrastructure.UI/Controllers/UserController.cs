@@ -232,7 +232,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         /// <param name="request">User to Follow</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("ChangePassword")]
+        [Route("FollowUser")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

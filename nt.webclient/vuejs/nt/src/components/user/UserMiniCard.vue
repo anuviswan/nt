@@ -24,6 +24,22 @@
               <p class="text-muted font-size-sm">
                 Rating: 5
               </p>
+              <p v-if="isFollowed">
+                <button
+                  v-on:click="followUser"
+                  class="btn btn-primary btn-flat"
+                >
+                  Unfollow
+                </button>
+              </p>
+              <p v-else>
+                <button
+                  v-on:click="followUser"
+                  class="btn btn-primary btn-flat"
+                >
+                  Follow
+                </button>
+              </p>
             </div>
           </div>
         </div>
@@ -33,6 +49,7 @@
 </template>
 
 <script>
+import { followUser } from "../../api/user";
 export default {
   name: "UserMiniCard",
   props: {
@@ -47,6 +64,7 @@ export default {
       displayName: "",
       bio: "",
       rating: 0,
+      isFollowed: false,
     };
   },
 
@@ -55,6 +73,12 @@ export default {
     this.displayName = this.user.displayName;
     this.bio = this.user.bio;
     this.rating = this.user.rating;
+  },
+  methods: {
+    async followUser() {
+      const response = await followUser(this.userName);
+      console.log(response);
+    },
   },
 };
 </script>
