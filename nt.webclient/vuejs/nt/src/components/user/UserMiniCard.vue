@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { followUser } from "../../api/user";
 export default {
   name: "UserMiniCard",
@@ -64,15 +65,18 @@ export default {
       displayName: "",
       bio: "",
       rating: 0,
+      followers: 0,
       isFollowed: false,
     };
   },
-
+  computed: { ...mapGetters(["currentUser"]) },
   created() {
     this.userName = this.user.userName;
     this.displayName = this.user.displayName;
     this.bio = this.user.bio;
     this.rating = this.user.rating;
+    this.followers = this.user.followers.length;
+    this.isFollowed = this.user.followers.includes(this.currentUser.userName);
   },
   methods: {
     async followUser() {
