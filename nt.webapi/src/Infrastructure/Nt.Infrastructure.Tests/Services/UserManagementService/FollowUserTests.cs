@@ -34,7 +34,7 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
         [Theory]
         [MemberData(nameof(FollowUserSuccessTestData))]
         [ServiceTest(nameof(UserManagementService)), Feature]
-        public async Task FollowUserSuccess(string currentUser,string userToFollow)
+        public async Task FollowUserSuccess(string currentUserName,string userNameToFollow)
         {
             // Arrange
             var mockUserRepository = new Mock<IUserProfileRepository>();
@@ -46,7 +46,13 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
                 .Callback((UserProfileEntity user) =>
                 {
                     var userToUpdate = EntityCollection.Single(x => string.Equals(x.UserName, user.UserName));
-                    userToUpdate = userToUpdate with { Followers = user.Followers };
+                    userToUpdate = user.UserName switch
+                    {
+                        var usrCurrent when usrCurrent == currentUserName => userToUpdate with { Followers = user.Followers },
+                        var usrToFollow when usrToFollow == userNameToFollow => userToUpdate with { Follows = user.Follows },
+                        _ => userToUpdate
+                    };
+                    
                     EntityCollection.Remove(EntityCollection.Single(x => string.Equals(x.UserName, user.UserName)));
                     EntityCollection.Add(userToUpdate);
                 });
@@ -56,12 +62,15 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
 
             // Act
             var userManagementService = new UserManagementService(mockUnitOfWork.Object);
-            await userManagementService.FollowUserAsync(currentUser,userToFollow);
+            await userManagementService.FollowUserAsync(currentUserName,userNameToFollow);
 
-            var followedUser = EntityCollection.Single(x => string.Equals(x.UserName, userToFollow));
-            // Arrange
-            Assert.Contains(currentUser, followedUser.Followers);
-            
+            // Assert
+            var followedUser = EntityCollection.Single(x => string.Equals(x.UserName, userNameToFollow));
+            Assert.Contains(currentUserName, followedUser.Followers);
+
+            var currentUser = EntityCollection.Single(x => string.Equals(x.UserName, currentUserName));
+            Assert.Contains(userNameToFollow, currentUser.Follows);
+
         }
 
         public static IEnumerable<object[]> FollowUserSuccessTestData => new List<object[]>

@@ -72,9 +72,17 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public Task<MovieReviewDto> GetRecentReviewsFromFollowed(string currentUserName)
+        public async Task<MovieReviewDto> GetRecentReviewsFromFollowedAsync(string currentUserName)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(currentUserName))
+            {
+                throw new ArgumentException("Invalid UserName");
+            }
+
+            var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == currentUserName.ToLower());
+
+
+            return default;
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
             // Act
             var reviewService = new ReviewService(unitOfWork.Object);
-            var response = await reviewService.GetAllReviewsAsync(movieId);
+            var response = await reviewService.GetRecentReviewsFromFollowedAsync(movieId);
 
             // Assert
             Assert.Equal(expectedResult.Reviews.Count(), response.Reviews.Count());

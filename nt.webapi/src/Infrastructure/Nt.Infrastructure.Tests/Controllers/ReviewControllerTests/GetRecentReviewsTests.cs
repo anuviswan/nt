@@ -46,7 +46,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             // Arrange
             var expectedResult = Mapper.Map<MovieReviewDto, GetRecentReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
-            mockReviewService.Setup(x => x.GetRecentReviewsFromFollowed(It.IsAny<string>()))
+            mockReviewService.Setup(x => x.GetRecentReviewsFromFollowedAsync(It.IsAny<string>()))
                             .Returns((string mId) => Task.FromResult(MockDataHelper.GetReviews(mId)));
             // Act
             var reviewController = new ReviewController(Mapper, mockReviewService.Object);

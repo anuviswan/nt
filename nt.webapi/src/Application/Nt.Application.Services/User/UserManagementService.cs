@@ -25,12 +25,17 @@ namespace Nt.Application.Services.User
 
             var userEntityToFollow = await GetUserAsync(userNameToFollow);
             var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
-
             followers.Add(currentUserName);
 
-            var updatedUser = userEntityToFollow with { Followers = followers };
+            var updatedUserToFollow = userEntityToFollow with { Followers = followers };
+            await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUserToFollow);
 
-            var _ = await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUser);
+
+            var currentUser = await GetUserAsync(currentUserName);
+            var follows = currentUser.Follows?.ToList() ?? Enumerable.Empty<string>().ToList();
+            follows.Add(userNameToFollow);
+            var updatedCurrentUser = currentUser with { Follows = follows };
+            await UnitOfWork.UserProfileRepository.UpdateAsync(updatedCurrentUser);
         }
 
         public async Task<IEnumerable<UserProfileEntity>> GetAllUsersAsync()
