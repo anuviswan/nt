@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
+using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.Movie;
 
@@ -79,8 +80,8 @@ namespace Nt.Application.Services.Movie
                 throw new ArgumentException("Invalid UserName");
             }
 
-            var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == currentUserName.ToLower());
-
+            var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id.ToLower() == currentUserName.ToLower());
+            var followUsers = currentUser.Single().Follows ?? Enumerable.Empty<string>();
 
             return default;
         }
