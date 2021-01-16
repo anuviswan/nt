@@ -61,11 +61,16 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var result = Assert.IsAssignableFrom<GetAllReviewsResponse>(okResponse.Value);
 
 
-            Assert.Equal(movieId, result.MovieId);
             foreach(var (actualReview,expectedReview) in result.Reviews.Zip(expectedResult.Reviews))
             {
-                Assert.Equal(expectedReview.AuthorDisplayName, actualReview.AuthorDisplayName);
-                Assert.Equal(expectedReview.AuthorId, actualReview.AuthorId);
+                Assert.Equal(expectedReview.Author.DisplayName, actualReview.Author.DisplayName);
+                Assert.Equal(expectedReview.Author.Id, actualReview.Author.Id);
+                Assert.Equal(expectedReview.Author.Followers, actualReview.Author.Followers);
+                Assert.Equal(expectedReview.Author.UserName, actualReview.Author.UserName);
+
+                Assert.Equal(expectedReview.Movie.Id, actualReview.Movie.Id);
+                Assert.Equal(expectedReview.Movie.Title, actualReview.Movie.Title);
+
                 Assert.Equal(expectedReview.Description, actualReview.Description);
                 Assert.Equal(expectedReview.Rating, actualReview.Rating);
                 Assert.Equal(expectedReview.Title, actualReview.Title);
@@ -113,8 +118,6 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var okResponse = Assert.IsType<OkObjectResult>(response.Result);
             var result = Assert.IsAssignableFrom<GetAllReviewsResponse>(okResponse.Value);
 
-
-            Assert.Equal(movieId, result.MovieId);
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
             Assert.False(result.Reviews.Any());
         }

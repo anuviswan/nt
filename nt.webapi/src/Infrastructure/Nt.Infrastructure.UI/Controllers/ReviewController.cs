@@ -9,6 +9,7 @@ using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetRecentReviews;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -56,6 +57,12 @@ namespace Nt.Infrastructure.WebApi.Controllers
 
             var response = await _reviewService.GetAllReviewsAsync(request.MovieId);
             return Ok(Mapper.Map<GetAllReviewsResponse>(response));
+        }
+
+
+        public async Task<ActionResult<GetRecentReviewsResponse>> GetRecentReviews(GetRecentReviewsRequest request)
+        {
+            return default;
         }
     }
 }

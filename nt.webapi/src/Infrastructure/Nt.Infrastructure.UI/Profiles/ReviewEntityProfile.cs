@@ -1,4 +1,5 @@
-﻿using Nt.Domain.Entities.Dto;
+﻿using System.Linq;
+using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
@@ -15,7 +16,9 @@ namespace Nt.Infrastructure.WebApi.Profiles
         {
             CreateMap<ReviewEntity, CreateReviewResponse>();
             CreateMap<ReviewDto, ReviewItem>();
-            CreateMap<MovieReviewDto, GetAllReviewsResponse>();
+            CreateMap<UserDto, AuthorInfo>();
+            CreateMap<MovieDto, MovieInfo>();
+            CreateMap<MovieReviewDto, GetAllReviewsResponse>(); 
         }
 
         protected override void ToEntity()

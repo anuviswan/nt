@@ -39,7 +39,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
 
         [Theory]
-        [ServiceTest(nameof(MovieService)), Feature]
+        [ServiceTest(nameof(ReviewService)), Feature]
         [MemberData(nameof(GetReviewsSuccessTestData))]
         public async Task GetAllReviewsSuccessTest(string movieId,MovieReviewDto expectedResult)
         {
@@ -67,8 +67,6 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
             var response = await reviewService.GetAllReviewsAsync(movieId);
 
             // Assert
-            Assert.Equal(movieId, response.MovieId);
-            Assert.Equal(expectedResult.MovieId, response.MovieId);
             Assert.Equal(expectedResult.Reviews.Count(), response.Reviews.Count());
 
             foreach(var (expected,actual) in expectedResult.Reviews.OrderBy(x=>x.Id).Zip(response.Reviews.OrderBy(x=>x.Id)))
@@ -79,6 +77,9 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                 Assert.Equal(expected.Rating, actual.Rating);
                 Assert.Equal(expected.UpvotedBy.OrderBy(x => x), actual.UpvotedBy.OrderBy(x => x));
                 Assert.Equal(expected.DownvotedBy.OrderBy(x => x), actual.DownvotedBy.OrderBy(x => x));
+
+                Assert.Equal(expected.Movie.Id, actual.Movie.Id);
+                Assert.Equal(expected.Movie.Title, actual.Movie.Title);
             }
 
         }
@@ -90,7 +91,6 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                 string.Format(Utils.MockMovieIdFormat,1),
                 new MovieReviewDto
                 {
-                    MovieId = string.Format(Utils.MockMovieIdFormat,1),
                     Reviews = ReviewCollection.Where(x=> string.Equals(x.MovieId,string.Format(Utils.MockMovieIdFormat,1)))
                     .Select(x=> new ReviewDto
                     {
@@ -107,7 +107,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                                         Id = c.Id,
                                         DisplayName = c.DisplayName,
                                         UserName = c.UserName
-                                    }).Single()
+                                    }).Single(),
+                        Movie = new MovieDto(string.Format(Utils.MockMovieIdFormat,1),string.Empty)
                     })
                 }
             },
@@ -116,7 +117,6 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                 string.Format(Utils.MockMovieIdFormat,5),
                 new MovieReviewDto
                 {
-                    MovieId = string.Format(Utils.MockMovieIdFormat,5),
                     Reviews = ReviewCollection.Where(x=> string.Equals(x.MovieId,string.Format(Utils.MockMovieIdFormat,5)))
                     .Select(x=> new ReviewDto
                     {
@@ -132,7 +132,8 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
                                         Id = c.Id,
                                         DisplayName = c.DisplayName,
                                         UserName = c.UserName
-                                    }).Single()
+                                    }).Single(),
+                         Movie = new MovieDto(string.Format(Utils.MockMovieIdFormat,5),string.Empty)
                     })
                 }
 

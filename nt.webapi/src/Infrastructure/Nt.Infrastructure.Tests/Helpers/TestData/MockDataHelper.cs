@@ -42,8 +42,8 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
             var response = new MovieReviewDto();
             var reviewCollection = ReviewCollection.Where(x => string.Equals(x.MovieId, movieId));
             var userCollection = UserCollection.Where(x => reviewCollection.Select(c => c.AuthorId).Contains(x.Id));
-            response.MovieId = movieId;
-            response.Reviews = reviewCollection.Select(x => new ReviewDto
+            var movie = new MovieDto(movieId,string.Empty);
+            var reviews = reviewCollection.Select(x => new ReviewDto
             {
                 Description = x.ReviewDescription,
                 DownvotedBy = x.DownVotedBy,
@@ -56,9 +56,22 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                     DisplayName = c.DisplayName,
                     Id = c.Id,
                     UserName = c.UserName
-                }).Single()
+                }).Single(),
+                Movie = movie
             });
 
+            response = response with
+            {
+                Reviews = reviews
+            };
+
+            return response;
+        }
+
+        internal static MovieReviewDto GetReviewsByUser(string userId)
+        {
+            var response = new MovieReviewDto();
+            var reviewCollection = ReviewCollection.Where(x => string.Equals(x.AuthorId, userId)).OrderBy(x=>x.CreatedOn);
             return response;
         }
 

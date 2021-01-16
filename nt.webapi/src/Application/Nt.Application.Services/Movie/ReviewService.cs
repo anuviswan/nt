@@ -41,7 +41,7 @@ namespace Nt.Application.Services.Movie
                 throw new ArgumentException("Invalid MovieId");
             }
 
-            var result = new MovieReviewDto { MovieId = movieId };
+            var result = new MovieReviewDto();
             var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movieId);
 
             var consolidatedReviews = new List<ReviewDto>();
@@ -62,13 +62,19 @@ namespace Nt.Application.Services.Movie
                         DisplayName = x.DisplayName,
                         UserName = x.UserName,
                         Id = x.Id
-                    }).Single()
+                    }).Single(),
+                    Movie = new MovieDto(movieId,string.Empty)
                 }); 
             }
 
-            result.Reviews = consolidatedReviews;
+            result = result with { Reviews = consolidatedReviews };
 
             return result;
+        }
+
+        public Task<MovieReviewDto> GetRecentReviewsFromFollowed(string currentUserName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
