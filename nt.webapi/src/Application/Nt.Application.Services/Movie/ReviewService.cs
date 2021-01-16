@@ -73,7 +73,7 @@ namespace Nt.Application.Services.Movie
             return result;
         }
 
-        public async Task<MovieReviewDto> GetRecentReviewsFromFollowedAsync(string currentUserName)
+        public async Task<MovieReviewDto> GetRecentReviewsFromFollowedAsync(string currentUserName,int maxNumberOfItems)
         {
             if (string.IsNullOrEmpty(currentUserName))
             {
@@ -87,7 +87,7 @@ namespace Nt.Application.Services.Movie
             var result = new MovieReviewDto();
             var reviewResultDto = new List<ReviewDto>();
 
-            foreach (var review in reviews)
+            foreach (var review in reviews.OrderByDescending(x=>x.CreatedOn).Take(maxNumberOfItems))
             {
                 var author = (await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)).Single();
                 var movie = (await UnitOfWork.MovieRepository.GetAsync(x => x.Id == review.MovieId)).Single();

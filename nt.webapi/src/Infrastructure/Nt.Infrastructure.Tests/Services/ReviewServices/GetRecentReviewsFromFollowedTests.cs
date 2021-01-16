@@ -39,7 +39,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
         [Theory]
         [ServiceTest(nameof(ReviewService)), Feature]
         [MemberData(nameof(GetRecentReviewsFromFollowedSuccessTestData))]
-        public async Task GetRecentReviewsFromFollowedSuccessTest(string movieId, MovieReviewDto expectedResult)
+        public async Task GetRecentReviewsFromFollowedSuccessTest(string movieId, int maxReviews, MovieReviewDto expectedResult)
         {
             // Arrange
             var mockReviewRepository = new Mock<IReviewRepository>();
@@ -62,7 +62,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
             // Act
             var reviewService = new ReviewService(unitOfWork.Object);
-            var response = await reviewService.GetRecentReviewsFromFollowedAsync(movieId);
+            var response = await reviewService.GetRecentReviewsFromFollowedAsync(movieId,maxReviews);
 
             // Assert
             Assert.Equal(expectedResult.Reviews.Count(), response.Reviews.Count());
@@ -87,11 +87,13 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
             new object[]
             {
                 Utils.GenerateUserIdString(1),
+                1,
                 MockDataHelper.GetReviewsByUser(Utils.GenerateUserIdString(3))
             },
             new object[]
             {
                 Utils.GenerateUserIdString(5),
+                1,
                 new MovieReviewDto{Reviews= Enumerable.Empty<ReviewDto>()}
             },
         };

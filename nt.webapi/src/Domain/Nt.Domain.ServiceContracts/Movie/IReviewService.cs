@@ -12,6 +12,6 @@ namespace Nt.Domain.ServiceContracts.Movie
     {
         Task<ReviewEntity> CreateAsync(ReviewEntity review,string authorUserName);
         Task<MovieReviewDto> GetAllReviewsAsync(string movieId);
-        Task<MovieReviewDto> GetRecentReviewsFromFollowedAsync(string currentUserName);
+        Task<MovieReviewDto> GetRecentReviewsFromFollowedAsync(string currentUserName,int maxReviews);
     }
 }

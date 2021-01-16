@@ -60,6 +60,11 @@ namespace Nt.Infrastructure.WebApi.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetRecentReviews")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<GetRecentReviewsResponse>> GetRecentReviews(GetRecentReviewsRequest request)
         {
             if (!ModelState.IsValid)
@@ -68,7 +73,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
             }
 
             var userName = User.Identity.Name;
-            var response = await _reviewService.GetRecentReviewsFromFollowedAsync(userName);
+            var response = await _reviewService.GetRecentReviewsFromFollowedAsync(userName,request.NumberOfItems);
             return Ok(Mapper.Map<GetRecentReviewsResponse>(response));
         }
     }

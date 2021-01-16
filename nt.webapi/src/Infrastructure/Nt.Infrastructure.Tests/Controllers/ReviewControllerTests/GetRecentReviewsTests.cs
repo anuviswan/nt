@@ -43,20 +43,26 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
         [Theory]
         [MemberData(nameof(GetRecentReviews_200_TestData))]
         [ControllerTest(nameof(ReviewController)), Feature]
-        public async Task GetRecentReviews_200(string movieId, MovieReviewDto expectedReviews)
+        public async Task GetRecentReviews_200(string userName,int maxItems, MovieReviewDto expectedReviews)
         {
             // Arrange
             // Arrange
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, Utils.GenerateUserIdString(1)),
+                new Claim(ClaimTypes.Name, userName),
 
             }, "mock"));
 
             var expectedResult = Mapper.Map<MovieReviewDto, GetRecentReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
-            mockReviewService.Setup(x => x.GetRecentReviewsFromFollowedAsync(It.IsAny<string>()))
-                            .Returns((string mId) => Task.FromResult(MockDataHelper.GetReviews(mId)));
+            mockReviewService.Setup(x => x.GetRecentReviewsFromFollowedAsync(It.IsAny<string>(),It.IsAny<int>()))
+                            .Returns((string mId,int maxItems) => {
+                                var reviews = MockDataHelper.GetReviews(mId);
+                                return Task.FromResult(new MovieReviewDto
+                                {
+                                    Reviews = reviews.Reviews.Take(maxItems)
+                                });
+                            });
             // Act
             var reviewController = new ReviewController(Mapper, mockReviewService.Object);
             var request = new GetRecentReviewsRequest
@@ -74,7 +80,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var okResponse = Assert.IsType<OkObjectResult>(response.Result);
             var result = Assert.IsAssignableFrom<GetRecentReviewsResponse>(okResponse.Value);
 
-
+            Assert.True(maxItems >= result.Reviews.Count());
             foreach (var (actualReview, expectedReview) in result.Reviews.Zip(expectedResult.Reviews))
             {
                 Assert.Equal(expectedReview.Author.DisplayName, actualReview.Author.DisplayName);
@@ -96,11 +102,13 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             new object[]
             {
                 Utils.GenerateUserIdString(1),
+                1,
                 MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,1))
             },
              new object[]
              {
-                 string.Format(Utils.MockMovieIdFormat,3),
+                 Utils.GenerateUserIdString(3),
+                 1,
                  MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,3))
              }
         };
