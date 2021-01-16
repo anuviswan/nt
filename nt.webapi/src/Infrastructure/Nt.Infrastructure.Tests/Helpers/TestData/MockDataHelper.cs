@@ -36,6 +36,10 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
             return movieReview;
         }
 
+        internal static UserProfileEntity GetUser(string userName)
+        {
+            return UserCollection.Single(user => string.Equals(user.UserName, userName));
+        }
 
         internal static MovieReviewDto GetReviews(string movieId)
         {

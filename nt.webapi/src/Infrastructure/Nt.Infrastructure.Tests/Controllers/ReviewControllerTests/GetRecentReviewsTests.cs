@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nt.Domain.Entities.Dto;
@@ -44,6 +46,13 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
         public async Task GetRecentReviews_200(string movieId, MovieReviewDto expectedReviews)
         {
             // Arrange
+            // Arrange
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, Utils.GenerateUserIdString(1)),
+
+            }, "mock"));
+
             var expectedResult = Mapper.Map<MovieReviewDto, GetRecentReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
             mockReviewService.Setup(x => x.GetRecentReviewsFromFollowedAsync(It.IsAny<string>()))
@@ -54,6 +63,11 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             {
                 NumberOfItems = 10
             };
+
+            reviewController.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+            MockModelState(request, reviewController);
+
+            
             var response = await reviewController.GetRecentReviews(request);
 
             // Assert

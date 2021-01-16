@@ -62,7 +62,14 @@ namespace Nt.Infrastructure.WebApi.Controllers
 
         public async Task<ActionResult<GetRecentReviewsResponse>> GetRecentReviews(GetRecentReviewsRequest request)
         {
-            return default;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userName = User.Identity.Name;
+            var response = await _reviewService.GetRecentReviewsFromFollowedAsync(userName);
+            return Ok(Mapper.Map<GetRecentReviewsResponse>(response));
         }
     }
 }

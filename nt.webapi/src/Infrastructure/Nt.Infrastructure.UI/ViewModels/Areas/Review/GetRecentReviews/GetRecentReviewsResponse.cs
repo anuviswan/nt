@@ -11,15 +11,15 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetRecentReviews
     {
         public string Id { get; init; }
 
-        public MovieInfo Movie { get; init; }
+        public MovieInfoItem Movie { get; init; }
         public string Title { get; init; }
         public double Rating { get; init; }
 
         public string Description { get; init; }
         
-        public AuthorInfo Author { get; init; }
+        public AuthorInfoItem Author { get; init; }
     }
 
-    public record AuthorInfo(string Id,string UserName,string DisplayName,int Followers);
-    public record MovieInfo(string Id,string Title);
+    public record AuthorInfoItem(string Id,string UserName,string DisplayName,int Followers);
+    public record MovieInfoItem(string Id,string Title);
 }

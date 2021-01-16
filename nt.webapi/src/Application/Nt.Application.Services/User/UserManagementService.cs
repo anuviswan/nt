@@ -26,7 +26,6 @@ namespace Nt.Application.Services.User
             var userEntityToFollow = await GetUserAsync(userNameToFollow);
             var currentUser = await GetUserAsync(currentUserName);
 
-
             var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
             followers.Add(currentUser.Id);
             var updatedUserToFollow = userEntityToFollow with { Followers = followers };

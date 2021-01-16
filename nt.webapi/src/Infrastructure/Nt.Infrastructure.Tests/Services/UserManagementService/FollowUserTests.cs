@@ -66,11 +66,10 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
 
             // Assert
             var followedUser = EntityCollection.Single(x => string.Equals(x.UserName, userNameToFollow));
-            Assert.Contains(currentUserName, followedUser.Followers);
+            Assert.Contains(MockDataHelper.GetUser(currentUserName).Id, followedUser.Followers);
 
             var currentUser = EntityCollection.Single(x => string.Equals(x.UserName, currentUserName));
-            Assert.Contains(userNameToFollow, currentUser.Follows);
-
+            Assert.Contains(MockDataHelper.GetUser(userNameToFollow).Id, currentUser.Follows);
         }
 
         public static IEnumerable<object[]> FollowUserSuccessTestData => new List<object[]>
@@ -78,12 +77,12 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
             new object[]
             {
                 "UserName 1",
-                "UserName 2",
+                "UserName 2"
             },
             new object[]
             {
                 "UserName 3",
-                "UserName 4",
+                "UserName 4"
             }
         };
         #endregion
