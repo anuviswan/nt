@@ -24,13 +24,17 @@ namespace Nt.Application.Services.User
                 throw new EntityNotFoundException();
 
             var userEntityToFollow = await GetUserAsync(userNameToFollow);
+            var currentUser = await GetUserAsync(currentUserName);
+
             var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
+            followers.Add(currentUser.Id);
+            var updatedUserToFollow = userEntityToFollow with { Followers = followers };
+            await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUserToFollow);
 
-            followers.Add(currentUserName);
-
-            var updatedUser = userEntityToFollow with { Followers = followers };
-
-            var _ = await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUser);
+            var follows = currentUser.Follows?.ToList() ?? Enumerable.Empty<string>().ToList();
+            follows.Add(userEntityToFollow.Id);
+            var updatedCurrentUser = currentUser with { Follows = follows };
+            await UnitOfWork.UserProfileRepository.UpdateAsync(updatedCurrentUser);
         }
 
         public async Task<IEnumerable<UserProfileEntity>> GetAllUsersAsync()

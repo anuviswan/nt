@@ -9,6 +9,7 @@ using Nt.Domain.Entities.Movie;
 using Nt.Domain.ServiceContracts.Movie;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetRecentReviews;
 
 namespace Nt.Infrastructure.WebApi.Controllers
 {
@@ -56,6 +57,24 @@ namespace Nt.Infrastructure.WebApi.Controllers
 
             var response = await _reviewService.GetAllReviewsAsync(request.MovieId);
             return Ok(Mapper.Map<GetAllReviewsResponse>(response));
+        }
+
+
+        [HttpPost]
+        [Route("GetRecentReviews")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<GetRecentReviewsResponse>> GetRecentReviews(GetRecentReviewsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userName = User.Identity.Name;
+            var response = await _reviewService.GetRecentReviewsFromFollowedAsync(userName,request.NumberOfItems);
+            return Ok(Mapper.Map<GetRecentReviewsResponse>(response));
         }
     }
 }

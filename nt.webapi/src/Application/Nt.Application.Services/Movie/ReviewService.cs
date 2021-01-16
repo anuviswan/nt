@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Nt.Domain.Entities.Dto;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
+using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts;
 using Nt.Domain.ServiceContracts.Movie;
 
@@ -41,7 +42,7 @@ namespace Nt.Application.Services.Movie
                 throw new ArgumentException("Invalid MovieId");
             }
 
-            var result = new MovieReviewDto { MovieId = movieId };
+            var result = new MovieReviewDto();
             var reviews = await UnitOfWork.ReviewRepository.GetAsync(x => x.MovieId == movieId);
 
             var consolidatedReviews = new List<ReviewDto>();
@@ -62,13 +63,54 @@ namespace Nt.Application.Services.Movie
                         DisplayName = x.DisplayName,
                         UserName = x.UserName,
                         Id = x.Id
-                    }).Single()
+                    }).Single(),
+                    Movie = new MovieDto(movieId,string.Empty)
                 }); 
             }
 
-            result.Reviews = consolidatedReviews;
+            result = result with { Reviews = consolidatedReviews };
 
             return result;
+        }
+
+        public async Task<MovieReviewDto> GetRecentReviewsFromFollowedAsync(string currentUserName,int maxNumberOfItems)
+        {
+            if (string.IsNullOrEmpty(currentUserName))
+            {
+                throw new ArgumentException("Invalid UserName");
+            }
+
+            var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == currentUserName.ToLower());
+            var followUsers = currentUser.Single().Follows ?? Enumerable.Empty<string>();
+
+            var reviews = await UnitOfWork.ReviewRepository.FilterReviews(followUsers);
+            var result = new MovieReviewDto();
+            var reviewResultDto = new List<ReviewDto>();
+
+            foreach (var review in reviews.OrderByDescending(x=>x.CreatedOn).Take(maxNumberOfItems))
+            {
+                var author = (await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)).Single();
+                var movie = (await UnitOfWork.MovieRepository.GetAsync(x => x.Id == review.MovieId)).Single();
+                reviewResultDto.Add(new ReviewDto
+                {
+                    Author = new UserDto
+                    {
+                        DisplayName = author.DisplayName,
+                        UserName = author.UserName,
+                        Id = author.Id,
+                        Followers = author.Followers.Count()
+                    },
+                    Movie = new MovieDto(movie.Id,movie.Title),
+                    Description = review.ReviewDescription,
+                    Title = review.ReviewTitle,
+                    Id = review.Id,
+                    Rating = review.Rating
+                });
+            }
+            return new MovieReviewDto
+            {
+                Reviews = reviewResultDto
+            };
         }
     }
 }

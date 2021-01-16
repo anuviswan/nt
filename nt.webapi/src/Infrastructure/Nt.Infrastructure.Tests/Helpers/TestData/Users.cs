@@ -46,6 +46,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 3",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 3",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
 
@@ -56,6 +57,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 4",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 4",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
 
@@ -66,6 +68,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 5",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 5",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
 
@@ -76,6 +79,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 6",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 6",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
 
@@ -86,6 +90,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 7",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 7",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
 
@@ -96,6 +101,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 8",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 8",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
             yield return new UserProfileEntity
@@ -105,6 +111,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 9",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 9",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
 
 
@@ -115,6 +122,7 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                 DisplayName = $"{nameof(UserProfileEntity.DisplayName)} 10",
                 Bio = $"{nameof(UserProfileEntity.Bio)} 10",
                 IsDeleted = false,
+                Followers = Enumerable.Empty<string>()
             };
         }
 

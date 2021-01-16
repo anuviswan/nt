@@ -4,7 +4,6 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews
 {
     public record GetAllReviewsResponse
     {
-        public string MovieId { get; set; }
         public IEnumerable<ReviewItem> Reviews { get; set; }
     }
 
@@ -16,10 +15,11 @@ namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews
         public double Rating { get; set; }
 
         public string Description { get; set; }
-        public string AuthorDisplayName { get; set; }
-        public string AuthorUserName { get; set; }
-        public string AuthorId { get; set; }
-
-        public int AuthorFollowers { get; set; }
+        public AuthorInfo Author { get; init; }
+        public MovieInfo Movie { get; init; }
     }
+
+    public record MovieInfo(string Id,string Title);
+
+    public record AuthorInfo(string Id, string UserName, string DisplayName, int Followers);
 }

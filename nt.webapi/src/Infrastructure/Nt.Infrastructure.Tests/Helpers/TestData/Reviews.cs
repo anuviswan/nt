@@ -14,8 +14,8 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
             yield return new ReviewEntity
             {
                 Id = "R1",
-                MovieId = string.Format(Utils.MockMovieIdFormat,1),
-                AuthorId= string.Format(Utils.MockUserIdFormat,1),
+                MovieId = string.Format(Utils.MockMovieIdFormat, 1),
+                AuthorId = string.Format(Utils.MockUserIdFormat, 1),
                 ReviewTitle = $"{nameof(ReviewEntity.ReviewTitle)} 01",
                 ReviewDescription = $"{nameof(ReviewEntity.ReviewDescription)} 01",
                 DownVotedBy = new List<string>
@@ -29,7 +29,8 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                     string.Format(Utils.MockUserIdFormat, 5),
                     string.Format(Utils.MockUserIdFormat, 6)
                 },
-                Rating = 4
+                Rating = 4,
+                CreatedOn = new DateTime(2021, 1, 20)
             };
             yield return new ReviewEntity
             {
@@ -50,7 +51,8 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                     string.Format(Utils.MockUserIdFormat, 5),
                     string.Format(Utils.MockUserIdFormat, 6)
                 },
-                Rating = 4
+                Rating = 4,
+                CreatedOn = new DateTime(2021, 1, 18)
             };
             yield return new ReviewEntity
             {
@@ -71,7 +73,8 @@ namespace Nt.Infrastructure.Tests.Helpers.TestData
                     string.Format(Utils.MockUserIdFormat, 5),
                     string.Format(Utils.MockUserIdFormat, 6)
                 },
-                Rating = 3
+                Rating = 3,
+                CreatedOn = new DateTime(2021, 1, 16)
             };
         }
     }

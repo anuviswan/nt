@@ -1,14 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
-using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.User;
 using Nt.Domain.RepositoryContracts.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace Nt.Infrastructure.Data.Repositories.User
 {

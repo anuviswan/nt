@@ -85,6 +85,18 @@ const registerUser = async (userName, displayName, passKey) => {
   return response;
 };
 
+
+const followUser = async(userNameToFollow)=>{
+
+  const request = {
+    userToFollow : userNameToFollow
+  };
+
+  const response = await axios.post('https://localhost:44353/api/User/FollowUser',request);
+  return response;
+  
+}
+
 export {
   changePassword,
   validateUser,
@@ -92,4 +104,5 @@ export {
   updateUserProfile,
   searchUser,
   registerUser,
+  followUser
 };

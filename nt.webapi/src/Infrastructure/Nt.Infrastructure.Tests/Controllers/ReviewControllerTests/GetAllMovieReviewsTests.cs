@@ -26,9 +26,9 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
 
         }
 
-        public static List<UserProfileEntity> UserCollection { get; set; } = MovieReviewCollectionHelper.UserCollection;
-        public static List<ReviewEntity> ReviewCollection { get; set; } = MovieReviewCollectionHelper.ReviewCollection;
-        public static List<MovieEntity> MovieCollection { get; set; } = MovieReviewCollectionHelper.MovieCollection;
+        public static List<UserProfileEntity> UserCollection { get; set; } = MockDataHelper.UserCollection;
+        public static List<ReviewEntity> ReviewCollection { get; set; } = MockDataHelper.ReviewCollection;
+        public static List<MovieEntity> MovieCollection { get; set; } = MockDataHelper.MovieCollection;
 
         protected override void InitializeCollection()
         {
@@ -47,7 +47,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var expectedResult = Mapper.Map<MovieReviewDto,GetAllReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
             mockReviewService.Setup(x => x.GetAllReviewsAsync(It.IsAny<string>()))
-                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetReviews(mId)));
+                            .Returns((string mId) => Task.FromResult(MockDataHelper.GetReviews(mId)));
             // Act
             var reviewController = new ReviewController(Mapper, mockReviewService.Object);
             var request = new GetAllReviewsRequest
@@ -61,11 +61,16 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var result = Assert.IsAssignableFrom<GetAllReviewsResponse>(okResponse.Value);
 
 
-            Assert.Equal(movieId, result.MovieId);
             foreach(var (actualReview,expectedReview) in result.Reviews.Zip(expectedResult.Reviews))
             {
-                Assert.Equal(expectedReview.AuthorDisplayName, actualReview.AuthorDisplayName);
-                Assert.Equal(expectedReview.AuthorId, actualReview.AuthorId);
+                Assert.Equal(expectedReview.Author.DisplayName, actualReview.Author.DisplayName);
+                Assert.Equal(expectedReview.Author.Id, actualReview.Author.Id);
+                Assert.Equal(expectedReview.Author.Followers, actualReview.Author.Followers);
+                Assert.Equal(expectedReview.Author.UserName, actualReview.Author.UserName);
+
+                Assert.Equal(expectedReview.Movie.Id, actualReview.Movie.Id);
+                Assert.Equal(expectedReview.Movie.Title, actualReview.Movie.Title);
+
                 Assert.Equal(expectedReview.Description, actualReview.Description);
                 Assert.Equal(expectedReview.Rating, actualReview.Rating);
                 Assert.Equal(expectedReview.Title, actualReview.Title);
@@ -77,12 +82,12 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             new object[]
             {
                 string.Format(Utils.MockMovieIdFormat,1),
-                MovieReviewCollectionHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,1))
+                MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,1))
             },
              new object[]
              {
                  string.Format(Utils.MockMovieIdFormat,3),
-                 MovieReviewCollectionHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,3))
+                 MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,3))
              }
         };
 
@@ -100,7 +105,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var expectedResult = Mapper.Map<MovieReviewDto, GetAllReviewsResponse>(expectedReviews);
             var mockReviewService = new Mock<IReviewService>();
             mockReviewService.Setup(x => x.GetAllReviewsAsync(It.IsAny<string>()))
-                            .Returns((string mId) => Task.FromResult(MovieReviewCollectionHelper.GetReviews(mId)));
+                            .Returns((string mId) => Task.FromResult(MockDataHelper.GetReviews(mId)));
             // Act
             var reviewController = new ReviewController(Mapper, mockReviewService.Object);
             var request = new GetAllReviewsRequest
@@ -113,8 +118,6 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             var okResponse = Assert.IsType<OkObjectResult>(response.Result);
             var result = Assert.IsAssignableFrom<GetAllReviewsResponse>(okResponse.Value);
 
-
-            Assert.Equal(movieId, result.MovieId);
             Assert.Equal(expectedResult.Reviews.Count(), result.Reviews.Count());
             Assert.False(result.Reviews.Any());
         }
@@ -124,7 +127,7 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
             new object[]
             {
                 string.Format(Utils.MockMovieIdFormat,99),
-                MovieReviewCollectionHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,99))
+                MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,99))
             },
         };
 

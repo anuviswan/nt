@@ -25,5 +25,8 @@ namespace Nt.Domain.Entities.User
         [BsonCollection("followers")]
         public IEnumerable<string> Followers { get; init; }
 
+        [BsonCollection("follows")]
+        public IEnumerable<string> Follows { get; init; }
+
     }
 }

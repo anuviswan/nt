@@ -1,5 +1,6 @@
 ﻿using Nt.Domain.Entities.Movie;
 using Nt.Domain.Entities.User;
+using Nt.Domain.RepositoryContracts.Movie;
 
 namespace Nt.Domain.RepositoryContracts
 {
@@ -7,6 +8,6 @@ namespace Nt.Domain.RepositoryContracts
     {
         IGenericRepository<UserProfileEntity> UserProfileRepository { get; }
         IGenericRepository<MovieEntity> MovieRepository { get; }
-        IGenericRepository<ReviewEntity> ReviewRepository { get; }
+        IReviewRepository ReviewRepository { get; }
     }
 }

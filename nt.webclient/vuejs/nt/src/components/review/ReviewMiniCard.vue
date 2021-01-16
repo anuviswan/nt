@@ -85,9 +85,9 @@ export default {
     this.movieTitle = this.reviewMetaInfo.movieTitle;
     this.review = this.reviewMetaInfo.description;
     this.movieRating = this.reviewMetaInfo.rating;
-    this.user.displayName = this.reviewMetaInfo.authorUserName;
+    this.user.displayName = this.reviewMetaInfo.author.displayName;
     this.user.rating = this.reviewMetaInfo.rating;
-    this.user.followers = this.reviewMetaInfo.authorFollowers;
+    this.user.followers = this.reviewMetaInfo.author.Followers;
   },
 };
 </script>
