@@ -83,7 +83,16 @@ namespace Nt.Application.Services.Movie
             var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id.ToLower() == currentUserName.ToLower());
             var followUsers = currentUser.Single().Follows ?? Enumerable.Empty<string>();
 
-            return default;
+            var result = await UnitOfWork.ReviewRepository.FilterReviews(followUsers);
+            return new MovieReviewDto
+            {
+                Reviews = result.Select(x=> new ReviewDto
+                {
+                    Description = x.ReviewDescription,
+                    Rating = x.Rating,
+                    Title = x.ReviewTitle,
+                })
+            };
         }
     }
 }
