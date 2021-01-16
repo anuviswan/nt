@@ -83,15 +83,32 @@ namespace Nt.Application.Services.Movie
             var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id.ToLower() == currentUserName.ToLower());
             var followUsers = currentUser.Single().Follows ?? Enumerable.Empty<string>();
 
-            var result = await UnitOfWork.ReviewRepository.FilterReviews(followUsers);
+            var reviews = await UnitOfWork.ReviewRepository.FilterReviews(followUsers);
+            var result = new MovieReviewDto();
+            var reviewResultDto = new List<ReviewDto>();
+
+            foreach (var review in reviews)
+            {
+                var author = (await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id == review.AuthorId)).Single();
+                var movie = (await UnitOfWork.MovieRepository.GetAsync(x => x.Id == review.MovieId)).Single();
+                reviewResultDto.Add(new ReviewDto
+                {
+                    Author = new UserDto
+                    {
+                        DisplayName = author.DisplayName,
+                        UserName = author.UserName,
+                        Id = author.Id,
+                        Followers = author.Followers.Count()
+                    },
+                    Movie = new MovieDto(movie.Id,movie.Title),
+                    Description = review.ReviewDescription,
+                    Title = review.ReviewTitle,
+                    Id = review.Id
+                });
+            }
             return new MovieReviewDto
             {
-                Reviews = result.Select(x=> new ReviewDto
-                {
-                    Description = x.ReviewDescription,
-                    Rating = x.Rating,
-                    Title = x.ReviewTitle,
-                })
+                Reviews = reviewResultDto
             };
         }
     }
