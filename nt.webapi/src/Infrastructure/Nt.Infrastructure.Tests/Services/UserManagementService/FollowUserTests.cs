@@ -48,8 +48,8 @@ namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests
                     var userToUpdate = EntityCollection.Single(x => string.Equals(x.UserName, user.UserName));
                     userToUpdate = user.UserName switch
                     {
-                        var usrCurrent when usrCurrent == currentUserName => userToUpdate with { Followers = user.Followers },
-                        var usrToFollow when usrToFollow == userNameToFollow => userToUpdate with { Follows = user.Follows },
+                        var usrCurrent when usrCurrent == currentUserName => userToUpdate with { Follows = user.Follows },
+                        var usrToFollow when usrToFollow == userNameToFollow => userToUpdate with { Followers = user.Followers },
                         _ => userToUpdate
                     };
                     
