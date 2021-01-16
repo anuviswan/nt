@@ -101,13 +101,13 @@ namespace Nt.Infrastructure.Tests.Controllers.ReviewControllerTests
         {
             new object[]
             {
-                Utils.GenerateUserIdString(1),
+                "UserName 1",
                 1,
                 MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,1))
             },
              new object[]
              {
-                 Utils.GenerateUserIdString(3),
+                 "UserName 3",
                  1,
                  MockDataHelper.GetReviews(string.Format(Utils.MockMovieIdFormat,3))
              }

@@ -14,7 +14,7 @@
 
 <script>
 import ReviewMiniCard from "../../components/review/ReviewMiniCard";
-import { getAllReviews } from "../../api/reviews";
+import { getRecentReviews } from "../../api/reviews";
 export default {
   name: "Dashboard",
   components: {
@@ -26,8 +26,10 @@ export default {
     };
   },
   methods: {},
-  created() {
-    this.reviewCollection = getAllReviews();
+  async created() {
+    const response = await getRecentReviews();
+    this.reviewCollection = response.data.reviews;
+    console.log(this.reviewCollection);
   },
 };
 </script>

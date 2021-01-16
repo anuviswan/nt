@@ -39,16 +39,16 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
         [Theory]
         [ServiceTest(nameof(ReviewService)), Feature]
         [MemberData(nameof(GetRecentReviewsFromFollowedSuccessTestData))]
-        public async Task GetRecentReviewsFromFollowedSuccessTest(string movieId, int maxReviews, MovieReviewDto expectedResult)
+        public async Task GetRecentReviewsFromFollowedSuccessTest(string userName, int maxReviews, MovieReviewDto expectedResult)
         {
             // Arrange
             var mockReviewRepository = new Mock<IReviewRepository>();
             mockReviewRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ReviewEntity, bool>>>()))
-                .Returns(Task.FromResult(ReviewCollection.Where(x => string.Equals(x.MovieId, movieId, StringComparison.OrdinalIgnoreCase))));
+                .Returns((Expression<Func<ReviewEntity,bool>> expr)=>Task.FromResult(ReviewCollection.AsQueryable<ReviewEntity>().Where(expr).AsEnumerable()));
 
             var mockMovieRepository = new Mock<IMovieRepository>();
             mockMovieRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<MovieEntity, bool>>>()))
-                .Returns(Task.FromResult(MovieCollection.Where(x => string.Equals(x.Id, movieId, StringComparison.OrdinalIgnoreCase))));
+                .Returns((Expression<Func<MovieEntity, bool>> expr) => Task.FromResult(MovieCollection.AsQueryable<MovieEntity>().Where(expr).AsEnumerable()));
 
             var mockUserRepository = new Mock<IUserProfileRepository>();
             mockUserRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<UserProfileEntity, bool>>>()))
@@ -62,7 +62,7 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
 
             // Act
             var reviewService = new ReviewService(unitOfWork.Object);
-            var response = await reviewService.GetRecentReviewsFromFollowedAsync(movieId,maxReviews);
+            var response = await reviewService.GetRecentReviewsFromFollowedAsync(userName, maxReviews);
 
             // Assert
             Assert.Equal(expectedResult.Reviews.Count(), response.Reviews.Count());
@@ -86,13 +86,13 @@ namespace Nt.Infrastructure.Tests.Services.ReviewServices
         {
             new object[]
             {
-                Utils.GenerateUserIdString(1),
+                "UserName 1",
                 1,
                 MockDataHelper.GetReviewsByUser(Utils.GenerateUserIdString(3))
             },
             new object[]
             {
-                Utils.GenerateUserIdString(5),
+                "UserName 5",
                 1,
                 new MovieReviewDto{Reviews= Enumerable.Empty<ReviewDto>()}
             },

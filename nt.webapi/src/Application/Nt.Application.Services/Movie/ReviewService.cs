@@ -80,7 +80,7 @@ namespace Nt.Application.Services.Movie
                 throw new ArgumentException("Invalid UserName");
             }
 
-            var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.Id.ToLower() == currentUserName.ToLower());
+            var currentUser = await UnitOfWork.UserProfileRepository.GetAsync(x => x.UserName.ToLower() == currentUserName.ToLower());
             var followUsers = currentUser.Single().Follows ?? Enumerable.Empty<string>();
 
             var reviews = await UnitOfWork.ReviewRepository.FilterReviews(followUsers);
@@ -103,7 +103,8 @@ namespace Nt.Application.Services.Movie
                     Movie = new MovieDto(movie.Id,movie.Title),
                     Description = review.ReviewDescription,
                     Title = review.ReviewTitle,
-                    Id = review.Id
+                    Id = review.Id,
+                    Rating = review.Rating
                 });
             }
             return new MovieReviewDto

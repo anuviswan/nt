@@ -60,7 +60,7 @@ namespace Nt.Infrastructure.WebApi.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetRecentReviews")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
