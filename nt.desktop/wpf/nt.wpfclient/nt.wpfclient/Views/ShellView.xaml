@@ -21,7 +21,7 @@
            VerticalAlignment="Center"
            FontSize="16"
            Foreground="White"
-           Text="Pictures" />
+           Text="Home" />
         </DataTemplate>
 
         <DataTemplate x:Key="MenuItemTemplate">
