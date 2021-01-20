@@ -51,7 +51,7 @@
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="ReviewItem\ReviewItemView.xaml">
+    <None Update="Review\ReviewView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>

@@ -6,11 +6,20 @@
              xmlns:local="clr-namespace:Nt.WpfClient.Views"
              xmlns:vms="clr-namespace:Nt.WpfClient.ViewModels"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance vms:HomeViewModel}"
+             
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Reviews}">
-            
-        </ItemsControl>
+        <!--<ItemsControl ItemsSource="{Binding Reviews}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="2" BorderBrush="Red">
+                        <ContentControl Content="{Binding}" Background="AliceBlue"/>
+                    </Border>
+                    
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+
+        <ContentControl x:Name="ReviewItem" Background="AliceBlue"/>
     </Grid>
 </UserControl>

@@ -1,9 +1,12 @@
-﻿using Nt.Utils.ControlInterfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Nt.Utils.ControlInterfaces;
 using Nt.Utils.Models;
 
-namespace Nt.Controls.ReviewItem
+namespace Nt.Controls.Review
 {
-    public class ReviewItemControl:NtControlBase<ReviewItemViewModel>
+    public class ReviewControl : NtControlBase<ReviewViewModel>
     {
         public string Title { get; set; }
         public string Description { get; set; }

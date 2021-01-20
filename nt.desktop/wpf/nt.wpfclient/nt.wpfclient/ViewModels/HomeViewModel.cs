@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using MahApps.Metro.IconPacks;
-using Nt.Controls.ReviewItem;
+using Nt.Controls.Review;
 using Nt.Utils.ServiceInterfaces;
 using Nt.WpfClient.ViewModels.Base;
 
@@ -16,20 +16,26 @@ namespace Nt.WpfClient.ViewModels
         public override string Title => "Home";
         public override object Icon => new PackIconMaterial { Kind = PackIconMaterialKind.Home};
         
-        public IEnumerable<ReviewItemViewModel> Reviews { get; set; } = Enumerable.Empty<ReviewItemViewModel>();
+        public IEnumerable<ReviewViewModel> Reviews { get; set; } = Enumerable.Empty<ReviewViewModel>();
 
-        protected override async Task OnViewAttached()
+        public ReviewViewModel ReviewItem { get; set; }
+        protected override async void OnViewLoaded(object view)
         {
             await base.OnViewAttached();
             var movieService = IoC.Get<IMovieService>();
             var reviews = await movieService.GetRecentReviews();
 
-            reviews.Select(x => new ReviewItemViewModel
+            Reviews = reviews.Select(x => new ReviewControl
             {
                 Description = x.Description,
                 Rating = x.Rating,
                 Title = x.Title,
-            });
+            }.ViewModel).ToList();
+
+
+            ReviewItem = Reviews.First();
+
+            NotifyOfPropertyChange(nameof(ReviewItem));
         }
     }
 }

@@ -73,6 +73,7 @@ namespace Nt.WpfClient.ViewModels
         public IEnumerable<NtMenuItemViewModelBase> InitializeMenuItems()
         {
             yield return IoC.Get<CurrentUserViewModel>();
+            yield return IoC.Get<HomeViewModel>();
         }
         
     }
