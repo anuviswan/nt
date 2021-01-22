@@ -14,11 +14,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- <None Remove="Styles\Button.xaml" />
+  <ItemGroup><!-- <None Remove="Styles\Button.xaml" />
     <None Remove="Styles\Config.xaml" />
     <None Remove="Styles\Styles.xaml" />
     <None Remove="Styles\Textbox.xaml" /> -->
+  
+    <None Remove="Styles\TextBlock.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -67,6 +68,9 @@
     </Page>
     <Page Include="Styles\Styles.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Textbox.xaml">

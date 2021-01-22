@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Nt.Utils.ControlInterfaces;
+﻿using Nt.Utils.ControlInterfaces;
 using Nt.Utils.Models;
 
 namespace Nt.Controls.Review

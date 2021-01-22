@@ -5,8 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nt.Controls.Review"
              mc:Ignorable="d" 
+              xmlns:localize="clr-namespace:Nt.Utils.Resources.Properties;assembly=Nt.Utils.Resources" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
-        <TextBlock Text="I am REview"/>
-    </Grid>
+    <Expander Header="{Binding Title}" IsExpanded="True" Grid.Row="0" Style="{StaticResource NtExpander}">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="{Binding Description}" Style="{StaticResource NtText}"/>
+            
+        </Grid>
+    </Expander>
 </UserControl>

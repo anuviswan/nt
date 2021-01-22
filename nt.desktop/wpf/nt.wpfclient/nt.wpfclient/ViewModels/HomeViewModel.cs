@@ -15,27 +15,23 @@ namespace Nt.WpfClient.ViewModels
     {
         public override string Title => "Home";
         public override object Icon => new PackIconMaterial { Kind = PackIconMaterialKind.Home};
-        
-        public IEnumerable<ReviewViewModel> Reviews { get; set; } = Enumerable.Empty<ReviewViewModel>();
 
-        public ReviewViewModel ReviewItem { get; set; }
+        public IObservableCollection<ReviewViewModel> Reviews { get; set; } = new BindableCollection<ReviewViewModel>();
+
         protected override async void OnViewLoaded(object view)
         {
             await base.OnViewAttached();
             var movieService = IoC.Get<IMovieService>();
             var reviews = await movieService.GetRecentReviews();
 
-            Reviews = reviews.Select(x => new ReviewControl
+            Reviews = new BindableCollection<ReviewViewModel>(reviews.Select(x => new ReviewControl
             {
                 Description = x.Description,
                 Rating = x.Rating,
                 Title = x.Title,
-            }.ViewModel).ToList();
+            }.ViewModel));
 
-
-            ReviewItem = Reviews.First();
-
-            NotifyOfPropertyChange(nameof(ReviewItem));
+            NotifyOfPropertyChange(nameof(Reviews));
         }
     }
 }
