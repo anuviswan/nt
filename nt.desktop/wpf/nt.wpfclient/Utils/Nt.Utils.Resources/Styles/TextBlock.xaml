@@ -13,4 +13,10 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
+    <Style x:Key="NtTextSignature" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MahApps.Styles.TextBlock}">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
 </ResourceDictionary>

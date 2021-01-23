@@ -21,6 +21,12 @@ namespace Nt.Controls.Review
             get => TypedControl.Rating;
             set => TypedControl.Rating = value;
         }
+        public string Author
+        {
+            get => TypedControl.Author?.DisplayName;
+        }
 
+        public string MovieTitle => TypedControl.Movie.Title;
+        
     }
 }

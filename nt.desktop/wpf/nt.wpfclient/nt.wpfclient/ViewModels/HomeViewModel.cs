@@ -29,6 +29,8 @@ namespace Nt.WpfClient.ViewModels
                 Description = x.Description,
                 Rating = x.Rating,
                 Title = x.Title,
+                Author = x.Author,
+                Movie = x.Movie
             }.ViewModel));
 
             NotifyOfPropertyChange(nameof(Reviews));
