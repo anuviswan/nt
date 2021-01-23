@@ -10,6 +10,7 @@ namespace Nt.WpfClient.Utils.Bootstrap
         {
             unityContainer.RegisterSingleton<ICurrentUserService,CurrentUserService>();
             unityContainer.RegisterSingleton<IHttpService, HttpService>();
+            unityContainer.RegisterSingleton<IMovieService, MovieService>();
         }
     }
 }

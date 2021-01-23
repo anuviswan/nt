@@ -80,6 +80,17 @@ namespace Nt.Utils.ControlInterfaces
             return Task.CompletedTask;
         }
 
+        protected override void OnViewAttached(object view, object context)
+        {
+            base.OnViewAttached(view, context);
+            Task.Run(OnViewAttached);
+        }
+
+        protected virtual Task OnViewAttached()
+        {
+            return Task.CompletedTask;
+        }
+
         public virtual void Cancel()
         {
             TryClose(false);
