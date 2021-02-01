@@ -1,6 +1,34 @@
 <template>
   <div class="container-fluid">
-    <slot></slot>
+    <div class="row no-gutter">
+      <!-- The image half -->
+      <div class="col-md-6 d-none d-md-flex bg-indigo">
+        <div
+          class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center"
+        >
+          <div class="logoarea pt-5 pb-5">
+            <i class="fa fa-film fa-4x fa-fw" aria-hidden="true"></i>
+            <h1 class="display-4 navbar-brand">November Talkies</h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- The content half -->
+      <div class="col-md-6 bg-light">
+        <div class="login d-flex align-items-center py-5">
+          <!-- Demo content-->
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-10 col-xl-7 mx-auto">
+                <slot></slot>
+              </div>
+            </div>
+          </div>
+          <!-- End -->
+        </div>
+      </div>
+      <!-- End -->
+    </div>
   </div>
 </template>
 

@@ -71,7 +71,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { UserForValidation } from "../../types/user";
-@Component
+import ValidationMessage from "../generic/ValidationMessage.vue";
+@Component({
+  components: {
+    ValidationMessage,
+  },
+})
 export default class Login extends Vue {
   private user: UserForValidation;
   private serverMessage: string;
