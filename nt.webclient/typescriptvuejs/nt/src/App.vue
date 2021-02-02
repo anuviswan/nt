@@ -1,17 +1,14 @@
 <template>
   <div id="app" class="container-fluid">
-    <Shell />
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Shell from "../src/pages/Shell.vue";
 
 @Component({
-  components: {
-    Shell,
-  },
+  components: {},
 })
 export default class App extends Vue {}
 </script>
