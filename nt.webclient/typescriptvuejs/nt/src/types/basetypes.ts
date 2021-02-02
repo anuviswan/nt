@@ -1,5 +1,5 @@
 export class ValidationError{
-    public readonly Errors: Array<String>;
+    public readonly Errors: Array<string>;
 
     constructor(errors:Array<string>){
         this.Errors = [];
@@ -12,3 +12,4 @@ export class ValidationError{
         return this.Errors.length;
     }
 }
+

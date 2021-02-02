@@ -1,6 +1,7 @@
 import {LoginUser} from "../../types/loginuser"
-function SubmitForm(user:LoginUser):void{
-    if(user.Validate()){
-        
-    }
+import {ServerResponse} from "../../types/baseinterfaces"
+export function SubmitForm(user:LoginUser):ServerResponse{
+    
+    return {HasError:false,Message:''};
+
 }

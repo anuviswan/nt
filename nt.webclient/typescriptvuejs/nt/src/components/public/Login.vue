@@ -72,6 +72,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { LoginUser } from "../../types/loginuser";
 import ValidationMessage from "../generic/ValidationMessage.vue";
+import { SubmitForm } from "./login";
 @Component({
   components: {
     ValidationMessage,
@@ -80,23 +81,31 @@ import ValidationMessage from "../generic/ValidationMessage.vue";
 export default class Login extends Vue {
   private user: LoginUser;
   private serverMessage: string;
+  private errors: Array<string>;
 
   constructor() {
     super();
 
     this.user = new LoginUser();
     this.serverMessage = "";
+    this.errors = [];
   }
 
   hasServerError(): boolean {
     return false;
   }
   hasError(key: string): boolean {
-    return true;
+    return this.errors.indexOf(key) != -1;
   }
 
   onSubmit(): void {
-    console.log("form submitted");
+    const validationErrors = this.user.Validate();
+
+    if (validationErrors.HasError()) {
+      this.errors = validationErrors.Errors;
+    }
+
+    SubmitForm(this.user);
   }
 }
 </script>
