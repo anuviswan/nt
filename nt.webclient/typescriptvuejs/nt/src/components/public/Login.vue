@@ -70,7 +70,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { UserForValidation } from "../../types/user";
+import { LoginUser } from "../../types/loginuser";
 import ValidationMessage from "../generic/ValidationMessage.vue";
 @Component({
   components: {
@@ -78,17 +78,14 @@ import ValidationMessage from "../generic/ValidationMessage.vue";
   },
 })
 export default class Login extends Vue {
-  private user: UserForValidation;
+  private user: LoginUser;
   private serverMessage: string;
 
   constructor() {
     super();
 
+    this.user = new LoginUser();
     this.serverMessage = "";
-    this.user = {
-      userName: "",
-      password: "",
-    };
   }
 
   hasServerError(): boolean {
