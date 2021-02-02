@@ -1,6 +1,7 @@
-import {IValidate} from './baseinterfaces';
+import {ITypeValidate} from './baseinterfaces';
+import {ValidationError} from "./basetypes"
 
-export class LoginUser implements IValidate{
+export class LoginUser implements ITypeValidate{
     public userName:string;
     public password:string;
 
@@ -8,7 +9,18 @@ export class LoginUser implements IValidate{
         this.userName = '';
         this.password = '';        
     }
-    public Validate():boolean{
-        return false;
+    public Validate():ValidationError{
+        let errors : Array<string>;
+        errors = [];
+        
+        if (!this.userName) {
+            errors.push("userName");
+        }
+
+        if (!this.password) {
+            errors.push("password");
+        }
+
+        return new ValidationError(errors);
     }
 }

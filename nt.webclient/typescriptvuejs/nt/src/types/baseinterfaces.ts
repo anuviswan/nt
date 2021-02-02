@@ -1,3 +1,5 @@
-export interface IValidate{
-    Validate():boolean;
+import {ValidationError} from "./basetypes"
+
+export interface ITypeValidate{
+    Validate():ValidationError;
 }
