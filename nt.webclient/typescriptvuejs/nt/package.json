@@ -15,7 +15,8 @@
     "vue-loading-overlay": "^3.4.2",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.5.1",
-    "vue-simple-alert": "^1.1.1"
+    "vue-simple-alert": "^1.1.1",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",
