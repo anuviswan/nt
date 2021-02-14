@@ -74,8 +74,4 @@ function hideLoader() {
   loader && loader.hide();
   loader = null;
 }
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
+createApp(App).use(router).mount('#app')

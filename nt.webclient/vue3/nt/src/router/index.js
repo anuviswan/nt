@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
+import {createWebHistory, createRouter} from "vue-router";
 import Home from "../pages/Home";
 import Register from "../pages/public/Register";
 import Dashboard from "../pages/private/Dashboard";
@@ -13,6 +13,7 @@ import CreateMovie from "../pages/private/movie/CreateMovie";
 import SearchMovie from "../pages/private/movie/SearchMovie";
 import CreateReview from "../pages/private/reviews/CreateReview";
 import AllReviews from "../pages/private/reviews/AllReviews";
+import { create } from "core-js/fn/object";
 Vue.use(VueRouter);
 
 const routes = [
@@ -82,7 +83,8 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+  history:createWebHistory(),
   routes,
 });
 
