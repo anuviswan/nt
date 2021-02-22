@@ -1,16 +1,14 @@
-import Vue,{ createApp } from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from "axios";
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
 import { getHttpHeader } from "./api/utils";
-import VueSimpleAlert from "vue-simple-alert";
-import VCalendar from "v-calendar";
+//import VueSimpleAlert from "vue-simple-alert";
 
 
-Vue.use(VCalendar);
+
+//Vue.use(VCalendar);
 
 // Init plugin
 // Vue.use(Loading);
@@ -18,17 +16,15 @@ Vue.use(VCalendar);
 
 createApp(App).use(store)
               .use(router)
-              .use(Loading)
-              .use(VueSimpleAlert)
+            //  .use(VueSimpleAlert)
+            //  .use(VCalendar)
               .mount('#app')
 
 
-let loader;
 
-Vue.config.productionTip = false;
+//Vue.config.productionTip = false;
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.interceptors.request.use((request) => {
-  showLoader();
   const header = getHttpHeader();
   request.headers = header;
   return request;
@@ -37,7 +33,6 @@ axios.interceptors.request.use((request) => {
 
 axios.interceptors.response.use(
     (response) => {
-      hideLoader();
   
       return {
         data: response.data,
@@ -46,7 +41,6 @@ axios.interceptors.response.use(
       };
     },
     (error) => {
-      hideLoader();
       switch (error.response.status) {
         case 400:
           return {
@@ -72,13 +66,3 @@ axios.interceptors.response.use(
     }
   );
   
-  function showLoader() {
-    if (loader) return;
-  
-    loader = Vue.$loading.show({ color: "#75B7EC", loader: "bars" });
-  }
-  
-  function hideLoader() {
-    loader && loader.hide();
-    loader = null;
-  }
