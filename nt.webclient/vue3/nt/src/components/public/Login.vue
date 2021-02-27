@@ -24,7 +24,12 @@
             hasError('userName') ? 'text-danger text-left' : 'd-none'
           "
         >
-          <small>Username cannot be empty</small>
+          <div class="d-flex justify-content-center">
+            <ValidationMessage
+              v-bind:messages="getError('userName')"
+              v-bind:isError="true"
+            />
+          </div>
         </div>
         <div class="form-group">
           <input
@@ -87,23 +92,32 @@ export default {
     const hasServerError = ref(false);
     let errors = reactive([]);
 
-    const hasError = (key) => console.log(key);
+    const hasError = (key) => {
+      return errors.indexOf(key) != -1;
+    };
+
+    const getError = (key) => {
+      console.log("getError " + key + errors[key]);
+      return errors[key];
+    };
 
     const onSubmit = (e) => {
       e.preventDefault();
+
+      console.log("validation 1");
       inputValidator(
         userName.value,
         [minLength(3)],
-        (val) => (errors = [...errors, { "userName": val }])
+        (val) => (errors.value = [...errors, { "userName": val }])
       );
-
+      console.log("validation 2");
       inputValidator(
         password.value,
         [minLength(3)],
-        (val) => (errors = [...errors, { "password": val }])
+        (val) => (errors.value = [...errors, { "password": val }])
       );
 
-      console.log(errors);
+      console.log(errors.value);
     };
 
     return {
@@ -114,6 +128,7 @@ export default {
       hasServerError,
       onSubmit,
       errors,
+      getError,
     };
   },
 };
