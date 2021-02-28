@@ -24,12 +24,7 @@
             hasError('userName') ? 'text-danger text-left' : 'd-none'
           "
         >
-          <div class="d-flex justify-content-center">
-            <ValidationMessage
-              v-bind:messages="getError('userName')"
-              v-bind:isError="true"
-            />
-          </div>
+          <small>UserName cannot be empty</small>
         </div>
         <div class="form-group">
           <input
@@ -75,9 +70,9 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-import inputValidator from "@/utils/inputValidators.js";
+import useValidator from "@/utils/inputValidators.js";
 import { minLength } from "@/utils/validators.js";
 
 export default {
@@ -90,34 +85,24 @@ export default {
     const password = ref("");
     const serverMessage = ref("");
     const hasServerError = ref(false);
-    let errors = reactive([]);
-
-    const hasError = (key) => {
-      return errors.indexOf(key) != -1;
-    };
-
-    const getError = (key) => {
-      console.log("getError " + key + errors[key]);
-      return errors[key];
-    };
+    let errors = ref([]);
 
     const onSubmit = (e) => {
       e.preventDefault();
+      if (!useValidator(userName.value, [minLength(1)])) {
+        errors.value.push("userName");
+      }
+      if (!useValidator(password.value, [minLength(1)])) {
+        errors.value.push("password");
+      }
+    };
+    const hasError = (key) => {
+      const result = errors.value.indexOf(key) != -1;
+      return result;
+    };
 
-      console.log("validation 1");
-      inputValidator(
-        userName.value,
-        [minLength(3)],
-        (val) => (errors.value = [...errors, { "userName": val }])
-      );
-      console.log("validation 2");
-      inputValidator(
-        password.value,
-        [minLength(3)],
-        (val) => (errors.value = [...errors, { "password": val }])
-      );
-
-      console.log(errors.value);
+    const getError = (key) => {
+      return errors[key];
     };
 
     return {

@@ -31,7 +31,6 @@ export default {
   setup(props) {
     const getMessageClass = () => {
       if (!props.messages) return;
-      console.log(props.messages);
       if (props.messages.length == 0) {
         return "d-none";
       }
