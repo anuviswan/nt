@@ -41,6 +41,7 @@ axios.interceptors.response.use(
       };
     },
     (error) => {
+      console.log(error);
       switch (error.response.status) {
         case 400:
           return {

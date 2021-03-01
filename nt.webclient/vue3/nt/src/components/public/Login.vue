@@ -74,6 +74,9 @@ import { ref } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import useValidator from "@/utils/inputValidators.js";
 import { minLength } from "@/utils/validators.js";
+import { validateUser } from "@/api/user.js";
+import { useStore } from "vuex";
+import router from "@/router";
 
 export default {
   name: "Login",
@@ -86,14 +89,38 @@ export default {
     const serverMessage = ref("");
     const hasServerError = ref(false);
     let errors = ref([]);
+    const store = useStore();
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
       e.preventDefault();
+      errors.value = [];
       if (!useValidator(userName.value, [minLength(1)])) {
         errors.value.push("userName");
       }
       if (!useValidator(password.value, [minLength(1)])) {
         errors.value.push("password");
+      }
+
+      console.log(errors.value);
+      if (errors.value.length == 0) {
+        var response = await validateUser(userName.value, password.value);
+        console.log(response);
+
+        if (response.hasError) {
+          hasServerError.value = true;
+          serverMessage.value = response.error;
+          return;
+        }
+
+        store.dispatch("updateCurrentUser", {
+          userName: response.data.userName,
+          displayName: response.data.displayName,
+          bio: response.data.bio,
+          token: response.data.token,
+        });
+
+        console.log("User authenticated and updated, redirecting now..");
+        router.push("/p/dashboard");
       }
     };
     const hasError = (key) => {
