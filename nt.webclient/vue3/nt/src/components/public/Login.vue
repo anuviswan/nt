@@ -76,6 +76,7 @@ import useValidator from "@/utils/inputValidators.js";
 import { minLength } from "@/utils/validators.js";
 import { validateUser } from "@/api/user.js";
 import { useStore } from "vuex";
+import router from "@/router";
 
 export default {
   name: "Login",
@@ -117,14 +118,9 @@ export default {
           bio: response.data.bio,
           token: response.data.token,
         });
-        // store.actions.user.updateCurrentUser({
-        //   userName: response.data.userName,
-        //   displayName: response.data.displayName,
-        //   bio: response.data.bio,
-        //   token: response.data.token,
-        // });
 
-        console.log(store);
+        console.log("User authenticated and updated, redirecting now..");
+        router.push("/p/dashboard");
       }
     };
     const hasError = (key) => {
