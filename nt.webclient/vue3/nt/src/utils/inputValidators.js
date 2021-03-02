@@ -1,7 +1,12 @@
-export default function useValidator(value,validators){
-        const errors = validators.map(validator=>{
-                return validator(value) == null;
+export default function useValidator(value,validators,onErrorAction){
+        const validationResults = validators.map(validator=>{
+                return validator(value);
         });
-
-        return errors.includes(false) == false;
+        
+        const errors = validationResults.filter(x=>x!=null);
+        if(errors.length!=0){
+        onErrorAction(errors);
+        }
+        return errors;
 }
+       
