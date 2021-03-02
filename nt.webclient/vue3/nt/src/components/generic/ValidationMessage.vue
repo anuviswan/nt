@@ -31,13 +31,14 @@ export default {
   setup(props) {
     const getMessageClass = () => {
       if (!props.messages) return;
+
       if (props.messages.length == 0) {
         return "d-none";
       }
 
       return props.isError ? "text-danger text-left" : "text-success text-left";
     };
-
+    console.log(props);
     return {
       getMessageClass,
     };

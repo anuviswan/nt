@@ -19,12 +19,11 @@
             placeholder="Username"
           />
         </div>
-        <div
-          v-bind:class="
-            hasError('userName') ? 'text-danger text-left' : 'd-none'
-          "
-        >
-          <small>UserName cannot be empty</small>
+        <div class="d-flex justify-content-center">
+          <ValidationMessage
+            v-bind:messages="userNameError"
+            v-bind:isError="true"
+          />
         </div>
         <div class="form-group">
           <input
@@ -39,12 +38,18 @@
           />
         </div>
 
-        <div
+        <!-- <div
           v-bind:class="
             hasError('password') ? 'text-danger text-left' : 'd-none'
           "
         >
           <small>Password cannot be empty</small>
+        </div> -->
+        <div class="d-flex justify-content-center">
+          <ValidationMessage
+            v-bind:messages="serverMessage"
+            v-bind:isError="hasServerError"
+          />
         </div>
 
         <div class="form-group">
@@ -70,7 +75,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import useValidator from "@/utils/inputValidators.js";
 import { minLength } from "@/utils/validators.js";
@@ -94,14 +99,14 @@ export default {
     const onSubmit = async (e) => {
       e.preventDefault();
       errors.value = [];
-      if (!useValidator(userName.value, [minLength(1)])) {
-        errors.value.push("userName");
-      }
-      if (!useValidator(password.value, [minLength(1)])) {
-        errors.value.push("password");
-      }
 
-      console.log(errors.value);
+      useValidator(userName.value, [minLength(3)], (e) =>
+        errors.value.push({ "userName": e })
+      );
+      useValidator(password.value, [minLength(3)], (e) =>
+        errors.value.push({ "password": e })
+      );
+
       if (errors.value.length == 0) {
         var response = await validateUser(userName.value, password.value);
         console.log(response);
@@ -124,13 +129,24 @@ export default {
       }
     };
     const hasError = (key) => {
-      const result = errors.value.indexOf(key) != -1;
+      //const result = errors.value.indexOf(key) != -1;
+      const result = errors.value.some((x) => key in x);
       return result;
     };
 
-    const getError = (key) => {
-      return errors[key];
-    };
+    const userNameError = computed(() => {
+      if (hasError("userName")) {
+        const result = errors.value.filter((x) => {
+          if (x.userName) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].userName;
+      }
+
+      return [];
+    });
 
     return {
       userName,
@@ -140,7 +156,7 @@ export default {
       hasServerError,
       onSubmit,
       errors,
-      getError,
+      userNameError,
     };
   },
 };
