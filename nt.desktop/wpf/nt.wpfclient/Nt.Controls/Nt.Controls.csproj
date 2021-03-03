@@ -60,8 +60,17 @@
     <None Update="Rating\RatingView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Rating\SomethingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Rating\StarControl\StarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="StarRating\StarRatingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StarRating\S\" />
   </ItemGroup>
 </Project>
