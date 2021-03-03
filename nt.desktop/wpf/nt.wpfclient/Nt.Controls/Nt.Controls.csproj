@@ -56,4 +56,12 @@
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Rating\RatingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Rating\StarControl\StarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
 </Project>

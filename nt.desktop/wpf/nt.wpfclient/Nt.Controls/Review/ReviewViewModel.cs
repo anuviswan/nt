@@ -1,4 +1,6 @@
-﻿using Nt.Utils.ControlInterfaces;
+﻿using Caliburn.Micro;
+using Nt.Controls.Rating;
+using Nt.Utils.ControlInterfaces;
 
 namespace Nt.Controls.Review
 {
@@ -27,6 +29,8 @@ namespace Nt.Controls.Review
         }
 
         public string MovieTitle => TypedControl.Movie.Title;
+
+        public RatingViewModel RatingControl { get; set; } = IoC.Get<RatingControl>().ViewModel;
         
     }
 }

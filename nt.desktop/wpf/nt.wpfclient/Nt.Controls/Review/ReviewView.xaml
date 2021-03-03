@@ -15,7 +15,11 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding MovieTitle}" Style="{StaticResource NtTextTitle}" HorizontalAlignment="Center"/>
+            <StackPanel>
+                <TextBlock Text="{Binding MovieTitle}" Style="{StaticResource NtTextTitle}" HorizontalAlignment="Center"/>
+                <ContentControl x:Name="RatingControl"/>
+            </StackPanel>
+            
             <TextBlock Grid.Row="1" Text="{Binding Description}" Style="{StaticResource NtText}"/>
             <TextBlock Grid.Row="2" Text="{Binding Author, StringFormat='- {0}'}"  Style="{StaticResource NtTextSignature}"/>
             
