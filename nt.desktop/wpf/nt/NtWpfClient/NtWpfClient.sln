@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Desktop", "Nt.Desktop\Nt.Desktop.csproj", "{8E2D069E-7A30-42A7-9AF2-7EA195F917B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.Shared.Utils", "Nt.Shared\Nt.Shared.Utils\Nt.Shared.Utils.csproj", "{F0E0DCA9-BBC2-42E4-9166-0DF6D4204006}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Shared.Utils", "Nt.Shared\Nt.Shared.Utils\Nt.Shared.Utils.csproj", "{F0E0DCA9-BBC2-42E4-9166-0DF6D4204006}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.Controls.Pages", "Nt.Controls\Nt.Controls.Pages\Nt.Controls.Pages.csproj", "{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F0E0DCA9-BBC2-42E4-9166-0DF6D4204006}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0E0DCA9-BBC2-42E4-9166-0DF6D4204006}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0E0DCA9-BBC2-42E4-9166-0DF6D4204006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

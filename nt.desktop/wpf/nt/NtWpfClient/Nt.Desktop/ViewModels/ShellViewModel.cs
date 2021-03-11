@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Nt.Desktop.ViewModels
 {
-    class ShellViewModel
+    public class ShellViewModel
     {
+        public void ViewLoaded()
+        {
+
+        }
     }
 }
