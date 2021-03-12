@@ -11,8 +11,18 @@ namespace Nt.Shared.Utils.ControlBase
     }
 
 
-    public abstract class ControlBase<TViewModel>:ControlBase where TViewModel : ViewModelBase
+    public abstract class ControlBase<TViewModel>:ControlBase where TViewModel : ViewModelBase, new()
     {
-
+        private readonly Lazy<TViewModel> _viewModel;
+        public ControlBase()
+        {
+            _viewModel = new Lazy<TViewModel>(() =>
+            {
+                var vm = new TViewModel(); // TODO: Replace with IOC later
+                vm.Control = this;
+                return vm;
+            });
+        }
+        public TViewModel ViewModel => _viewModel.Value;
     }
 }

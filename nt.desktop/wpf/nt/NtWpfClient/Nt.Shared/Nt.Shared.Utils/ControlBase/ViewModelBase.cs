@@ -26,5 +26,6 @@ namespace Nt.Shared.Utils.ControlBase
     }
     public class ViewModelBase<TControl>:ViewModelBase where TControl : ControlBase
     {
+        public TControl TypedControl => (TControl)Control;
     }
 }
