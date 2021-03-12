@@ -7,6 +7,5 @@ namespace Nt.Controls.Pages.Login
 {
     public class LoginViewModel:ViewModelBase
     {
-
     }
 }
