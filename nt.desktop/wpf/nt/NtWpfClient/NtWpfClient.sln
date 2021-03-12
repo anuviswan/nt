@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Desktop", "Nt.Desktop\Nt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Shared.Utils", "Nt.Shared\Nt.Shared.Utils\Nt.Shared.Utils.csproj", "{F0E0DCA9-BBC2-42E4-9166-0DF6D4204006}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.Controls.Pages", "Nt.Controls\Nt.Controls.Pages\Nt.Controls.Pages.csproj", "{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nt.Controls.Pages", "Nt.Controls\Nt.Controls.Pages\Nt.Controls.Pages.csproj", "{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nt.Controls.HelperControls", "Nt.Controls\Nt.Controls.HelperControls\Nt.Controls.HelperControls.csproj", "{2E8440EE-7167-4C0B-9BC8-C29C37AFA3D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D7364BC-CBC9-49A1-A0B1-3B6D5EDD2979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E8440EE-7167-4C0B-9BC8-C29C37AFA3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E8440EE-7167-4C0B-9BC8-C29C37AFA3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E8440EE-7167-4C0B-9BC8-C29C37AFA3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E8440EE-7167-4C0B-9BC8-C29C37AFA3D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
