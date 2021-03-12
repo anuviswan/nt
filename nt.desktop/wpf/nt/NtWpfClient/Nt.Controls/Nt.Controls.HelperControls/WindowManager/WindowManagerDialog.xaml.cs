@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Nt.Controls.HelperControls.WindowManager
 {
     /// <summary>
-    /// Interaction logic for WindowManagerView.xaml
+    /// Interaction logic for WindowManagerDialog.xaml
     /// </summary>
-    public partial class WindowManagerView : Window
+    public partial class WindowManagerDialog : Window
     {
-        public WindowManagerView()
+        public WindowManagerDialog()
         {
             InitializeComponent();
         }

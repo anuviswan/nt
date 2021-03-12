@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Nt.Shared.Utils.ControlBase;
 
 namespace Nt.Controls.Pages.Login
 {
-    class LoginViewModel
+    public class LoginViewModel:ViewModelBase
     {
+
     }
 }
