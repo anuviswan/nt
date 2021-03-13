@@ -6,4 +6,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nt.Controls\Nt.Controls.Pages\Nt.Controls.Pages.csproj" />
+    <ProjectReference Include="..\Nt.Shared\Nt.Shared.Utils\Nt.Shared.Utils.csproj" />
+  </ItemGroup>
+
 </Project>
