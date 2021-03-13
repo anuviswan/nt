@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Nt.Desktop.Bootstrap
 {
@@ -14,18 +15,35 @@ namespace Nt.Desktop.Bootstrap
 
             isInitialized = true;
             PrepareApplication();
+            Configure();
         }
 
         protected Application Application { get; set; }
 
+        protected virtual object GetInstance(Type service)
+        {
+            return default;
+        }
+
+        protected virtual void Configure()
+        {
+
+        }
         protected void PrepareApplication()
         {
             Application = Application.Current;
             Application.Startup += OnStartup;
+
+            IoC.GetInstance = GetInstance;
         }
 
         protected virtual void OnStartup(object sender, StartupEventArgs e)
         {
+        }
+
+        protected void DisplayRootView<TViewModel>()
+        {
+
         }
     }
 }
