@@ -20,7 +20,7 @@ namespace Nt.Desktop.Bootstrap
 
         protected Application Application { get; set; }
 
-        protected virtual object GetInstance(Type service)
+        protected virtual object GetInstance(Type type)
         {
             return default;
         }

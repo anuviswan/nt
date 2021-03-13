@@ -12,10 +12,15 @@ namespace Nt.Desktop.Bootstrap
 {
     public class Bootstrap:BootstrapBase
     {
-        IUnityContainer container = new UnityContainer();
+        IUnityContainer _container = new UnityContainer();
         public Bootstrap()
         {
             Initialize();
+        }
+
+        protected override object GetInstance(Type type)
+        {
+            return _container.Resolve(type);
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
