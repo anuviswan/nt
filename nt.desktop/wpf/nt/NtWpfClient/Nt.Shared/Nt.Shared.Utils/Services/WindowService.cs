@@ -15,5 +15,12 @@ namespace Nt.Shared.Utils.Services
             windowDialog.DataContext = viewModel;
             return windowDialog.ShowDialog();
         }
+
+        public bool? ShowModalDialog(object parent,ViewModelBase viewModel)
+        {
+            var windowDialog = new WindowManagerDialog();
+            windowDialog.DataContext = viewModel;
+            return windowDialog.ShowDialog();
+        }
     }
 }
