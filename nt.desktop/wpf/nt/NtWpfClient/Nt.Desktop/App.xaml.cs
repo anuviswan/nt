@@ -17,10 +17,9 @@ namespace Nt.Desktop
     {
         public App()
         {
-            ShellView shellView = new ShellView();
-            shellView.DataContext = new ShellViewModel();
-            shellView.Show();
-            // Create the startup window
+            //ShellView shellView = new ShellView();
+            //shellView.DataContext = new ShellViewModel();
+            //shellView.Show();
         }
     }
 }
