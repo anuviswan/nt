@@ -22,7 +22,7 @@ namespace Nt.Desktop.ViewModels
         public void OnViewLoaded()
         {
             var windowService = new WindowService();
-            windowService.ShowDialog(new LoginViewModel(),this);
+            windowService.ShowDialog(new LoginViewModel());
         }
     }
 }

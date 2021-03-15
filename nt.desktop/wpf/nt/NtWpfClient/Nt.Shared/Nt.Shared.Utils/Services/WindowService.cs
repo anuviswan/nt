@@ -12,7 +12,7 @@ namespace Nt.Shared.Utils.Services
     public class WindowService : IWindowService
     {
         public IList<Type> KnownTypes { get; set; }
-        public bool? ShowDialog(ViewModelBase viewModel,object owner)
+        public bool? ShowDialog(ViewModelBase viewModel)
         {
             var viewModelType = viewModel.GetType();
             var view = GetViewForViewModel(viewModelType);
