@@ -30,6 +30,11 @@ namespace Nt.Desktop.Bootstrap
             base.Configure();
             _container.RegisterInstance<IWindowService>(new WindowService());
             _container.RegisterInstance<ShellViewModel>(new ShellViewModel());
+
+            foreach (var vmTypes in ViewModelLoader.GetViewModels())
+            {
+                _container.RegisterType(vmTypes);
+            }
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
