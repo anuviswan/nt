@@ -11,7 +11,8 @@ namespace Nt.Shared.Utils.Services
 {
     public class WindowService : IWindowService
     {
-        public bool? ShowDialog(ViewModelBase viewModel)
+        public IList<Type> KnownTypes { get; set; }
+        public bool? ShowDialog(ViewModelBase viewModel,object owner)
         {
             var viewModelType = viewModel.GetType();
             var view = GetViewForViewModel(viewModelType);
@@ -22,18 +23,11 @@ namespace Nt.Shared.Utils.Services
             }
             else
             {
-                var windowDialog = new WindowManagerDialog();
-                windowDialog.DataContext = viewModel;
+                var windowDialog = new Window();
+                windowDialog.Title = "Demo";
                 return windowDialog.ShowDialog();
             }
             
-        }
-
-        public bool? ShowModalDialog(object parent,ViewModelBase viewModel)
-        {
-            var windowDialog = new WindowManagerDialog();
-            windowDialog.DataContext = viewModel;
-            return windowDialog.ShowDialog();
         }
 
         private object GetViewForViewModel(Type type)

@@ -7,6 +7,6 @@ namespace Nt.Shared.Utils.ServiceInterfaces
 {
     public interface IWindowService
     {
-        bool? ShowDialog(ViewModelBase viewModel);
+        bool? ShowDialog(ViewModelBase viewModel,object owner);
     }
 }

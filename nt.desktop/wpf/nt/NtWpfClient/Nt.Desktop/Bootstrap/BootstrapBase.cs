@@ -50,7 +50,7 @@ namespace Nt.Desktop.Bootstrap
             var instance = IoC.Get<TViewModel>();
             var windowService = IoC.Get<IWindowService>();
 
-            windowService.ShowDialog(instance);
+            windowService.ShowDialog(instance,null);
 
            // windowService.ShowDialog(instance);
         }
