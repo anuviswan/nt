@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Nt.Controls.Pages.Login;
+using Nt.Shared.Utils.ControlBase;
 using Nt.Shared.Utils.Helpers.Commands;
 using Nt.Shared.Utils.Services;
 
 namespace Nt.Desktop.ViewModels
 {
-    public class ShellViewModel
+    public class ShellViewModel:ViewModelBase
     {
         public ICommand ViewLoaded { get; set; }
         public ShellViewModel()

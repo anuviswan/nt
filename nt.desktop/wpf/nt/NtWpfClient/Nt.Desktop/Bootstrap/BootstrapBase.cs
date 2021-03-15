@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
+using Nt.Desktop.Views;
+using Nt.Shared.Utils.ControlBase;
+using Nt.Shared.Utils.ServiceInterfaces;
 
 namespace Nt.Desktop.Bootstrap
 {
@@ -41,9 +45,16 @@ namespace Nt.Desktop.Bootstrap
         {
         }
 
-        protected void DisplayRootView<TViewModel>()
+        protected void OpenRoot<TViewModel>() where TViewModel:ViewModelBase
         {
+            var instance = IoC.Get<TViewModel>();
+            var windowService = IoC.Get<IWindowService>();
 
+            windowService.ShowDialog(instance);
+
+           // windowService.ShowDialog(instance);
         }
+
+       
     }
 }
