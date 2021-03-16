@@ -19,7 +19,7 @@
             placeholder="Username"
           />
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-left">
           <ValidationMessage
             v-bind:messages="userNameError"
             v-bind:isError="true"
@@ -38,17 +38,10 @@
           />
         </div>
 
-        <!-- <div
-          v-bind:class="
-            hasError('password') ? 'text-danger text-left' : 'd-none'
-          "
-        >
-          <small>Password cannot be empty</small>
-        </div> -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-left">
           <ValidationMessage
-            v-bind:messages="serverMessage"
-            v-bind:isError="hasServerError"
+            v-bind:messages="passwordError"
+            v-bind:isError="true"
           />
         </div>
 
@@ -59,7 +52,7 @@
             value="Submit"
           />
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-left">
           <ValidationMessage
             v-bind:messages="serverMessage"
             v-bind:isError="hasServerError"
@@ -148,6 +141,20 @@ export default {
       return [];
     });
 
+    const passwordError = computed(() => {
+      if (hasError("password")) {
+        const result = errors.value.filter((x) => {
+          if (x.password) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].password;
+      }
+
+      return [];
+    });
+
     return {
       userName,
       password,
@@ -157,6 +164,7 @@ export default {
       onSubmit,
       errors,
       userNameError,
+      passwordError,
     };
   },
 };
