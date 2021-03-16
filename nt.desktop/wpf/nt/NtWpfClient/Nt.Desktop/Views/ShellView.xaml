@@ -16,5 +16,6 @@
         <viewmodels:ShellViewModel />
     </Window.DataContext>
     <Grid>
+        <TextBlock Text="This is shell view model"/>
     </Grid>
 </Window>
