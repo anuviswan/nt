@@ -36,7 +36,7 @@ namespace Nt.Desktop.ViewModels
         public void OnViewLoaded()
         {
             var loginViewModel = IoC.Get<LoginViewModel>();
-            _windowService.ShowDialog(loginViewModel);
+            _windowService.ShowDialog(loginViewModel,"Login");
         }
     }
 }

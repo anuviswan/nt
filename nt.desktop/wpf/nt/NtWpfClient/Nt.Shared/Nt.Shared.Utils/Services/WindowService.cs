@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using Nt.Controls.HelperControls.WindowManager;
 using Nt.Shared.Utils.ControlBase;
 using Nt.Shared.Utils.ServiceInterfaces;
 
@@ -12,7 +10,7 @@ namespace Nt.Shared.Utils.Services
     public class WindowService : IWindowService
     {
         public IList<Type> KnownTypes { get; set; }
-        public bool? ShowDialog(ViewModelBase viewModel)
+        public bool? ShowDialog(ViewModelBase viewModel,string title)
         {
             var viewModelType = viewModel.GetType();
             var view = GetViewForViewModel(viewModelType);
@@ -24,7 +22,7 @@ namespace Nt.Shared.Utils.Services
             else
             {
                 var windowDialog = new Window();
-                windowDialog.Title = "Demo";
+                windowDialog.Title = title;
                 return windowDialog.ShowDialog();
             }
             
@@ -36,8 +34,7 @@ namespace Nt.Shared.Utils.Services
             var view = type.Assembly.GetTypes().Where(x => string.Equals(x.Name, viewName));
             if (view.Any())
             {
-                var v = view.First();
-                var viewInstance = Activator.CreateInstance(v);
+                var viewInstance = Activator.CreateInstance(view.First());
                 return viewInstance;
             }
             return null;
