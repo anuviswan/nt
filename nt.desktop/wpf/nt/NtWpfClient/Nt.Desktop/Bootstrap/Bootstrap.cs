@@ -9,6 +9,7 @@ using Nt.Desktop.Views;
 using Nt.Shared.Utils.ServiceInterfaces;
 using Nt.Shared.Utils.Services;
 using Unity;
+using Unity.Injection;
 
 namespace Nt.Desktop.Bootstrap
 {
@@ -28,8 +29,9 @@ namespace Nt.Desktop.Bootstrap
         protected override void Configure()
         {
             base.Configure();
-            _container.RegisterInstance<IWindowService>(new WindowService());
-            _container.RegisterInstance<ShellViewModel>(new ShellViewModel());
+            _container.RegisterType<IWindowService,WindowService>();
+            //_container.RegisterType<ShellViewModel>(new InjectionConstructor(_container.Resolve<IWindowService>()));
+            _container.RegisterType<ShellViewModel>();
 
             foreach (var vmTypes in ViewModelLoader.GetViewModels())
             {
@@ -41,9 +43,7 @@ namespace Nt.Desktop.Bootstrap
         {
             base.OnStartup(sender, e);
             OpenRoot<ShellViewModel>();
-            //ShellView shellView = new ShellView();
-            //shellView.DataContext = new ShellViewModel();
-            //shellView.Show();
+       
         }
     }
 }

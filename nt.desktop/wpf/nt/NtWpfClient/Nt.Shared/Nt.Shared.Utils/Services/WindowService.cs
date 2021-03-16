@@ -36,7 +36,8 @@ namespace Nt.Shared.Utils.Services
             var view = type.Assembly.GetTypes().Where(x => string.Equals(x.Name, viewName));
             if (view.Any())
             {
-                var viewInstance = Activator.CreateInstance(view.First());
+                var v = view.First();
+                var viewInstance = Activator.CreateInstance(v);
                 return viewInstance;
             }
             return null;
