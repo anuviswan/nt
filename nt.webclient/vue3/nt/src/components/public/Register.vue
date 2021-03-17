@@ -88,16 +88,21 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import useValidator from "@/utils/inputValidators.js";
 import { minLength, isEquals } from "@/utils/validators.js";
+import { registerUser } from "@/api/user.js";
+import router from "@/router";
 export default {
   name: "Register",
   setup() {
     const userName = ref("");
     const password = ref("");
     const confirmPassword = ref("");
+    const displayName = ref("");
     const errors = ref([]);
+    const hasServerError = ref(false);
+    const serverMessage = ref("");
 
     const onSubmit = async (e) => {
       e.preventDefault();
@@ -106,6 +111,11 @@ export default {
       useValidator(userName.value, [minLength(3)], (e) =>
         errors.value.push({ "userName": e })
       );
+
+      useValidator(displayName.value, [minLength(3)], (e) =>
+        errors.value.push({ "displayName": e })
+      );
+
       useValidator(password.value, [minLength(3)], (e) =>
         errors.value.push({ "password": e })
       );
@@ -114,7 +124,73 @@ export default {
         [minLength(3), isEquals(password.value, confirmPassword.value)],
         (e) => errors.value.push({ "confirmPassword": e })
       );
+
+      if (errors.value.length == 0) {
+        var response = await registerUser(
+          userName.value,
+          displayName.value,
+          password.value
+        );
+        console.log(response);
+
+        if (response.hasError) {
+          hasServerError.value = true;
+          serverMessage.value = response.error;
+          return;
+        }
+
+        console.log("User authenticated and updated, redirecting now..");
+        router.push("/Home");
+      }
     };
+
+    const hasError = (key) => {
+      //const result = errors.value.indexOf(key) != -1;
+      const result = errors.value.some((x) => key in x);
+      return result;
+    };
+
+    const userNameError = computed(() => {
+      if (hasError("userName")) {
+        const result = errors.value.filter((x) => {
+          if (x.userName) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].userName;
+      }
+
+      return [];
+    });
+
+    const passwordError = computed(() => {
+      if (hasError("password")) {
+        const result = errors.value.filter((x) => {
+          if (x.password) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].password;
+      }
+
+      return [];
+    });
+
+    const confirmPasswordError = computed(() => {
+      if (hasError("confirmPassword")) {
+        const result = errors.value.filter((x) => {
+          if (x.confirmPassword) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].confirmPassword;
+      }
+
+      return [];
+    });
 
     return {
       userName,
@@ -122,6 +198,10 @@ export default {
       confirmPassword,
       onSubmit,
       errors,
+      hasError,
+      userNameError,
+      passwordError,
+      confirmPasswordError,
     };
   },
 };
