@@ -89,17 +89,39 @@
 
 <script>
 import { ref } from "vue";
+import useValidator from "@/utils/inputValidators.js";
+import { minLength, isEquals } from "@/utils/validators.js";
 export default {
   name: "Register",
   setup() {
     const userName = ref("");
     const password = ref("");
     const confirmPassword = ref("");
+    const errors = ref([]);
+
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      errors.value = [];
+
+      useValidator(userName.value, [minLength(3)], (e) =>
+        errors.value.push({ "userName": e })
+      );
+      useValidator(password.value, [minLength(3)], (e) =>
+        errors.value.push({ "password": e })
+      );
+      useValidator(
+        confirmPassword.value,
+        [minLength(3), isEquals(password.value, confirmPassword.value)],
+        (e) => errors.value.push({ "confirmPassword": e })
+      );
+    };
 
     return {
       userName,
       password,
       confirmPassword,
+      onSubmit,
+      errors,
     };
   },
 };
