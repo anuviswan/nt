@@ -19,12 +19,11 @@
             placeholder="Username"
           />
         </div>
-        <div
-          v-bind:class="
-            hasError('userName') ? 'text-danger text-left' : 'd-none'
-          "
-        >
-          <small>Username cannot be empty</small>
+        <div class="d-flex justify-content-left">
+          <ValidationMessage
+            v-bind:messages="passwordError"
+            v-bind:isError="true"
+          />
         </div>
         <div class="form-group">
           <input
@@ -38,12 +37,11 @@
             placeholder="Password"
           />
         </div>
-        <div
-          v-bind:class="
-            hasError('password') ? 'text-danger text-left' : 'd-none'
-          "
-        >
-          <small>Password cannot be empty</small>
+        <div class="d-flex justify-content-left">
+          <ValidationMessage
+            v-bind:messages="passwordError"
+            v-bind:isError="true"
+          />
         </div>
         <div class="form-group">
           <input
@@ -57,12 +55,11 @@
             placeholder="Confirm Password"
           />
         </div>
-        <div
-          v-bind:class="
-            hasError('confirmPassword') ? 'text-danger text-left' : 'd-none'
-          "
-        >
-          <small>Password does not match</small>
+        <div class="d-flex justify-content-left">
+          <ValidationMessage
+            v-bind:messages="confirmPasswordError"
+            v-bind:isError="true"
+          />
         </div>
 
         <div class="form-group">
@@ -72,7 +69,7 @@
             value="Submit"
           />
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-left">
           <ValidationMessage
             v-bind:messages="serverMessage"
             v-bind:isError="hasServerError"
@@ -92,9 +89,13 @@ import { computed, ref } from "vue";
 import useValidator from "@/utils/inputValidators.js";
 import { minLength, isEquals } from "@/utils/validators.js";
 import { registerUser } from "@/api/user.js";
+import ValidationMessage from "@/components/generic/ValidationMessage";
 import router from "@/router";
 export default {
   name: "Register",
+  components: {
+    ValidationMessage,
+  },
   setup() {
     const userName = ref("");
     const password = ref("");
@@ -102,7 +103,7 @@ export default {
     const displayName = ref("");
     const errors = ref([]);
     const hasServerError = ref(false);
-    const serverMessage = ref("");
+    const serverMessage = ref([]);
 
     const onSubmit = async (e) => {
       e.preventDefault();
@@ -112,16 +113,12 @@ export default {
         errors.value.push({ "userName": e })
       );
 
-      useValidator(displayName.value, [minLength(3)], (e) =>
-        errors.value.push({ "displayName": e })
-      );
-
       useValidator(password.value, [minLength(3)], (e) =>
         errors.value.push({ "password": e })
       );
       useValidator(
         confirmPassword.value,
-        [minLength(3), isEquals(password.value, confirmPassword.value)],
+        [minLength(3), isEquals(password.value)],
         (e) => errors.value.push({ "confirmPassword": e })
       );
 
@@ -131,16 +128,17 @@ export default {
           displayName.value,
           password.value
         );
-        console.log(response);
 
         if (response.hasError) {
           hasServerError.value = true;
-          serverMessage.value = response.error;
+          serverMessage.value = Object.values(
+            Object.values(response.error[0].errors).flat()
+          );
           return;
         }
 
         console.log("User authenticated and updated, redirecting now..");
-        router.push("/Home");
+        router.push("/");
       }
     };
 
@@ -202,6 +200,8 @@ export default {
       userNameError,
       passwordError,
       confirmPasswordError,
+      serverMessage,
+      hasServerError,
     };
   },
 };
