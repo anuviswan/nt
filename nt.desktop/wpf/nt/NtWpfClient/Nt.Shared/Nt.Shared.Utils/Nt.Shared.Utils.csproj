@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Nt.Controls\Nt.Controls.HelperControls\Nt.Controls.HelperControls.csproj" />
   </ItemGroup>
 
