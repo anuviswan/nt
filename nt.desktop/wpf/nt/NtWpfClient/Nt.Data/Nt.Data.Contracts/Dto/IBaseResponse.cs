@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Nt.Shared.Utils.ServiceInterfaces
+namespace Nt.Data.Contracts.Dto
 {
     public interface IBaseResponse
     {

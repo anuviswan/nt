@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
+using Nt.Data.Contracts.Dto;
 using Nt.Shared.Utils.Helpers;
 using Nt.Shared.Utils.ServiceInterfaces;
 using RestSharp;

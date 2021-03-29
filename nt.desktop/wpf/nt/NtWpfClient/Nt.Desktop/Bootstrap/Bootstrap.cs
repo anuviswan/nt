@@ -30,7 +30,7 @@ namespace Nt.Desktop.Bootstrap
         protected override void Configure()
         {
             base.Configure();
-            _container.RegisterType<IWindowService,WindowService>();
+            ServiceManager.RegisterServices(_container);
             _container.RegisterType<ShellViewModel>(new InjectionConstructor(_container.Resolve<IWindowService>(), DialogCoordinator.Instance));
            // _container.RegisterType<ShellViewModel>();
 

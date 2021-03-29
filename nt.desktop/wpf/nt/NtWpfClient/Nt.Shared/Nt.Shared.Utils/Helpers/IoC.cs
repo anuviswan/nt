@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Nt.Desktop.Bootstrap
+namespace Nt.Shared.Utils.Helpers
 {
     public static class IoC
     {
-        public static Func<Type,object> GetInstance { get; set; }
+        public static Func<Type, object> GetInstance { get; set; }
 
         public static T Get<T>()
         {

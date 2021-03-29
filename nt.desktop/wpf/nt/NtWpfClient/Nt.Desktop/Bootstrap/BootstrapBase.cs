@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using Nt.Desktop.Views;
 using Nt.Shared.Utils.ControlBase;
+using Nt.Shared.Utils.Helpers;
 using Nt.Shared.Utils.ServiceInterfaces;
 
 namespace Nt.Desktop.Bootstrap

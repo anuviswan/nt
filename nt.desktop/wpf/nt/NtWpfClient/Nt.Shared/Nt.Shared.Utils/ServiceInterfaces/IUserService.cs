@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Nt.Shared.Utils.Helpers;
 
 namespace Nt.Shared.Utils.ServiceInterfaces
 {
@@ -11,6 +12,6 @@ namespace Nt.Shared.Utils.ServiceInterfaces
         string DisplayName { get; set; }
         string AuthToken { get; set; }
         bool IsAuthenticated { get; }
-        Task<bool> Authenticate(string userName, string password, out string errorMessage);
+        Task<bool> Authenticate(string userName, string password, AsyncRef<string> errorMessage);
     }
 }

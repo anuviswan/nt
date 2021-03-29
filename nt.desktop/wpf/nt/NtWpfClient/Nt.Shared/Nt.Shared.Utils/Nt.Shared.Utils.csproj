@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Nt.Controls\Nt.Controls.HelperControls\Nt.Controls.HelperControls.csproj" />
+    <ProjectReference Include="..\..\Nt.Data\Nt.Data.Contracts\Nt.Data.Contracts.csproj" />
+    <ProjectReference Include="..\..\Nt.Data\Nt.Data.Types\Nt.Data.Types.csproj" />
   </ItemGroup>
 
 </Project>

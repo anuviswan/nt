@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Nt.Shared.Utils.ControlBase;
+using Nt.Shared.Utils.Helpers;
 using Nt.Shared.Utils.Helpers.Commands;
 using Nt.Shared.Utils.Helpers.Extensions;
 using Nt.Shared.Utils.ServiceInterfaces;
@@ -45,7 +46,8 @@ namespace Nt.Desktop.ViewModels
                 }
 
                 IsBusy = true;
-                isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password, out var errorMsg);
+                var errorMsg = new AsyncRef<string>();
+                isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password,errorMsg);
                 IsBusy = false;
                 if (!isLoggedIn)
                 {
