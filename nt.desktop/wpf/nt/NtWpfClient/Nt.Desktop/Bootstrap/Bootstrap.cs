@@ -31,7 +31,7 @@ namespace Nt.Desktop.Bootstrap
         {
             base.Configure();
             ServiceManager.RegisterServices(_container);
-            _container.RegisterType<ShellViewModel>(new InjectionConstructor(_container.Resolve<IWindowService>(), DialogCoordinator.Instance));
+            _container.RegisterType<ShellViewModel>(new InjectionConstructor(_container.Resolve<IWindowService>(), DialogCoordinator.Instance,_container.Resolve<IUserService>()));
            // _container.RegisterType<ShellViewModel>();
 
             foreach (var vmTypes in ViewModelLoader.GetViewModels())

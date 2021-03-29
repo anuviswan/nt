@@ -64,19 +64,27 @@ namespace Nt.Shared.Utils.Services
             try
             {
                 var defaultSchema = JSchema.Parse(GetDefaultSchema());
-                var jsonString = JObject.Parse(content);
+                try
+                {
+                    var jsonString = JObject.Parse(content);
 
-                if (jsonString.IsValid(defaultSchema))
-                {
-                    return JsonConvert.DeserializeObject<TResponse>(content);
-                }
-                else
-                {
-                    return new TResponse
+                    if (jsonString.IsValid(defaultSchema))
                     {
-                        Errors = new[] { JsonConvert.DeserializeObject<string>(content) }
-                    };
+                        return JsonConvert.DeserializeObject<TResponse>(content);
+                    }
+                    else
+                    {
+                        return new TResponse
+                        {
+                            Errors = new[] { JsonConvert.DeserializeObject<string>(content) }
+                        };
+                    }
                 }
+                catch (JsonReaderException)
+                {
+                    return new TResponse { Errors = new[] { content } };
+                }
+                
             }
             catch
             {

@@ -15,6 +15,7 @@ namespace Nt.Desktop.Bootstrap
         {
             container.RegisterType<IWindowService, WindowService>();
             container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IHttpService, HttpService>();
         }
     }
 }
