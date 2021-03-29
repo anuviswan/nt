@@ -5,7 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
+    <PackageReference Include="RestSharp" Version="106.11.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Nt.Controls\Nt.Controls.HelperControls\Nt.Controls.HelperControls.csproj" />
+    <ProjectReference Include="..\..\Nt.Data\Nt.Data.Contracts\Nt.Data.Contracts.csproj" />
+    <ProjectReference Include="..\..\Nt.Data\Nt.Data.Types\Nt.Data.Types.csproj" />
   </ItemGroup>
 
 </Project>

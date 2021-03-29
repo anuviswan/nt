@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MahApps.Metro.Controls.Dialogs;
 using Nt.Desktop.ViewModels;
 using Nt.Desktop.Views;
 using Nt.Shared.Utils.ServiceInterfaces;
@@ -29,9 +30,9 @@ namespace Nt.Desktop.Bootstrap
         protected override void Configure()
         {
             base.Configure();
-            _container.RegisterType<IWindowService,WindowService>();
-            //_container.RegisterType<ShellViewModel>(new InjectionConstructor(_container.Resolve<IWindowService>()));
-            _container.RegisterType<ShellViewModel>();
+            ServiceManager.RegisterServices(_container);
+            _container.RegisterType<ShellViewModel>(new InjectionConstructor(_container.Resolve<IWindowService>(), DialogCoordinator.Instance,_container.Resolve<IUserService>()));
+           // _container.RegisterType<ShellViewModel>();
 
             foreach (var vmTypes in ViewModelLoader.GetViewModels())
             {
