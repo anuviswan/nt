@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
-using Nt.Controls.Pages.Login;
-using Nt.Desktop.Bootstrap;
 using Nt.Shared.Utils.ControlBase;
 using Nt.Shared.Utils.Helpers.Commands;
 using Nt.Shared.Utils.Helpers.Extensions;
 using Nt.Shared.Utils.ServiceInterfaces;
-using Nt.Shared.Utils.Services;
 using Unity;
 
 namespace Nt.Desktop.ViewModels
@@ -20,7 +13,8 @@ namespace Nt.Desktop.ViewModels
     public class ShellViewModel:ViewModelBase
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-        private  readonly IWindowService _windowService;
+        private readonly IWindowService _windowService;
+        private readonly IUserService _currentUserService;
         public ICommand ViewLoaded { get; set; }
 
         public ShellViewModel()
@@ -28,17 +22,38 @@ namespace Nt.Desktop.ViewModels
             
         }
 
-        [InjectionConstructor]
-        public ShellViewModel(IWindowService windowService, IDialogCoordinator dialogCoordinator)
-        {
-            (_windowService, _dialogCoordinator) = (windowService, dialogCoordinator);
+        public bool IsBusy { get; set; }
 
-            ViewLoaded = new DelegateCommand((_)=>OnViewLoaded());
+        [InjectionConstructor]
+        public ShellViewModel(IWindowService windowService, IDialogCoordinator dialogCoordinator,IUserService userService)
+        {
+            (_windowService, _dialogCoordinator,_currentUserService) = (windowService, dialogCoordinator,userService);
+
+            ViewLoaded = new DelegateCommand((_)=>Task.Run(OnViewLoaded));
         }
        
-        public void OnViewLoaded()
+        public async Task OnViewLoaded()
         {
-            var result = _dialogCoordinator.ShowNtLogin(this);
+            var isLoggedIn = false;
+            do
+            {
+                var loginData = await _dialogCoordinator.ShowNtLogin(this);
+                if (loginData == null)
+                {
+                    // User has cancelled Login, Should exist.
+                    Application.Current.Shutdown();
+                }
+
+                IsBusy = true;
+                isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password, out var errorMsg);
+                IsBusy = false;
+                if (!isLoggedIn)
+                {
+                    await _dialogCoordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
+                }
+
+            } while (!isLoggedIn);
+            
 
         }
     }
