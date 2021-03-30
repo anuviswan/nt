@@ -3,7 +3,9 @@ const state = {
   };
   
   const getters = {
-    currentUser: (state) => state.currentUser,
+    currentUser: (state) => {
+      return state.currentUser;
+    },
   };
   
   const actions = {
