@@ -110,12 +110,16 @@ export default {
           return;
         }
 
-        store.dispatch("updateCurrentUser", {
+        const currentUser = {
           userName: response.data.userName,
           displayName: response.data.displayName,
           bio: response.data.bio,
           token: response.data.token,
-        });
+        };
+
+        console.log(currentUser);
+
+        store.dispatch("updateCurrentUser", currentUser);
 
         console.log("User authenticated and updated, redirecting now..");
         router.push("/p/dashboard");
