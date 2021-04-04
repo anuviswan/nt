@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 import UserCard from "@/components/private/user/UserCard";
 
 export default {
@@ -43,10 +44,13 @@ export default {
     UserCard,
   },
   setup() {
+    const store = useStore();
+    const currentUser = computed(() => store.getters.currentUser);
+
     const user = ref({
-      userName: "JiaNaina",
-      displayName: "AamiNiks",
-      rating: 5,
+      userName: currentUser.value.userName,
+      displayName: currentUser.value.displayName,
+      rating: currentUser.value.rating,
     });
 
     console.log("Default User");
