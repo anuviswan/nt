@@ -11,9 +11,9 @@
 
     <div class="card-body mx-auto">
       <h4 class="card-title block text-uppercase text-center">
-        {{ selectedUser.value.displayName }}
+        {{ currentUser.displayName }}
       </h4>
-      {{ selectedUser.value.userName }}
+      {{ currentUser.userName }}
       <!-- <Rating value="{5}" totalStars="{5}" /> -->
     </div>
 
@@ -29,11 +29,11 @@
         <div class="col-lg-4 card-metadata-footer text-center">Followers</div>
       </div>
     </div>
-    <div class="card-body mx-auto">{{ selectedUser.value.bio }}</div>
+    <div class="card-body mx-auto">{{ currentUser.bio }}</div>
   </div>
 </template>
 <script>
-import { toRefs } from "vue";
+import { toRefs, reactive } from "vue";
 export default {
   name: "UserCard",
   props: {
@@ -44,9 +44,10 @@ export default {
   },
   setup(props) {
     console.log(props.user);
-    const { selectedUser } = toRefs(props);
+    const { user } = toRefs(props);
     console.log("Loading User Card");
-    console.log(selectedUser.value.user);
+    console.log(user.value);
+    const currentUser = reactive(user);
     // let selectedUser = reactive({});
     // watch(() => {
     //   const { selectedUser } = props.user;
@@ -66,7 +67,7 @@ export default {
     // };
 
     return {
-      selectedUser,
+      currentUser,
     };
   },
 };
