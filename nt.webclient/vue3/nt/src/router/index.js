@@ -3,6 +3,7 @@ import Home from "../pages/public/Home"
 import PrivateContainer from "@/pages/private/PrivateContainer"
 import Dashboard from "@/pages/private/Dashboard"
 import RegisterPage from "@/pages/public/RegisterPage"
+import ViewProfile from "@/pages/private/user/ViewProfile.vue"
 const routes = [
   {
     path: '/',
@@ -27,6 +28,10 @@ const routes = [
         path: "dashboard",
         component: Dashboard,
       },
+      {
+        path:'user/:userid',
+        component:ViewProfile
+      }
     ]
   }
       
