@@ -75,15 +75,42 @@ import { ref } from "vue";
 export default {
   setup() {
     const serverMessage = ref("");
+    const hasServerError = ref(false);
     const oldPassword = ref("");
     const newPassword = ref("");
     const confirmPassword = ref("");
+    const errors = ref([]);
+
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      console.log(oldPassword.value);
+      console.log(newPassword.value);
+      console.log(confirmPassword.value);
+    };
+
+    const hasError = (key) => {
+      return errors.value.indexOf(key) != -1;
+    };
+
+    const showServerMessage = () => {
+      if (!serverMessage.value) {
+        return "d-none justify-content-center";
+      }
+
+      return hasServerError.value
+        ? "text-danger justify-content-center"
+        : "text-success justify-content-center";
+    };
 
     return {
       serverMessage,
       oldPassword,
       newPassword,
       confirmPassword,
+      onSubmit,
+      hasError,
+      hasServerError,
+      showServerMessage,
     };
   },
 };

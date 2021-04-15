@@ -34,7 +34,7 @@ const routes = [
         component:ViewProfile
       },
       {
-        path:'user/changepassword',
+        path: "user/:userid/chpwd",
         component:ChangePassword
       }
     ]
