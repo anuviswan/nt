@@ -79,7 +79,10 @@
             >
               Edit User
             </router-link>
-            <router-link class="dropdown-item" to="./chpwd"
+            <router-link
+              class="dropdown-item"
+              exact
+              v-bind:to="`/p/user/${currentUser.userName}/chpwd`"
               >Change Password</router-link
             >
             <div class="dropdown-divider"></div>

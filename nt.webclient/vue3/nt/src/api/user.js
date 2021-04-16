@@ -49,7 +49,7 @@ const changePassword = async (oldPassword, newPassword) => {
     newPassword: newPassword,
   };
 
-  var response = await axios.post(
+  const response = await axios.post(
     "https://localhost:44353/api/User/ChangePassword",
     recordToUpdate
   );

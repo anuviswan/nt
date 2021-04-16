@@ -4,6 +4,7 @@ import PrivateContainer from "@/pages/private/PrivateContainer"
 import Dashboard from "@/pages/private/Dashboard"
 import RegisterPage from "@/pages/public/RegisterPage"
 import ViewProfile from "@/pages/private/user/ViewProfile.vue"
+import ChangePassword from "@/pages/private/user/ChangePassword.vue"
 const routes = [
   {
     path: '/',
@@ -31,6 +32,10 @@ const routes = [
       {
         path:'user/:userid',
         component:ViewProfile
+      },
+      {
+        path: "user/:userid/chpwd",
+        component:ChangePassword
       }
     ]
   }
