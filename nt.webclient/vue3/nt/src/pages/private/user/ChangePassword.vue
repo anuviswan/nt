@@ -22,6 +22,13 @@
                 />
               </div>
 
+              <div class="d-flex justify-content-left">
+                <ValidationMessage
+                  v-bind:messages="oldPasswordError"
+                  v-bind:isError="true"
+                />
+              </div>
+
               <div class="form-group">
                 <label for="newPassword">New Password</label>
                 <input
@@ -36,6 +43,13 @@
                 />
               </div>
 
+              <div class="d-flex justify-content-left">
+                <ValidationMessage
+                  v-bind:messages="newPasswordError"
+                  v-bind:isError="true"
+                />
+              </div>
+
               <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <input
@@ -47,6 +61,13 @@
                       ? 'form-control block is-invalid'
                       : 'form-control block'
                   "
+                />
+              </div>
+
+              <div class="d-flex justify-content-left">
+                <ValidationMessage
+                  v-bind:messages="confirmPasswordError"
+                  v-bind:isError="true"
                 />
               </div>
 
@@ -71,8 +92,17 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { changePassword } from "@/api/user";
+import { minLength, isEquals } from "@/utils/validators.js";
+import useValidator from "@/utils/inputValidators.js";
+import ValidationMessage from "@/components/generic/ValidationMessage";
+
 export default {
+  name: "ChangePassword",
+  components: {
+    ValidationMessage,
+  },
   setup() {
     const serverMessage = ref("");
     const hasServerError = ref(false);
@@ -83,14 +113,84 @@ export default {
 
     const onSubmit = async (e) => {
       e.preventDefault();
+      errors.value = [];
+
       console.log(oldPassword.value);
       console.log(newPassword.value);
       console.log(confirmPassword.value);
+
+      useValidator(oldPassword.value, [minLength(8)], (e) =>
+        errors.value.push({ "oldPassword": e })
+      );
+
+      useValidator(newPassword.value, [minLength(8)], (e) =>
+        errors.value.push({ "newPassword": e })
+      );
+
+      useValidator(
+        confirmPassword.value,
+        [minLength(8), isEquals(newPassword.value)],
+        (e) => errors.value.push({ "confirmPassword": e })
+      );
+
+      if (errors.value.length == 0) {
+        const response = await changePassword(
+          oldPassword.value,
+          newPassword.value
+        );
+
+        console.log(response);
+      }
+
+      console.log(errors.value);
     };
 
     const hasError = (key) => {
-      return errors.value.indexOf(key) != -1;
+      const result = errors.value.some((x) => key in x);
+      return result;
     };
+
+    const oldPasswordError = computed(() => {
+      if (hasError("oldPassword")) {
+        const result = errors.value.filter((x) => {
+          if (x.oldPassword) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].oldPassword;
+      }
+
+      return [];
+    });
+
+    const newPasswordError = computed(() => {
+      if (hasError("newPassword")) {
+        const result = errors.value.filter((x) => {
+          if (x.newPassword) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].newPassword;
+      }
+
+      return [];
+    });
+
+    const confirmPasswordError = computed(() => {
+      if (hasError("confirmPassword")) {
+        const result = errors.value.filter((x) => {
+          if (x.confirmPassword) {
+            return true;
+          }
+          return false;
+        });
+        return result[0].confirmPassword;
+      }
+
+      return [];
+    });
 
     const showServerMessage = () => {
       if (!serverMessage.value) {
@@ -111,6 +211,9 @@ export default {
       hasError,
       hasServerError,
       showServerMessage,
+      newPasswordError,
+      oldPasswordError,
+      confirmPasswordError,
     };
   },
 };

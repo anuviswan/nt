@@ -96,7 +96,7 @@ export default {
       useValidator(userName.value, [minLength(3)], (e) =>
         errors.value.push({ "userName": e })
       );
-      useValidator(password.value, [minLength(3)], (e) =>
+      useValidator(password.value, [minLength(8)], (e) =>
         errors.value.push({ "password": e })
       );
 
