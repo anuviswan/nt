@@ -78,11 +78,19 @@
                   value="Update Password"
                 />
               </div>
-              <div class="form-group">
+
+              <div class="d-flex justify-content-left">
+                <ValidationMessage
+                  v-bind:messages="serverMessage"
+                  v-bind:isError="hasServerError"
+                />
+              </div>
+
+              <!-- <div class="form-group">
                 <div v-bind:class="showServerMessage()">
                   <small>{{ this.serverMessage }}</small>
                 </div>
-              </div>
+              </div> -->
             </form>
           </div>
         </div>
@@ -104,7 +112,7 @@ export default {
     ValidationMessage,
   },
   setup() {
-    const serverMessage = ref("");
+    const serverMessage = ref([]);
     const hasServerError = ref(false);
     const oldPassword = ref("");
     const newPassword = ref("");
@@ -114,6 +122,8 @@ export default {
     const onSubmit = async (e) => {
       e.preventDefault();
       errors.value = [];
+      hasServerError.value = false;
+      serverMessage.value = [];
 
       console.log(oldPassword.value);
       console.log(newPassword.value);
@@ -139,6 +149,14 @@ export default {
           newPassword.value
         );
 
+        if (response.hasError) {
+          hasServerError.value = true;
+          serverMessage.value = response.error;
+          return;
+        }
+
+        serverMessage.value.push("Password has been changed successfully.");
+        console.log(serverMessage.value);
         console.log(response);
       }
 
