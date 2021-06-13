@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Nt.Shared.Utils.Interfaces
+﻿namespace Nt.Shared.Utils.Interfaces
 {
-    class IHasMenuReference
+    public interface IHasMenuReference
     {
+        string Name { get; set; }
+        object Icon { get; set; }
     }
 }
