@@ -62,7 +62,7 @@ namespace Nt.Infrastructure.Tests.Controllers.UserControllerTests
 
         public static IEnumerable<object[]> CreateUser_ResponseStatus_200_TestData => new List<object[]>
         {
-            new object[]{ new CreateUserProfileRequest { UserName = "NewUser", PassKey = "Dummy1234" }, new CreateUserProfileResponse { UserName = "NewUser" } },
+            new object[]{ new CreateUserProfileRequest { UserName = "SampleUser", PassKey = "Dummy1234" }, new CreateUserProfileResponse { UserName = "SampleUser" } },
         };
 
         #endregion
