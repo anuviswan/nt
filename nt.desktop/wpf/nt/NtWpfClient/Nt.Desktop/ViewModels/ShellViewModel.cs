@@ -54,19 +54,20 @@ namespace Nt.Desktop.ViewModels
                 if (!isLoggedIn)
                 {
                     await _dialogCoordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
-                    MenuItems = InitializeMenuItems();
+                    
                 }
 
             } while (!isLoggedIn);
-            
 
+            MenuItems = InitializeMenuItems().ToList();
+            NotifyOnPropertyChanged(nameof(MenuItems));
         }
 
         public IEnumerable<MenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<MenuItemViewModelBase>();
 
         private IEnumerable<MenuItemViewModelBase> InitializeMenuItems()
         {
-            return Enumerable.Empty<MenuItemViewModelBase>(); 
+            yield return new UserProfileViewModel();
         }
     }
 }
