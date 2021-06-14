@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
@@ -52,11 +54,20 @@ namespace Nt.Desktop.ViewModels
                 if (!isLoggedIn)
                 {
                     await _dialogCoordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
+                    
                 }
 
             } while (!isLoggedIn);
-            
 
+            MenuItems = InitializeMenuItems().ToList();
+            NotifyOnPropertyChanged(nameof(MenuItems));
+        }
+
+        public IEnumerable<MenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<MenuItemViewModelBase>();
+
+        private IEnumerable<MenuItemViewModelBase> InitializeMenuItems()
+        {
+            yield return new UserProfileViewModel();
         }
     }
 }
