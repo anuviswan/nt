@@ -8,6 +8,6 @@ namespace Nt.Shared.Utils.ServiceInterfaces
     {
         void Subscribe(object subscriber);
         void Unsubscribe(object subscriber);
-        void PublishMessage(object Message);
+        void PublishMessage(object message);
     }
 }

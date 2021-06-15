@@ -9,19 +9,46 @@ namespace Nt.Shared.Utils.Services
 {
     public class EventAggregator : IEventAggregator
     {
-        public void PublishMessage(object Message)
+        private readonly List<Handler> _handlers = new List<Handler>();
+        public void PublishMessage(object message)
         {
-            throw new NotImplementedException();
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
+            var handlersToNotify = new List<Handler>();
+            lock (_handlers)
+            {
+                handlersToNotify = _handlers.ToList();
+            }
+
+            foreach(var handler in handlersToNotify)
+            {
+                handler.Handle(message.GetType(), message);
+            }
+
         }
 
         public void Subscribe(object subscriber)
         {
-            throw new NotImplementedException();
+            lock (_handlers)
+            {
+                if(_handlers.Any(x=> x == subscriber))
+                {
+                    return;
+                }
+
+                _handlers.Add(new Handler(subscriber));
+            }
         }
 
         public void Unsubscribe(object subscriber)
         {
-            throw new NotImplementedException();
+            lock (_handlers)
+            {
+                if(_handlers.Any(x=> x == subscriber))
+                {
+                    // TODO: Unsubscribe
+                }
+            }
         }
 
         private class Handler
@@ -45,6 +72,17 @@ namespace Nt.Shared.Utils.Services
                     _handlers.Add(genericTypeArg,method);
                 }
              
+            }
+
+            public void Handle(Type messageType,object message)
+            {
+                if (!_handlers.ContainsKey(messageType))
+                {
+                    throw new Exception($"Message type {message} not registered");
+                }
+
+                var method = _handlers[messageType];
+                method.Invoke(_subscriber, new[] { message });
             }
         }
     }
