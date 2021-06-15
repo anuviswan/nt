@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Nt.Shared.Utils.Interfaces;
 using Nt.Shared.Utils.ServiceInterfaces;
 
 namespace Nt.Shared.Utils.Services
