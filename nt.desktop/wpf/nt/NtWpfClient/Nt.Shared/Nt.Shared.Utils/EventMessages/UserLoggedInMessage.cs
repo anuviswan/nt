@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Nt.Shared.Utils.Interfaces;
 
 namespace Nt.Shared.Utils.EventMessages
 {
-    public class UserLoggedInMessage
+    public class UserLoggedInMessage:IEventMessage
     {
         public UserLoggedInMessage(string message)
         {
