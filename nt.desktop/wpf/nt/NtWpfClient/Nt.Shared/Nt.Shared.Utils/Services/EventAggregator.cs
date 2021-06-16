@@ -45,9 +45,10 @@ namespace Nt.Shared.Utils.Services
         {
             lock (_handlers)
             {
-                if(_handlers.Any(x=> x == subscriber))
+                var found = _handlers.FirstOrDefault(x => x == subscriber);
+                if (found != null)
                 {
-                    // TODO: Unsubscribe
+                    _handlers.Remove(found);
                 }
             }
         }
