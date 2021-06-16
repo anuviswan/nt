@@ -13,9 +13,10 @@ namespace Nt.Desktop.Bootstrap
     {
         public static void RegisterServices(IUnityContainer container)
         {
-            container.RegisterType<IWindowService, WindowService>();
-            container.RegisterType<IUserService, UserService>();
+            container.RegisterSingleton<IWindowService, WindowService>();
+            container.RegisterSingleton<IUserService, UserService>();
             container.RegisterType<IHttpService, HttpService>();
+            container.RegisterSingleton<IEventAggregator, EventAggregator>();
         }
     }
 }

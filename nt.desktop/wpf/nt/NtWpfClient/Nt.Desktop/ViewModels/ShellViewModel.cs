@@ -5,19 +5,22 @@ using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using Nt.Shared.Utils.ControlBase;
+using Nt.Shared.Utils.EventMessages;
 using Nt.Shared.Utils.Helpers;
 using Nt.Shared.Utils.Helpers.Commands;
 using Nt.Shared.Utils.Helpers.Extensions;
+using Nt.Shared.Utils.Interfaces;
 using Nt.Shared.Utils.ServiceInterfaces;
 using Unity;
 
 namespace Nt.Desktop.ViewModels
 {
-    public class ShellViewModel:ViewModelBase
+    public class ShellViewModel:ViewModelBase, IHandle<UserLoggedInMessage>
     {
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IWindowService _windowService;
         private readonly IUserService _currentUserService;
+        private readonly IEventAggregator _eventAggregator;
         public ICommand ViewLoaded { get; set; }
 
         public ShellViewModel()
@@ -28,9 +31,11 @@ namespace Nt.Desktop.ViewModels
         public bool IsBusy { get; set; }
 
         [InjectionConstructor]
-        public ShellViewModel(IWindowService windowService, IDialogCoordinator dialogCoordinator,IUserService userService)
+        public ShellViewModel(IWindowService windowService, IDialogCoordinator dialogCoordinator,IUserService userService,IEventAggregator eventAggregator)
         {
-            (_windowService, _dialogCoordinator,_currentUserService) = (windowService, dialogCoordinator,userService);
+            (_dialogCoordinator,_currentUserService) = (dialogCoordinator,userService);
+            (_windowService, _eventAggregator) = (windowService, eventAggregator);
+            _eventAggregator.Subscribe(this);
 
             ViewLoaded = new DelegateCommand((_)=>Task.Run(OnViewLoaded));
         }
@@ -59,8 +64,8 @@ namespace Nt.Desktop.ViewModels
 
             } while (!isLoggedIn);
 
-            MenuItems = InitializeMenuItems().ToList();
-            NotifyOnPropertyChanged(nameof(MenuItems));
+            _eventAggregator.PublishMessage(new UserLoggedInMessage("User has logged in"));
+           
         }
 
         public IEnumerable<MenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<MenuItemViewModelBase>();
@@ -68,6 +73,13 @@ namespace Nt.Desktop.ViewModels
         private IEnumerable<MenuItemViewModelBase> InitializeMenuItems()
         {
             yield return new UserProfileViewModel();
+        }
+
+        public Task HandleAsync(UserLoggedInMessage message)
+        {
+            MenuItems = InitializeMenuItems().ToList();
+            NotifyOnPropertyChanged(nameof(MenuItems));
+            return Task.CompletedTask;
         }
     }
 }
