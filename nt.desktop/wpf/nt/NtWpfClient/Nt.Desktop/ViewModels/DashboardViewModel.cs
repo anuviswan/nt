@@ -1,0 +1,14 @@
+﻿using Nt.Shared.Utils.ControlBase;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Nt.Desktop.ViewModels
+{
+    public class DashboardViewModel:MenuItemViewModelBase
+    {
+        public override string Name { get; set; } = "Dashboard";
+    }
+}

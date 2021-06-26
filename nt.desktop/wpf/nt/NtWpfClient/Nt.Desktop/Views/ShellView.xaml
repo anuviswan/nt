@@ -21,6 +21,16 @@
     <mah:MetroWindow.Resources>
         <converters:MenuItemToPageViewModelConverter x:Key="SelectedItemConverter"/>
         <converters:PageCollectionToMenuItemConverter x:Key="MenuItemConverter"/>
+
+        <DataTemplate DataType="{x:Type viewmodels:UserProfileViewModel}">
+            <local:UserProfileView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:DashboardViewModel}">
+            <local:Dashboard />
+        </DataTemplate>
+
+
         <DataTemplate x:Key="MenuHeaderTemplate">
             <TextBlock HorizontalAlignment="Center"
            VerticalAlignment="Center"
@@ -63,7 +73,7 @@
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
 
-                <ContentControl Grid.Column="0" Grid.Row="1" x:Name="ActiveItem" />
+                <ContentControl Grid.Column="0" Grid.Row="1" x:Name="ActiveItem" Content="{Binding ActiveItem,Mode=TwoWay}"/>
 
                 <Grid Grid.RowSpan="2">
                     <mah:ProgressRing Foreground="{DynamicResource AccentColorBrush}"

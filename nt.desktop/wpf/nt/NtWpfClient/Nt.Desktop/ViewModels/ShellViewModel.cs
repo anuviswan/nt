@@ -15,31 +15,42 @@ using Unity;
 
 namespace Nt.Desktop.ViewModels
 {
-    public class ShellViewModel:ViewModelBase, IHandle<UserLoggedInMessage>
+    public class ShellViewModel : ViewModelBase, IHandle<UserLoggedInMessage>
     {
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IWindowService _windowService;
         private readonly IUserService _currentUserService;
         private readonly IEventAggregator _eventAggregator;
+        private ViewModelBase activeItem;
+
         public ICommand ViewLoaded { get; set; }
 
         public ShellViewModel()
         {
-            
+
         }
 
+        public ViewModelBase ActiveItem
+        {
+            get => activeItem;
+            set
+            {
+                activeItem = value;
+                NotifyOnPropertyChanged();
+            }
+        }
         public bool IsBusy { get; set; }
 
         [InjectionConstructor]
-        public ShellViewModel(IWindowService windowService, IDialogCoordinator dialogCoordinator,IUserService userService,IEventAggregator eventAggregator)
+        public ShellViewModel(IWindowService windowService, IDialogCoordinator dialogCoordinator, IUserService userService, IEventAggregator eventAggregator)
         {
-            (_dialogCoordinator,_currentUserService) = (dialogCoordinator,userService);
+            (_dialogCoordinator, _currentUserService) = (dialogCoordinator, userService);
             (_windowService, _eventAggregator) = (windowService, eventAggregator);
             _eventAggregator.Subscribe(this);
 
-            ViewLoaded = new DelegateCommand((_)=>Task.Run(OnViewLoaded));
+            ViewLoaded = new DelegateCommand((_) => Task.Run(OnViewLoaded));
         }
-       
+
         public async Task OnViewLoaded()
         {
             var isLoggedIn = false;
@@ -54,18 +65,18 @@ namespace Nt.Desktop.ViewModels
 
                 IsBusy = true;
                 var errorMsg = new AsyncRef<string>();
-                isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password,errorMsg);
+                isLoggedIn = await _currentUserService.Authenticate(loginData.Username, loginData.Password, errorMsg);
                 IsBusy = false;
                 if (!isLoggedIn)
                 {
                     await _dialogCoordinator.ShowNtOkDialog(this, "Authentication Failed", errorMsg);
-                    
+
                 }
 
             } while (!isLoggedIn);
 
             _eventAggregator.PublishMessage(new UserLoggedInMessage("User has logged in"));
-           
+
         }
 
         public IEnumerable<MenuItemViewModelBase> MenuItems { get; private set; } = Enumerable.Empty<MenuItemViewModelBase>();
@@ -73,6 +84,7 @@ namespace Nt.Desktop.ViewModels
         private IEnumerable<MenuItemViewModelBase> InitializeMenuItems()
         {
             yield return new UserProfileViewModel();
+            yield return new DashboardViewModel();
         }
 
         public Task HandleAsync(UserLoggedInMessage message)

@@ -35,7 +35,7 @@ namespace Nt.Desktop.Bootstrap
                                                                              DialogCoordinator.Instance,
                                                                              _container.Resolve<IUserService>(),
                                                                              _container.Resolve<IEventAggregator>()));
-           // _container.RegisterType<ShellViewModel>();
+            _container.RegisterType<UserProfileViewModel>();
 
             foreach (var vmTypes in ViewModelLoader.GetViewModels())
             {

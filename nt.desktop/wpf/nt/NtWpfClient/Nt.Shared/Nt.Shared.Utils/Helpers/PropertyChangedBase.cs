@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Nt.Shared.Utils.Helpers
 {
@@ -6,7 +7,7 @@ namespace Nt.Shared.Utils.Helpers
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyOnPropertyChanged(string property)
+        protected void NotifyOnPropertyChanged([CallerMemberName]string property="")
         {
             if (PropertyChanged != null)
             {
