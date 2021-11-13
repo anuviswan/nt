@@ -1,8 +1,6 @@
 ﻿using Nt.Domain.Entities.Movie;
 
-namespace Nt.Domain.RepositoryContracts.Movie
+namespace Nt.Domain.RepositoryContracts.Movie;
+public interface IMovieRepository:IGenericRepository<MovieEntity>
 {
-    public interface IMovieRepository:IGenericRepository<MovieEntity>
-    {
-    }
 }

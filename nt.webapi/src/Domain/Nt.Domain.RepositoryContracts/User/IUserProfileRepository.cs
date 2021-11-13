@@ -1,9 +1,6 @@
 ﻿using Nt.Domain.Entities.User;
-using System.Threading.Tasks;
 
-namespace Nt.Domain.RepositoryContracts.User
+namespace Nt.Domain.RepositoryContracts.User;
+public interface IUserProfileRepository:IGenericRepository<UserProfileEntity>
 {
-    public interface IUserProfileRepository:IGenericRepository<UserProfileEntity>
-    {
-    }
 }
