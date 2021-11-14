@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 
-namespace Nt.Infrastructure.WebApi.Profiles
+namespace Nt.Infrastructure.WebApi.Profiles;
+public class BaseProfileMapper:Profile
 {
-    public class BaseProfileMapper:Profile
+    public BaseProfileMapper()
     {
-        public BaseProfileMapper()
-        {
-            ToEntity();
-            FromEntity();
-        }
+        ToEntity();
+        FromEntity();
+    }
 
-        protected virtual void ToEntity()
-        {
+    protected virtual void ToEntity()
+    {
 
-        }
-        protected virtual void FromEntity()
-        {
+    }
+    protected virtual void FromEntity()
+    {
 
-        }
     }
 }

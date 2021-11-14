@@ -1,7 +1,5 @@
-﻿namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetRecentReviews
+﻿namespace Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetRecentReviews;
+public record GetRecentReviewsRequest
 {
-    public record GetRecentReviewsRequest
-    {
-        public int NumberOfItems { get; init; }
-    }
+    public int NumberOfItems { get; init; }
 }
