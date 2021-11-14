@@ -1,19 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Nt.Infrastructure.WebApi.Attributes
+namespace Nt.Infrastructure.WebApi.Attributes;
+public class DateValidationAttribute:ValidationAttribute 
 {
-    public class DateValidationAttribute:ValidationAttribute 
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        var memberNames = new[] { validationContext.MemberName };
+        if(value is not DateTime date || date < new DateTime(1900,1,1))
         {
-            var memberNames = new[] { validationContext.MemberName };
-            if(value is not DateTime date || date < new DateTime(1900,1,1))
-            {
-                return new ValidationResult(ErrorMessage, memberNames);
-            }
-
-            return ValidationResult.Success;
+            return new (ErrorMessage, memberNames);
         }
+
+        return ValidationResult.Success;
     }
 }

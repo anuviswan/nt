@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nt.Domain.Entities.Exceptions;
 using Nt.Domain.Entities.Movie;
@@ -11,70 +8,69 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.CreateReview;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetAllReviews;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.Review.GetRecentReviews;
 
-namespace Nt.Infrastructure.WebApi.Controllers
+namespace Nt.Infrastructure.WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ReviewController : BaseController
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ReviewController : BaseController
+    private readonly IReviewService _reviewService;
+    public ReviewController(IMapper mapper, IReviewService reviewService) : base(mapper) => _reviewService = reviewService;
+
+    [HttpPost]
+    [Route("CreateReview")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateReview(CreateReviewRequest request)
     {
-        private readonly IReviewService _reviewService;
-        public ReviewController(IMapper mapper, IReviewService reviewService) : base(mapper) => _reviewService = reviewService;
-
-        [HttpPost]
-        [Route("CreateReview")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateReview(CreateReviewRequest request)
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                var response = await _reviewService.CreateAsync(Mapper.Map<CreateReviewRequest,ReviewEntity>(request), User.Identity.Name);
-                return NoContent();
-            }
-            catch(EntityAlreadyExistException)
-            {
-                return BadRequest("Duplicate Review.Only one review is accepted for a movie per user");
-            }
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [Route("GetAllReviews")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetAllReviewsResponse>> GetAllMovieReviews(GetAllReviewsRequest request)
+        try
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var response = await _reviewService.CreateAsync(Mapper.Map<CreateReviewRequest,ReviewEntity>(request), User.Identity.Name);
+            return NoContent();
+        }
+        catch(EntityAlreadyExistException)
+        {
+            return BadRequest("Duplicate Review.Only one review is accepted for a movie per user");
+        }
+    }
 
-            var response = await _reviewService.GetAllReviewsAsync(request.MovieId);
-            return Ok(Mapper.Map<GetAllReviewsResponse>(response));
+    [HttpPost]
+    [Route("GetAllReviews")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<GetAllReviewsResponse>> GetAllMovieReviews(GetAllReviewsRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
+        var response = await _reviewService.GetAllReviewsAsync(request.MovieId);
+        return Ok(Mapper.Map<GetAllReviewsResponse>(response));
+    }
 
-        [HttpPost]
-        [Route("GetRecentReviews")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetRecentReviewsResponse>> GetRecentReviews(GetRecentReviewsRequest request)
+
+    [HttpPost]
+    [Route("GetRecentReviews")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<GetRecentReviewsResponse>> GetRecentReviews(GetRecentReviewsRequest request)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var userName = User.Identity.Name;
-            var response = await _reviewService.GetRecentReviewsFromFollowedAsync(userName,request.NumberOfItems);
-            return Ok(Mapper.Map<GetRecentReviewsResponse>(response));
+            return BadRequest(ModelState);
         }
+
+        var userName = User.Identity.Name;
+        var response = await _reviewService.GetRecentReviewsFromFollowedAsync(userName,request.NumberOfItems);
+        return Ok(Mapper.Map<GetRecentReviewsResponse>(response));
     }
 }
