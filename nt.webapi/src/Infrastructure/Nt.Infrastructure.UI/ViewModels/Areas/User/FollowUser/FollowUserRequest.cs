@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.FollowUser
+namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.FollowUser;
+public record FollowUserRequest
 {
-    public record FollowUserRequest
-    {
-        [Required]
-        public string UserToFollow { get; set; }
-    }
+    [Required]
+    public string UserToFollow { get; set; }
 }

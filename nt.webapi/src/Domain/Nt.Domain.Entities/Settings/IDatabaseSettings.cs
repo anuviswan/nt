@@ -1,13 +1,11 @@
-﻿namespace Nt.Domain.Entities.Settings
+﻿namespace Nt.Domain.Entities.Settings;
+public class NtDatabaseSettings : IDatabaseSettings
 {
-    public class NtDatabaseSettings : IDatabaseSettings
-    {
-        public string ConnectionString { get; set; }
-        public string DatabaseName { get; set; }
-    }
-    public interface IDatabaseSettings
-    {
-        string ConnectionString { get; set; }
-        string DatabaseName { get; set; }
-    }
+    public string ConnectionString { get; set; }
+    public string DatabaseName { get; set; }
+}
+public interface IDatabaseSettings
+{
+    string ConnectionString { get; set; }
+    string DatabaseName { get; set; }
 }

@@ -1,0 +1,10 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using MongoDB.Driver;
+global using Nt.Domain.Entities.Movie;
+global using Nt.Domain.RepositoryContracts.Movie;
+global using Nt.Domain.Entities.User;
+global using Nt.Domain.RepositoryContracts.User;

@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit.Abstractions;
-using Xunit.Sdk;
+﻿using Xunit.Sdk;
 
-namespace Nt.Infrastructure.Tests.Helpers.CustomTraits
+namespace Nt.Infrastructure.Tests.Helpers.CustomTraits;
+public class FeatureDiscoverer : TraitDiscovererBase,ITraitDiscoverer
 {
-    public class FeatureDiscoverer : TraitDiscovererBase,ITraitDiscoverer
-    {
-        public const string TypeName = TraitDiscovererBase.AssemblyName + ".Helpers.CustomTraits.FeatureDiscoverer";
+    public const string TypeName = $"{TraitDiscovererBase.AssemblyName}.Helpers.CustomTraits.FeatureDiscoverer";
 
-        protected override string CategoryName => "Feature";
-        public override IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
+    protected override string CategoryName => "Feature";
+    public override IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
+    {
+        yield return GetCategory();
+        var id = traitAttribute.GetNamedArgument<string>("Id");
+        if (!string.IsNullOrEmpty(id))
         {
-            yield return GetCategory();
-            var id = traitAttribute.GetNamedArgument<string>("Id");
-            if (!string.IsNullOrEmpty(id))
-            {
-                yield return new KeyValuePair<string, string>(TypeName, id);
-            }
+            yield return new (TypeName, id);
         }
     }
 }

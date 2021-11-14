@@ -1,7 +1,5 @@
-﻿namespace Nt.Domain.Entities.Entities
+﻿namespace Nt.Domain.Entities.Entities;
+public interface IBaseEntity
 {
-    public interface IBaseEntity
-    {
-        string Id { get; init; }
-    }
+    string Id { get; init; }
 }
