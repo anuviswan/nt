@@ -27,7 +27,7 @@ jobs:
     name: Build React App
     runs-on: ubuntu-latest
     env:
-      working-directory: ./nt.webclient/reactjs/nt
+      working-directory: ./client/nt.webclient/reactjs/nt
 
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
     name: Build Vuejs App
     runs-on: ubuntu-latest
     env:
-      working-directory: ./nt.webclient/vuejs/nt
+      working-directory: ./client/nt.webclient/vuejs/nt
 
     steps:
       - uses: actions/checkout@v2
@@ -70,5 +70,5 @@ jobs:
         with:
           dotnet-version: 3.1.x
       - name: Build WPF Desktop Client
-        run: dotnet build --configuration Release .\nt.desktop\wpf\nt.wpfclient\nt.wpfclient.sln
+        run: dotnet build --configuration Release .\client\nt.desktop\wpf\nt.wpfclient\nt.wpfclient.sln
 

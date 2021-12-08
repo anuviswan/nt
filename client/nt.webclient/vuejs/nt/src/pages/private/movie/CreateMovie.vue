@@ -26,6 +26,20 @@
                 />
               </div>
               <div class="form-group">
+                <label for="plotSummary">Plot Summary</label>
+                <input
+                  type="text"
+                  placeholder="Plot Summary"
+                  name="plotSummary"
+                  v-model="plotSummary"
+                  v-bind:class="
+                    hasError('plotSummary')
+                      ? 'form-control block is-invalid'
+                      : 'form-control block'
+                  "
+                />
+              </div>
+              <div class="form-group">
                 <label for="language">Language</label>
                 <input
                   type="text"
@@ -94,6 +108,7 @@ export default {
   data() {
     return {
       title: "",
+      plotSummary: "",
       releaseDate: new Date(),
       language: "",
       tags: "",
@@ -116,6 +131,7 @@ export default {
         language: this.language,
         releaseDate: this.releaseDate,
         actors: this.tags.split(","),
+        plotSummary: this.plotSummary,
       };
       var response = await createMovie(movie);
       if (response.hasError) {
@@ -143,6 +159,11 @@ export default {
 
       if (!this.title) {
         this.errors.push("title");
+        isValidFlag = false;
+      }
+
+      if (!this.plotSummary) {
+        this.errors.push("plotSummary");
         isValidFlag = false;
       }
 
