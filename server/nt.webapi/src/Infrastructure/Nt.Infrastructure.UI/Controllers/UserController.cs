@@ -9,6 +9,7 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.FollowUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UnfollowUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
 
@@ -261,6 +262,24 @@ public class UserController : BaseController
     }
 
 
-    public async Task<IActionResult> UnfollowUser(FollowUserRequest)
+    public async Task<IActionResult> UnfollowUser(UnfollowUserRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var currentUser = User.Identity.Name;
+            await _userManagementService.UnfollowUserAsync(currentUser, request.UserToUnfollow);
+            return NoContent();
+        }
+        catch (EntityNotFoundException)
+        {
+
+            return BadRequest("User not found");
+        }
+    }
 
 }

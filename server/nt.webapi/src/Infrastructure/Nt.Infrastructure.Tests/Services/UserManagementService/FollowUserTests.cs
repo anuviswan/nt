@@ -56,10 +56,10 @@ public class FollowUserTests : ServiceTestBase<UserProfileEntity>
 
         // Assert
         var followedUser = EntityCollection.Single(x => string.Equals(x.UserName, userNameToFollow));
-        Assert.Contains(MockDataHelper.GetUser(currentUserName).Id, followedUser.Followers);
+        Assert.Contains(MockDataHelper.GetUser(currentUserName).UserName, followedUser.Followers);
 
         var currentUser = EntityCollection.Single(x => string.Equals(x.UserName, currentUserName));
-        Assert.Contains(MockDataHelper.GetUser(userNameToFollow).Id, currentUser.Follows);
+        Assert.Contains(MockDataHelper.GetUser(userNameToFollow).UserName, currentUser.Follows);
     }
 
     public static IEnumerable<object[]> FollowUserSuccessTestData => new []
