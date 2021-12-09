@@ -31,7 +31,7 @@
               </p>
               <p v-else-if="isFollowed">
                 <button
-                  v-on:click="followUser"
+                  v-on:click="unfollowUser"
                   class="btn btn-primary btn-flat"
                 >
                   Unfollow
@@ -91,11 +91,22 @@ export default {
   methods: {
     async followUser() {
       const response = await followUser(this.userName);
-      console.log(response);
+      if (response.hasError) {
+        return;
+      }
+
+      this.isFollowed = true;
+      this.followers = this.followers + 1;
     },
 
     async unfollowUser() {
       const response = await unfollowUser(this.userName);
+      if (response.hasError) {
+        return;
+      }
+
+      this.isFollowed = false;
+      this.followers = this.followers == 0 ? this.followers - 1 : 0;
     },
   },
 };

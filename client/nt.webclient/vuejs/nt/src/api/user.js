@@ -96,9 +96,22 @@ const followUser = async(userNameToFollow)=>{
   };
 
   const response = await axios.post('https://localhost:44353/api/User/FollowUser',request);
+
+  return response;
+}
+
+// Follow User
+const unfollowUser = async(userNameToFollow)=>{
+
+  console.log("unfollowing user")
+  const request = {
+    userToUnfollow : userNameToFollow
+  };
+
+  const response = await axios.post('https://localhost:44353/api/User/unfollowUser',request);
   return response;
   
-}
+};
 
 export {
   changePassword,
@@ -107,5 +120,6 @@ export {
   updateUserProfile,
   searchUser,
   registerUser,
-  followUser
+  followUser,
+  unfollowUser
 };
