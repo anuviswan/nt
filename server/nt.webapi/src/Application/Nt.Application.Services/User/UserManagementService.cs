@@ -27,12 +27,18 @@ namespace Nt.Application.Services.User
             var currentUser = await GetUserAsync(currentUserName);
 
             var followers = userEntityToFollow.Followers?.ToList()?? Enumerable.Empty<string>().ToList();
-            followers.Add(currentUser.Id);
+
+            if(followers.Any(x=>currentUser.UserName == x))
+            {
+                return;
+            }
+
+            followers.Add(currentUser.UserName);
             var updatedUserToFollow = userEntityToFollow with { Followers = followers };
             await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUserToFollow);
 
             var follows = currentUser.Follows?.ToList() ?? Enumerable.Empty<string>().ToList();
-            follows.Add(userEntityToFollow.Id);
+            follows.Add(userEntityToFollow.UserName);
             var updatedCurrentUser = currentUser with { Follows = follows };
             await UnitOfWork.UserProfileRepository.UpdateAsync(updatedCurrentUser);
         }
@@ -71,9 +77,36 @@ namespace Nt.Application.Services.User
                                                                         && !x.IsDeleted);
         }
 
-        public Task UnfollowUserAsync(UserProfileEntity currentUser, UserProfileEntity userToUnfollow)
+        public async Task UnfollowUserAsync(string currentUserName, string userNameToFollow)
         {
-            throw new NotImplementedException();
+            var currentUserEntity = await GetUserAsync(currentUserName);
+            if (currentUserEntity == null)
+                throw new EntityNotFoundException();
+
+            var userEntityToFollow = await GetUserAsync(userNameToFollow);
+            var currentUser = await GetUserAsync(currentUserName);
+
+            var followers = userEntityToFollow.Followers?.ToList() ?? Enumerable.Empty<string>().ToList();
+
+            if (!followers.Any(x => currentUser.UserName == x))
+            {
+                return;
+            }
+
+            if (followers.Remove(currentUser.UserName))
+            {
+                var updatedUserToFollow = userEntityToFollow with { Followers = followers };
+                await UnitOfWork.UserProfileRepository.UpdateAsync(updatedUserToFollow);
+            }
+            
+
+            var follows = currentUser.Follows?.ToList() ?? Enumerable.Empty<string>().ToList();
+            if (follows.Remove(userEntityToFollow.UserName))
+            {
+                var updatedCurrentUser = currentUser with { Follows = follows };
+                await UnitOfWork.UserProfileRepository.UpdateAsync(updatedCurrentUser);
+            }
+            
         }
     }
 }

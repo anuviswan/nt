@@ -3,7 +3,7 @@
 namespace Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 public record CreateUserProfileRequest
 {
-    [Required,MinLength(8, ErrorMessage = "username should contain minimum of 8 characters")]
+    [Required,MinLength(6, ErrorMessage = "username should contain minimum of 6 characters")]
     public string UserName { get; init; }
     [MinLength(8, ErrorMessage = "Password should contain minimum of 8 characters"), Required(ErrorMessage = "Password cannot be empty")]
     public string PassKey { get; init; }

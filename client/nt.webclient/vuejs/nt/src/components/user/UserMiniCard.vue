@@ -20,13 +20,18 @@
           <div class="card-body">
             <div class="mt-3">
               <h4>{{ this.user.displayName }}</h4>
-              <p class="text-secondary mb-1">6 Followers</p>
+              <p class="text-secondary mb-1">{{ this.followers }} Followers</p>
               <p class="text-muted font-size-sm">
                 Rating: 5
               </p>
-              <p v-if="isFollowed">
+              <p v-if="isSelf">
+                <button class="btn btn-primary btn-flat" disabled>
+                  Follow
+                </button>
+              </p>
+              <p v-else-if="isFollowed">
                 <button
-                  v-on:click="followUser"
+                  v-on:click="unfollowUser"
                   class="btn btn-primary btn-flat"
                 >
                   Unfollow
@@ -50,7 +55,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { followUser } from "../../api/user";
+import { followUser, unfollowUser } from "../../api/user";
 export default {
   name: "UserMiniCard",
   props: {
@@ -67,6 +72,7 @@ export default {
       rating: 0,
       followers: 0,
       isFollowed: false,
+      isSelf: false,
     };
   },
   computed: { ...mapGetters(["currentUser"]) },
@@ -77,11 +83,30 @@ export default {
     this.rating = this.user.rating;
     this.followers = this.user.followers.length;
     this.isFollowed = this.user.followers.includes(this.currentUser.userName);
+    this.isSelf = this.user.userName == this.currentUser.userName;
+
+    console.log(this.user.followers);
+    console.log(this.currentUser);
   },
   methods: {
     async followUser() {
       const response = await followUser(this.userName);
-      console.log(response);
+      if (response.hasError) {
+        return;
+      }
+
+      this.isFollowed = true;
+      this.followers = this.followers + 1;
+    },
+
+    async unfollowUser() {
+      const response = await unfollowUser(this.userName);
+      if (response.hasError) {
+        return;
+      }
+
+      this.isFollowed = false;
+      this.followers = this.followers == 0 ? this.followers - 1 : 0;
     },
   },
 };

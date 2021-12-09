@@ -9,6 +9,7 @@ using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ChangePassword;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.CreateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.FollowUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.GetAllUser;
+using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UnfollowUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.UpdateUser;
 using Nt.Infrastructure.WebApi.ViewModels.Areas.User.ValidateUser;
 
@@ -33,6 +34,7 @@ public class UserController : BaseController
     private const string UpdateUser_RouteName = "UpdateUser";
     private const string ChangePassword_RouteName = "ChangePassword";
     private const string FollowUser_RouteName = "FollowUser";
+    private const string UnfollowUser_RouteName = "UnfollowUser";
 
     public UserController(IMapper mapper, IUserProfileService userProfileService,IUserManagementService userManagementService,ITokenGenerator tokenGenerator) : base(mapper)
     {
@@ -251,6 +253,36 @@ public class UserController : BaseController
         {
             var currentUser = User.Identity.Name;
             await _userManagementService.FollowUserAsync(currentUser, request.UserToFollow);
+            return NoContent();
+        }
+        catch (EntityNotFoundException)
+        {
+
+            return BadRequest("User not found");
+        }
+    }
+
+    /// <summary>
+    /// Mark User to Unfollow
+    /// </summary>
+    /// <param name="request">User to Unfollow</param>
+    /// <returns></returns>
+    [HttpPost]
+    [Route(UnfollowUser_RouteName)]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UnfollowUser(UnfollowUserRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var currentUser = User.Identity.Name;
+            await _userManagementService.UnfollowUserAsync(currentUser, request.UserToUnfollow);
             return NoContent();
         }
         catch (EntityNotFoundException)

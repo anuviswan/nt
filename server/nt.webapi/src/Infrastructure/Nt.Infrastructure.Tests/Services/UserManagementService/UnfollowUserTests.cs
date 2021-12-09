@@ -8,23 +8,23 @@ using Nt.Infrastructure.Tests.Helpers.TestData;
 using System.Linq.Expressions;
 
 namespace Nt.Infrastructure.Tests.Services.UserManagementServiceTests;
-public class FollowUserTests : ServiceTestBase<UserProfileEntity>
+public class UnfollowUserTests : ServiceTestBase<UserProfileEntity>
 {
-    public FollowUserTests(ITestOutputHelper output) : base(output)
+    public UnfollowUserTests(ITestOutputHelper output) : base(output)
     {
     }
     protected override void InitializeCollection()
     {
         Output.WriteLine("Initialized"); //TODO: Fix this removing this line causes InitializeCollection not being called randomly
-        EntityCollection = new (MockDataHelper.UserCollection);
+        EntityCollection = new(MockDataHelper.UserCollection);
     }
 
 
     #region Valid Cases 
     [Theory]
-    [MemberData(nameof(FollowUserSuccessTestData))]
+    [MemberData(nameof(UnfollowUserSuccessTestData))]
     [ServiceTest(nameof(UserManagementService)), Feature]
-    public async Task FollowUserSuccess(string currentUserName,string userNameToFollow)
+    public async Task UnfollowUserSuccess(string currentUserName, string userNameToUnfollow)
     {
         // Arrange
         var mockUserRepository = new Mock<IUserProfileRepository>();
@@ -39,10 +39,10 @@ public class FollowUserTests : ServiceTestBase<UserProfileEntity>
                 userToUpdate = user.UserName switch
                 {
                     var usrCurrent when usrCurrent == currentUserName => userToUpdate with { Follows = user.Follows },
-                    var usrToFollow when usrToFollow == userNameToFollow => userToUpdate with { Followers = user.Followers },
+                    var usrToFollow when usrToFollow == userNameToUnfollow => userToUpdate with { Followers = user.Followers },
                     _ => userToUpdate
                 };
-                    
+
                 EntityCollection.Remove(EntityCollection.Single(x => string.Equals(x.UserName, user.UserName)));
                 EntityCollection.Add(userToUpdate);
             });
@@ -52,17 +52,18 @@ public class FollowUserTests : ServiceTestBase<UserProfileEntity>
 
         // Act
         var userManagementService = new UserManagementService(mockUnitOfWork.Object);
-        await userManagementService.FollowUserAsync(currentUserName,userNameToFollow);
+        await userManagementService.UnfollowUserAsync(currentUserName, userNameToUnfollow);
 
         // Assert
-        var followedUser = EntityCollection.Single(x => string.Equals(x.UserName, userNameToFollow));
-        Assert.Contains(MockDataHelper.GetUser(currentUserName).UserName, followedUser.Followers);
+        var followedUser = EntityCollection.Single(x => string.Equals(x.UserName, userNameToUnfollow));
+        Assert.DoesNotContain(MockDataHelper.GetUser(currentUserName).UserName, followedUser.Followers??Enumerable.Empty<string>());
 
         var currentUser = EntityCollection.Single(x => string.Equals(x.UserName, currentUserName));
-        Assert.Contains(MockDataHelper.GetUser(userNameToFollow).UserName, currentUser.Follows);
+        Assert.DoesNotContain(MockDataHelper.GetUser(userNameToUnfollow).UserName, followedUser.Follows ?? Enumerable.Empty<string>());
+
     }
 
-    public static IEnumerable<object[]> FollowUserSuccessTestData => new []
+    public static IEnumerable<object[]> UnfollowUserSuccessTestData => new[]
     {
         new object[]
         {
@@ -80,9 +81,9 @@ public class FollowUserTests : ServiceTestBase<UserProfileEntity>
 
     #region Valid Cases 
     [Theory]
-    [MemberData(nameof(FollowUserFailureTestData))]
+    [MemberData(nameof(UnfollowUserFailureTestData))]
     [ServiceTest(nameof(UserManagementService)), Feature]
-    public async Task FollowUserFailure(string currentUser, string userToFollow)
+    public async Task UnfollowUserFailure(string currentUser, string userToUnfollow)
     {
         // Arrange
         var mockUserRepository = new Mock<IUserProfileRepository>();
@@ -104,11 +105,11 @@ public class FollowUserTests : ServiceTestBase<UserProfileEntity>
 
         // Act
         var userManagementService = new UserManagementService(mockUnitOfWork.Object);
-        await Assert.ThrowsAsync<EntityNotFoundException>(()=> userManagementService.FollowUserAsync(currentUser, userToFollow));
+        await Assert.ThrowsAsync<EntityNotFoundException>(() => userManagementService.UnfollowUserAsync(currentUser, userToUnfollow));
 
     }
 
-    public static IEnumerable<object[]> FollowUserFailureTestData => new []
+    public static IEnumerable<object[]> UnfollowUserFailureTestData => new[]
     {
         new object[]
         {

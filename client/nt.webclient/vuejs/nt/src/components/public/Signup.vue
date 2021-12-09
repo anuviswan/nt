@@ -139,7 +139,9 @@ export default {
 
       if (response.hasError) {
         this.hasServerError = true;
-        this.serverMessage = response.error;
+        this.serverMessage = Object.values(
+          Object.values(response.error[0].errors).flat()
+        );
         return;
       }
 

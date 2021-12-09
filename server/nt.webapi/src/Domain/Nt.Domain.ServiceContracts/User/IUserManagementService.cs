@@ -7,5 +7,5 @@ public interface IUserManagementService
     Task<IEnumerable<UserProfileEntity>> SearchUserAsync(string userName=null);
     Task<UserProfileEntity> GetUserAsync(string userName);
     Task FollowUserAsync(string currentUserName, string userNameToFollow);
-    Task UnfollowUserAsync(UserProfileEntity currentUser, UserProfileEntity userToUnfollow);
+    Task UnfollowUserAsync(string currentUserName, string userNameToFollow);
 }
