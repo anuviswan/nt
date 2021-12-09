@@ -56,6 +56,7 @@ const changePassword = async (oldPassword, newPassword) => {
   return response;
 };
 
+// Search User
 const searchUser = async (searchTerm) => {
   const params = {
     params: {
@@ -70,6 +71,8 @@ const searchUser = async (searchTerm) => {
   return response;
 };
 
+
+// Register User / user sign up
 const registerUser = async (userName, displayName, passKey) => {
   const userDetails = {
     userName: userName,
@@ -85,7 +88,7 @@ const registerUser = async (userName, displayName, passKey) => {
   return response;
 };
 
-
+// Follow User
 const followUser = async(userNameToFollow)=>{
 
   const request = {
