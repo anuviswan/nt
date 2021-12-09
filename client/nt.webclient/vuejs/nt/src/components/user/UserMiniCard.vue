@@ -55,7 +55,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { followUser } from "../../api/user";
+import { followUser, unfollowUser } from "../../api/user";
 export default {
   name: "UserMiniCard",
   props: {
@@ -92,6 +92,10 @@ export default {
     async followUser() {
       const response = await followUser(this.userName);
       console.log(response);
+    },
+
+    async unfollowUser() {
+      const response = await unfollowUser(this.userName);
     },
   },
 };
