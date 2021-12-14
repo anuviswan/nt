@@ -1,5 +1,3 @@
-using UserService.Data.Database;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +7,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserManagementDbContext>();
+builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
+builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddTransient<IUserRepository,UserRepository>();
+builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

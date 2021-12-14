@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Query\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UserService.Data\UserService.Data.csproj" />
+    <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
