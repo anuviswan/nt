@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using UserService.Api.ViewModels.User;
+﻿using UserService.Api.ViewModels.User;
 using UserService.Domain.Entities;
 
 namespace UserService.Api.Controllers;
@@ -24,7 +23,10 @@ public class UserController : Controller
         try
         {
             var userToCreate = _mapper.Map<UserMetaInformation>(user);
-            var result = _mediator.Send(userToCreate);
+            var result = await _mediator.Send(new CreateUserCommand
+            {
+                User = userToCreate,
+            });
             return _mapper.Map<CreateUserResponseViewModel>(result);
         }
         catch(Exception ex)

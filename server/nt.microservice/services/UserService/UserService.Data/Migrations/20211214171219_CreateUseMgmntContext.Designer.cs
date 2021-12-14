@@ -11,7 +11,7 @@ using UserService.Data.Database;
 namespace UserService.Data.Migrations
 {
     [DbContext(typeof(UserManagementDbContext))]
-    [Migration("20211214145806_CreateUseMgmntContext")]
+    [Migration("20211214171219_CreateUseMgmntContext")]
     partial class CreateUseMgmntContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,10 @@ namespace UserService.Data.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
