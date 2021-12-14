@@ -1,4 +1,11 @@
-﻿namespace UserService.Api.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using UserService.Api.ViewModels.User;
+using UserService.Domain.Entities;
+
+namespace UserService.Api.Controllers;
+
+[ApiController]
+[Route("Users")]
 public class UserController : Controller
 {
     private readonly IMediator _mediator;
@@ -6,6 +13,24 @@ public class UserController : Controller
     public UserController(IMediator mediator,IMapper mapper)
     {
         (_mediator,_mapper) = (mediator,mapper);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Register")]
+    public async Task<ActionResult<CreateUserResponseViewModel>> RegisterUser(CreateUserRequestViewModel user)
+    {
+        try
+        {
+            var userToCreate = _mapper.Map<UserMetaInformation>(user);
+            var result = _mediator.Send(userToCreate);
+            return _mapper.Map<CreateUserResponseViewModel>(result);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
 }
