@@ -3,6 +3,5 @@ public class User : IEntity
 {
     public long Id { get; set; }
     public string UserName { get; set; } = null!;
-    public string DisplayName { get; set; } = null!;
-    public string Bio { get; set; } = null!;
+    
 }
