@@ -4,13 +4,14 @@
       "DownstreamPathTemplate": "/Users/Register",
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": "7236"
         }
       ],
-      "UpstreamPathTemplate": "/api/user/signup",
+      "UpstreamPathTemplate": "/user",
       "UpstreamHttpMethod": [ "Post" ]
     }
   ],
