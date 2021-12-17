@@ -1,0 +1,20 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/Users/Register",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "POST",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7236"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user/signup",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7017"
+  }
+}
