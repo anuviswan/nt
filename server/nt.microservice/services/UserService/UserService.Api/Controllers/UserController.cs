@@ -22,6 +22,11 @@ public class UserController : Controller
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userToCreate = _mapper.Map<UserMetaInformation>(user);
             var result = await _mediator.Send(new CreateUserCommand
             {
