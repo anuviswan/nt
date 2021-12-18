@@ -27,7 +27,7 @@ public class UserController : Controller
             {
                 User = userToCreate,
             });
-            return _mapper.Map<CreateUserResponseViewModel>(result);
+            return new OkObjectResult(_mapper.Map<CreateUserResponseViewModel>(result));
         }
         catch(Exception ex)
         {
