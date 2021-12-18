@@ -1,6 +1,4 @@
-﻿
-
-namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
+﻿namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
 
 public class RegisterUserTests:ControllerTestBase
 {
@@ -46,6 +44,7 @@ public class RegisterUserTests:ControllerTestBase
                            .Subject;
         okObjectResult.Value.Should().BeOfType<CreateUserResponseViewModel>();
         okObjectResult.Value.Should().BeEquivalentTo(expectedResult);
+        mockMediator.Verify(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()), Times.Exactly(1));
     }
 
     public static IEnumerable<object[]> RegisterUser_ValidData_ShouldSucceed_TestData => new List<object[]>
@@ -107,6 +106,7 @@ public class RegisterUserTests:ControllerTestBase
             .Subject;
 
         error.Should().BeEquivalentTo(expectedError);
+        mockMediator.Verify(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()), Times.Never);
 
     }
 
