@@ -22,12 +22,17 @@ public class UserController : Controller
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userToCreate = _mapper.Map<UserMetaInformation>(user);
             var result = await _mediator.Send(new CreateUserCommand
             {
                 User = userToCreate,
             });
-            return _mapper.Map<CreateUserResponseViewModel>(result);
+            return new OkObjectResult(_mapper.Map<CreateUserResponseViewModel>(result));
         }
         catch(Exception ex)
         {
