@@ -8,19 +8,14 @@ Current Implementations
 
 ### Server
 
-| Framework                                                                   | Status        |
-| --------------------------------------------------------------------------- | ------------- |
-| [.Net 5 Web Api](https://github.com/anuviswan/nt/tree/master/nt.webapi/src) | _In Progress_ |
+| [.Net 5 Web Api MVC](https://github.com/anuviswan/nt/tree/master/server/nt.webapi) | [.Net 5 Web Api MVC Microservices](https://github.com/anuviswan/nt/tree/master/server/nt.microservice) |
 
 ### Client
 
-| Framework                                                                           | Status        |
-| ----------------------------------------------------------------------------------- | ------------- |
-| [ReactJs-ContextApi](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs)         | _In Progress_ |
-| [VueJs](https://github.com/anuviswan/nt/tree/master/nt.webclient/vuejs/nt)          | _In Progress_ |
-| [Vue 3](https://github.com/anuviswan/nt/tree/master/nt.webclient/vue3/nt)          | _In Progress_ |
-| [Typescript-Vuejs](https://github.com/anuviswan/nt/tree/master/nt.webclient/typescriptvuejs/nt)   | _In Progress_ |
-| [.Net-Wpf](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient) | _In Progress_ |
+| [ReactJs-ContextApi](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs) | [VueJs](https://github.com/anuviswan/nt/tree/master/nt.webclient/vuejs/nt) |
+| -------- | ------------- |
+| [Vue 3](https://github.com/anuviswan/nt/tree/master/nt.webclient/vue3/nt)          | [Typescript-Vuejs](https://github.com/anuviswan/nt/tree/master/nt.webclient/typescriptvuejs/nt) |
+ [.Net-Wpf](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient) | - |
 
 
 ### Database
