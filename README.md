@@ -27,4 +27,5 @@ Current Implementations
 
 | Database | Status        |
 | -------- | ------------- |
-| MongoDb  | _In Progress_ |
+| MongoDb  | _Completed_ |
+| SqlServer| _In Progress_ |
