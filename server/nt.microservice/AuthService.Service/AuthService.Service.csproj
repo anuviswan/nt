@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Query\" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthService.Domain\AuthService.Domain.csproj" />
+    <ProjectReference Include="..\services\AuthService\AuthService.Data\AuthService.Data.csproj" />
   </ItemGroup>
 
 </Project>
