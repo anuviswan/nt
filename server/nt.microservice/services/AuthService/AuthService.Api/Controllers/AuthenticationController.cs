@@ -24,10 +24,12 @@ public class AuthenticationController : Controller
         try
         {
             var userRequestQuery = _mapper.Map<User>(request);
-            var response = await _mediator.Send(new ValidateUserQuery
+            var result = await _mediator.Send(new ValidateUserQuery
             {
                 User = userRequestQuery
             });
+
+            var response = _mapper.Map<AuthorizeResponseViewModel>(result);
 
             return Ok(response);
         }
