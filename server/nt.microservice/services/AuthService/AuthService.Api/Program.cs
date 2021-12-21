@@ -1,5 +1,9 @@
+using AuthService.Api.ViewModels.Validatators;
+using AuthService.Api.ViewModels.Validate;
 using AuthService.Data.Repository;
 using AuthService.Service.Query;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -19,8 +23,8 @@ builder.Services.AddScoped<IMapper, ServiceMapper>();
 builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-
-
+builder.Services.AddFluentValidation();
+builder.Services.AddTransient<IValidator<AuthorizeRequestViewModel>, AuthorizeRequestViewModelValidator>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +38,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
 
+app.MapControllers();
 app.Run();

@@ -19,7 +19,7 @@ public class AuthenticationController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [Route("Validate")]
-    public async Task<ActionResult<ValidateResponseViewModel>> Validate(ValidateRequestViewModel request)
+    public async Task<ActionResult<AuthorizeResponseViewModel>> Validate(AuthorizeRequestViewModel request)
     {
         try
         {
