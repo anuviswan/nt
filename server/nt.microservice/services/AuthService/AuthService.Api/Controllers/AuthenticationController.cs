@@ -1,4 +1,5 @@
-﻿using AuthService.Api.ViewModels.Validate;
+﻿using AuthService.Api.Authentication;
+using AuthService.Api.ViewModels.Validate;
 using AuthService.Domain.Entities;
 using AuthService.Service.Query;
 using MapsterMapper;
@@ -11,9 +12,11 @@ public class AuthenticationController : Controller
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    public AuthenticationController(IMapper mapper,IMediator mediator)
+    private readonly ITokenGenerator _tokenService;
+    private readonly IConfiguration _configuration;
+    public AuthenticationController(IMapper mapper,IMediator mediator,ITokenGenerator tokenService,IConfiguration configuration)
     {
-        (_mediator, _mapper) = (mediator, mapper);
+        (_mediator, _mapper, _tokenService, _configuration) = (mediator, mapper, tokenService, configuration);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,12 +27,22 @@ public class AuthenticationController : Controller
         try
         {
             var userRequestQuery = _mapper.Map<User>(request);
-            var result = await _mediator.Send(new ValidateUserQuery
+            var user = await _mediator.Send(new ValidateUserQuery
             {
                 User = userRequestQuery
             });
 
-            var response = _mapper.Map<AuthorizeResponseViewModel>(result);
+
+            if(user is null)
+            {
+                return Unauthorized();
+            }
+
+            var generatedToken = _tokenService.Generate(user.UserName);
+
+            var response = _mapper.Map<AuthorizeResponseViewModel>(user);
+            response.IsAuthenticated = true;
+            response.Token = generatedToken;
 
             return Ok(response);
         }

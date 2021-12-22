@@ -8,10 +8,10 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
 
     }
-    public Task<bool> ValidateUser(User user)
+    public Task<User> ValidateUser(User user)
     {
-        var isValid = UserDbContext.Set<User>().Any(x => x.UserName.ToLower().Equals(user.UserName.ToLower()) &&
+        var userFound = UserDbContext.Set<User>().FirstOrDefault(x => x.UserName.ToLower().Equals(user.UserName.ToLower()) &&
                                             x.Password.ToLower().Equals(user.Password.ToLower()));
-        return Task.FromResult(isValid);
+        return Task.FromResult(userFound);
     }
 }
