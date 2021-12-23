@@ -12,8 +12,26 @@
         }
       ],
       "UpstreamPathTemplate": "/user",
-      "UpstreamHttpMethod": [ "Post" ]
-    }
+      "UpstreamHttpMethod": [ "Post" ],
+      
+      },
+      {
+        "DownstreamPathTemplate": "/Users/GetAll",
+        "DownstreamSchema": "https",
+        "DownstreamHttpMethod": "GET",
+        "RouteIsCaseSensitive": false,
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": "7236"
+          }
+        ],
+        "UpstreamPathTemplate": "/user/getall",
+        "UpstreamHttpMethod": [ "GET" ],
+        "AuthenticationOptions": {
+          "AuthenticationProviderKey": "GatewayAuthenticationKey",
+          "AllowedScopes": []
+        }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:7017"
