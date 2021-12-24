@@ -57,11 +57,17 @@ public class UserController : Controller
             }
 
             var userToUpdate = _mapper.Map<User>(request);
-            var response = _mediator.Send(new ChangePasswordCommand
+            var response = await _mediator.Send(new ChangePasswordCommand
             {
                 UserToUpdate = userToUpdate
             });
-            return new OkObjectResult(response);
+
+            
+            return new OkObjectResult(new ChangePasswordResponseViewModel
+            {
+                UserName = request.UserName,
+                IsPasswordChanged = response,
+            });
         }
         catch (Exception ex)
         {

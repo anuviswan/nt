@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace UserService.Service.Tests.Cmmands;
 public class ChangePasswordCommandHandlerTests
@@ -64,7 +65,6 @@ public class ChangePasswordCommandHandlerTests
 
         mockUserRepository.Verify(x => x.GetUser(It.IsAny<string>()), Times.Exactly(1));
         mockUserRepository.Verify(x => x.UpdateAsync(It.IsAny<UserMetaInformation>()), Times.Exactly(1));
-
     }
 
     public static IEnumerable<object[]> Handle_ValidData_Success_Data => new List<object[]>
@@ -91,5 +91,41 @@ public class ChangePasswordCommandHandlerTests
                 Id = 1
             }
         }
+    };
+
+
+    [Theory]
+    [MemberData(nameof(Handle_InvalidData_Failed_Data))]
+    public async Task Handle_InvalidData_Failed(ChangePasswordCommand userToChange,string expectedMesssage)
+    {
+        var mockUserRepository = new Mock<IUserMetaInformationRepository>();
+        mockUserRepository.Setup(x => x.GetUser(It.IsAny<string>()))
+            .Returns<string>(user => Task.FromResult(_userCollection.FirstOrDefault(x => x.User.UserName.ToLower() == user.ToLower())));
+        mockUserRepository.Setup(x => x.UpdateAsync(It.IsAny<UserMetaInformation>()))
+            .Returns<UserMetaInformation>(user => Task.FromResult(user));
+
+        var cts = new CancellationTokenSource();
+        var handler = new ChangePasswordCommandHandler(mockUserRepository.Object);
+        await handler.Invoking(x=>x.Handle(userToChange, cts.Token)).Should().ThrowAsync<ArgumentException>(expectedMesssage);
+
+        mockUserRepository.Verify(x => x.GetUser(It.IsAny<string>()), Times.Exactly(1));
+        mockUserRepository.Verify(x => x.UpdateAsync(It.IsAny<UserMetaInformation>()), Times.Never);
+
+    }
+
+    public static IEnumerable<object[]> Handle_InvalidData_Failed_Data => new List<object[]>
+    {
+        new object[]
+        {
+            new ChangePasswordCommand
+            {
+                UserToUpdate = new User
+                {
+                    UserName = "Johnson.Doe",
+                    Password = "12345678"
+                }
+            },
+            "Invalid User"
+        },
     };
 }

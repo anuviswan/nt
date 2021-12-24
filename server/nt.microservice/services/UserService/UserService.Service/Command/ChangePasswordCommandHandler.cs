@@ -9,6 +9,11 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
     public async Task<bool> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
     {
         var user = await _userMetaInformationRepository.GetUser(request.UserToUpdate.UserName);
+
+        if(user is null)
+        {
+            throw new ArgumentException("Invalid User");  
+        }
         user.User.Password = request.UserToUpdate.Password;
 
         var updatedUser = await _userMetaInformationRepository.UpdateAsync(user);
