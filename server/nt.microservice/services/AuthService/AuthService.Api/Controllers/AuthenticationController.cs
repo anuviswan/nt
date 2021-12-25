@@ -4,6 +4,7 @@ using AuthService.Domain.Entities;
 using AuthService.Service.Query;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuthService.Api.Controllers;
 [ApiController]
@@ -50,5 +51,15 @@ public class AuthenticationController : Controller
         {
             return BadRequest(ex);
         }
+    }
+
+
+    [HttpPost]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Route("Demo")]
+    public async Task<ActionResult<string>> Demo()
+    {
+        return new OkObjectResult("Random");
     }
 }
