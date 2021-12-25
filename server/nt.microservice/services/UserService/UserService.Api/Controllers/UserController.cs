@@ -1,4 +1,5 @@
-﻿using UserService.Api.ViewModels.User;
+﻿using Microsoft.AspNetCore.Authorization;
+using UserService.Api.ViewModels.User;
 using UserService.Domain.Entities;
 
 namespace UserService.Api.Controllers;
@@ -35,6 +36,40 @@ public class UserController : Controller
             return new OkObjectResult(_mapper.Map<CreateUserResponseViewModel>(result));
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("ChangePassword")]
+    [Authorize]
+    public async Task<ActionResult<ChangePasswordResponseViewModel>> ChangePassword(ChangePasswordRequestViewModel request)
+    {
+
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userToUpdate = _mapper.Map<User>(request);
+            var response = await _mediator.Send(new ChangePasswordCommand
+            {
+                UserToUpdate = userToUpdate
+            });
+
+            
+            return new OkObjectResult(new ChangePasswordResponseViewModel
+            {
+                UserName = request.UserName,
+                IsPasswordChanged = response,
+            });
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
