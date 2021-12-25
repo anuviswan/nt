@@ -14,17 +14,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         option.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidateAudience = true,
+            //ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Aud"],
+            //ValidAudience = builder.Configuration["Jwt:Aud"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
 
-builder.Services.AddOcelot(builder.Configuration);
+//builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
+builder.Services.AddOcelot(builder.Configuration);
 var app = builder.Build();
 
 

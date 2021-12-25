@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using UserService.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,22 @@ builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericReposit
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+    {
+        option.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            //ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            //ValidAudience = builder.Configuration["Jwt:Aud"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +45,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
