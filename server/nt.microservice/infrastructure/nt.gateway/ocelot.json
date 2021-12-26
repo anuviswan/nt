@@ -11,27 +11,43 @@
           "Port": "7236"
         }
       ],
-      "UpstreamPathTemplate": "/user",
-      "UpstreamHttpMethod": [ "Post" ],
-      
-      },
-      {
-        "DownstreamPathTemplate": "/Users/GetAll",
-        "DownstreamSchema": "https",
-        "DownstreamHttpMethod": "GET",
-        "RouteIsCaseSensitive": false,
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": "7236"
-          }
-        ],
-        "UpstreamPathTemplate": "/user/getall",
-        "UpstreamHttpMethod": [ "GET" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "GatewayAuthenticationKey",
-          "AllowedScopes": []
+      "UpstreamPathTemplate": "/user/register",
+      "UpstreamHttpMethod": [ "Post" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/authenticate/validate",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7269"
         }
+      ],
+      "UpstreamPathTemplate": "/user/authenticate",
+      "UpstreamHttpMethod": [ "Post" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/Users/ChangePassword",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "7236"
+        }
+      ],
+      "UpstreamPathTemplate": "/user/changepassword",
+      "UpstreamHttpMethod": [ "POST" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationKey",
+        "AllowedScopes": []
+      }
+    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:7017"

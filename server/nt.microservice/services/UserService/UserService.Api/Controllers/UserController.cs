@@ -75,4 +75,13 @@ public class UserController : Controller
         }
     }
 
+    [HttpPost]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Route("Demo")]
+    public async Task<ActionResult<string>> Demo()
+    {
+        return new OkObjectResult("Random");
+    }
+
 }

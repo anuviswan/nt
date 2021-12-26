@@ -23,8 +23,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddOcelot(builder.Configuration);
+//builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
+builder.Services.AddOcelot(builder.Configuration);
 var app = builder.Build();
 
 
@@ -38,13 +39,15 @@ if (!app.Environment.IsDevelopment())
 
 }
 
-app.UseOcelot().Wait();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseOcelot().Wait();
 
 app.MapRazorPages();
 
