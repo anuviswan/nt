@@ -12,7 +12,12 @@
         }
       ],
       "UpstreamPathTemplate": "/user/register",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      }
 
     },
     {
@@ -27,7 +32,12 @@
         }
       ],
       "UpstreamPathTemplate": "/user/authenticate",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      }
 
     },
     {
@@ -43,6 +53,11 @@
       ],
       "UpstreamPathTemplate": "/user/changepassword",
       "UpstreamHttpMethod": [ "POST" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthenticationKey",
         "AllowedScopes": []
