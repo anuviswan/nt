@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using nt.gateway.OcelotExtensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System.Text;
@@ -25,7 +26,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
-builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddOcelot(builder.Configuration)
+       .AddPollyWithInternalServerErrorHandling();
 var app = builder.Build();
 
 
