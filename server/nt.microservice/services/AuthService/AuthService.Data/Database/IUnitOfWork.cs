@@ -1,5 +1,5 @@
-﻿namespace AuthService.Data.Database;
-internal interface IUnitOfWork:IDisposable
-{
-    void SaveChanges();
-}
+﻿using AuthService.Data.Repository;
+using System.Data;
+
+namespace AuthService.Data.Database;
+

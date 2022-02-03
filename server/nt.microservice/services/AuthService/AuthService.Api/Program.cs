@@ -30,6 +30,7 @@ builder.Services.AddSingleton<ITokenGenerator,JwtTokenGenerator>();
 builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
 builder.Services.AddFluentValidation();
 builder.Services.AddTransient<IValidator<AuthorizeRequestViewModel>, AuthorizeRequestViewModelValidator>();
 

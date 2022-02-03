@@ -4,7 +4,7 @@ using AuthService.Domain.Entities;
 namespace AuthService.Data.Repository;
 public class UserRepository : GenericRepository<User>, IUserRepository
 {
-    public UserRepository(UserDbContext userDbContext) : base(userDbContext)
+    public UserRepository(IUnitOfWork unitOfWor) : base(userDbContext)
     {
 
     }

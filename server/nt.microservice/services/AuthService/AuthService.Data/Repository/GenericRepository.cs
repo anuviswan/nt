@@ -4,11 +4,17 @@ using AuthService.Domain.Entities;
 namespace AuthService.Data.Repository;
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity, new()
 {
-    protected readonly UserDbContext UserDbContext;
+    protected readonly IUnitOfWork UnitOfWork;
+    protected readonly string TableName;
+    public GenericRepository(IUnitOfWork unitOfWork)
+    {
+        UnitOfWork = unitOfWork;
+    }
 
-    public GenericRepository(UserDbContext userDbContext) => UserDbContext = userDbContext;
-
-    public IEnumerable<TEntity> GetAll() => UserDbContext.Set<TEntity>();
+    public IEnumerable<TEntity> GetAll()
+    {
+        var query = $"select * from {TableName};";
+    }
 
     public async Task<TEntity> GetByIdAsync(long id)
     {
