@@ -1,23 +1,20 @@
 ﻿using AuthService.Data.Repository;
+using System.Data;
 
 namespace AuthService.Data.Database;
 
-public interface IUnitOfWork : IDisposable
-{
-    IUserRepository UserRepository { get; }
-    void SaveChanges();
-    void BeginTransaction();
-}
-public class UnitOfWork : IUnitOfWork
+public class SqlUnitOfWork : IUnitOfWork
 {
     private Lazy<UserRepository> _userRepository;
     private IDataContext _dataContext;
     public IUserRepository UserRepository => _userRepository.Value;
 
-    public UnitOfWork(IDataContext dataContext)
+    public IDbConnection Connection => _dataContext.Connection;
+
+    public SqlUnitOfWork(IDataContext dataContext)
     {
         _dataContext = dataContext;
-        _userRepository = new Lazy<UserRepository>(() => new UserRepository(this));
+        _userRepository = new Lazy<UserRepository>(() => new UserRepository(_dataContext.Connection));
     }
 
     public void BeginTransaction()

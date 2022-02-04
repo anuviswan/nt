@@ -24,13 +24,14 @@ builder.Services.AddSwaggerGen();
 var config = TypeAdapterConfig.GlobalSettings;
 builder.Services.AddSingleton(config);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
-builder.Services.AddDbContext<UserDbContext>();
 
 builder.Services.AddSingleton<ITokenGenerator,JwtTokenGenerator>();
 builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
+var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
+builder.Services.AddTransient<IUnitOfWorkFactory>(con => new SqlUnitOfWorkFactory(connectionString));
+
 builder.Services.AddFluentValidation();
 builder.Services.AddTransient<IValidator<AuthorizeRequestViewModel>, AuthorizeRequestViewModelValidator>();
 
