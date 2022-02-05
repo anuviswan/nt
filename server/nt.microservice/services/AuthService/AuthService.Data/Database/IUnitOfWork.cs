@@ -1,4 +1,5 @@
 ﻿using AuthService.Data.Repository;
+using AuthService.Domain.Entities;
 using System.Data;
 
 namespace AuthService.Data.Database;

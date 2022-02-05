@@ -16,11 +16,10 @@ public class SqlUnitOfWorkFactory : IUnitOfWorkFactory
 
     private IDataContext GetOrCreateContext()
     {
-        if(_dataContext?.Connection?.State == System.Data.ConnectionState.Closed)
-        {
-            _dataContext = new DapperDataContext(_connectionString);
-            _dataContext.Connection.Open();
-        }
+        if (_dataContext != null) return _dataContext;
+
+        _dataContext = new DapperDataContext(_connectionString);
+        _dataContext.Connection.Open();
         return _dataContext;
     }
     public IUnitOfWork CreateUnitOfWork()

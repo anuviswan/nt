@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using AuthService.Data.Repository;
+using AuthService.Domain.Entities;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace AuthService.Data.Database;
@@ -6,12 +8,18 @@ namespace AuthService.Data.Database;
 public class DapperDataContext : IDataContext
 {
     private IDbTransaction _dbTransaction;
+
+    private Lazy<UserRepository> _userRepository;
+
     public DapperDataContext(string connectionString)
     {
         Connection = new SqlConnection(connectionString);
+        _userRepository = new Lazy<UserRepository>(() => new UserRepository(Connection));
     }
 
     public IDbConnection Connection { get; }
+
+    public IUserRepository UserRepository => _userRepository.Value;
 
     public void BeginTransaction()
     {
@@ -36,8 +44,8 @@ public class DapperDataContext : IDataContext
     {
         if (disposing)
         {
-            _dbTransaction.Dispose();
-            Connection.Dispose();
+            _dbTransaction?.Dispose();
+            Connection?.Dispose();
         }
     }
 }
