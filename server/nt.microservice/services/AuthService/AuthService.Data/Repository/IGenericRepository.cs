@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AuthService.Data.Repository;
 public interface IGenericRepository<TEntity> where TEntity : class, IEntity, new()
 {
-    IEnumerable<TEntity> GetAll();
+    Task<IEnumerable<TEntity>> GetAll();
     Task<TEntity> GetByIdAsync(long id);
     Task<TEntity> AddAsync(TEntity entity);
     Task<TEntity> UpdateAsync(TEntity entity);

@@ -1,27 +1,34 @@
 ﻿using AuthService.Data.Database;
 using AuthService.Domain.Entities;
+using Dapper;
+using Dapper.Contrib.Extensions;
+using System.Data;
 
 namespace AuthService.Data.Repository;
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity, new()
 {
-    protected readonly UserDbContext UserDbContext;
+    protected readonly IDbConnection Connection;
+    protected readonly string TableName;
+    public GenericRepository(IDbConnection connection)
+    {
+        Connection = connection;
+    }
 
-    public GenericRepository(UserDbContext userDbContext) => UserDbContext = userDbContext;
-
-    public IEnumerable<TEntity> GetAll() => UserDbContext.Set<TEntity>();
+    public async Task<IEnumerable<TEntity>> GetAll()
+    {
+        return await Connection.GetAllAsync<TEntity>();
+    }
 
     public async Task<TEntity> GetByIdAsync(long id)
     {
-        return await UserDbContext.Set<TEntity>().FindAsync(id);
+        return await Connection.GetAsync<TEntity>(id);
     }
 
     public async Task<TEntity> AddAsync(TEntity entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
 
-        await UserDbContext.AddAsync(entity);
-        await UserDbContext.SaveChangesAsync();
-
+        await Connection.InsertAsync(entity);
         return entity;
     }
 
@@ -29,18 +36,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         ArgumentNullException.ThrowIfNull(entity);
 
-        UserDbContext.Update(entity);
-        await UserDbContext.SaveChangesAsync();
-
+        await Connection.UpdateAsync(entity);
         return entity;
     }
 
     public async Task<TEntity> DeleteAsync(TEntity entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        var itemToRemove = await UserDbContext.Set<TEntity>().FindAsync(entity.Id);
-        UserDbContext.Remove(itemToRemove);
-        await UserDbContext.SaveChangesAsync();
-        return itemToRemove;
+
+        await Connection.DeleteAsync(entity);
+        return entity;
     }
 }

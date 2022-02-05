@@ -25,7 +25,6 @@ public class AuthenticationController : Controller
     [Route("Validate")]
     public async Task<ActionResult<AuthorizeResponseViewModel>> Validate(AuthorizeRequestViewModel request)
     {
-        throw new Exception("Dummy");
         try
         {
             

@@ -1,17 +1,22 @@
-﻿using AuthService.Data.Repository;
+﻿using AuthService.Data.Database;
+using AuthService.Data.Repository;
 using AuthService.Domain.Entities;
 using MediatR;
 
 namespace AuthService.Service.Query;
 public class ValidateUserQueryHandler : IRequestHandler<ValidateUserQuery, User>
 {
-    private readonly IUserRepository _userRepository;
-    public ValidateUserQueryHandler(IUserRepository userRepository)
+    private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+    public ValidateUserQueryHandler(IUnitOfWorkFactory unitOfWorkFactory)
     {
-        _userRepository = userRepository;
+        _unitOfWorkFactory = unitOfWorkFactory;
     }
     public async Task<User> Handle(ValidateUserQuery request, CancellationToken cancellationToken)
     {
-        return await _userRepository.ValidateUser(request.User);
+        using(var uow = _unitOfWorkFactory.CreateUnitOfWork())
+        {
+            return await uow.UserRepository.ValidateUser(request.User);
+        }
+        
     }
 }
