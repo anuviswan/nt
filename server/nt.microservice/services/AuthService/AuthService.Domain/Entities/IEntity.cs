@@ -1,5 +1,5 @@
 ﻿namespace AuthService.Domain.Entities;
 public interface IEntity
 {
-    long Id { get; set; }
+    Guid Id { get; set; }
 }

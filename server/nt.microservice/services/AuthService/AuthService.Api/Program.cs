@@ -1,4 +1,5 @@
 using AuthService.Api.Authentication;
+using AuthService.Api.Helpers.ExtensionMethods;
 using AuthService.Api.ViewModels.Validatators;
 using AuthService.Api.ViewModels.Validate;
 using AuthService.Data.Database;
@@ -33,7 +34,7 @@ var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
 builder.Services.AddTransient<IUnitOfWorkFactory>(con => new SqlUnitOfWorkFactory(connectionString));
 
 builder.Services.AddFluentValidation();
-builder.Services.AddTransient<IValidator<AuthorizeRequestViewModel>, AuthorizeRequestViewModelValidator>();
+builder.Services.AddValidators();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
