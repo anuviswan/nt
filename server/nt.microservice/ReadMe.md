@@ -6,7 +6,7 @@ This project demonstrate usage of Microservice architecture for implementing bac
 
 Implementation details of different services are as follows.
 
-| Service | Role            | Database   | ORM              | Unit Test | Model Validation  | Entity Mapping |
-| ------- | --------------- | ---------- | ---------------- | --------- | ----------------- | -------------- |
-| Auth    | Authentication  | Postgres   | Dapper           |           | Fluent Validation | Mapster        |
-| User    | User Management | Sql Server | Entity Framework | XUnit     | Data Annotations  | Automapper     |
+| Service | Role            | Database   | ORM              | Model Validation  | Entity Mapping | Unit Test | Mock        |
+| ------- | --------------- | ---------- | ---------------- | ----------------- | -------------- | --------- | ----------- |
+| Auth    | Authentication  | Postgres   | Dapper           | Fluent Validation | Mapster        | NUnit     | NSubstitute |
+| User    | User Management | Sql Server | Entity Framework | Data Annotations  | Automapper     | XUnit     | Moq         |

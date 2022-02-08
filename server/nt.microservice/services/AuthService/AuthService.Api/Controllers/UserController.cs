@@ -24,7 +24,7 @@ public class UserController : Controller
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<AddUserResponseViewModel>> AddUser(AddUserRequestViewModel model)
+    public async Task<ActionResult<AddUserResponseViewModel>> AddUserAsync(AddUserRequestViewModel model)
     {
         try
         {
