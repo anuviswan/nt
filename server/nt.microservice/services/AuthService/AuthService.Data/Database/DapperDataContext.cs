@@ -1,6 +1,7 @@
 ﻿using AuthService.Data.Repository;
 using AuthService.Domain.Entities;
 using Microsoft.Data.SqlClient;
+using Npgsql;
 using System.Data;
 
 namespace AuthService.Data.Database;
@@ -8,12 +9,12 @@ namespace AuthService.Data.Database;
 public class DapperDataContext : IDataContext
 {
     private IDbTransaction _dbTransaction;
-
+    
     private Lazy<UserRepository> _userRepository;
 
     public DapperDataContext(string connectionString)
     {
-        Connection = new SqlConnection(connectionString);
+        Connection = new NpgsqlConnection(connectionString);
         _userRepository = new Lazy<UserRepository>(() => new UserRepository(Connection));
     }
 

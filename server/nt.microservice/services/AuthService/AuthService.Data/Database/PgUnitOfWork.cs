@@ -3,14 +3,14 @@ using System.Data;
 
 namespace AuthService.Data.Database;
 
-public class SqlUnitOfWork : IUnitOfWork
+public class PgUnitOfWork : IUnitOfWork
 {
     private IDataContext _dataContext;
     public IUserRepository UserRepository => _dataContext.UserRepository;
 
     public IDbConnection Connection => _dataContext.Connection;
 
-    public SqlUnitOfWork(IDataContext dataContext)
+    public PgUnitOfWork(IDataContext dataContext)
     {
         _dataContext = dataContext;
     }

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthService.Data.Database;
-public class SqlUnitOfWorkFactory : IUnitOfWorkFactory
+public class PgUnitOfWorkFactory : IUnitOfWorkFactory
 {
     private readonly string _connectionString;
     private IDataContext _dataContext;
-    public SqlUnitOfWorkFactory(string connectionString)
+    public PgUnitOfWorkFactory(string connectionString)
     {
         _connectionString = connectionString;
     }
@@ -24,6 +24,6 @@ public class SqlUnitOfWorkFactory : IUnitOfWorkFactory
     }
     public IUnitOfWork CreateUnitOfWork()
     {
-        return new SqlUnitOfWork(GetOrCreateContext());
+        return new PgUnitOfWork(GetOrCreateContext());
     }
 }
