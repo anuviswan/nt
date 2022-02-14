@@ -35,13 +35,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Domain", "servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Service", "services\AuthService\AuthService.Service\AuthService.Service.csproj", "{5E936570-0AA2-4F73-B85C-A78F16439768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService.Api", "services\MovieService\MovieService.Api\MovieService.Api.csproj", "{1EEB25C8-25DD-407C-8ECC-887FD228C75E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Api", "services\MovieService\MovieService.Api\MovieService.Api.csproj", "{1EEB25C8-25DD-407C-8ECC-887FD228C75E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService.Data", "services\MovieService\MovieService.Data\MovieService.Data.csproj", "{A59BD915-B88C-491C-B540-FB3002874BA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Data", "services\MovieService\MovieService.Data\MovieService.Data.csproj", "{A59BD915-B88C-491C-B540-FB3002874BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService.Domain", "services\MovieService\MovieService.Domain\MovieService.Domain.csproj", "{F58CD006-4956-4566-A5B3-D0A7671910C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Domain", "services\MovieService\MovieService.Domain\MovieService.Domain.csproj", "{F58CD006-4956-4566-A5B3-D0A7671910C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService.Service", "services\MovieService\MovieService.Service\MovieService.Service.csproj", "{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Service", "services\MovieService\MovieService.Service\MovieService.Service.csproj", "{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Api.Tests", "services\AuthService\AuthService.Api.Tests\AuthService.Api.Tests.csproj", "{B11FA7F0-A483-4BA8-955E-CA64189F17AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +111,10 @@ Global
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11FA7F0-A483-4BA8-955E-CA64189F17AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11FA7F0-A483-4BA8-955E-CA64189F17AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11FA7F0-A483-4BA8-955E-CA64189F17AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11FA7F0-A483-4BA8-955E-CA64189F17AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +138,7 @@ Global
 		{A59BD915-B88C-491C-B540-FB3002874BA0} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{F58CD006-4956-4566-A5B3-D0A7671910C2} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
+		{B11FA7F0-A483-4BA8-955E-CA64189F17AA} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}

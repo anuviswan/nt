@@ -1,7 +1,8 @@
 ﻿using AuthService.Data.Database;
 using AuthService.Domain.Entities;
 using Dapper;
-using Dapper.Contrib.Extensions;
+using DapperExtensions;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace AuthService.Data.Repository;
@@ -16,7 +17,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task<IEnumerable<TEntity>> GetAll()
     {
-        return await Connection.GetAllAsync<TEntity>();
+        return await Connection.GetListAsync<TEntity>(buffered: true);
+
     }
 
     public async Task<TEntity> GetByIdAsync(long id)
@@ -28,7 +30,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         ArgumentNullException.ThrowIfNull(entity);
 
-        await Connection.InsertAsync(entity);
+        await Connection.InsertAsync<TEntity>(entity);
+
         return entity;
     }
 

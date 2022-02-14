@@ -1,4 +1,5 @@
 using AuthService.Api.Authentication;
+using AuthService.Api.Helpers.ExtensionMethods;
 using AuthService.Api.ViewModels.Validatators;
 using AuthService.Api.ViewModels.Validate;
 using AuthService.Data.Database;
@@ -16,7 +17,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDapperTypeMaps();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -30,10 +31,11 @@ builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
-builder.Services.AddTransient<IUnitOfWorkFactory>(con => new SqlUnitOfWorkFactory(connectionString));
+builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
 
 builder.Services.AddFluentValidation();
-builder.Services.AddTransient<IValidator<AuthorizeRequestViewModel>, AuthorizeRequestViewModelValidator>();
+builder.Services.AddValidators();
+
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
