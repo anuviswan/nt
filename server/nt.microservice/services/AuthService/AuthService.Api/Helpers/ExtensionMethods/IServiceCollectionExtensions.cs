@@ -7,4 +7,9 @@ public static class IServiceCollectionExtensions
     {
         Validators.AddValidators(serviceCollection);
     }
+
+    public static void AddDapperTypeMaps(this IServiceCollection serviceCollection)
+    {
+        DapperTypeMapping.Map();
+    }
 }
