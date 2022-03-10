@@ -274,3 +274,4 @@ paket-files/
 __pycache__/
 *.pyc
 /Randomize/nuget.exe
+/server/nt.microservice/NDependOut

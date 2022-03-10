@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  nt.gateway:
+    image: ${DOCKER_REGISTRY-}ntgateway
+    build:
+      context: .
+      dockerfile: infrastructure/nt.gateway/Dockerfile
+
+  authservice.api:
+    image: ${DOCKER_REGISTRY-}authserviceapi
+    build:
+      context: .
+      dockerfile: services/AuthService/AuthService.Api/Dockerfile
+
+
+  userservice.api:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    build:
+      context: .
+      dockerfile: services/UserService/UserService.Api/Dockerfile
+
+  auth_db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Admin123
+    ports:
+      - '5432:5432'
+    volumes: 
+      - auth_data:/var/lib/postgresql/data
+
+volumes:
+    auth_data:
+        name: "vol_nt_auth_pg"
+  
