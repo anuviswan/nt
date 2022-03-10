@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
 
-  db:
+  auth_db:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -29,8 +29,9 @@ services:
     ports:
       - '5432:5432'
     volumes: 
-      - db:/var/lib/postgresql/data
+      - auth_data:/var/lib/postgresql/data
 
 volumes:
-    db:
+    auth_data:
+        name: "vol_nt_auth_pg"
   
