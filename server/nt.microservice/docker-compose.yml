@@ -1,12 +1,16 @@
 version: '3.4'
 
 services:
+
+# Gateway Service
   nt.gateway:
     image: ${DOCKER_REGISTRY-}ntgateway
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
 
+
+# Authentication Service
   authservice.api:
     image: ${DOCKER_REGISTRY-}authserviceapi
     build:
@@ -14,24 +18,49 @@ services:
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
 
 
+  portainer:
+    image: portainer/portainer-ce
+
+# User Management Service
   userservice.api:
     image: ${DOCKER_REGISTRY-}userserviceapi
     build:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
 
+
+# Database for Authentication Service
   auth_db:
     image: postgres:14.1-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Admin123
+      - POSTGRES_DB=NtUser
     ports:
       - '5432:5432'
     volumes: 
       - auth_data:/var/lib/postgresql/data
+    networks:
+        pg_network:
+
+# PgAdmin to manage Postgres
+  postgres_pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+        - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
+        - PGADMIN_DEFAULT_PASSWORD=Admin123
+    ports:
+        - '5050:80'    
+    networks:
+        pg_network:
 
 volumes:
     auth_data:
         name: "vol_nt_auth_pg"
+    portainer_data:
+
+networks:
+    pg_network:
+        driver: bridge 
   
