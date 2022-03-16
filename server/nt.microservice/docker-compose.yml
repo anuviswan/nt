@@ -2,6 +2,8 @@ version: '3.4'
 
 services:
 
+# APPLICATION SERVICES
+
 # Gateway Service
   nt.gateway:
     image: ${DOCKER_REGISTRY-}ntgateway
@@ -16,10 +18,7 @@ services:
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
-
-
-  portainer:
-    image: portainer/portainer-ce
+      
 
 # User Management Service
   userservice.api:
@@ -28,6 +27,7 @@ services:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
 
+# DATABASE SERVICES
 
 # Database for Authentication Service
   auth_db:
@@ -44,6 +44,13 @@ services:
     networks:
         pg_network:
 
+
+# HELPER SERVICES
+
+# Portainer
+  portainer:
+    image: portainer/portainer-ce
+
 # PgAdmin to manage Postgres
   postgres_pgadmin:
     image: dpage/pgadmin4:latest
@@ -59,6 +66,7 @@ volumes:
     auth_data:
         name: "vol_nt_auth_pg"
     portainer_data:
+        name: "vol_nt_portainer"
 
 networks:
     pg_network:
