@@ -15,9 +15,10 @@ public class AuthenticationController : Controller
     private readonly IMapper _mapper;
     private readonly ITokenGenerator _tokenService;
     private readonly IConfiguration _configuration;
-    public AuthenticationController(IMapper mapper,IMediator mediator,ITokenGenerator tokenService,IConfiguration configuration)
+    private readonly ILogger<AuthenticationController> _logger;
+    public AuthenticationController(IMapper mapper,IMediator mediator,ITokenGenerator tokenService,IConfiguration configuration, ILogger<AuthenticationController> logger)
     {
-        (_mediator, _mapper, _tokenService, _configuration) = (mediator, mapper, tokenService, configuration);
+        (_mediator, _mapper, _tokenService, _configuration, _logger) = (mediator, mapper, tokenService, configuration,logger);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -37,6 +38,7 @@ public class AuthenticationController : Controller
 
             if(user is null)
             {
+                _logger.LogInformation("Invalid User");
                 return Unauthorized();
             }
 
@@ -46,6 +48,7 @@ public class AuthenticationController : Controller
             response.IsAuthenticated = true;
             response.Token = generatedToken;
 
+            _logger.LogInformation("Valid User");
             return Ok(response);
         }
         catch (Exception ex)

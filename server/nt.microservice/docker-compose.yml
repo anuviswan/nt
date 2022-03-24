@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
+    networks:
+        pg_network:
       
 
 # User Management Service
@@ -30,7 +32,7 @@ services:
 # DATABASE SERVICES
 
 # Database for Authentication Service
-  auth_db:
+  authdb:
     image: postgres:14.1-alpine
     restart: always
     environment:
