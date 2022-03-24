@@ -12,10 +12,15 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using NLog.Extensions.Logging;
 using System.Text;
+using NLog;
+using NLog.Web;
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddDapperTypeMaps();
 builder.Services.AddControllers();
@@ -36,7 +41,9 @@ builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory
 builder.Services.AddFluentValidation();
 builder.Services.AddValidators();
 
-
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Host.UseNLog();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
