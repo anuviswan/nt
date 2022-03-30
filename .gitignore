@@ -275,3 +275,4 @@ __pycache__/
 *.pyc
 /Randomize/nuget.exe
 /server/nt.microservice/NDependOut
+/server/nt.microservice/services/AuthService/AuthService.Api/ctempinternal-nlog-AspNetCore.txt
