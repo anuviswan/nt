@@ -8,7 +8,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "7236"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/user/register",
@@ -27,8 +27,8 @@
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "7269"
+          "Host": "host.docker.internal",
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/user/authenticate",
@@ -65,6 +65,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7017"
+    "BaseUrl": "https://localhost:8001"
   }
 }
