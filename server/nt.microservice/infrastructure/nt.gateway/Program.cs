@@ -6,8 +6,18 @@ using Ocelot.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var corsPolicy = "_ntClientAppsOrigins";
 
 // Add services to the container.
+builder.Services.AddCors(option => {
+    option.AddPolicy(name: corsPolicy,
+        builder =>
+        {
+            builder.AllowAnyOrigin();
+            builder.AllowAnyMethod();
+            builder.AllowAnyHeader();
+        });
+});
 builder.Services.AddRazorPages();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer("GatewayAuthenticationKey",option =>
@@ -23,6 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
+
 
 
 //builder.Services.AddOcelot(builder.Configuration);
@@ -42,7 +53,7 @@ if (!app.Environment.IsDevelopment())
 
 }
 
-
+app.UseCors(corsPolicy);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -51,6 +62,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseOcelot().Wait();
+
 
 app.MapRazorPages();
 

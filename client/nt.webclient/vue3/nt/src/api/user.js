@@ -7,7 +7,7 @@ const validateUser = async (userName, passKey) => {
   };
 
   const response = await axios.post(
-    "https://localhost:44353/api/User/ValidateUser",
+    "/user/authenticate",
     userDetails
   );
   return response;
