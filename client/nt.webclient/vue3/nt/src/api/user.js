@@ -7,7 +7,7 @@ const validateUser = async (userName, passKey) => {
   };
 
   const response = await axios.post(
-    "https://localhost:44353/api/User/ValidateUser",
+    "/user/authenticate",
     userDetails
   );
   return response;
@@ -73,12 +73,12 @@ const searchUser = async (searchTerm) => {
 const registerUser = async (userName, displayName, passKey) => {
   const userDetails = {
     userName: userName,
-    passKey: passKey,
-    displayName: displayName,
+    password: passKey,
+    //displayName: displayName,
   };
 
   const response = await axios.post(
-    "https://localhost:44353/api/User/CreateUser",
+    "/user/createuser",
     userDetails
   );
 

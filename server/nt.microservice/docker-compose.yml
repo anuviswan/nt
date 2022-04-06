@@ -10,6 +10,8 @@ services:
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
+    networks:
+        services_network:
 
 
 # Authentication Service
@@ -21,6 +23,7 @@ services:
     networks:
         pg_network:
         mongo_network:
+        services_network:
       
 
 # User Management Service
@@ -29,6 +32,8 @@ services:
     build:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
+    networks:
+        services_network:
 
 # DATABASE SERVICES
 
@@ -104,4 +109,6 @@ networks:
         driver: bridge 
     mongo_network:
         driver: bridge 
+    services_network:
+        driver: bridge
   
