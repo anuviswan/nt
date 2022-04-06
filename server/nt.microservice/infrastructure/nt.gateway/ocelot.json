@@ -1,17 +1,17 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/Users/Register",
+      "DownstreamPathTemplate": "/api/User/AddUserAsync",
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "host.docker.internal",
           "Port": "8002"
         }
       ],
-      "UpstreamPathTemplate": "/user/register",
+      "UpstreamPathTemplate": "/user/createuser",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
