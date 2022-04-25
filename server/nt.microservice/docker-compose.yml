@@ -2,42 +2,40 @@ version: '3.4'
 
 services:
 
-# APPLICATION SERVICES
+  # APPLICATION SERVICES
 
-# Gateway Service
+  # Gateway Service
   nt.gateway:
     image: ${DOCKER_REGISTRY-}ntgateway
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
     networks:
-        services_network:
+      services_network:
 
-
-# Authentication Service
+        # Authentication Service
   authservice.api:
     image: ${DOCKER_REGISTRY-}authserviceapi
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
     networks:
-        pg_network:
-        mongo_network:
-        services_network:
-      
+      pg_network:
+      mongo_network:
+      services_network:
 
-# User Management Service
+        # User Management Service
   userservice.api:
     image: ${DOCKER_REGISTRY-}userserviceapi
     build:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
     networks:
-        services_network:
+      services_network:
 
-# DATABASE SERVICES
+        # DATABASE SERVICES
 
-# Database for Authentication Service
+        # Database for Authentication Service
   authdb:
     image: postgres:14.1-alpine
     restart: always
@@ -47,12 +45,12 @@ services:
       - POSTGRES_DB=ntuserauth
     ports:
       - '5432:5432'
-    volumes: 
+    volumes:
       - auth_data:/var/lib/postgresql/data
     networks:
-        pg_network:
+      pg_network:
 
-# Auth Service Log Db 
+        # Auth Service Log Db 
   authServiceLog:
     image: mongo:latest
     restart: always
@@ -60,55 +58,55 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: admin123
     networks:
-        mongo_network:
+      mongo_network:
+
 
     volumes:
-        - authServiceLog_Data:/data/db 
+      - authServiceLog_Data:/data/db
 
+  # HELPER SERVICES
 
-
-# HELPER SERVICES
-
-# Portainer
+  # Portainer
   portainer:
     image: portainer/portainer-ce
 
-# PgAdmin to manage Postgres
+  # PgAdmin to manage Postgres
   postgres_pgadmin:
     image: dpage/pgadmin4:latest
     environment:
-        - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
-        - PGADMIN_DEFAULT_PASSWORD=Admin123
+      - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=Admin123
     ports:
-        - '5050:80'    
+      - '5050:80'
     networks:
-        pg_network:
+      pg_network:
+
 
   mongo-express:
     image: mongo-express
     restart: always
     ports:
-        - 8081:8081
+      - 8081:8081
     environment:
-        ME_CONFIG_MONGODB_ADMINUSERNAME: root
-        ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-        ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+      ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
     networks:
-        mongo_network:
+      mongo_network:
+
 
 volumes:
-    auth_data:
-        name: "vol_nt_auth_pg"
-    portainer_data:
-        name: "vol_nt_portainer"
-    authServiceLog_Data:
-        name: "vol_nt_auth_log_mongo"
+  auth_data:
+    name: "vol_nt_auth_pg"
+  portainer_data:
+    name: "vol_nt_portainer"
+  authServiceLog_Data:
+    name: "vol_nt_auth_log_mongo"
 
 networks:
-    pg_network:
-        driver: bridge 
-    mongo_network:
-        driver: bridge 
-    services_network:
-        driver: bridge
-  
+  pg_network:
+    driver: bridge
+  mongo_network:
+    driver: bridge
+  services_network:
+    driver: bridge

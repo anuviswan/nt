@@ -1,10 +1,10 @@
-version : '3.4'
+# version : '3.4'
 
-services :
+services:
   nt.vue:
-    image: ${DOCKER_REGISTRY-}vueclient
+    image: ${DOCKER_REGISTRY-}clientapp
     build:
       context: .
       dockerfile: Dockerfile
-    ports :
+    ports:
       - "8090:80"

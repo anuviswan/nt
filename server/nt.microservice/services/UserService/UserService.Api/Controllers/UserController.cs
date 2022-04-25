@@ -10,8 +10,10 @@ public class UserController : Controller
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
-    public UserController(IMediator mediator,IMapper mapper)
+    private readonly ILogger<UserController> _logger;
+    public UserController(IMediator mediator,IMapper mapper, ILogger<UserController> logger)
     {
+        _logger = logger;
         (_mediator,_mapper) = (mediator,mapper);
     }
 
@@ -37,6 +39,7 @@ public class UserController : Controller
         }
         catch(Exception ex)
         {
+            _logger.LogError($"Error registering user : {ex.Message}");
             return BadRequest(ex.Message);
         }
     }
@@ -71,15 +74,17 @@ public class UserController : Controller
         }
         catch (Exception ex)
         {
+            _logger.LogError($"Error Changing Password : {ex.Message}");
             return BadRequest(ex.Message);
         }
     }
 
-    [HttpPost]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [Route("Demo")]
-    public async Task<ActionResult<string>> Demo()
+    [Route("DemoMethod")]
+    public async Task<ActionResult<string>> DemoMethod()
     {
+        _logger.LogError("Forced Error");
         return new OkObjectResult("Random");
     }
 

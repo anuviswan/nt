@@ -1,10 +1,19 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 using UserService.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
+var logger = new LoggerConfiguration()
+  .ReadFrom.AppSettings()
+  .Enrich.FromLogContext()
+  .WriteTo.Console()
+  .CreateLogger();
 
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -18,6 +27,7 @@ builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericReposit
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
