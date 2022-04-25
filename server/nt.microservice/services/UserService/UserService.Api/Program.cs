@@ -6,8 +6,9 @@ using UserService.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 var logger = new LoggerConfiguration()
-  .ReadFrom.Configuration(builder.Configuration)
+  .ReadFrom.AppSettings()
   .Enrich.FromLogContext()
+  .WriteTo.Console()
   .CreateLogger();
 
 
