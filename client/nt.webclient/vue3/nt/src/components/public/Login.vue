@@ -19,12 +19,6 @@
             placeholder="Username"
           />
         </div>
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="userNameError"
-            v-bind:isError="true"
-          />
-        </div>
         <div class="form-group">
           <input
             type="password"
@@ -38,18 +32,12 @@
           />
         </div>
 
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="passwordError"
-            v-bind:isError="true"
-          />
-        </div>
-
         <div class="form-group">
           <input
             type="submit"
             class="btn btn-block btn-primary"
             value="Submit"
+            v-bind:disabled="hasClientError"
           />
         </div>
         <div class="d-flex justify-content-left">
@@ -86,6 +74,7 @@ export default {
     const password = ref("");
     const serverMessage = ref("");
     const hasServerError = ref(false);
+    const hasClientError = ref(true);
     let errors = ref([]);
     const store = useStore();
 
@@ -93,10 +82,10 @@ export default {
       e.preventDefault();
       errors.value = [];
 
-      useValidator(userName.value, [minLength(3)], (e) =>
+      useValidator(userName.value, [minLength(1)], (e) =>
         errors.value.push({ "userName": e })
       );
-      useValidator(password.value, [minLength(8)], (e) =>
+      useValidator(password.value, [minLength(1)], (e) =>
         errors.value.push({ "password": e })
       );
 
@@ -169,6 +158,7 @@ export default {
       errors,
       userNameError,
       passwordError,
+      hasClientError,
     };
   },
 };
