@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import useValidator from "@/utils/inputValidators.js";
 import { minLength } from "@/utils/validators.js";
@@ -69,6 +69,14 @@ export default {
     const clientValidationSucceeded = ref(false);
     let errors = ref([]);
     const store = useStore();
+
+    const isEmpty = (str) => {
+      return !str || str.length === 0;
+    };
+    watchEffect(() => {
+      clientValidationSucceeded.value =
+        !isEmpty(userName.value) && !isEmpty(password.value);
+    });
 
     const onSubmit = async (e) => {
       e.preventDefault();
