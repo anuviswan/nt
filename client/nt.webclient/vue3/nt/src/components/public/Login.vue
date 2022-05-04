@@ -11,24 +11,16 @@
           <input
             type="text"
             v-model="userName"
-            v-bind:class="
-              hasError('userName')
-                ? 'form-control block is-invalid'
-                : 'form-control block'
-            "
             placeholder="Username"
+            class="form-control block"
           />
         </div>
         <div class="form-group">
           <input
             type="password"
             v-model="password"
-            v-bind:class="
-              hasError('password')
-                ? 'form-control block is-invalid'
-                : 'form-control block'
-            "
             placeholder="Password"
+            class="form-control block"
           />
         </div>
 
@@ -37,7 +29,7 @@
             type="submit"
             class="btn btn-block btn-primary"
             value="Submit"
-            v-bind:disabled="hasClientError"
+            v-bind:disabled="clientValidationSucceeded == false"
           />
         </div>
         <div class="d-flex justify-content-left">
@@ -56,7 +48,7 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import useValidator from "@/utils/inputValidators.js";
 import { minLength } from "@/utils/validators.js";
@@ -74,7 +66,7 @@ export default {
     const password = ref("");
     const serverMessage = ref("");
     const hasServerError = ref(false);
-    const hasClientError = ref(true);
+    const clientValidationSucceeded = ref(false);
     let errors = ref([]);
     const store = useStore();
 
@@ -82,11 +74,21 @@ export default {
       e.preventDefault();
       errors.value = [];
 
-      useValidator(userName.value, [minLength(1)], (e) =>
-        errors.value.push({ "userName": e })
+      useValidator(
+        userName.value,
+        [minLength(1)],
+        () => {},
+        () => {
+          clientValidationSucceeded.value = false;
+        }
       );
-      useValidator(password.value, [minLength(1)], (e) =>
-        errors.value.push({ "password": e })
+      useValidator(
+        password.value,
+        [minLength(1)],
+        () => {},
+        () => {
+          clientValidationSucceeded.value = false;
+        }
       );
 
       if (errors.value.length == 0) {
@@ -114,51 +116,15 @@ export default {
         router.push("/p/dashboard");
       }
     };
-    const hasError = (key) => {
-      //const result = errors.value.indexOf(key) != -1;
-      const result = errors.value.some((x) => key in x);
-      return result;
-    };
-
-    const userNameError = computed(() => {
-      if (hasError("userName")) {
-        const result = errors.value.filter((x) => {
-          if (x.userName) {
-            return true;
-          }
-          return false;
-        });
-        return result[0].userName;
-      }
-
-      return [];
-    });
-
-    const passwordError = computed(() => {
-      if (hasError("password")) {
-        const result = errors.value.filter((x) => {
-          if (x.password) {
-            return true;
-          }
-          return false;
-        });
-        return result[0].password;
-      }
-
-      return [];
-    });
 
     return {
       userName,
       password,
-      hasError,
       serverMessage,
       hasServerError,
       onSubmit,
       errors,
-      userNameError,
-      passwordError,
-      hasClientError,
+      clientValidationSucceeded,
     };
   },
 };
