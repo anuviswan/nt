@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,10 @@ public class ChangePasswordTests:ControllerTestBase
             Password = x.Password
         });
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object);
+        var mockLogger = new Moq.Mock<ILogger<UserService.Api.Controllers.UserController>>();
+        mockLogger.Setup(x => x.LogError(It.IsAny<string>()));
+
+        var userController = new UserController(mockMediator.Object, mockMapper.Object,mockLogger.Object);
         MockModelState(request, userController);
         var actualResult = await userController.ChangePassword(request);
 

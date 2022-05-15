@@ -1,4 +1,4 @@
-export default function useValidator(value,validators,onErrorAction){
+export default function useValidator(value,validators,onErrorAction,onValidAction){
         const validationResults = validators.map(validator=>{
                 return validator(value);
         });
@@ -6,6 +6,9 @@ export default function useValidator(value,validators,onErrorAction){
         const errors = validationResults.filter(x=>x!=null);
         if(errors.length!=0){
         onErrorAction(errors);
+        }
+        else{
+                onValidAction();
         }
         return errors;
 }

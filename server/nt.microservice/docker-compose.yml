@@ -3,19 +3,27 @@ version: '3.4'
 services:
 
   # APPLICATION SERVICES
+  webapplication1:
+    image: ${DOCKER_REGISTRY-}webapplication1
+    build:
+      context: .
+      dockerfile: infrastructure/WebApplication1/Dockerfile
 
   # Gateway Service
   nt.gateway:
     image: ${DOCKER_REGISTRY-}ntgateway
+    hostname: nt.gateway
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
     networks:
       services_network:
-
-        # Authentication Service
+    depends_on:
+      - "authservice.api"
+      - "userservice.api" # Authentication Service
   authservice.api:
     image: ${DOCKER_REGISTRY-}authserviceapi
+    hostname: nt.authservice
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
@@ -23,19 +31,23 @@ services:
       pg_network:
       mongo_network:
       services_network:
-
-        # User Management Service
+    depends_on:
+      - "authdb"
+      - "authServiceLog"
+      # User Management Service
   userservice.api:
     image: ${DOCKER_REGISTRY-}userserviceapi
+    hostname: nt.userservice
     build:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
     networks:
       services_network:
+    depends_on:
+      - "postgres_pgadmin"
+      # DATABASE SERVICES
 
-        # DATABASE SERVICES
-
-        # Database for Authentication Service
+      # Database for Authentication Service
   authdb:
     image: postgres:14.1-alpine
     restart: always

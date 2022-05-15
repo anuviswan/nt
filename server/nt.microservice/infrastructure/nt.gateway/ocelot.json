@@ -1,5 +1,26 @@
 {
   "Routes": [
+
+    {
+      "DownstreamPathTemplate": "/api/User/demomethod",
+      "DownstreamSchema": "http",
+      "DownstreamHttpMethod": "GET",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          //"Host": "localhost",
+          "Port": "8002"
+        }
+      ],
+      "UpstreamPathTemplate": "/demo/auth",
+      "UpstreamHttpMethod": [ "GET" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      }
+    },
     {
       "DownstreamPathTemplate": "/api/User/AddUserAsync",
       "DownstreamSchema": "https",
@@ -65,6 +86,7 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:8001"
+    "BaseUrl": "http://localhost:8051"
+    //"BaseUrl": "http://localhost:5017"
   }
 }
