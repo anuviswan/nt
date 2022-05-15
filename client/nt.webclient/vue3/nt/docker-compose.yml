@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: 'develop-stage'
+      # target: 'build-stage'
     ports:
       - "8090:80"
     volumes:

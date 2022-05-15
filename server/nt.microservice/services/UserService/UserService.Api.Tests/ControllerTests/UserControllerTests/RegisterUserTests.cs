@@ -1,4 +1,6 @@
-﻿namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
+﻿using Microsoft.Extensions.Logging;
+
+namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
 
 public class RegisterUserTests:ControllerTestBase
 {
@@ -34,8 +36,10 @@ public class RegisterUserTests:ControllerTestBase
             UserName = x.User.UserName,
         });
 
+        var mockLogger = new Moq.Mock<ILogger<UserService.Api.Controllers.UserController>>();
+        mockLogger.Setup(x => x.LogError(It.IsAny<string>()));
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object);
+        var userController = new UserController(mockMediator.Object, mockMapper.Object, mockLogger.Object);
         MockModelState(request, userController);
         var actualResult = await userController.RegisterUser(request);
 
@@ -89,8 +93,11 @@ public class RegisterUserTests:ControllerTestBase
             UserName = x.User.UserName,
         });
 
+        var mockLogger = new Moq.Mock<ILogger<UserService.Api.Controllers.UserController>>();
+        mockLogger.Setup(x => x.LogError(It.IsAny<string>()));
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object);
+
+        var userController = new UserController(mockMediator.Object, mockMapper.Object, mockLogger.Object);
         MockModelState(request, userController);
         var actualResult = await userController.RegisterUser(request);
         

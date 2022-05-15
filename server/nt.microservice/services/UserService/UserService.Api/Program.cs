@@ -5,6 +5,18 @@ using System.Text;
 using UserService.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
+var corsPolicy = "_ntClientAppsOrigins";
+
+builder.Services.AddCors(option => {
+    option.AddPolicy(name: corsPolicy,
+        builder =>
+        {
+            builder.AllowAnyOrigin();
+            builder.AllowAnyMethod();
+            builder.AllowAnyHeader();
+        });
+});
+
 var logger = new LoggerConfiguration()
   .ReadFrom.AppSettings()
   .Enrich.FromLogContext()
@@ -54,6 +66,7 @@ if (app.Environment.IsDevelopment())
     
 }
 
+app.UseCors(corsPolicy);
 //app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

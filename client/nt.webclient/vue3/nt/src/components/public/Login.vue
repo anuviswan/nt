@@ -50,8 +50,6 @@
 <script>
 import { ref, watchEffect } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-import useValidator from "@/utils/inputValidators.js";
-import { minLength } from "@/utils/validators.js";
 import { validateUser } from "@/api/user.js";
 import { useStore } from "vuex";
 import router from "@/router";
@@ -80,49 +78,29 @@ export default {
 
     const onSubmit = async (e) => {
       e.preventDefault();
-      errors.value = [];
 
-      useValidator(
-        userName.value,
-        [minLength(1)],
-        () => {},
-        () => {
-          clientValidationSucceeded.value = false;
-        }
-      );
-      useValidator(
-        password.value,
-        [minLength(1)],
-        () => {},
-        () => {
-          clientValidationSucceeded.value = false;
-        }
-      );
+      var response = await validateUser(userName.value, password.value);
+      console.log(response);
 
-      if (errors.value.length == 0) {
-        var response = await validateUser(userName.value, password.value);
-        console.log(response);
-
-        if (response.hasError) {
-          hasServerError.value = true;
-          serverMessage.value = response.error;
-          return;
-        }
-
-        const currentUser = {
-          userName: response.data.userName,
-          displayName: response.data.displayName,
-          bio: response.data.bio,
-          token: response.data.token,
-        };
-
-        console.log(currentUser);
-
-        store.dispatch("updateCurrentUser", currentUser);
-
-        console.log("User authenticated and updated, redirecting now..");
-        router.push("/p/dashboard");
+      if (response.hasError) {
+        hasServerError.value = true;
+        serverMessage.value = response.error;
+        return;
       }
+
+      const currentUser = {
+        userName: response.data.userName,
+        displayName: response.data.displayName,
+        bio: response.data.bio,
+        token: response.data.token,
+      };
+
+      console.log(currentUser);
+
+      store.dispatch("updateCurrentUser", currentUser);
+
+      console.log("User authenticated and updated, redirecting now..");
+      router.push("/p/dashboard");
     };
 
     return {
