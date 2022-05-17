@@ -54,7 +54,7 @@ public class AuthenticationController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return BadRequest(ex);
+            return BadRequest(ex.Message);
         }
     }
 }

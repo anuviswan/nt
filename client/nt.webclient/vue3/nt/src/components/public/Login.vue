@@ -83,8 +83,13 @@ export default {
       console.log(response);
 
       if (response.hasError) {
+        if (response.errorCode == 401) {
+          hasServerError.value = true;
+          serverMessage.value = ["Invalid Username or password"];
+          return;
+        }
         hasServerError.value = true;
-        serverMessage.value = response.error;
+        serverMessage.value = response.error[0].title;
         return;
       }
 

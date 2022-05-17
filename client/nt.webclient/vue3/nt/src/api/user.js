@@ -3,7 +3,7 @@ import axios from "axios";
 const validateUser = async (userName, passKey) => {
   const userDetails = {
     userName: userName,
-    passKey: btoa(passKey),
+    passWord: btoa(passKey),
   };
 
   const response = await axios.post(

@@ -36,7 +36,9 @@ export default {
         return "d-none";
       }
 
-      return props.isError ? "text-danger text-left" : "text-success text-left";
+      return props.isError
+        ? "text-danger text-justify"
+        : "text-success text-center";
     };
     console.log(props);
     return {

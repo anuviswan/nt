@@ -8,12 +8,12 @@ public class AuthorizeRequestViewModelValidator : AbstractValidator<AuthorizeReq
     {
         RuleFor(x => x.UserName).NotEmpty()
         .NotNull()
-        .MinimumLength(6)
-        .WithMessage("Invalid UserName");
+        .MinimumLength(0)
+        .WithMessage("Invalid UserName or Password");
 
         RuleFor(x => x.Password).NotEmpty()
             .NotNull()
-            .MinimumLength(6)
+            .MinimumLength(0)
             .WithMessage("Invalid Password");
     }
 }
