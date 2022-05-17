@@ -50,9 +50,13 @@ axios.interceptors.response.use(
             error: [error.response.data],
           };
         case 401:
-          alert("Unauthorized access, please login.");
           router.push("/");
-          break;
+          return {
+            data:null,
+            hasError:true,
+            errorCode: 401,
+            error:[error.response.data]
+          }
         case 500:
           // Handle 500 here
           break;
