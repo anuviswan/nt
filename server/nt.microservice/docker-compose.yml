@@ -3,12 +3,6 @@ version: '3.4'
 services:
 
   # APPLICATION SERVICES
-  webapplication1:
-    image: ${DOCKER_REGISTRY-}webapplication1
-    build:
-      context: .
-      dockerfile: infrastructure/WebApplication1/Dockerfile
-
   # Gateway Service
   nt.gateway:
     image: ${DOCKER_REGISTRY-}ntgateway
