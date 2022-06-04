@@ -5,11 +5,10 @@ using UserService.Service.Query;
 namespace UserService.Api.Controllers;
 
 [ApiController]
-[Route("Users")]
+[Route("UserManagement")]
 public class UserManagementController : BaseController
 {
-    private IMediator _mediator;
-    public UserManagementController(IMediator mediator, IMapper mapper, ILogger logger) : base(mediator,mapper,logger)
+    public UserManagementController(IMediator mediator, IMapper mapper, ILogger<UserManagementController> logger) : base(mediator,mapper,logger)
     {
     }
 

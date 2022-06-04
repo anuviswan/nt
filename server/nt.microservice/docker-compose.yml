@@ -3,47 +3,52 @@ version: '3.4'
 services:
 
   # APPLICATION SERVICES
-  # Gateway Service
-  nt.gateway:
+
+  # Gateway Service : API Gateway
+  nt.gateway.service:
     image: ${DOCKER_REGISTRY-}ntgateway
-    hostname: nt.gateway
+    hostname: nt.gateway.service
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
     networks:
-      services_network:
+      nt.common.network:
     depends_on:
-      - "authservice.api"
-      - "userservice.api" # Authentication Service
-  authservice.api:
+      - "nt.authservice.service"
+      - "nt.userservice.service" 
+      
+  # Authentication Service : Responsible for handling Authentication
+  nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
-    hostname: nt.authservice
+    hostname: nt.authservice.service
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
     networks:
-      pg_network:
-      mongo_network:
-      services_network:
+      nt.common.network:
+      nt.authservice.network:
     depends_on:
-      - "authdb"
-      - "authServiceLog"
-      # User Management Service
-  userservice.api:
+      - "nt.authservice.db"
+      - "nt.authservice.log.db"
+
+  # User Management Service : Responsible for User Management
+  nt.userservice.service:
     image: ${DOCKER_REGISTRY-}userserviceapi
-    hostname: nt.userservice
+    hostname: nt.userservice.service
     build:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
     networks:
-      services_network:
-    depends_on:
-      - "postgres_pgadmin"
-      # DATABASE SERVICES
+      nt.common.network:
+    
 
-      # Database for Authentication Service
-  authdb:
+
+  # DATABASE SERVICES
+
+  # Database for Authentication Service
+  nt.authservice.db:
     image: postgres:14.1-alpine
+    hostname: "nt.authservice.db"
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -52,33 +57,34 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - auth_data:/var/lib/postgresql/data
+      - nt.authservice.db.volume:/var/lib/postgresql/data
     networks:
-      pg_network:
+      nt.authservice.network:
 
-        # Auth Service Log Db 
-  authServiceLog:
+  # Auth Service Log Db 
+  nt.authservice.log.db:
     image: mongo:latest
+    hostname : nt.authservice.log.db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: admin123
     networks:
-      mongo_network:
-
-
+      nt.authservice.network:
     volumes:
-      - authServiceLog_Data:/data/db
+      - nt.authservice.log.db.volume:/data/db
 
   # HELPER SERVICES
 
   # Portainer
-  portainer:
+  nt.common.portainer:
     image: portainer/portainer-ce
+    hostname : nt.common.portainer
 
   # PgAdmin to manage Postgres
-  postgres_pgadmin:
+  nt.common.pgadmin:
     image: dpage/pgadmin4:latest
+    hostname: nt.common.pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=Admin123
@@ -87,9 +93,10 @@ services:
     networks:
       pg_network:
 
-
-  mongo-express:
+  # Mongo Express to manage MongoDb
+  nt.common.mongoexpress:
     image: mongo-express
+    hostname: nt.common.mongoexpress
     restart: always
     ports:
       - 8081:8081
@@ -98,21 +105,22 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
       ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
     networks:
-      mongo_network:
+      nt.authservice.network:
+      nt.common.network:
 
 
 volumes:
-  auth_data:
-    name: "vol_nt_auth_pg"
-  portainer_data:
-    name: "vol_nt_portainer"
-  authServiceLog_Data:
-    name: "vol_nt_auth_log_mongo"
+  nt.authservice.db.volume:
+    name: "nt.authservice.db.volume"
+  nt.common.portainer.volume:
+    name: "nt.common.portainer.volume"
+  nt.authservice.log.db.volume:
+    name: "nt.authservice.log.db.volume"
 
 networks:
-  pg_network:
+  nt.authservice.network:
     driver: bridge
-  mongo_network:
+  nt.userservice.network:
     driver: bridge
-  services_network:
+  nt.common.network:
     driver: bridge
