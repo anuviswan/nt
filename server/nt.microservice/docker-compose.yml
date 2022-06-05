@@ -3,53 +3,43 @@ version: '3.4'
 services:
 
   # APPLICATION SERVICES
-  webapplication1:
-    image: ${DOCKER_REGISTRY-}webapplication1
-    build:
-      context: .
-      dockerfile: infrastructure/WebApplication1/Dockerfile
 
-  # Gateway Service
-  nt.gateway:
+  # Gateway - Application API Gateway
+
+  # Service
+  nt.gateway.service:
     image: ${DOCKER_REGISTRY-}ntgateway
-    hostname: nt.gateway
+    hostname: nt.gateway.service
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
     networks:
-      services_network:
+      nt.common.network:
     depends_on:
-      - "authservice.api"
-      - "userservice.api" # Authentication Service
-  authservice.api:
+      - "nt.authservice.service"
+      - "nt.userservice.service" 
+
+
+  # Authentication Service : Responsible for handling Authentication
+  
+  # Service 
+  nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
-    hostname: nt.authservice
+    hostname: nt.authservice.service
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
     networks:
-      pg_network:
-      mongo_network:
-      services_network:
+      nt.common.network:
+      nt.authservice.network:
     depends_on:
-      - "authdb"
-      - "authServiceLog"
-      # User Management Service
-  userservice.api:
-    image: ${DOCKER_REGISTRY-}userserviceapi
-    hostname: nt.userservice
-    build:
-      context: .
-      dockerfile: services/UserService/UserService.Api/Dockerfile
-    networks:
-      services_network:
-    depends_on:
-      - "postgres_pgadmin"
-      # DATABASE SERVICES
+      - "nt.authservice.db"
+      - "nt.authservice.log.db"
 
-      # Database for Authentication Service
-  authdb:
+  # Database
+  nt.authservice.db:
     image: postgres:14.1-alpine
+    hostname: "nt.authservice.db"
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -58,44 +48,75 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - auth_data:/var/lib/postgresql/data
+      - nt.authservice.db.volume:/var/lib/postgresql/data
     networks:
-      pg_network:
+      nt.authservice.network:
 
-        # Auth Service Log Db 
-  authServiceLog:
+  # Log Database for Authentication Service
+  nt.authservice.log.db:
     image: mongo:latest
+    hostname : nt.authservice.log.db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: admin123
     networks:
-      mongo_network:
-
-
+      nt.authservice.network:
     volumes:
-      - authServiceLog_Data:/data/db
+      - nt.authservice.log.db.volume:/data/db
+
+  # User Service : Responsible for User Management
+  
+  # Service 
+  nt.userservice.service:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    hostname: nt.userservice.service
+    build:
+      context: .
+      dockerfile: services/UserService/UserService.Api/Dockerfile
+    networks:
+      nt.common.network:
+      nt.userservice.network:
+    
+  # Database
+  nt.userservice.db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    hostname: nt.userservice.db
+    environment:
+       ACCEPT_EULA: Y
+       SA_PASSWORD: Admin123 
+    networks:
+        nt.common.network:
+        nt.userservice.network:
+    ports:
+        - 1433:1433  
+
+
 
   # HELPER SERVICES
 
   # Portainer
-  portainer:
+  nt.common.portainer:
     image: portainer/portainer-ce
+    hostname : nt.common.portainer
 
   # PgAdmin to manage Postgres
-  postgres_pgadmin:
+  nt.common.pgadmin:
     image: dpage/pgadmin4:latest
+    hostname: nt.common.pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=Admin123
     ports:
       - '5050:80'
     networks:
-      pg_network:
+      nt.common.network:
+      nt.authservice.network:
 
-
-  mongo-express:
+  # Mongo Express to manage MongoDb
+  nt.common.mongoexpress:
     image: mongo-express
+    hostname: nt.common.mongoexpress
     restart: always
     ports:
       - 8081:8081
@@ -104,21 +125,23 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
       ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
     networks:
-      mongo_network:
+      nt.authservice.network:
+      nt.common.network:
+
 
 
 volumes:
-  auth_data:
-    name: "vol_nt_auth_pg"
-  portainer_data:
-    name: "vol_nt_portainer"
-  authServiceLog_Data:
-    name: "vol_nt_auth_log_mongo"
+  nt.authservice.db.volume:
+    name: "nt.authservice.db.volume"
+  nt.common.portainer.volume:
+    name: "nt.common.portainer.volume"
+  nt.authservice.log.db.volume:
+    name: "nt.authservice.log.db.volume"
 
 networks:
-  pg_network:
+  nt.authservice.network:
     driver: bridge
-  mongo_network:
+  nt.userservice.network:
     driver: bridge
-  services_network:
+  nt.common.network:
     driver: bridge

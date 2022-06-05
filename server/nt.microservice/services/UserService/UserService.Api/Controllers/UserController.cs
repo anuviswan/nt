@@ -6,15 +6,10 @@ namespace UserService.Api.Controllers;
 
 [ApiController]
 [Route("Users")]
-public class UserController : Controller
+public class UserController : BaseController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-    private readonly ILogger<UserController> _logger;
-    public UserController(IMediator mediator,IMapper mapper, ILogger<UserController> logger)
+    public UserController(IMediator mediator,IMapper mapper, ILogger<UserController> logger):base(mediator,mapper,logger)
     {
-        _logger = logger;
-        (_mediator,_mapper) = (mediator,mapper);
     }
 
     [HttpPost]
@@ -30,16 +25,16 @@ public class UserController : Controller
                 return BadRequest(ModelState);
             }
 
-            var userToCreate = _mapper.Map<UserMetaInformation>(user);
-            var result = await _mediator.Send(new CreateUserCommand
+            var userToCreate = Mapper.Map<UserMetaInformation>(user);
+            var result = await Mediator.Send(new CreateUserCommand
             {
                 User = userToCreate,
             });
-            return new OkObjectResult(_mapper.Map<CreateUserResponseViewModel>(result));
+            return new OkObjectResult(Mapper.Map<CreateUserResponseViewModel>(result));
         }
         catch(Exception ex)
         {
-            _logger.LogError($"Error registering user : {ex.Message}");
+            Logger.LogError($"Error registering user : {ex.Message}");
             return BadRequest(ex.Message);
         }
     }
@@ -59,8 +54,8 @@ public class UserController : Controller
                 return BadRequest(ModelState);
             }
 
-            var userToUpdate = _mapper.Map<User>(request);
-            var response = await _mediator.Send(new ChangePasswordCommand
+            var userToUpdate = Mapper.Map<User>(request);
+            var response = await Mediator.Send(new ChangePasswordCommand
             {
                 UserToUpdate = userToUpdate
             });
@@ -74,7 +69,7 @@ public class UserController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error Changing Password : {ex.Message}");
+            Logger.LogError($"Error Changing Password : {ex.Message}");
             return BadRequest(ex.Message);
         }
     }
@@ -84,7 +79,7 @@ public class UserController : Controller
     [Route("DemoMethod")]
     public async Task<ActionResult<string>> DemoMethod()
     {
-        _logger.LogError("Forced Error");
+        Logger.LogError("Forced Error");
         return new OkObjectResult("Random");
     }
 

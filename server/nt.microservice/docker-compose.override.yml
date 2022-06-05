@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  nt.gateway:
+  nt.gateway.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -12,7 +12,7 @@ services:
       #  - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       #  - ~/.aspnet/https:/root/.aspnet/https:ro
 
-  authservice.api:
+  nt.authservice.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -23,7 +23,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ~/.aspnet/https:/root/.aspnet/https:ro
 
-  portainer:
+  nt.common.portainer:
     container_name: portainer
     restart: always
     ports:
@@ -31,9 +31,9 @@ services:
       - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - nt.common.portainer.volume:/data
 
-  userservice.api:
+  nt.userservice.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -44,8 +44,4 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  webapplication1:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "9090:80"
+ 

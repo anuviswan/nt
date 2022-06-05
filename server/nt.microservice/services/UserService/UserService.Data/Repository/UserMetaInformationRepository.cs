@@ -13,4 +13,11 @@ public class UserMetaInformationRepository : GenericRepository<UserMetaInformati
             .Include(x=>x.User)
             .FirstOrDefaultAsync(x => x.User.UserName.ToLower() == username.ToLower());
     }
+
+
+    public async Task<IEnumerable<UserMetaInformation>> SearchUser(string searchTerm)
+    {
+        var results = await UserDbContext.UsersInfo.Where(x=>x.DisplayName.StartsWith(searchTerm)).ToListAsync();
+        return results;
+    } 
 }
