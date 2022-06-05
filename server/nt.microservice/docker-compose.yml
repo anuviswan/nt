@@ -76,12 +76,22 @@ services:
       dockerfile: services/UserService/UserService.Api/Dockerfile
     networks:
       nt.common.network:
+      nt.userservice.network:
     
+  # Database
+  nt.userservice.db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    hostname: nt.userservice.db
+    environment:
+       ACCEPT_EULA: Y
+       SA_PASSWORD: Admin123 
+    networks:
+        nt.common.network:
+        nt.userservice.network:
+    ports:
+        - 1433:1433  
 
 
-  # DATABASE SERVICES
-
-  
 
   # HELPER SERVICES
 
@@ -100,7 +110,8 @@ services:
     ports:
       - '5050:80'
     networks:
-      pg_network:
+      nt.common.network:
+      nt.authservice.network:
 
   # Mongo Express to manage MongoDb
   nt.common.mongoexpress:
