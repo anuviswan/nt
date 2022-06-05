@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UserService.Domain.Entities;
 
 namespace UserService.Data.Database;
 public class UserManagementDbContext : DbContext
@@ -18,6 +17,5 @@ public class UserManagementDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseSqlServer("Server = localhost; Database = NtUserDb; User Id = sa; Password = Admin123;");
     }
-    public DbSet<User> Users { get; set; }
-    public DbSet<UserMetaInformation> UsersInfo { get; set; }
+    public DbSet<UserMetaInformation> UserMetaInformation { get; set; }
 }
