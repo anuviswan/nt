@@ -4,7 +4,9 @@ services:
 
   # APPLICATION SERVICES
 
-  # Gateway Service : API Gateway
+  # Gateway - Application API Gateway
+
+  # Service
   nt.gateway.service:
     image: ${DOCKER_REGISTRY-}ntgateway
     hostname: nt.gateway.service
@@ -16,8 +18,11 @@ services:
     depends_on:
       - "nt.authservice.service"
       - "nt.userservice.service" 
-      
+
+
   # Authentication Service : Responsible for handling Authentication
+  
+  # Service 
   nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
     hostname: nt.authservice.service
@@ -31,21 +36,7 @@ services:
       - "nt.authservice.db"
       - "nt.authservice.log.db"
 
-  # User Management Service : Responsible for User Management
-  nt.userservice.service:
-    image: ${DOCKER_REGISTRY-}userserviceapi
-    hostname: nt.userservice.service
-    build:
-      context: .
-      dockerfile: services/UserService/UserService.Api/Dockerfile
-    networks:
-      nt.common.network:
-    
-
-
-  # DATABASE SERVICES
-
-  # Database for Authentication Service
+  # Database
   nt.authservice.db:
     image: postgres:14.1-alpine
     hostname: "nt.authservice.db"
@@ -61,7 +52,7 @@ services:
     networks:
       nt.authservice.network:
 
-  # Auth Service Log Db 
+  # Log Database for Authentication Service
   nt.authservice.log.db:
     image: mongo:latest
     hostname : nt.authservice.log.db
@@ -73,6 +64,24 @@ services:
       nt.authservice.network:
     volumes:
       - nt.authservice.log.db.volume:/data/db
+
+  # User Service : Responsible for User Management
+  
+  # Service 
+  nt.userservice.service:
+    image: ${DOCKER_REGISTRY-}userserviceapi
+    hostname: nt.userservice.service
+    build:
+      context: .
+      dockerfile: services/UserService/UserService.Api/Dockerfile
+    networks:
+      nt.common.network:
+    
+
+
+  # DATABASE SERVICES
+
+  
 
   # HELPER SERVICES
 
@@ -107,6 +116,7 @@ services:
     networks:
       nt.authservice.network:
       nt.common.network:
+
 
 
 volumes:
