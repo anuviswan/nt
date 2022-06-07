@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\infrastructure\nt.helper\nt.helper.csproj" />
     <ProjectReference Include="..\UserService.Data\UserService.Data.csproj" />
     <ProjectReference Include="..\UserService.Service\UserService.Service.csproj" />
   </ItemGroup>
