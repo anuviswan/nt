@@ -11,7 +11,7 @@ public class CreateUserCommandHandlerTests
         mockUserMetaRepository.Setup(x => x.AddAsync(It.IsAny<UserMetaInformation>()))
             .Returns<UserMetaInformation>(x => Task.FromResult(new UserMetaInformation
             {
-                User = new User {  UserName = x.User.UserName}
+                UserName = x.UserName
             }));
 
 
@@ -34,18 +34,13 @@ public class CreateUserCommandHandlerTests
             {
                 User = new UserMetaInformation
                 {
-                    User = new User()
-                    {
-                        UserName = "JiaAndNaina", Password = "12345678"
-                    }
+                    UserName = "JiaAndNaina",
+                    DisplayName = "Jia Naina"
                 }
             },
             new UserMetaInformation
             {
-                User = new User
-                {
-                    UserName = "JiaAndNaina"
-                }
+                UserName = "JiaAndNaina"
             }
         }
     };
@@ -60,7 +55,7 @@ public class CreateUserCommandHandlerTests
         mockUserMetaRepository.Setup(x => x.AddAsync(It.IsAny<UserMetaInformation>()))
             .Returns<UserMetaInformation>(x => Task.FromResult(new UserMetaInformation
             {
-                User = new User { UserName = x.User.UserName }
+                UserName = x.UserName
             }));
 
 

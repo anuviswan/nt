@@ -16,7 +16,6 @@ public class SearchUserQueryHandler : IRequestHandler<SearchUserQuery, IEnumerab
         return userMetaInfo.Select(x=> new UserMiniProfileDto
         {
             DisplayName = x.DisplayName,
-            UserName = x.User.UserName
         });
     }
 }
