@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System;
 
 namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
 
@@ -15,31 +17,26 @@ public class RegisterUserTests:ControllerTestBase
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(),It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand,CancellationToken>((x,_)=> Task.FromResult(new UserMetaInformation
             {
-                User = new User() { UserName = x.User.User.UserName },
+                UserName = x.User.UserName,
                 DisplayName = x.User.DisplayName
             }));
         
         var mockMapper = new Moq.Mock<IMapper>();
         mockMapper.Setup(x => x.Map<UserMetaInformation>(It.IsAny<CreateUserRequestViewModel>())).Returns<CreateUserRequestViewModel>(x => new UserMetaInformation
         {
-            User = new User
-            {
-                UserName = x.UserName,
-                Password = x.Password
-            },
+            UserName = x.UserName,
             DisplayName = x.DisplayName,
             Bio = x.Bio,
         });
 
         mockMapper.Setup(x => x.Map<CreateUserResponseViewModel>(It.IsAny<UserMetaInformation>())).Returns<UserMetaInformation>(x => new CreateUserResponseViewModel
         {
-            UserName = x.User.UserName,
+            UserName = x.UserName,
         });
 
-        var mockLogger = new Moq.Mock<ILogger<UserService.Api.Controllers.UserController>>();
-        mockLogger.Setup(x => x.LogError(It.IsAny<string>()));
+        var nullLogger = CreateNullLogger<UserController>();
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object, mockLogger.Object);
+        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger);
         MockModelState(request, userController);
         var actualResult = await userController.RegisterUser(request);
 
@@ -55,7 +52,7 @@ public class RegisterUserTests:ControllerTestBase
     {
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = "SampleUser", Password = "Dummy1234" },
+            new CreateUserRequestViewModel { UserName = "SampleUser"},
             new CreateUserResponseViewModel { UserName = "SampleUser" }
         }
     };
@@ -68,39 +65,42 @@ public class RegisterUserTests:ControllerTestBase
     [MemberData(nameof(RegisterUser_ValidData_ShouldFail_TestData))]
     public async Task RegisterUser_ValidData_ShouldFail(CreateUserRequestViewModel request, SerializableError expectedError)
     {
+        #region Arrange
         var mockMediator = new Moq.Mock<IMediator>();
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand, CancellationToken>((x, _) => Task.FromResult(new UserMetaInformation
             {
-                User = new User() { UserName = x.User.User.UserName },
+                UserName = x.User.UserName,
                 DisplayName = x.User.DisplayName
             }));
 
         var mockMapper = new Moq.Mock<IMapper>();
         mockMapper.Setup(x => x.Map<UserMetaInformation>(It.IsAny<CreateUserRequestViewModel>())).Returns<CreateUserRequestViewModel>(x => new UserMetaInformation
         {
-            User = new User
-            {
-                UserName = x.UserName,
-                Password = x.Password
-            },
+            UserName = x.UserName,
             DisplayName = x.DisplayName,
             Bio = x.Bio,
         });
 
         mockMapper.Setup(x => x.Map<CreateUserResponseViewModel>(It.IsAny<UserMetaInformation>())).Returns<UserMetaInformation>(x => new CreateUserResponseViewModel
         {
-            UserName = x.User.UserName,
+            UserName = x.UserName,
         });
 
-        var mockLogger = new Moq.Mock<ILogger<UserService.Api.Controllers.UserController>>();
-        mockLogger.Setup(x => x.LogError(It.IsAny<string>()));
+        var nullLogger = CreateNullLogger<UserController>();
+        #endregion
 
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object, mockLogger.Object);
+        #region Act
+
+        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger);
         MockModelState(request, userController);
         var actualResult = await userController.RegisterUser(request);
-        
+
+        #endregion
+
+
+        #region Assert
 
         var badObjectResult = actualResult.Result
                            .Should()
@@ -114,7 +114,8 @@ public class RegisterUserTests:ControllerTestBase
 
         error.Should().BeEquivalentTo(expectedError);
         mockMediator.Verify(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()), Times.Never);
-
+        
+        #endregion
     }
 
     public static IEnumerable<object[]> RegisterUser_ValidData_ShouldFail_TestData => new List<object[]>
@@ -122,55 +123,22 @@ public class RegisterUserTests:ControllerTestBase
         #region Required Fields
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = string.Empty, Password = "Dummy1234" },
+            new CreateUserRequestViewModel { UserName = string.Empty },
             new SerializableError
             {
                 [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName is mandatory."},
             }
         },
-        new object[]
-        {
-            new CreateUserRequestViewModel { UserName = string.Empty, Password = string.Empty },
-            new SerializableError
-            {
-                [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName is mandatory."},
-                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password is mandatory."},
-            }
-        },
-        new object[]
-        {
-            new CreateUserRequestViewModel { UserName = "12345678", Password = string.Empty },
-            new SerializableError
-            {
-                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password is mandatory."},
-            }
-        },
+       
         #endregion
 
         #region Minimum Fields
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = "12345", Password = "12345678" },
+            new CreateUserRequestViewModel { UserName = "12345"},
             new SerializableError
             {
                 [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName should be minimum 6 characters."},
-            }
-        },
-        new object[]
-        {
-            new CreateUserRequestViewModel { UserName = "12345", Password = "12345" },
-            new SerializableError
-            {
-                [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName should be minimum 6 characters."},
-                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password should be minimum 6 characters."},
-            }
-        },
-        new object[]
-        {
-            new CreateUserRequestViewModel { UserName = "12345678", Password = "12345" },
-            new SerializableError
-            {
-                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password should be minimum 6 characters."},
             }
         },
 
@@ -179,29 +147,12 @@ public class RegisterUserTests:ControllerTestBase
         #region Maximum Fields
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = "1234567890123456", Password = "12345678" },
+            new CreateUserRequestViewModel { UserName = "1234567890123456"},
             new SerializableError
             {
                 [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName should be maximum 15 characters."},
             }
         },
-        new object[]
-        {
-            new CreateUserRequestViewModel { UserName = "1234567890123456", Password = "1234567890123456" },
-            new SerializableError
-            {
-                [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName should be maximum 15 characters."},
-                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password should be maximum 15 characters."},
-            }
-        },
-        new object[]
-        {
-            new CreateUserRequestViewModel { UserName = "12345678", Password = "1234567890123456" },
-            new SerializableError
-            {
-                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password should be maximum 15 characters."},
-            }
-        }
         #endregion
     };
 

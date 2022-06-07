@@ -39,40 +39,7 @@ public class UserController : BaseController
         }
     }
 
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [Route("ChangePassword")]
-    [Authorize]
-    public async Task<ActionResult<ChangePasswordResponseViewModel>> ChangePassword(ChangePasswordRequestViewModel request)
-    {
-
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var userToUpdate = Mapper.Map<User>(request);
-            var response = await Mediator.Send(new ChangePasswordCommand
-            {
-                UserToUpdate = userToUpdate
-            });
-
-            
-            return new OkObjectResult(new ChangePasswordResponseViewModel
-            {
-                UserName = request.UserName,
-                IsPasswordChanged = response,
-            });
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError($"Error Changing Password : {ex.Message}");
-            return BadRequest(ex.Message);
-        }
-    }
+    
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]

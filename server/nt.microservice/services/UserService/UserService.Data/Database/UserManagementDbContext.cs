@@ -17,5 +17,41 @@ public class UserManagementDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseSqlServer("Server = localhost; Database = NtUserDb; User Id = sa; Password = Admin123;");
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<UserMetaInformation>()
+                    .HasData(
+            new UserMetaInformation
+            {
+                Id = 1,
+                UserName = "jia.anu",
+                Bio = "I am jia anu",
+                DisplayName = "Jia Anu",
+            },
+            new UserMetaInformation
+            {
+                Id = 2,
+                UserName = "naina.anu",
+                Bio = "I am naina anu",
+                DisplayName = "Naina Anu",
+            },
+            new UserMetaInformation
+            {
+                Id = 3,
+                UserName = "sreena.anu",
+                Bio = "I am sreena anu",
+                DisplayName = "Sreena Anu",
+            },
+            new UserMetaInformation
+            {
+                Id = 4,
+                UserName = "admin",
+                Bio = "I am admin",
+                DisplayName = "Admin",
+            });
+    }
     public DbSet<UserMetaInformation> UserMetaInformation { get; set; }
+
 }

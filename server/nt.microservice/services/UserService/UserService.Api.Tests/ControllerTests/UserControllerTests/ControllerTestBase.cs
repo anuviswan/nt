@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
@@ -14,5 +16,11 @@ public class ControllerTestBase
         {
             controller.ModelState.AddModelError(validationResult.MemberNames.First(), validationResult.ErrorMessage);
         }
+    }
+
+    protected ILogger<T> CreateNullLogger<T>()
+    {
+        var loggerFactory = new NullLoggerFactory();
+        return loggerFactory.CreateLogger<T>();
     }
 }
