@@ -8,9 +8,6 @@ public class ProfileMap:Profile
     {
         CreateMap<CreateUserRequestViewModel, User>();
         CreateMap<CreateUserRequestViewModel, UserMetaInformation>();
-        CreateMap<ChangePasswordRequestViewModel,User>();
-
         CreateMap<UserMetaInformation, CreateUserResponseViewModel>();
-
     }
 }

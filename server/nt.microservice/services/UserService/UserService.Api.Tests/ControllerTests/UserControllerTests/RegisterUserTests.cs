@@ -17,8 +17,8 @@ public class RegisterUserTests:ControllerTestBase
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(),It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand,CancellationToken>((x,_)=> Task.FromResult(new UserMetaInformation
             {
-                UserName = x.User.UserName,
-                DisplayName = x.User.DisplayName
+                UserName = x.UserProfile.UserName,
+                DisplayName = x.UserProfile.DisplayName
             }));
         
         var mockMapper = new Moq.Mock<IMapper>();
@@ -70,8 +70,8 @@ public class RegisterUserTests:ControllerTestBase
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand, CancellationToken>((x, _) => Task.FromResult(new UserMetaInformation
             {
-                UserName = x.User.UserName,
-                DisplayName = x.User.DisplayName
+                UserName = x.UserProfile.UserName,
+                DisplayName = x.UserProfile.DisplayName
             }));
 
         var mockMapper = new Moq.Mock<IMapper>();

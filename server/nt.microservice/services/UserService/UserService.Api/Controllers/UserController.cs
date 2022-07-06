@@ -25,10 +25,13 @@ public class UserController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var userToCreate = Mapper.Map<UserMetaInformation>(user);
+            var userProfileToCreate = Mapper.Map<UserMetaInformation>(user);
+            var userCredentialToCreate = Mapper.Map<User>(user);
+
             var result = await Mediator.Send(new CreateUserCommand
             {
-                User = userToCreate,
+                UserProfile = userProfileToCreate,
+                UserCredential = userCredentialToCreate
             });
             return new OkObjectResult(Mapper.Map<CreateUserResponseViewModel>(result));
         }

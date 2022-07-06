@@ -22,7 +22,7 @@ public class CreateUserCommandHandlerTests
         var userInfo = result.Should().BeOfType<UserMetaInformation>().Subject;
         userInfo.Should().BeEquivalentTo<UserMetaInformation>(expectedResult);
 
-        mockUserMetaRepository.Verify(x => x.AddAsync(request.User), Times.Exactly(1));
+        mockUserMetaRepository.Verify(x => x.AddAsync(request.UserProfile), Times.Exactly(1));
     }
 
 
@@ -32,7 +32,7 @@ public class CreateUserCommandHandlerTests
         {
             new CreateUserCommand
             {
-                User = new UserMetaInformation
+                UserProfile = new UserMetaInformation
                 {
                     UserName = "JiaAndNaina",
                     DisplayName = "Jia Naina"
@@ -66,7 +66,7 @@ public class CreateUserCommandHandlerTests
             .Should()
             .ThrowAsync<ArgumentNullException>(); ;
 
-        mockUserMetaRepository.Verify(x => x.AddAsync(request.User), Times.Never);
+        mockUserMetaRepository.Verify(x => x.AddAsync(request.UserProfile), Times.Never);
     }
     public static IEnumerable<object[]> Handle_InvalidData_ThrowException_Data => new List<object[]>
     {
