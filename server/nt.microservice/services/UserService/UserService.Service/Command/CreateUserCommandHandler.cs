@@ -8,7 +8,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserM
     }
     public async Task<UserMetaInformation> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request?.User);
-        return await _userMetaInformationRepository.AddAsync(request.User);
+        ArgumentNullException.ThrowIfNull(request?.UserProfile);
+        return await _userMetaInformationRepository.AddAsync(request.UserProfile);
     }
 }

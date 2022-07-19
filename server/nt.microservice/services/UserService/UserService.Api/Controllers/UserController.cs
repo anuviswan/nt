@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MassTransit;
+using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
 using UserService.Domain.Entities;
 
@@ -8,8 +9,10 @@ namespace UserService.Api.Controllers;
 [Route("Users")]
 public class UserController : BaseController
 {
-    public UserController(IMediator mediator,IMapper mapper, ILogger<UserController> logger):base(mediator,mapper,logger)
+    private readonly IPublishEndpoint  _publishEndPoint;
+    public UserController(IMediator mediator,IMapper mapper, ILogger<UserController> logger, IPublishEndpoint publishEndPoint):base(mediator,mapper,logger)
     {
+        _publishEndPoint = publishEndPoint;
     }
 
     [HttpPost]
@@ -25,10 +28,19 @@ public class UserController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var userToCreate = Mapper.Map<UserMetaInformation>(user);
+            var userProfileToCreate = Mapper.Map<UserMetaInformation>(user);
+            var userCredentialToCreate = Mapper.Map<User>(user);
+
             var result = await Mediator.Send(new CreateUserCommand
             {
-                User = userToCreate,
+                UserProfile = userProfileToCreate,
+                UserCredential = userCredentialToCreate
+            });
+
+            await _publishEndPoint.Publish<CreateUserDto>(new()
+            {
+                UserName = userCredentialToCreate.UserName,
+                Password = userCredentialToCreate.Password
             });
             return new OkObjectResult(Mapper.Map<CreateUserResponseViewModel>(result));
         }

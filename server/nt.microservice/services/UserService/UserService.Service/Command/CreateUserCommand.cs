@@ -1,5 +1,7 @@
 ﻿namespace UserService.Service.Command;
+
 public class CreateUserCommand:IRequest<UserMetaInformation>
 {
-    public UserMetaInformation User { get; set; }
+    public UserMetaInformation UserProfile { get; set; }
+    public User UserCredential { get; set; }
 }
