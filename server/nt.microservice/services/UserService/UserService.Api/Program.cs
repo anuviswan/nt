@@ -3,8 +3,11 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
 using UserService.Api.Controllers;
+using MassTransit;
+using UserService.Api.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
+var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitSettings)).Get<RabbitSettings>();
 var corsPolicy = "_ntClientAppsOrigins";
 
 builder.Services.AddCors(option => {
@@ -39,7 +42,15 @@ builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericReposit
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
-
+builder.Services.AddMassTransit(mt =>
+                        mt.UsingRabbitMq((cntxt, cfg) =>
+                        {
+                            cfg.Host(rabbitMqSettings.Uri, "/", c =>
+                            {
+                                c.Username(rabbitMqSettings.UserName);
+                                c.Password(rabbitMqSettings.Password);
+                            });
+                        }));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
