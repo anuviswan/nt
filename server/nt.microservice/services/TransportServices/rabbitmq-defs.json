@@ -1,0 +1,32 @@
+{
+    "exchanges": [
+      {
+        "name": "HelloQueue",
+        "vhost": "/",
+        "type": "fanout",
+        "durable": true,
+        "auto_delete": false,
+        "internal": false,
+        "arguments": {}
+      }
+    ],
+    "queues": [
+      {
+        "name": "HelloQueue",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      }
+    ],
+    "bindings": [
+      {
+        "source": "HelloQueue",
+        "vhost": "/",
+        "destination": "HelloQueue",
+        "destination_type": "queue",
+        "routing_key": "*",
+        "arguments": {}
+      }
+    ]
+  }

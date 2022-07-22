@@ -1,0 +1,17 @@
+version: '3'
+services:
+  localRabbitMQ:
+    image: "rabbitmq:3.10.6-management-alpine"
+    ports:
+      - 5672:5672
+      - 15672:15671
+    volumes:
+      - type: bind
+        source: ./rabbitmq-enabled-plugins
+        target: /etc/rabbitmq/enabled_plugins
+      - type: bind
+        source: ./rabbitmq.config
+        target: /etc/rabbitmq/rabbitmq.config
+      - type: bind
+        source: ./rabbitmq-defs.json
+        target: /etc/rabbitmq/rabbitmq-defs.json
