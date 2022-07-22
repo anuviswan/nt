@@ -3,9 +3,9 @@
   "users": [
    {
     "name": "user1",
-    "password_hash": "pass1",
+    "password_hash": "kI3GCqW5JLMJa4iX1lo7X4D6XbYqlLgxIs30+P6tENUV2POR",
     "hashing_algorithm": "rabbit_password_hashing_sha256",
-    "tags": ""
+    "tags": "administrator"
    },
    {
     "name": "adminuser",
