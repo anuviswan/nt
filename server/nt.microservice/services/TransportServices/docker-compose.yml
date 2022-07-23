@@ -5,16 +5,16 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-    environment:
-        RABBITMQ_DEFAULT_USER : user
-        RABBITMQ_DEFAULT_PASS : password      
     volumes:
       - type: bind
         source: ./rabbitmq-enabled-plugins
         target: /etc/rabbitmq/enabled_plugins
+
+# rabbitmq.conf : to be used if using the new INI format
+# rabbitmq.config to be used when using the old ERLANG format      
       - type: bind
         source: ./rabbitmq.config
-        target: /etc/rabbitmq/rabbitmq.config
+        target: /etc/rabbitmq/rabbitmq.conf
       - type: bind
         source: ./rabbitmq-defs.json
-        target: /etc/rabbitmq/rabbitmq-defs.json
+        target: /etc/rabbitmq/definitions.json
