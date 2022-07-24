@@ -27,6 +27,13 @@
     "vhosts":[
       {"name":"/"}
   ],
+  "permissions": [{
+    "user": "ntuser",
+    "vhost": "/",
+    "configure": ".*",
+    "write": ".*",
+    "read": ".*"
+}],
     "queues": [
       {
         "name": "HelloQueue",
