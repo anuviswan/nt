@@ -96,19 +96,24 @@ services:
 
   # $ docker run -d --hostname demo-rabbit --name demo-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 rabbitmq:3-management
 
-  nt.rabbitmq.ams:
-    image: rabbitmq:3-management
-    hostname: nt.rabbitmq.ams
-    environment:
-        RABBITMQ_DEFAULT_USER : user
-        RABBITMQ_DEFAULT_PASS : password
-    networks:
-        nt.common.network:
+  nt.common.rabbitmq:
+    image: "rabbitmq:3.10.6-management-alpine"
     ports:
-        - 15672:15672
-        - 5672:5672
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - type: bind
+        source: ./services/transportservices/rabbitmq-enabled-plugins
+        target: /etc/rabbitmq/enabled_plugins
 
-
+# rabbitmq.conf : to be used if using the new INI format
+# rabbitmq.config to be used when using the old ERLANG format      
+      - type: bind
+        source: ./services/transportservices/rabbitmq.config
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ./services/transportservices/rabbitmq-defs.json
+        target: /etc/rabbitmq/definitions.json
   # HELPER SERVICES
 
   # Portainer
