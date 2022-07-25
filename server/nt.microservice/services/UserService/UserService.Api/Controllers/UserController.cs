@@ -31,18 +31,18 @@ public class UserController : BaseController
             var userProfileToCreate = Mapper.Map<UserMetaInformation>(user);
             var userCredentialToCreate = Mapper.Map<User>(user);
 
-            var result = await Mediator.Send(new CreateUserCommand
-            {
-                UserProfile = userProfileToCreate,
-                UserCredential = userCredentialToCreate
-            });
+            //var result = await Mediator.Send(new CreateUserCommand
+            //{
+            //    UserProfile = userProfileToCreate,
+            //    UserCredential = userCredentialToCreate
+            //});
 
             await _publishEndPoint.Publish<CreateUserDto>(new()
             {
                 UserName = userCredentialToCreate.UserName,
                 Password = userCredentialToCreate.Password
             });
-            return new OkObjectResult(Mapper.Map<CreateUserResponseViewModel>(result));
+            return new OkObjectResult(Mapper.Map<CreateUserResponseViewModel>(null));
         }
         catch(Exception ex)
         {

@@ -92,7 +92,28 @@ services:
         - 1433:1433  
 
 
+  # Aschronous Messaging Services
 
+  # $ docker run -d --hostname demo-rabbit --name demo-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 rabbitmq:3-management
+
+  nt.common.rabbitmq:
+    image: "rabbitmq:3.10.6-management-alpine"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - type: bind
+        source: ./services/transportservices/rabbitmq-enabled-plugins
+        target: /etc/rabbitmq/enabled_plugins
+
+# rabbitmq.conf : to be used if using the new INI format
+# rabbitmq.config to be used when using the old ERLANG format      
+      - type: bind
+        source: ./services/transportservices/rabbitmq.config
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ./services/transportservices/rabbitmq-defs.json
+        target: /etc/rabbitmq/definitions.json
   # HELPER SERVICES
 
   # Portainer
