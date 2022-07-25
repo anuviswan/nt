@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MassTransit;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 
@@ -14,6 +15,9 @@ public class RegisterUserTests:ControllerTestBase
     {
         var cancellationToken = default(CancellationToken);
         var mockMediator = new Moq.Mock<IMediator>();
+        var mockMapper = new Moq.Mock<IMapper>();
+        var mockPublishEndPoint = new Moq.Mock<IPublishEndpoint>()
+;
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(),It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand,CancellationToken>((x,_)=> Task.FromResult(new UserMetaInformation
             {
@@ -21,7 +25,7 @@ public class RegisterUserTests:ControllerTestBase
                 DisplayName = x.UserProfile.DisplayName
             }));
         
-        var mockMapper = new Moq.Mock<IMapper>();
+        
         mockMapper.Setup(x => x.Map<UserMetaInformation>(It.IsAny<CreateUserRequestViewModel>())).Returns<CreateUserRequestViewModel>(x => new UserMetaInformation
         {
             UserName = x.UserName,
@@ -34,9 +38,11 @@ public class RegisterUserTests:ControllerTestBase
             UserName = x.UserName,
         });
 
+        mockPublishEndPoint.Setup(x => x.Publish(It.IsAny<object>(), It.IsAny<CancellationToken>()));
+
         var nullLogger = CreateNullLogger<UserController>();
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger);
+        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger, mockPublishEndPoint.Object);
         MockModelState(request, userController);
         var actualResult = await userController.RegisterUser(request);
 
@@ -67,6 +73,9 @@ public class RegisterUserTests:ControllerTestBase
     {
         #region Arrange
         var mockMediator = new Moq.Mock<IMediator>();
+        var mockMapper = new Moq.Mock<IMapper>();
+        var mockPublishEndPoint = new Moq.Mock<IPublishEndpoint>();
+
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand, CancellationToken>((x, _) => Task.FromResult(new UserMetaInformation
             {
@@ -74,7 +83,7 @@ public class RegisterUserTests:ControllerTestBase
                 DisplayName = x.UserProfile.DisplayName
             }));
 
-        var mockMapper = new Moq.Mock<IMapper>();
+        
         mockMapper.Setup(x => x.Map<UserMetaInformation>(It.IsAny<CreateUserRequestViewModel>())).Returns<CreateUserRequestViewModel>(x => new UserMetaInformation
         {
             UserName = x.UserName,
@@ -93,7 +102,7 @@ public class RegisterUserTests:ControllerTestBase
 
         #region Act
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger);
+        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger, mockPublishEndPoint.Object);
         MockModelState(request, userController);
         var actualResult = await userController.RegisterUser(request);
 

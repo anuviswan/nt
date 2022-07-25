@@ -7,7 +7,7 @@ using MassTransit;
 using UserService.Api.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
-var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitSettings)).Get<RabbitSettings>();
+var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
 var corsPolicy = "_ntClientAppsOrigins";
 
 builder.Services.AddCors(option => {
@@ -45,7 +45,7 @@ builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformation
 builder.Services.AddMassTransit(mt =>
                         mt.UsingRabbitMq((cntxt, cfg) =>
                         {
-                            cfg.Host(rabbitMqSettings.Uri, "/", c =>
+                            cfg.Host("localhost", "/", c =>
                             {
                                 c.Username(rabbitMqSettings.UserName);
                                 c.Password(rabbitMqSettings.Password);
