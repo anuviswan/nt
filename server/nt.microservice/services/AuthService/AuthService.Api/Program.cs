@@ -16,6 +16,7 @@ using NLog.Extensions.Logging;
 using System.Text;
 using NLog;
 using NLog.Web;
+using MassTransit;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
