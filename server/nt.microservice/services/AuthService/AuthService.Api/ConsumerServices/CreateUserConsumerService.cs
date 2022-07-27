@@ -11,6 +11,7 @@ public class CreateUserConsumerService : IConsumer<CreateUserDto>
 {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
+
     public CreateUserConsumerService(IMapper mapper, IMediator mediator)
     {
         (_mapper, _mediator) = (mapper, mediator);
@@ -25,6 +26,6 @@ public class CreateUserConsumerService : IConsumer<CreateUserDto>
             User = userModel,
         });
 
-        //var response = _mapper.Map<AddUserResponseViewModel>(result);
+       // var response = _mapper.Map<AddUserResponseViewModel>(result);
     }
 }
