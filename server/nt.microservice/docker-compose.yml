@@ -101,6 +101,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+        nt.common.network:
+        nt.userservice.network:
+        nt.authservice.network:
+
     volumes:
       - type: bind
         source: ./services/transportservices/rabbitmq-enabled-plugins
