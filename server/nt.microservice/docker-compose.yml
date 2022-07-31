@@ -77,6 +77,10 @@ services:
     networks:
       nt.common.network:
       nt.userservice.network:
+    depends_on:
+        - "nt.common.rabbitmq"
+        - "nt.userservice.db"
+
     
   # Database
   nt.userservice.db:
@@ -98,16 +102,18 @@ services:
 
   nt.common.rabbitmq:
     image: "rabbitmq:3.10.6-management-alpine"
+    hostname: "ntqueue"
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+        nt.common.network:
+        nt.userservice.network:
+        nt.authservice.network:
     volumes:
       - type: bind
         source: ./services/transportservices/rabbitmq-enabled-plugins
         target: /etc/rabbitmq/enabled_plugins
-
-# rabbitmq.conf : to be used if using the new INI format
-# rabbitmq.config to be used when using the old ERLANG format      
       - type: bind
         source: ./services/transportservices/rabbitmq.config
         target: /etc/rabbitmq/rabbitmq.conf
