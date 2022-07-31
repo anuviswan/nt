@@ -71,8 +71,9 @@ internal class Program
                                         c.Password(rabbitMqSettings.Password);
                                     });
 
-                                    cfg.ReceiveEndpoint("abc", (d) =>
+                                    cfg.ReceiveEndpoint("CreateUserDtoQueue", (d) =>
                                     {
+                                        d.Bind("nt.shared.dto.User:CreateUserDto");
                                         d.Consumer<CreateUserConsumerService>(cntxt);
                                     });
 
