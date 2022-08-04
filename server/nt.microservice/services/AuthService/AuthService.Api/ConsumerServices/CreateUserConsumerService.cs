@@ -12,7 +12,7 @@ public class CreateUserConsumerService : IConsumer<CreateUserDto>
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public CreateUserConsumerService(IMapper mapper, IMediator mediator)
+    public CreateUserConsumerService([FromServices]IMapper mapper, [FromServices] IMediator mediator)
     {
         (_mapper, _mediator) = (mapper, mediator);
     }
