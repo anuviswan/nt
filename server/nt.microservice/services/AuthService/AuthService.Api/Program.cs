@@ -42,46 +42,29 @@ internal class Program
 
         var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
         builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
-        //builder.Services.AddMassTransit(mt => 
-        //                        mt.UsingRabbitMq((cxt, cfg) =>
-        //                        {
-        //                            cfg.Host(rabbitMqSettings.Uri, "/", c =>
-        //                            {
-        //                                c.Username(rabbitMqSettings.UserName);
-        //                                c.Password(rabbitMqSettings.Password);
-        //                            });
 
-        //                            cfg.ReceiveEndpoint("createuserqueue", (c) =>
-        //                            {
-        //                                c.Consumer<CreateUserDtoConsumer>();
-        //                            });
-
-        //                            cfg.ReceiveEndpoint("samplequeue", (c) =>
-        //                            {
-        //                                c.Consumer<CreateUserDtoConsumer>();
-        //                            });
-        //                        }));
+        var serviceProvider = builder.Services.BuildServiceProvider();
+        var mapperService = serviceProvider.GetService<IMapper>();
+        var mediatorService = serviceProvider.GetService<IMediator>();
 
         builder.Services.AddMassTransit(mt =>
-                                mt.UsingRabbitMq((cntxt, cfg) =>
                                 {
-                                    cfg.Host(rabbitMqSettings.Uri, "/", c =>
+                                    mt.UsingRabbitMq((cntxt, cfg) =>
                                     {
-                                        c.Username(rabbitMqSettings.UserName);
-                                        c.Password(rabbitMqSettings.Password);
-                                    });
+                                        cfg.Host(rabbitMqSettings.Uri, "/", c =>
+                                        {
+                                            c.Username(rabbitMqSettings.UserName);
+                                            c.Password(rabbitMqSettings.Password);
+                                        });
 
-                                    cfg.ReceiveEndpoint("CreateUserDtoQueue", (d) =>
-                                    {
-                                        d.Bind("nt.shared.dto.User:CreateUserDto");
-                                        d.Consumer<CreateUserConsumerService>(cntxt);
-                                    });
+                                        cfg.ReceiveEndpoint("CreateUserDtoQueue", (d) =>
+                                        {
+                                            d.Bind("nt.shared.dto.User:CreateUserDto");
+                                            d.Consumer<CreateUserConsumerService>(()=>new CreateUserConsumerService(mapperService!, mediatorService!));
+                                        });
 
-                            //cfg.ReceiveEndpoint("samplequeue", (c) =>
-                            //{
-                            //    c.Consumer<CreateUserDtoConsumer>();
-                            //});
-                                }));
+                                    });
+                                  });
 
         builder.Services.AddFluentValidation();
         builder.Services.AddValidators();
