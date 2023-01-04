@@ -1,8 +1,5 @@
-﻿using AuthService.Data.Database;
-using AuthService.Domain.Entities;
-using Dapper;
+﻿using AuthService.Domain.Entities;
 using DapperExtensions;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace AuthService.Data.Repository;

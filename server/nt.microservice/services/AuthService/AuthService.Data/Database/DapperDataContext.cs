@@ -8,7 +8,7 @@ namespace AuthService.Data.Database;
 
 public class DapperDataContext : IDataContext
 {
-    private IDbTransaction _dbTransaction;
+    private IDbTransaction? _dbTransaction;
     
     private Lazy<UserRepository> _userRepository;
 
@@ -29,6 +29,7 @@ public class DapperDataContext : IDataContext
 
     public void Commit()
     {
+        ArgumentNullException.ThrowIfNull(_dbTransaction, nameof(_dbTransaction));
         try
         {
             _dbTransaction.Commit();

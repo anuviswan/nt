@@ -8,7 +8,7 @@ namespace AuthService.Data.Database;
 public class PgUnitOfWorkFactory : IUnitOfWorkFactory
 {
     private readonly string _connectionString;
-    private IDataContext _dataContext;
+    private IDataContext? _dataContext;
     public PgUnitOfWorkFactory(string connectionString)
     {
         _connectionString = connectionString;
