@@ -7,7 +7,7 @@ public class UserMetaInformationRepository : GenericRepository<UserMetaInformati
     {
     }
 
-    public async Task<UserMetaInformation?> GetUser(string username)
+    public async Task<UserMetaInformation> GetUser(string username)
     {
         return await UserDbContext.UserMetaInformation
             .FirstOrDefaultAsync(x => x.UserName.ToLower() == username.ToLower());
