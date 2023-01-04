@@ -56,7 +56,7 @@ public class UserController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Route("DemoMethod")]
-    public Task<ActionResult<string>> DemoMethod()
+    public async Task<ActionResult<string>> DemoMethod()
     {
         Logger.LogError("Forced Error");
         return new OkObjectResult("Random");
