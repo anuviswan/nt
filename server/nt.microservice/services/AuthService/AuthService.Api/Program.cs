@@ -36,6 +36,8 @@ builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
+
+ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
 builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
 
 builder.Services.AddFluentValidation();
@@ -62,10 +64,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudiences = new string[]
             {
-                builder.Configuration["Jwt:Aud1"],
-                builder.Configuration["Jwt:Aud2"]
+                builder.Configuration["Jwt:Aud1"]!,
+                builder.Configuration["Jwt:Aud2"]!
             },
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 var app = builder.Build();
