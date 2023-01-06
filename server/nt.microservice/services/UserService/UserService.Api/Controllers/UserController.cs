@@ -37,7 +37,7 @@ public class UserController : BaseController
             //    UserCredential = userCredentialToCreate
             //});
 
-            await _publishEndPoint.Publish<CreateUserDto>(new()
+            await _publishEndPoint.Publish<CreateUserInitiated>(new()
             {
                 UserName = userCredentialToCreate.UserName,
                 Password = userCredentialToCreate.Password
