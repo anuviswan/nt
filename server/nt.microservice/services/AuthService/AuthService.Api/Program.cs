@@ -1,55 +1,83 @@
 using AuthService.Api.Authentication;
+using AuthService.Api.ConsumerServices;
 using AuthService.Api.Helpers.ExtensionMethods;
-using AuthService.Api.ViewModels.Validatators;
-using AuthService.Api.ViewModels.Validate;
+using AuthService.Api.Settings;
 using AuthService.Data.Database;
 using AuthService.Data.Repository;
 using AuthService.Service.Query;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using NLog.Extensions.Logging;
-using System.Text;
 using NLog;
 using NLog.Web;
+using System.Text;
 
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-logger.Debug("init main");
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        logger.Debug("init main");
 
-var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
-builder.Services.AddDapperTypeMaps();
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-var config = TypeAdapterConfig.GlobalSettings;
-builder.Services.AddSingleton(config);
-builder.Services.AddScoped<IMapper, ServiceMapper>();
+        var builder = WebApplication.CreateBuilder(args);
+        var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
+        // Add services to the container.
+        builder.Services.AddDapperTypeMaps();
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        var config = TypeAdapterConfig.GlobalSettings;
+        builder.Services.AddSingleton(config);
+        builder.Services.AddScoped<IMapper, ServiceMapper>();
 
-builder.Services.AddSingleton<ITokenGenerator,JwtTokenGenerator>();
-builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
-builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+        builder.Services.AddSingleton<ITokenGenerator, JwtTokenGenerator>();
+        builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
+        builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
 
 ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
 builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
 
-builder.Services.AddFluentValidation();
-builder.Services.AddValidators();
+        var serviceProvider = builder.Services.BuildServiceProvider();
+        var mapperService = serviceProvider.GetService<IMapper>();
+        var mediatorService = serviceProvider.GetService<IMediator>();
 
-builder.Logging.ClearProviders();
-builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-builder.Host.UseNLog();
+        builder.Services.AddMassTransit(mt =>
+                                {
+                                    mt.UsingRabbitMq((cntxt, cfg) =>
+                                    {
+                                        cfg.Host(rabbitMqSettings.Uri, "/", c =>
+                                        {
+                                            c.Username(rabbitMqSettings.UserName);
+                                            c.Password(rabbitMqSettings.Password);
+                                        });
 
-builder.Services.AddLogging(c =>
-{
-});
+                                        cfg.ReceiveEndpoint("CreateUserDtoQueue", (d) =>
+                                        {
+                                            d.Bind("nt.shared.dto.User:CreateUserDto");
+                                            d.Consumer<CreateUserConsumerService>(()=>new CreateUserConsumerService(mapperService!, mediatorService!));
+                                        });
+
+                                    });
+                                  });
+
+        builder.Services.AddFluentValidation();
+        builder.Services.AddValidators();
+
+        builder.Logging.ClearProviders();
+        builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+        builder.Host.UseNLog();
+
+        builder.Services.AddLogging(c =>
+        {
+        });
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -72,17 +100,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        //app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllers();
+        app.Run();
+    }
 }
-
-//app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-app.Run();

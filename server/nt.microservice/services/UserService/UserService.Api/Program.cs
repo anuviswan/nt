@@ -45,7 +45,7 @@ builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformation
 builder.Services.AddMassTransit(mt =>
                         mt.UsingRabbitMq((cntxt, cfg) =>
                         {
-                            cfg.Host("localhost", "/", c =>
+                            cfg.Host(rabbitMqSettings.Host, "/", c =>
                             {
                                 c.Username(rabbitMqSettings.UserName);
                                 c.Password(rabbitMqSettings.Password);
