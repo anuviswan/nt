@@ -7,7 +7,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public IEnumerable<TEntity> GetAll() => UserDbContext.Set<TEntity>();
 
-    public async Task<TEntity> GetByIdAsync(long id)
+    public async Task<TEntity?> GetByIdAsync(long id)
     {
         return await UserDbContext.Set<TEntity>().FindAsync(id);
     }

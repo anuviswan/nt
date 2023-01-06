@@ -9,7 +9,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
 
     }
-    public async Task<User> ValidateUser(User user)
+    public async Task<User?> ValidateUser(User user)
     {
         var users = await GetAll(); 
         var userFound = users.FirstOrDefault(x => x.UserName.ToLower().Equals(user.UserName.ToLower()) &&

@@ -43,8 +43,8 @@ public class AddUserTests:ControllerTestsBase
 
         _mediator!.Send(Arg.Any<AddUserCommand>()).Returns(r => new User 
         {
-            UserName = ((AddUserCommand)r[0]).User.UserName,
-            Password = ((AddUserCommand)r[0]).User.Password,
+            UserName = ((AddUserCommand)r[0]).User!.UserName,
+            Password = ((AddUserCommand)r[0]).User!.Password,
         });
 
         // Act
