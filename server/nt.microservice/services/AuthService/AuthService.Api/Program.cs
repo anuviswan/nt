@@ -40,10 +40,8 @@ internal class Program
         builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
         builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
-
-ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
-builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
+        var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
+        builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
 
         var serviceProvider = builder.Services.BuildServiceProvider();
         var mapperService = serviceProvider.GetService<IMapper>();
@@ -62,7 +60,7 @@ builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory
                                         cfg.ReceiveEndpoint("CreateUserDtoQueue", (d) =>
                                         {
                                             d.Bind("nt.shared.dto.User:CreateUserDto");
-                                            d.Consumer<CreateUserConsumerService>(()=>new CreateUserConsumerService(mapperService!, mediatorService!));
+                                            d.Consumer<CreateUserInitiatedConsumer>(()=>new CreateUserInitiatedConsumer(mapperService!, mediatorService!));
                                         });
 
                                     });
@@ -80,25 +78,25 @@ builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory
         });
 
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(option =>
-    {
-        option.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudiences = new string[]
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(option =>
             {
-                builder.Configuration["Jwt:Aud1"]!,
-                builder.Configuration["Jwt:Aud2"]!
-            },
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-        };
-    });
-var app = builder.Build();
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudiences = new string[]
+                    {
+                builder.Configuration["Jwt:Aud1"],
+                builder.Configuration["Jwt:Aud2"]
+                    },
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
+        var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

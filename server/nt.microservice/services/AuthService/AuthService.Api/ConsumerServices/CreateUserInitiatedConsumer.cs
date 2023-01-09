@@ -7,16 +7,16 @@ using nt.shared.dto.User;
 
 namespace AuthService.Api.ConsumerServices;
 
-public class CreateUserConsumerService : IConsumer<CreateUserDto>
+public class CreateUserInitiatedConsumer : IConsumer<CreateUserInitiated>
 {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public CreateUserConsumerService([FromServices]IMapper mapper, [FromServices] IMediator mediator)
+    public CreateUserInitiatedConsumer([FromServices]IMapper mapper, [FromServices] IMediator mediator)
     {
         (_mapper, _mediator) = (mapper, mediator);
     }
-    public async Task Consume(ConsumeContext<CreateUserDto> context)
+    public async Task Consume(ConsumeContext<CreateUserInitiated> context)
     {
         var userModel = _mapper.Map<User>(context.Message);
         userModel.Id = Guid.NewGuid();
@@ -27,5 +27,13 @@ public class CreateUserConsumerService : IConsumer<CreateUserDto>
         });
 
        // var response = _mapper.Map<AddUserResponseViewModel>(result);
+    }
+}
+
+public class CreateUserInitiatedConsumerDefinition: ConsumerDefinition<CreateUserInitiatedConsumer>
+{
+    public CreateUserInitiatedConsumerDefinition()
+    {
+        EndpointName = $"{nameof(CreateUserInitiatedConsumer)}-{CreateUserInitiated.QueueName}";
     }
 }
