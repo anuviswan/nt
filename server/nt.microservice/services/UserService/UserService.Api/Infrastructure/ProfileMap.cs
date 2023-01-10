@@ -9,5 +9,7 @@ public class ProfileMap:Profile
         CreateMap<CreateUserRequestViewModel, User>();
         CreateMap<CreateUserRequestViewModel, UserMetaInformation>();
         CreateMap<UserMetaInformation, CreateUserResponseViewModel>();
+
+        
     }
 }
