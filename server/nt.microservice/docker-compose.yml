@@ -100,6 +100,8 @@ services:
 
   # $ docker run -d --hostname demo-rabbit --name demo-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 rabbitmq:3-management
 
+  # ntuser/pass
+  # administrator/pass
   nt.common.rabbitmq:
     image: "rabbitmq:3.10.6-management-alpine"
     hostname: "ntqueue"
