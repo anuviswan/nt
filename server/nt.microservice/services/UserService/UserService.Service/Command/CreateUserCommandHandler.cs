@@ -9,6 +9,11 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserM
     public async Task<UserMetaInformation> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request?.UserProfile);
-        return await _userMetaInformationRepository.AddAsync(request.UserProfile);
+        var response = await _userMetaInformationRepository.AddAsync(request.UserProfile);
+        if(response.Id > 0)
+        {
+
+        }
+        return response;
     }
 }
