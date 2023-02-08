@@ -56,8 +56,8 @@
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 10000,
-        "TimeoutValue": 3000
+        "DurationOfBreak": 1000,
+        "TimeoutValue": 10000
       }
 
     },

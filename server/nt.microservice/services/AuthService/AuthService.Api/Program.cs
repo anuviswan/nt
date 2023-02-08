@@ -5,6 +5,7 @@ using AuthService.Api.Settings;
 using AuthService.Data.Database;
 using AuthService.Data.Repository;
 using AuthService.Service.Query;
+using FluentMigrator.Runner;
 using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
@@ -73,9 +74,11 @@ internal class Program
         builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
         builder.Host.UseNLog();
 
-        builder.Services.AddLogging(c =>
-        {
-        });
+        builder.Services//.AddLogging(x => x.AddFluentMigratorConsole())
+            .AddFluentMigratorCore()
+            .ConfigureRunner(x=>x.AddPostgres()
+            .WithGlobalConnectionString(connectionString)
+            .ScanIn(typeof(AuthService.Data.Migrations.InitialSeed202302072003).Assembly).For.Migrations());
 
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -105,6 +108,7 @@ internal class Program
             app.UseSwaggerUI();
         }
 
+        //app.Migrate();
         //app.UseHttpsRedirection();
 
         app.UseAuthentication();
