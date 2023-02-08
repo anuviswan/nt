@@ -74,7 +74,7 @@ internal class Program
         builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
         builder.Host.UseNLog();
 
-        builder.Services.AddLogging(x => x.AddFluentMigratorConsole())
+        builder.Services//.AddLogging(x => x.AddFluentMigratorConsole())
             .AddFluentMigratorCore()
             .ConfigureRunner(x=>x.AddPostgres()
             .WithGlobalConnectionString(connectionString)
@@ -108,7 +108,7 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        app.Migrate();
+        //app.Migrate();
         //app.UseHttpsRedirection();
 
         app.UseAuthentication();
