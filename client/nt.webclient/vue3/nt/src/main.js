@@ -27,6 +27,8 @@ axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 axios.interceptors.request.use((request) => {
   const header = getHttpHeader();
   request.headers = header;
+
+  console.log(request);
   return request;
 });
 

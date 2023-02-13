@@ -108,7 +108,7 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        //app.Migrate();
+        app.Migrate();
         //app.UseHttpsRedirection();
 
         app.UseAuthentication();
