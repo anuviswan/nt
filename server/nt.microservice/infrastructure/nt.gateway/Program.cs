@@ -22,6 +22,7 @@ builder.Services.AddCors(option => {
         });
 });
 
+
 builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
 

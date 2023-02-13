@@ -159,6 +159,7 @@ services:
 
 
 
+
 volumes:
   nt.authservice.db.volume:
     name: "nt.authservice.db.volume"
