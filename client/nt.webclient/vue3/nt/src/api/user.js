@@ -74,7 +74,7 @@ const registerUser = async (userName, displayName, passKey) => {
   const userDetails = {
     userName: userName,
     password: passKey,
-    //displayName: displayName,
+    displayName : displayName
   };
 
   const response = await axios.post(

@@ -13,6 +13,6 @@ public record CreateUserRequestViewModel
     [MinLength(6, ErrorMessage = $"{nameof(Password)} should be minimum 6 characters long")]
     [ValidatePassword(ErrorMessage = $"{nameof(Password)} should contain atleast one upper case character and atleast one lower case character")]
     public string Password { get; init; }
-    public string DisplayName { get; init; }
-    public string Bio { get; init; }
+    public string? DisplayName { get; set; }
+    public string? Bio { get; set; }
 }

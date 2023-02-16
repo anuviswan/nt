@@ -1,3 +1,8 @@
+/*
+   AuthService : Port 8002
+   UserService : Port 8003
+*/
+
 {
   "Routes": [
 
@@ -22,14 +27,14 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/User/AddUserAsync",
-      "DownstreamSchema": "https",
+      "DownstreamPathTemplate": "/api/Users/Register",
+      "DownstreamSchema": "http",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8002"
+          "Port": "8003"
         }
       ],
       "UpstreamPathTemplate": "/user/createuser",
@@ -39,7 +44,6 @@
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
-
     },
     {
       "DownstreamPathTemplate": "/api/authenticate/Validate",

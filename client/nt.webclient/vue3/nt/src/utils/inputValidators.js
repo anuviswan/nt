@@ -5,10 +5,11 @@ export default function useValidator(value,validators,onErrorAction,onValidActio
         
         const errors = validationResults.filter(x=>x!=null);
         if(errors.length!=0){
-        onErrorAction(errors);
+                onErrorAction(errors);
         }
         else{
-                onValidAction();
+                if(onValidAction != null)
+                        onValidAction();
         }
         return errors;
 }
