@@ -17,3 +17,10 @@ public class CreateUserInitiatedSucceededConsumer : IConsumer<CreateUserInitiate
         return Task.CompletedTask;
     }
 }
+public class CreateUserInitiatedSucceededConsumerDefinition : ConsumerDefinition<CreateUserInitiatedSucceededConsumer>
+{
+    public CreateUserInitiatedSucceededConsumerDefinition()
+    {
+        EndpointName = $"{nameof(CreateUserInitiatedSucceededConsumer)}-{CreateUserInitiatedSucceeded.QueueName}";
+    }
+}

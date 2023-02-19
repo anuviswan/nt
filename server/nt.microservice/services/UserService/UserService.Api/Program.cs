@@ -45,16 +45,22 @@ builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
 builder.Services.AddMassTransit(mt =>
-                        mt.UsingRabbitMq((cntxt, cfg) =>
                         {
                             mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedSucceededConsumer));
-                            
-                            cfg.Host(rabbitMqSettings?.Host, "/", c =>
+                            mt.UsingRabbitMq((cntxt, cfg) =>
                             {
-                                c.Username(rabbitMqSettings?.UserName);
-                                c.Password(rabbitMqSettings?.Password);
+
+
+                                cfg.Host(rabbitMqSettings?.Host, "/", c =>
+                                {
+                                    c.Username(rabbitMqSettings?.UserName);
+                                    c.Password(rabbitMqSettings?.Password);
+                                });
+
+                                cfg.ConfigureEndpoints(cntxt);
                             });
-                        }));
+                            }
+                        );
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
