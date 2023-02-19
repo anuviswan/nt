@@ -5,6 +5,7 @@ using System.Text;
 using UserService.Api.Controllers;
 using MassTransit;
 using UserService.Api.Settings;
+using UserService.Api.ConsumerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
@@ -46,10 +47,12 @@ builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformation
 builder.Services.AddMassTransit(mt =>
                         mt.UsingRabbitMq((cntxt, cfg) =>
                         {
-                            cfg.Host(rabbitMqSettings.Host, "/", c =>
+                            mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedSucceededConsumer));
+                            
+                            cfg.Host(rabbitMqSettings?.Host, "/", c =>
                             {
-                                c.Username(rabbitMqSettings.UserName);
-                                c.Password(rabbitMqSettings.Password);
+                                c.Username(rabbitMqSettings?.UserName);
+                                c.Password(rabbitMqSettings?.Password);
                             });
                         }));
 

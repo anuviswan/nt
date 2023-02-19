@@ -28,18 +28,22 @@ public class CreateUserInitiatedConsumer : IConsumer<CreateUserInitiated>
             {
                 User = userModel,
             });
+
+            await _publishEndPoint.Publish<CreateUserInitiatedSucceeded>(new ()
+            {
+                UserName = result.UserName
+            });
+
         }
         catch (Exception e)
         {
-            await _publishEndPoint.Publish<CreateUserInitiatedError>(new CreateUserInitiatedError()
+            await _publishEndPoint.Publish<CreateUserInitiatedFailed>(new ()
             {
                 ExceptionMessage = e.ToString(),
                 UserName = context.Message.UserName
             });
         }
        
-
-       // var response = _mapper.Map<AddUserResponseViewModel>(result);
     }
 }
 
