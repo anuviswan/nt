@@ -40,7 +40,7 @@ namespace nt.gateway.Ocelot
                 _logger.LogError($"Error in CircuitBreakingDelegatingHandler.SendAync", ex);
                 throw;
             }
-            catch 
+            catch (Exception ex)
             {
                 throw;
             }

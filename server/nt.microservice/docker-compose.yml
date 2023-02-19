@@ -52,6 +52,7 @@ services:
       - '5432:5432'
     volumes:
       - nt.authservice.db.volume:/var/lib/postgresql/data
+      - ./services/db/scripts:/docker-entrypoint-initdb.d
     networks:
       nt.authservice.network:
 

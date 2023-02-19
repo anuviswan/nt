@@ -24,6 +24,7 @@ var logger = new LoggerConfiguration()
   .ReadFrom.AppSettings()
   .Enrich.FromLogContext()
   .WriteTo.Console()
+  .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
   .CreateLogger();
 
 
