@@ -73,7 +73,7 @@ const searchUser = async (searchTerm) => {
 const registerUser = async (userName, displayName, passKey) => {
   const userDetails = {
     userName: userName,
-    password: passKey,
+    password: btoa(passKey),
     displayName : displayName
   };
 

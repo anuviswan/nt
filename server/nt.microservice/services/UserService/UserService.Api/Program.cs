@@ -6,6 +6,7 @@ using UserService.Api.Controllers;
 using MassTransit;
 using UserService.Api.Settings;
 using UserService.Api.ConsumerServices;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
@@ -25,7 +26,7 @@ var logger = new LoggerConfiguration()
   .ReadFrom.AppSettings()
   .Enrich.FromLogContext()
   .WriteTo.Console()
-  .WriteTo.File(Path.Combine("Logs", "log.txt"), rollingInterval: RollingInterval.Day)
+  .WriteTo.File(new CompactJsonFormatter(), Path.Combine("Logs", "log.txt"), rollingInterval: RollingInterval.Day)
   .CreateLogger();
 
 
