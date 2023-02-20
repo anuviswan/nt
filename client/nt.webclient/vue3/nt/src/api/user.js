@@ -73,8 +73,8 @@ const searchUser = async (searchTerm) => {
 const registerUser = async (userName, displayName, passKey) => {
   const userDetails = {
     userName: userName,
-    password: passKey,
-    //displayName: displayName,
+    password: btoa(passKey),
+    displayName : displayName
   };
 
   const response = await axios.post(

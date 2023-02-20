@@ -9,6 +9,7 @@ services:
   # Service
   nt.gateway.service:
     image: ${DOCKER_REGISTRY-}ntgateway
+    container_name: nt.gateway.service
     hostname: nt.gateway.service
     build:
       context: .
@@ -25,6 +26,7 @@ services:
   # Service 
   nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
+    container_name: nt.authservice.service
     hostname: nt.authservice.service
     build:
       context: .
@@ -34,11 +36,12 @@ services:
       nt.authservice.network:
     depends_on:
       - "nt.authservice.db"
-      - "nt.authservice.log.db"
+      #- "nt.authservice.log.db"
 
   # Database
   nt.authservice.db:
     image: postgres:14.1-alpine
+    container_name: nt.authservice.db
     hostname: "nt.authservice.db"
     restart: always
     environment:
@@ -49,27 +52,29 @@ services:
       - '5432:5432'
     volumes:
       - nt.authservice.db.volume:/var/lib/postgresql/data
+      - ./services/db/scripts:/docker-entrypoint-initdb.d
     networks:
       nt.authservice.network:
 
-  # Log Database for Authentication Service
-  nt.authservice.log.db:
-    image: mongo:latest
-    hostname : nt.authservice.log.db
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: admin123
-    networks:
-      nt.authservice.network:
-    volumes:
-      - nt.authservice.log.db.volume:/data/db
+  ## Log Database for Authentication Service
+  #nt.authservice.log.db:
+  #  image: mongo:latest
+  #  hostname : nt.authservice.log.db
+  #  restart: always
+  #  environment:
+  #    MONGO_INITDB_ROOT_USERNAME: root
+  #    MONGO_INITDB_ROOT_PASSWORD: admin123
+  #  networks:
+  #    nt.authservice.network:
+  #  volumes:
+  #    - nt.authservice.log.db.volume:/data/db
 
   # User Service : Responsible for User Management
   
   # Service 
   nt.userservice.service:
     image: ${DOCKER_REGISTRY-}userserviceapi
+    container_name: nt.userservice.service
     hostname: nt.userservice.service
     build:
       context: .
@@ -85,6 +90,7 @@ services:
   # Database
   nt.userservice.db:
     image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: nt.userservice.db
     hostname: nt.userservice.db
     environment:
        ACCEPT_EULA: Y
@@ -104,6 +110,7 @@ services:
   # administrator/pass
   nt.common.rabbitmq:
     image: "rabbitmq:3.10.6-management-alpine"
+    container_name: nt.common.rabbitmq
     hostname: "ntqueue"
     ports:
       - 5672:5672
@@ -127,11 +134,13 @@ services:
   # Portainer
   nt.common.portainer:
     image: portainer/portainer-ce
+    container_name: nt.common.portainer
     hostname : nt.common.portainer
 
   # PgAdmin to manage Postgres
   nt.common.pgadmin:
     image: dpage/pgadmin4:latest
+    container_name: nt.common.pgadmin
     hostname: nt.common.pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
@@ -142,20 +151,20 @@ services:
       nt.common.network:
       nt.authservice.network:
 
-  # Mongo Express to manage MongoDb
-  nt.common.mongoexpress:
-    image: mongo-express
-    hostname: nt.common.mongoexpress
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-      ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
-    networks:
-      nt.authservice.network:
-      nt.common.network:
+  ## Mongo Express to manage MongoDb
+  #nt.common.mongoexpress:
+  #  image: mongo-express
+  #  hostname: nt.common.mongoexpress
+  #  restart: always
+  #  ports:
+  #    - 8081:8081
+  #  environment:
+  #    ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #    ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
+  #    ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
+  #  networks:
+  #    nt.authservice.network:
+  #    nt.common.network:
 
 
 

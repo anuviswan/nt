@@ -6,7 +6,7 @@ using UserService.Domain.Entities;
 namespace UserService.Api.Controllers;
 
 [ApiController]
-[Route("Users")]
+[Route("api/Users")]
 public class UserController : BaseController
 {
     private readonly IPublishEndpoint  _publishEndPoint;

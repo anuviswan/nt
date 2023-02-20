@@ -48,8 +48,11 @@ internal class Program
         var mapperService = serviceProvider.GetService<IMapper>();
         var mediatorService = serviceProvider.GetService<IMediator>();
 
+
         builder.Services.AddMassTransit(mt =>
                                 {
+                                    mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedConsumer));
+
                                     mt.UsingRabbitMq((cntxt, cfg) =>
                                     {
                                         cfg.Host(rabbitMqSettings.Uri, "/", c =>
@@ -58,11 +61,7 @@ internal class Program
                                             c.Password(rabbitMqSettings.Password);
                                         });
 
-                                        cfg.ReceiveEndpoint("CreateUserDtoQueue", (d) =>
-                                        {
-                                            d.Bind("nt.shared.dto.User:CreateUserDto");
-                                            d.Consumer<CreateUserInitiatedConsumer>(()=>new CreateUserInitiatedConsumer(mapperService!, mediatorService!));
-                                        });
+                                        cfg.ConfigureEndpoints(cntxt);
 
                                     });
                                   });

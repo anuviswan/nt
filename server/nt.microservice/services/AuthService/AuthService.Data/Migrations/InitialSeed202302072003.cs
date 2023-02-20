@@ -16,7 +16,7 @@ public class InitialSeed202302072003 : Migration
     public override void Up()
     {
         Create.Table(User.TABLE_NAME)
-            .WithColumn("id").AsGuid().NotNullable().Identity().PrimaryKey()
+            .WithColumn("id").AsGuid().NotNullable().WithDefaultValue(SystemMethods.NewGuid).PrimaryKey()
             .WithColumn("username").AsString().NotNullable()
             .WithColumn("password").AsString().NotNullable();
 

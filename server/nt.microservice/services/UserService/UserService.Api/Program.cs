@@ -5,6 +5,8 @@ using System.Text;
 using UserService.Api.Controllers;
 using MassTransit;
 using UserService.Api.Settings;
+using UserService.Api.ConsumerServices;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
@@ -24,6 +26,7 @@ var logger = new LoggerConfiguration()
   .ReadFrom.AppSettings()
   .Enrich.FromLogContext()
   .WriteTo.Console()
+  .WriteTo.File(new CompactJsonFormatter(), Path.Combine("Logs", "log.txt"), rollingInterval: RollingInterval.Day)
   .CreateLogger();
 
 
@@ -43,14 +46,22 @@ builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
 builder.Services.AddMassTransit(mt =>
-                        mt.UsingRabbitMq((cntxt, cfg) =>
                         {
-                            cfg.Host(rabbitMqSettings.Host, "/", c =>
+                            mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedSucceededConsumer));
+                            mt.UsingRabbitMq((cntxt, cfg) =>
                             {
-                                c.Username(rabbitMqSettings.UserName);
-                                c.Password(rabbitMqSettings.Password);
+
+
+                                cfg.Host(rabbitMqSettings?.Host, "/", c =>
+                                {
+                                    c.Username(rabbitMqSettings?.UserName);
+                                    c.Password(rabbitMqSettings?.Password);
+                                });
+
+                                cfg.ConfigureEndpoints(cntxt);
                             });
-                        }));
+                            }
+                        );
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
