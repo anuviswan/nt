@@ -50,6 +50,18 @@ services:
       - "nt.authservice.db"
       #- "nt.authservice.log.db"
 
+  # Load Balancer for AuthService
+  nt.authservice.loadbalancer:
+    image: nginx:latest
+    volumes:
+        - services/AuthService/AuthService.LoadBalancer/nginx:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - nt.authservice.service
+    networks:
+      - nt.common.network
+      - nt.authservice.network
+
+
   # Database
   nt.authservice.db:
     image: postgres:14.1-alpine
