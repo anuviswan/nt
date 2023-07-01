@@ -96,22 +96,14 @@
   </nav>
 </template>
 
-<script>
+<script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
 
-export default {
-  name: "Navbar",
-  setup() {
-    const store = useStore();
-    const currentUser = computed(() => store.getters.currentUser);
-    console.log(currentUser.value.bio);
-    console.log("getter");
-    return {
-      currentUser,
-    };
-  },
-};
+const store = useStore();
+const currentUser = computed(() => store.getters.currentUser);
+console.log(currentUser.value.bio);
+console.log("getter");
 </script>
 
 <style></style>

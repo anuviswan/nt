@@ -32,10 +32,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "PublicDefaultTemplate",
-};
+<script setup>
 </script>
 
 <style scoped>

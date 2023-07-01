@@ -32,18 +32,15 @@
     <div class="card-body mx-auto">{{ currentUser.bio }}</div>
   </div>
 </template>
-<script>
+<script setup>
 import { toRefs, reactive } from "vue";
-export default {
-  name: "UserCard",
-  props: {
+const props = defineProps({
     user: {
       required: true,
       type: Object,
     },
-  },
-  setup(props) {
-    console.log(props.user);
+  })
+  console.log(props.user);
     const { user } = toRefs(props);
     console.log("Loading User Card");
     console.log(user.value);
@@ -65,12 +62,6 @@ export default {
     //   console.log(props.user);
     //   return user;
     // };
-
-    return {
-      currentUser,
-    };
-  },
-};
 </script>
 
 <style scoped>

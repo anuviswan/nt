@@ -99,142 +99,120 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from "vue";
 import { changePassword } from "@/api/user";
 import { minLength, isEquals } from "@/utils/validators.js";
 import useValidator from "@/utils/inputValidators.js";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 
-export default {
-  name: "ChangePassword",
-  components: {
-    ValidationMessage,
-  },
-  setup() {
-    const serverMessage = ref([]);
-    const hasServerError = ref(false);
-    const oldPassword = ref("");
-    const newPassword = ref("");
-    const confirmPassword = ref("");
-    const errors = ref([]);
+const serverMessage = ref([]);
+const hasServerError = ref(false);
+const oldPassword = ref("");
+const newPassword = ref("");
+const confirmPassword = ref("");
+const errors = ref([]);
 
-    const onSubmit = async (e) => {
-      e.preventDefault();
-      errors.value = [];
-      hasServerError.value = false;
-      serverMessage.value = [];
+const onSubmit = async (e) => {
+  e.preventDefault();
+  errors.value = [];
+  hasServerError.value = false;
+  serverMessage.value = [];
 
-      console.log(oldPassword.value);
-      console.log(newPassword.value);
-      console.log(confirmPassword.value);
+  console.log(oldPassword.value);
+  console.log(newPassword.value);
+  console.log(confirmPassword.value);
 
-      useValidator(oldPassword.value, [minLength(8)], (e) =>
-        errors.value.push({ "oldPassword": e })
-      );
+  useValidator(oldPassword.value, [minLength(8)], (e) =>
+    errors.value.push({ "oldPassword": e })
+  );
 
-      useValidator(newPassword.value, [minLength(8)], (e) =>
-        errors.value.push({ "newPassword": e })
-      );
+  useValidator(newPassword.value, [minLength(8)], (e) =>
+    errors.value.push({ "newPassword": e })
+  );
 
-      useValidator(
-        confirmPassword.value,
-        [minLength(8), isEquals(newPassword.value)],
-        (e) => errors.value.push({ "confirmPassword": e })
-      );
+  useValidator(
+    confirmPassword.value,
+    [minLength(8), isEquals(newPassword.value)],
+    (e) => errors.value.push({ "confirmPassword": e })
+  );
 
-      if (errors.value.length == 0) {
-        const response = await changePassword(
-          oldPassword.value,
-          newPassword.value
-        );
+  if (errors.value.length == 0) {
+    const response = await changePassword(
+      oldPassword.value,
+      newPassword.value
+    );
 
-        if (response.hasError) {
-          hasServerError.value = true;
-          serverMessage.value = response.error;
-          return;
-        }
+    if (response.hasError) {
+      hasServerError.value = true;
+      serverMessage.value = response.error;
+      return;
+    }
 
-        serverMessage.value.push("Password has been changed successfully.");
-        console.log(serverMessage.value);
-        console.log(response);
-      }
+    serverMessage.value.push("Password has been changed successfully.");
+    console.log(serverMessage.value);
+    console.log(response);
+  }
 
-      console.log(errors.value);
-    };
-
-    const hasError = (key) => {
-      const result = errors.value.some((x) => key in x);
-      return result;
-    };
-
-    const oldPasswordError = computed(() => {
-      if (hasError("oldPassword")) {
-        const result = errors.value.filter((x) => {
-          if (x.oldPassword) {
-            return true;
-          }
-          return false;
-        });
-        return result[0].oldPassword;
-      }
-
-      return [];
-    });
-
-    const newPasswordError = computed(() => {
-      if (hasError("newPassword")) {
-        const result = errors.value.filter((x) => {
-          if (x.newPassword) {
-            return true;
-          }
-          return false;
-        });
-        return result[0].newPassword;
-      }
-
-      return [];
-    });
-
-    const confirmPasswordError = computed(() => {
-      if (hasError("confirmPassword")) {
-        const result = errors.value.filter((x) => {
-          if (x.confirmPassword) {
-            return true;
-          }
-          return false;
-        });
-        return result[0].confirmPassword;
-      }
-
-      return [];
-    });
-
-    const showServerMessage = () => {
-      if (!serverMessage.value) {
-        return "d-none justify-content-center";
-      }
-
-      return hasServerError.value
-        ? "text-danger justify-content-center"
-        : "text-success justify-content-center";
-    };
-
-    return {
-      serverMessage,
-      oldPassword,
-      newPassword,
-      confirmPassword,
-      onSubmit,
-      hasError,
-      hasServerError,
-      showServerMessage,
-      newPasswordError,
-      oldPasswordError,
-      confirmPasswordError,
-    };
-  },
+  console.log(errors.value);
 };
+
+const hasError = (key) => {
+  const result = errors.value.some((x) => key in x);
+  return result;
+};
+
+const oldPasswordError = computed(() => {
+  if (hasError("oldPassword")) {
+    const result = errors.value.filter((x) => {
+      if (x.oldPassword) {
+        return true;
+      }
+      return false;
+    });
+    return result[0].oldPassword;
+  }
+
+  return [];
+});
+
+const newPasswordError = computed(() => {
+  if (hasError("newPassword")) {
+    const result = errors.value.filter((x) => {
+      if (x.newPassword) {
+        return true;
+      }
+      return false;
+    });
+    return result[0].newPassword;
+  }
+
+  return [];
+});
+
+const confirmPasswordError = computed(() => {
+  if (hasError("confirmPassword")) {
+    const result = errors.value.filter((x) => {
+      if (x.confirmPassword) {
+        return true;
+      }
+      return false;
+    });
+    return result[0].confirmPassword;
+  }
+
+  return [];
+});
+
+// const showServerMessage = () => {
+//   if (!serverMessage.value) {
+//     return "d-none justify-content-center";
+//   }
+
+//   return hasServerError.value
+//     ? "text-danger justify-content-center"
+//     : "text-success justify-content-center";
+// }
 </script>
 
 <style></style>

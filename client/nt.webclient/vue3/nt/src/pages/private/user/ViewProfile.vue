@@ -33,31 +33,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import UserCard from "@/components/private/user/UserCard";
 
-export default {
-  name: "ViewProfile",
-  components: {
-    UserCard,
-  },
-  setup() {
-    const store = useStore();
-    const currentUser = computed(() => store.getters.currentUser);
+const store = useStore();
+const currentUser = computed(() => store.getters.currentUser);
 
-    const user = ref({
-      userName: currentUser.value.userName,
-      displayName: currentUser.value.displayName,
-      rating: currentUser.value.rating,
-    });
+const user = ref({
+  userName: currentUser.value.userName,
+  displayName: currentUser.value.displayName,
+  rating: currentUser.value.rating,
+});
 
-    console.log("Default User");
-    console.log(user.value);
-    return { user };
-  },
-};
+console.log("Default User");
+console.log(user.value);
 </script>
 
 <style></style>

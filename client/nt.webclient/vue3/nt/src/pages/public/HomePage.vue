@@ -1,19 +1,12 @@
 <template>
   <PublicDefaultTemplate>
-    <Login />
+    <LoginUser />
   </PublicDefaultTemplate>
 </template>
 
-<script>
-import Login from "@/components/public/Login";
+<script setup>
+import LoginUser from "@/components/public/LoginUser.vue";
 import PublicDefaultTemplate from "@/components/public/PublicDefaultTemplate";
-export default {
-  name: "Home",
-  components: {
-    Login,
-    PublicDefaultTemplate,
-  },
-};
 </script>
 
 <style></style>

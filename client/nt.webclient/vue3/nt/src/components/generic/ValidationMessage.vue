@@ -13,10 +13,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ValidationMessage",
-  props: {
+<script setup>
+  const props = defineProps({
     messages: {
       type: Array,
       required: true,
@@ -26,10 +24,9 @@ export default {
       type: Boolean,
       required: true,
     },
-  },
+  })
 
-  setup(props) {
-    const getMessageClass = () => {
+  const getMessageClass = () => {
       if (!props.messages) return;
 
       if (props.messages.length == 0) {
@@ -39,13 +36,9 @@ export default {
       return props.isError
         ? "text-danger text-justify"
         : "text-success text-center";
-    };
+    }
     console.log(props);
-    return {
-      getMessageClass,
-    };
-  },
-};
+
 </script>
 
 <style></style>
