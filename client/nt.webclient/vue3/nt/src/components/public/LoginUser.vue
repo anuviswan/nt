@@ -54,71 +54,52 @@ import { validateUser } from "@/api/user.js";
 import { useStore } from "vuex";
 import router from "@/router";
 
-export default {
-  name: "LoginUser",
-  components: {
-    ValidationMessage,
-  },
-  setup() {
-    const userName = ref("");
-    const password = ref("");
-    const serverMessage = ref("");
-    const hasServerError = ref(false);
-    const clientValidationSucceeded = ref(false);
-    let errors = ref([]);
-    const store = useStore();
+const userName = ref("");
+const password = ref("");
+const serverMessage = ref("");
+const hasServerError = ref(false);
+const clientValidationSucceeded = ref(false);
+const store = useStore();
 
-    const isEmpty = (str) => {
-      return !str || str.length === 0;
-    };
-    watchEffect(() => {
-      clientValidationSucceeded.value =
-        !isEmpty(userName.value) && !isEmpty(password.value);
-    });
-
-    const onSubmit = async (e) => {
-      e.preventDefault();
-
-      var response = await validateUser(userName.value, password.value);
-      console.log(response);
-
-      if (response.hasError) {
-        if (response.errorCode == 401) {
-          hasServerError.value = true;
-          serverMessage.value = ["Invalid Username or password"];
-          return;
-        }
-        hasServerError.value = true;
-        serverMessage.value = response.error[0].title;
-        return;
-      }
-
-      const currentUser = {
-        userName: response.data.userName,
-        displayName: response.data.displayName,
-        bio: response.data.bio,
-        token: response.data.token,
-      };
-
-      console.log(currentUser);
-
-      store.dispatch("updateCurrentUser", currentUser);
-
-      console.log("User authenticated and updated, redirecting now..");
-      router.push("/p/dashboard");
-    };
-
-    return {
-      userName,
-      password,
-      serverMessage,
-      hasServerError,
-      onSubmit,
-      errors,
-      clientValidationSucceeded,
-    };
-  },
+const isEmpty = (str) => {
+  return !str || str.length === 0;
 };
+watchEffect(() => {
+  clientValidationSucceeded.value =
+    !isEmpty(userName.value) && !isEmpty(password.value);
+});
+
+const onSubmit = async (e) => {
+  e.preventDefault();
+
+  var response = await validateUser(userName.value, password.value);
+  console.log(response);
+
+  if (response.hasError) {
+    if (response.errorCode == 401) {
+      hasServerError.value = true;
+      serverMessage.value = ["Invalid Username or password"];
+      return;
+    }
+    hasServerError.value = true;
+    serverMessage.value = response.error[0].title;
+    return;
+  }
+
+  const currentUser = {
+    userName: response.data.userName,
+    displayName: response.data.displayName,
+    bio: response.data.bio,
+    token: response.data.token,
+  };
+
+  console.log(currentUser);
+
+  store.dispatch("updateCurrentUser", currentUser);
+
+  console.log("User authenticated and updated, redirecting now..");
+  router.push("/p/dashboard");
+}
 </script>
 
 <style></style>
