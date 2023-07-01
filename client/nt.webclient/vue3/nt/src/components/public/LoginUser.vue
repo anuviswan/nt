@@ -55,7 +55,7 @@ import { useStore } from "vuex";
 import router from "@/router";
 
 export default {
-  name: "Login",
+  name: "LoginUser",
   components: {
     ValidationMessage,
   },

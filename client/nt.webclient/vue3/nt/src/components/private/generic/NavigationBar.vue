@@ -101,7 +101,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
-  name: "Navbar",
+  name: "NavigationBar",
   setup() {
     const store = useStore();
     const currentUser = computed(() => store.getters.currentUser);

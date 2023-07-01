@@ -92,7 +92,7 @@ import { registerUser } from "@/api/user.js";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import router from "@/router";
 export default {
-  name: "Register",
+  name: "RegisterUser",
   components: {
     ValidationMessage,
   },

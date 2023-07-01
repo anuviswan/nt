@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from "../pages/public/Home"
+import HomePage from "../pages/public/HomePage.vue"
 import PrivateContainer from "@/pages/private/PrivateContainer"
-import Dashboard from "@/pages/private/Dashboard"
+import DashboardPage from "@/pages/private/DashboardPage"
 import RegisterPage from "@/pages/public/RegisterPage"
 import ViewProfile from "@/pages/private/user/ViewProfile.vue"
 import ChangePassword from "@/pages/private/user/ChangePassword.vue"
@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: HomePage
   },
   {
     path: '/register',
@@ -27,7 +27,7 @@ const routes = [
     children: [
       {
         path: "dashboard",
-        component: Dashboard,
+        component: DashboardPage,
       },
       {
         path:'user/:userid',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar />
+    <NavigationBar />
     <div class="pt-5">
       <router-view></router-view>
     </div>
@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Navbar from "@/components/private/generic/Navbar";
+import NavigationBar from "@/components/private/generic/NavigationBar";
 export default {
   name: "PrivateContainer",
-  components: { Navbar },
+  components: { NavigationBar },
 };
 </script>
 

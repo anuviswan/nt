@@ -1,16 +1,16 @@
 <template>
   <PublicDefaultTemplate>
-    <Login />
+    <LoginUser />
   </PublicDefaultTemplate>
 </template>
 
 <script>
-import Login from "@/components/public/Login";
+import LoginUser from "@/components/public/LoginUser.vue";
 import PublicDefaultTemplate from "@/components/public/PublicDefaultTemplate";
 export default {
-  name: "Home",
+  name: "HomePage",
   components: {
-    Login,
+    LoginUser,
     PublicDefaultTemplate,
   },
 };
