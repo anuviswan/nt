@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, watchEffect } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import { validateUser } from "@/api/user.js";

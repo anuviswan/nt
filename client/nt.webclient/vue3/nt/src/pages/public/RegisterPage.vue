@@ -4,16 +4,9 @@
   </PublicDefaultTemplate>
 </template>
 
-<script>
+<script setup>
 import RegisterUser from "@/components/public/RegisterUser";
 import PublicDefaultTemplate from "@/components/public/PublicDefaultTemplate";
-export default {
-  name: "RegisterPage",
-  components: {
-    RegisterUser,
-    PublicDefaultTemplate,
-  },
-};
 </script>
 
 <style></style>
