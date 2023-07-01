@@ -7,12 +7,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import NavigationBar from "@/components/private/generic/NavigationBar";
-export default {
-  name: "PrivateContainer",
-  components: { NavigationBar },
-};
 </script>
 
 <style></style>
