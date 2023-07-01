@@ -15,6 +15,7 @@ const getHttpHeader = () => {
     }
   }
 
+  console.log(headers);
   return headers;
 };
 

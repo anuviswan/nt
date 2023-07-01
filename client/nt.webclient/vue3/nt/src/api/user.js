@@ -82,6 +82,7 @@ const registerUser = async (userName, displayName, passKey) => {
     userDetails
   );
 
+   console.log(response);
   return response;
 };
 
