@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 services:
 
@@ -9,11 +9,17 @@ services:
   # Service
   nt.gateway.service:
     image: ${DOCKER_REGISTRY-}ntgateway
-    container_name: nt.gateway.service
+    # container_name: nt.gateway.service
     hostname: nt.gateway.service
     build:
       context: .
       dockerfile: infrastructure/nt.gateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      # volumes:
+      #  - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      #  - ~/.aspnet/https:/root/.aspnet/https:ro
     networks:
       nt.common.network:
     depends_on:
@@ -26,11 +32,17 @@ services:
   # Service 
   nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
-    container_name: nt.authservice.service
+    # container_name: nt.authservice.service
     hostname: nt.authservice.service
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ~/.aspnet/https:/root/.aspnet/https:ro
     networks:
       nt.common.network:
       nt.authservice.network:
@@ -38,18 +50,28 @@ services:
       - "nt.authservice.db"
       #- "nt.authservice.log.db"
 
+  # Load Balancer for AuthService
+  nt.authservice.loadbalancer:
+    image: nginx:latest
+    volumes:
+        - services/AuthService/AuthService.LoadBalancer/nginx:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - nt.authservice.service
+    networks:
+      - nt.common.network
+      - nt.authservice.network
+
+
   # Database
   nt.authservice.db:
     image: postgres:14.1-alpine
-    container_name: nt.authservice.db
+    # container_name: nt.authservice.db
     hostname: "nt.authservice.db"
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Admin123
       - POSTGRES_DB=ntuserauth
-    ports:
-      - '5432:5432'
     volumes:
       - nt.authservice.db.volume:/var/lib/postgresql/data
       - ./services/db/scripts:/docker-entrypoint-initdb.d
@@ -74,32 +96,36 @@ services:
   # Service 
   nt.userservice.service:
     image: ${DOCKER_REGISTRY-}userserviceapi
-    container_name: nt.userservice.service
+    # container_name: nt.userservice.service
     hostname: nt.userservice.service
     build:
       context: .
       dockerfile: services/UserService/UserService.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
     networks:
       nt.common.network:
       nt.userservice.network:
     depends_on:
         - "nt.common.rabbitmq"
         - "nt.userservice.db"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
     
   # Database
   nt.userservice.db:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: nt.userservice.db
+    # container_name: nt.userservice.db
     hostname: nt.userservice.db
-    environment:
-       ACCEPT_EULA: Y
-       SA_PASSWORD: Admin123 
     networks:
         nt.common.network:
         nt.userservice.network:
-    ports:
-        - 1433:1433  
+    environment:
+       ACCEPT_EULA: Y
+       SA_PASSWORD: Admin123 
 
 
   # Aschronous Messaging Services
@@ -110,11 +136,9 @@ services:
   # administrator/pass
   nt.common.rabbitmq:
     image: "rabbitmq:3.10.6-management-alpine"
-    container_name: nt.common.rabbitmq
+    # container_name: nt.common.rabbitmq
     hostname: "ntqueue"
-    ports:
-      - 5672:5672
-      - 15672:15672
+
     networks:
         nt.common.network:
         nt.userservice.network:
@@ -134,13 +158,18 @@ services:
   # Portainer
   nt.common.portainer:
     image: portainer/portainer-ce
-    container_name: nt.common.portainer
+    # container_name: nt.common.portainer
+    restart: always
     hostname : nt.common.portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - nt.common.portainer.volume:/data
+
 
   # PgAdmin to manage Postgres
   nt.common.pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: nt.common.pgadmin
+    # container_name: nt.common.pgadmin
     hostname: nt.common.pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
@@ -179,8 +208,8 @@ volumes:
 
 networks:
   nt.authservice.network:
-    driver: bridge
+   # driver: bridge
   nt.userservice.network:
-    driver: bridge
+   # driver: bridge
   nt.common.network:
-    driver: bridge
+   # driver: bridge

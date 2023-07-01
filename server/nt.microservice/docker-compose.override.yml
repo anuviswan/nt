@@ -1,47 +1,45 @@
-version: '3.4'
+version: '3.9'
 
 services:
   nt.gateway.service:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "8001:80"
+      - "8000-8099:80"
       # - "9001:443"
-      # volumes:
-      #  - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      #  - ~/.aspnet/https:/root/.aspnet/https:ro
+
 
   nt.authservice.service:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "8002:80"
+      - "8101-8199:80"
       # - "9002:443"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - ~/.aspnet/https:/root/.aspnet/https:ro
+
+  nt.authservice.loadbalancer:
+   ports:
+     - "8100:80" 
+
+  nt.authservice.db:
+    ports:
+      - '5432:5432'
+  
+  nt.userservice.db:
+    ports:
+        - 1433:1433  
+
 
   nt.common.portainer:
-    container_name: portainer
-    restart: always
+
     ports:
       - "8080:8000"
       - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - nt.common.portainer.volume:/data
 
   nt.userservice.service:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "8003:80"
+      - "8300-8399:80"
       # - "9003:443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  nt.common.rabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+
 
  
