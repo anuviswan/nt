@@ -37,8 +37,7 @@
           />
         </div>
         <div class="d-flex justify-content-left" v-if="v$.password.$error">
-          <ValidationMessage v-if="v$.password.$error.required"
-            messages="Password is required"
+        <ValidationMessage   :messages="v$.password.$errors.map(x=>x.$message)"
             v-bind:isError="true"
           />
         </div>
@@ -54,9 +53,8 @@
             placeholder="Confirm Password"
           />
         </div>
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="confirmPasswordError"
+        <div class="d-flex justify-content-left" v-if="v$.confirmPassword.$error">
+        <ValidationMessage   :messages="v$.confirmPassword.$errors.map(x=>x.$message)"
             v-bind:isError="true"
           />
         </div>
@@ -88,7 +86,7 @@ import { ref, computed } from "vue";
 // import { registerUser } from "@/api/user.js";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import { useVuelidate } from '@vuelidate/core'
-import { required, minLength,helpers  } from '@vuelidate/validators'
+import { required, minLength,sameAs, helpers  } from '@vuelidate/validators'
 
 
 const userName = ref("");
@@ -102,7 +100,7 @@ const rules = computed(()=>({
                 minLengthValue: helpers.withMessage('Username should minimum 4 characters',minLength(4)) 
              },
   password : {required:helpers.withMessage('Password cannot be empty', required),  },
-  confirmPassword : { required}
+  confirmPassword : { sameAsPassword: helpers.withMessage('Password do not match', sameAs(password))}
 }))
 
 const hasError = (d)=> {
