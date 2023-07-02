@@ -6,13 +6,18 @@
       </div>
     </div>
     <div class="card-body">
-      <form class="form needs-validation" @submit="onSubmit">
+      <form class="form needs-validation" @submit.prevent="onSubmit">
         <div class="form-group">
           <input
             type="text"
             v-model="userName"
             placeholder="Username"
             class="form-control block"
+          />
+        </div>
+        <div class="d-flex justify-content-left" v-if="v$.userName.$error">
+        <ValidationMessage   :messages="v$.userName.$errors.map(x=>x.$message)"
+            v-bind:isError="true"
           />
         </div>
         <div class="form-group">
@@ -23,7 +28,11 @@
             class="form-control block"
           />
         </div>
-
+        <div class="d-flex justify-content-left" v-if="v$.password.$error">
+        <ValidationMessage   :messages="v$.password.$errors.map(x=>x.$message)"
+            v-bind:isError="true"
+          />
+        </div>
         <div class="form-group">
           <input
             type="submit"
@@ -48,57 +57,54 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-import { validateUser } from "@/api/user.js";
-import { useStore } from "vuex";
-import router from "@/router";
+//import { useStore } from "vuex";
+import { useVuelidate } from '@vuelidate/core'
+import { required, helpers  } from '@vuelidate/validators'
 
 const userName = ref("");
 const password = ref("");
-const serverMessage = ref("");
-const hasServerError = ref(false);
-const clientValidationSucceeded = ref(false);
-const store = useStore();
+//const store = useStore();
 
-const isEmpty = (str) => {
-  return !str || str.length === 0;
-};
-watchEffect(() => {
-  clientValidationSucceeded.value =
-    !isEmpty(userName.value) && !isEmpty(password.value);
-});
+const rules = computed(()=>({
+  userName : {
+                required:helpers.withMessage('Username cannot be empty', required), 
+             },
+  password : {required:helpers.withMessage('Password cannot be empty', required),  },
+}))
 
-const onSubmit = async (e) => {
-  e.preventDefault();
+const v$ = useVuelidate(rules,{userName,password});
+const onSubmit = async () => {
+   await v$.value.$validate();
 
-  var response = await validateUser(userName.value, password.value);
-  console.log(response);
+  // var response = await validateUser(userName.value, password.value);
+  // console.log(response);
 
-  if (response.hasError) {
-    if (response.errorCode == 401) {
-      hasServerError.value = true;
-      serverMessage.value = ["Invalid Username or password"];
-      return;
-    }
-    hasServerError.value = true;
-    serverMessage.value = response.error[0].title;
-    return;
-  }
+  // if (response.hasError) {
+  //   if (response.errorCode == 401) {
+  //     hasServerError.value = true;
+  //     serverMessage.value = ["Invalid Username or password"];
+  //     return;
+  //   }
+  //   hasServerError.value = true;
+  //   serverMessage.value = response.error[0].title;
+  //   return;
+  // }
 
-  const currentUser = {
-    userName: response.data.userName,
-    displayName: response.data.displayName,
-    bio: response.data.bio,
-    token: response.data.token,
-  };
+  // const currentUser = {
+  //   userName: response.data.userName,
+  //   displayName: response.data.displayName,
+  //   bio: response.data.bio,
+  //   token: response.data.token,
+  // };
 
-  console.log(currentUser);
+  // console.log(currentUser);
 
-  store.dispatch("updateCurrentUser", currentUser);
+  // store.dispatch("updateCurrentUser", currentUser);
 
-  console.log("User authenticated and updated, redirecting now..");
-  router.push("/p/dashboard");
+  // console.log("User authenticated and updated, redirecting now..");
+  // router.push("/p/dashboard");
 }
 </script>
 

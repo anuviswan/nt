@@ -66,12 +66,6 @@
             value="Submit"
           />
         </div>
-        <!-- <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="serverMessage"
-            v-bind:isError="hasServerError"
-          />
-        </div> -->
       </form>
       <div>
         Already a member ?
@@ -83,11 +77,10 @@
 
 <script setup>
 import { ref, computed } from "vue";
-// import { registerUser } from "@/api/user.js";
 import ValidationMessage from "@/components/generic/ValidationMessage";
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength,sameAs, helpers  } from '@vuelidate/validators'
-
+import {registerUser} from "@/api/user.js"
 
 const userName = ref("");
 const password = ref("");
@@ -111,19 +104,13 @@ const hasError = (d)=> {
 const v$ = useVuelidate(rules,{userName,password,confirmPassword});
 
 const onSubmit = async () => {
- await v$.value.$validate();
-  console.log(v$);
-console.log(v$.value.$error);
-  // var validationResult = await v$.$validate();
-  // if (!validationResult) {
-  //       console.log("Validation failed");
-  //       return;
-  //     }
-    //   await registerUser(
-    //   formState.userName.value,
-    //   '',
-    //   formState.password.value
-    // );
+ 
+  var validationResult = await v$.value.$validate();
+  if (!validationResult) {
+        console.log("Validation failed");
+        return;
+      }
+      await registerUser(userName.value,'',password.value);
 }
 
 
