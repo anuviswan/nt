@@ -52,6 +52,9 @@
         Not a member ?
         <router-link to="/register">Sign up here</router-link>
       </div>
+      <div>
+        <ValidationMessage v-bind="$externalResults.$errors.map(x=>x.$message)"/>
+      </div>
     </div>
   </div>
 </template>
@@ -59,52 +62,63 @@
 <script setup>
 import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-//import { useStore } from "vuex";
+import { useStore } from "vuex";
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers  } from '@vuelidate/validators'
+import {validateUser} from "@/api/user.js"
+import router from "@/router";
 
 const userName = ref("");
 const password = ref("");
-//const store = useStore();
+const store = useStore();
+const $externalResults = ref({})
+const v$ = useVuelidate(rules,{userName,password});
 
 const rules = computed(()=>({
   userName : {
                 required:helpers.withMessage('Username cannot be empty', required), 
              },
-  password : {required:helpers.withMessage('Password cannot be empty', required),  },
+  password : {
+              required:helpers.withMessage('Password cannot be empty', required),  
+            },
 }))
-
-const v$ = useVuelidate(rules,{userName,password});
 const onSubmit = async () => {
-   await v$.value.$validate();
+   v$.value.$clearExternalResults();
+   var validationResult = await v$.value.$validate();
 
-  // var response = await validateUser(userName.value, password.value);
-  // console.log(response);
+   if(!validationResult){
+    console.log("Validation failed");
+    return;
+   }
+  var response = await validateUser(userName.value, password.value);
+  console.log(response);
 
-  // if (response.hasError) {
-  //   if (response.errorCode == 401) {
-  //     hasServerError.value = true;
-  //     serverMessage.value = ["Invalid Username or password"];
-  //     return;
-  //   }
-  //   hasServerError.value = true;
-  //   serverMessage.value = response.error[0].title;
-  //   return;
-  // }
+  if (response.hasError) {
+    if (response.errorCode == 401) {
+       const errors = {
+        userName : ['Invalid Username or password']
+       };
 
-  // const currentUser = {
-  //   userName: response.data.userName,
-  //   displayName: response.data.displayName,
-  //   bio: response.data.bio,
-  //   token: response.data.token,
-  // };
+       $externalResults.value = errors;
+      return;
+    }
+    return;
+  }
 
-  // console.log(currentUser);
 
-  // store.dispatch("updateCurrentUser", currentUser);
+  const currentUser = {
+    userName: response.data.userName,
+    displayName: response.data.displayName,
+    bio: response.data.bio,
+    token: response.data.token,
+  };
 
-  // console.log("User authenticated and updated, redirecting now..");
-  // router.push("/p/dashboard");
+  console.log(currentUser);
+
+  store.dispatch("updateCurrentUser", currentUser);
+
+  console.log("User authenticated and updated, redirecting now..");
+  router.push("/p/dashboard");
 }
 </script>
 
