@@ -1,12 +1,12 @@
 <template>
-  <div class="card card-block rounded shadow shadow-sm">
+  <div class="card card-block rounded shadow shadow-sm" >
     <div class="card-header bg-primary text-light text-uppercase">
       <div class="card-title align-middle">
         <h5 class="mb-0">Sign Up</h5>
       </div>
     </div>
     <div class="card-body">
-      <form class="form needs-validation" @submit="onSubmit">
+      <form class="form needs-validation" @submit.prevent="onSubmit">
         <div class="form-group">
           <input
             type="text"
@@ -19,9 +19,8 @@
             placeholder="Username"
           />
         </div>
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="passwordError"
+        <div class="d-flex justify-content-left" v-if="v$.userName.$error">
+        <ValidationMessage   :messages="v$.userName.$errors.map(x=>x.$message)"
             v-bind:isError="true"
           />
         </div>
@@ -37,9 +36,8 @@
             placeholder="Password"
           />
         </div>
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="passwordError"
+        <div class="d-flex justify-content-left" v-if="v$.password.$error">
+        <ValidationMessage   :messages="v$.password.$errors.map(x=>x.$message)"
             v-bind:isError="true"
           />
         </div>
@@ -55,9 +53,8 @@
             placeholder="Confirm Password"
           />
         </div>
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="confirmPasswordError"
+        <div class="d-flex justify-content-left" v-if="v$.confirmPassword.$error">
+        <ValidationMessage   :messages="v$.confirmPassword.$errors.map(x=>x.$message)"
             v-bind:isError="true"
           />
         </div>
@@ -67,12 +64,6 @@
             type="submit"
             class="btn btn-block btn-primary"
             value="Submit"
-          />
-        </div>
-        <div class="d-flex justify-content-left">
-          <ValidationMessage
-            v-bind:messages="serverMessage"
-            v-bind:isError="hasServerError"
           />
         </div>
       </form>
@@ -85,104 +76,45 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import useValidator from "@/utils/inputValidators.js";
-import { minLength, isEquals } from "@/utils/validators.js";
-import { registerUser } from "@/api/user.js";
+import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-import router from "@/router";
+import { useVuelidate } from '@vuelidate/core'
+import { required, minLength,sameAs, helpers  } from '@vuelidate/validators'
+import {registerUser} from "@/api/user.js"
+
 const userName = ref("");
 const password = ref("");
 const confirmPassword = ref("");
-const displayName = ref("");
-const errors = ref([]);
-const hasServerError = ref(false);
-const serverMessage = ref([]);
 
-const onSubmit = async (e) => {
-  e.preventDefault();
-  errors.value = [];
 
-  useValidator(userName.value, [minLength(3)], (e) =>
-    errors.value.push({ "userName": e })
-  );
+const rules = computed(()=>({
+  userName : {
+                required:helpers.withMessage('Username cannot be empty', required), 
+                minLengthValue: helpers.withMessage('Username should minimum 4 characters',minLength(4)) 
+             },
+  password : {required:helpers.withMessage('Password cannot be empty', required),  },
+  confirmPassword : { sameAsPassword: helpers.withMessage('Password do not match', sameAs(password))}
+}))
 
-  useValidator(password.value, [minLength(3)], (e) =>
-    errors.value.push({ "password": e })
-  );
-  useValidator(
-    confirmPassword.value,
-    [minLength(3), isEquals(password.value)],
-    (e) => errors.value.push({ "confirmPassword": e })
-  );
+const hasError = (d)=> {
+  console.log(d);
+  return true;
+}
 
-  if (errors.value.length == 0) {
-    var response = await registerUser(
-      userName.value,
-      displayName.value,
-      password.value
-    );
+const v$ = useVuelidate(rules,{userName,password,confirmPassword});
 
-    if (response.hasError) {
-      hasServerError.value = true;
-      serverMessage.value = Object.values(
-        Object.values(response.error[0].errors).flat()
-      );
-      return;
-    }
-
-    console.log("User authenticated and updated, redirecting now..");
-    router.push("/");
-  }
-};
-
-const hasError = (key) => {
-  //const result = errors.value.indexOf(key) != -1;
-  const result = errors.value.some((x) => key in x);
-  return result;
-};
-
-// const userNameError = computed(() => {
-//   if (hasError("userName")) {
-//     const result = errors.value.filter((x) => {
-//       if (x.userName) {
-//         return true;
-//       }
-//       return false;
-//     });
-//     return result[0].userName;
-//   }
-
-//   return [];
-// });
-
-const passwordError = computed(() => {
-  if (hasError("password")) {
-    const result = errors.value.filter((x) => {
-      if (x.password) {
-        return true;
+const onSubmit = async () => {
+ 
+  var validationResult = await v$.value.$validate();
+  if (!validationResult) {
+        console.log("Validation failed");
+        return;
       }
-      return false;
-    });
-    return result[0].password;
-  }
+      await registerUser(userName.value,'',password.value);
+}
 
-  return [];
-});
 
-const confirmPasswordError = computed(() => {
-  if (hasError("confirmPassword")) {
-    const result = errors.value.filter((x) => {
-      if (x.confirmPassword) {
-        return true;
-      }
-      return false;
-    });
-    return result[0].confirmPassword;
-  }
 
-  return [];
-});
 </script>
 
 <style></style>

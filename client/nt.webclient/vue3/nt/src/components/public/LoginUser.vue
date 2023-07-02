@@ -6,13 +6,18 @@
       </div>
     </div>
     <div class="card-body">
-      <form class="form needs-validation" @submit="onSubmit">
+      <form class="form needs-validation" @submit.prevent="onSubmit">
         <div class="form-group">
           <input
             type="text"
             v-model="userName"
             placeholder="Username"
             class="form-control block"
+          />
+        </div>
+        <div class="d-flex justify-content-left" v-if="v$.userName.$error">
+        <ValidationMessage   :messages="v$.userName.$errors.map(x=>x.$message)"
+            v-bind:isError="true"
           />
         </div>
         <div class="form-group">
@@ -23,7 +28,11 @@
             class="form-control block"
           />
         </div>
-
+        <div class="d-flex justify-content-left" v-if="v$.password.$error">
+        <ValidationMessage   :messages="v$.password.$errors.map(x=>x.$message)"
+            v-bind:isError="true"
+          />
+        </div>
         <div class="form-group">
           <input
             type="submit"
@@ -43,48 +52,59 @@
         Not a member ?
         <router-link to="/register">Sign up here</router-link>
       </div>
+      <div>
+        <ValidationMessage v-bind="$externalResults.$errors.map(x=>x.$message)"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-import { validateUser } from "@/api/user.js";
 import { useStore } from "vuex";
+import { useVuelidate } from '@vuelidate/core'
+import { required, helpers  } from '@vuelidate/validators'
+import {validateUser} from "@/api/user.js"
 import router from "@/router";
 
 const userName = ref("");
 const password = ref("");
-const serverMessage = ref("");
-const hasServerError = ref(false);
-const clientValidationSucceeded = ref(false);
 const store = useStore();
+const $externalResults = ref({})
+const v$ = useVuelidate(rules,{userName,password});
 
-const isEmpty = (str) => {
-  return !str || str.length === 0;
-};
-watchEffect(() => {
-  clientValidationSucceeded.value =
-    !isEmpty(userName.value) && !isEmpty(password.value);
-});
+const rules = computed(()=>({
+  userName : {
+                required:helpers.withMessage('Username cannot be empty', required), 
+             },
+  password : {
+              required:helpers.withMessage('Password cannot be empty', required),  
+            },
+}))
+const onSubmit = async () => {
+   v$.value.$clearExternalResults();
+   var validationResult = await v$.value.$validate();
 
-const onSubmit = async (e) => {
-  e.preventDefault();
-
+   if(!validationResult){
+    console.log("Validation failed");
+    return;
+   }
   var response = await validateUser(userName.value, password.value);
   console.log(response);
 
   if (response.hasError) {
     if (response.errorCode == 401) {
-      hasServerError.value = true;
-      serverMessage.value = ["Invalid Username or password"];
+       const errors = {
+        userName : ['Invalid Username or password']
+       };
+
+       $externalResults.value = errors;
       return;
     }
-    hasServerError.value = true;
-    serverMessage.value = response.error[0].title;
     return;
   }
+
 
   const currentUser = {
     userName: response.data.userName,

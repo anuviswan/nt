@@ -34,7 +34,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8003"
+          "Port": "8301"
         }
       ],
       "UpstreamPathTemplate": "/user/createuser",
