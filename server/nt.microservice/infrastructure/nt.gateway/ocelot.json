@@ -34,7 +34,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8301"
+          "Port": 8301
         }
       ],
       "UpstreamPathTemplate": "/user/createuser",
@@ -53,8 +53,9 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8002"
+          "Port": 8100
         }
+        
       ],
       "UpstreamPathTemplate": "/user/authenticate",
       "UpstreamHttpMethod": [ "Post" ],

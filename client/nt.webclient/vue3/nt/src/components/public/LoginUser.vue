@@ -53,7 +53,7 @@
         <router-link to="/register">Sign up here</router-link>
       </div>
       <div>
-        <ValidationMessage v-bind="$externalResults.$errors.map(x=>x.$message)"/>
+        <!-- <ValidationMessage v-bind="v$.value.$externalResults.$errors.map(x=>x.$message)"/> -->
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@ const userName = ref("");
 const password = ref("");
 const store = useStore();
 const $externalResults = ref({})
-const v$ = useVuelidate(rules,{userName,password});
+
 
 const rules = computed(()=>({
   userName : {
@@ -81,9 +81,13 @@ const rules = computed(()=>({
   password : {
               required:helpers.withMessage('Password cannot be empty', required),  
             },
-}))
+}));
+
+const v$ = useVuelidate(rules,{userName,password},{ $externalResults });
+
 const onSubmit = async () => {
-   v$.value.$clearExternalResults();
+
+  v$.value.$clearExternalResults();
    var validationResult = await v$.value.$validate();
 
    if(!validationResult){
@@ -99,7 +103,9 @@ const onSubmit = async () => {
         userName : ['Invalid Username or password']
        };
 
+       console.log(errors);
        $externalResults.value = errors;
+       console.log($externalResults);
       return;
     }
     return;
