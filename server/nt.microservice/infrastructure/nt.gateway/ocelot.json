@@ -53,24 +53,9 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 8101
-        },
-        {
-          "Host": "host.docker.internal",
-          "Port": 8102
-        },
-        {
-          "Host": "host.docker.internal",
-          "Port": 8103
-        },
-        {
-          "Host": "host.docker.internal",
-          "Port": 8104
-        },
-        {
-          "Host": "host.docker.internal",
-          "Port": 8105
+          "Port": 8100
         }
+        
       ],
       "UpstreamPathTemplate": "/user/authenticate",
       "UpstreamHttpMethod": [ "Post" ],
