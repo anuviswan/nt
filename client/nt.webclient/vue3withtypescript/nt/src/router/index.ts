@@ -1,5 +1,4 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import HomePage from '@/pages/public/HomePage.vue';
+import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from "./routes";
 
 
