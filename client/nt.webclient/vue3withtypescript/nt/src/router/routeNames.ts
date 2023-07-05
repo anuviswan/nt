@@ -1,14 +1,26 @@
+interface IRouteInfo{
+    name : string,
+    path : string
+}
 export interface IRouteNames{
-    home : string,
-
-    login : string,
-    register : string 
+    home : IRouteInfo,
+    login : IRouteInfo,
+    register : IRouteInfo 
 }
 
 const routesNames: Readonly<IRouteNames> = {
-    home: "home",
-    login: "login",
-    register: "register"
+    home: { 
+        name: "home",
+        path :'/'
+    },
+    login: {
+        name : 'login',
+        path : '/login'
+    },
+    register: {
+        name : 'register',
+        path : '/register'
+    }
 }
 
 export default routesNames;
