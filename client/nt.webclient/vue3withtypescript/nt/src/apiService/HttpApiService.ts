@@ -8,7 +8,7 @@ class HttpApiService{
     }
 
     public async invoke<T>(config:AxiosRequestConfig) {
-        const {data} = await this.instance.request<T>(config); 
+        const {data /*, status*/ } = await this.instance.request<T>(config); 
         return data;
     }
 }
