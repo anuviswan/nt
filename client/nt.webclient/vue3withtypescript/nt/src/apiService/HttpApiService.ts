@@ -7,7 +7,7 @@ class HttpApiService{
         this.instance = axios.create({baseURL: "http://localhost:8001/"});
     }
 
-    public async invoke<T>(config:AxiosRequestConfig) {
+    protected async invoke<T>(config:AxiosRequestConfig) {
         const {data /*, status*/ } = await this.instance.request<T>(config); 
         return data;
     }

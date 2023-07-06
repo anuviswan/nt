@@ -52,6 +52,8 @@ import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
+import {userApiService} from "@/apiService/UserApiService"
+import { RegisterUserRequest } from "@/apiService/userType";
 //   import {registerUser} from "@/api/user.js"
 
 
@@ -93,6 +95,13 @@ const onSubmit = async (): Promise<void> => {
         console.log("Validation failed");
         return;
     }
+
+    
+    var response = await userApiService.registerUser({
+        userName : formData.value.userName,
+        password : formData.value.password,
+    });
+    
     //    await registerUser(userName.value,'',password.value);
 }
 
