@@ -49,7 +49,7 @@
   
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import ValidationMessage from "@/components/generic/ValidationMessage";
+import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 //   import {registerUser} from "@/api/user.js"
