@@ -79,7 +79,7 @@ const rules = computed(() => ({
 
 }))
 
-function hasError(d:any):boolean{
+function hasError(d:string):boolean{
     console.log(d)
     return false;
 }

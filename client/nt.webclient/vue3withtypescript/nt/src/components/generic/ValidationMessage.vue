@@ -14,7 +14,7 @@
   </template>
   
   <script setup lang="ts">
-  import { PropType, withDefaults, defineProps } from "vue"
+  import { withDefaults, defineProps } from "vue"
 
   interface Props{
       messages: string[], 
