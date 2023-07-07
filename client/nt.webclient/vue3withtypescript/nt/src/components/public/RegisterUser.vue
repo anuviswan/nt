@@ -61,12 +61,14 @@ interface IFormData {
     userName: string;
     password: string;
     confirmPassword: string;
+    $externalResults : any
 }
 
 const formData = ref<IFormData>({
     userName: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    $externalResults : {}
 });
 
 const rules = computed(() => ({
@@ -103,7 +105,9 @@ const onSubmit = async (): Promise<void> => {
     });
 
     if(response) {
-        console.log("Registe succeeded");
+        const errors = {
+            serverMessage : ['']
+        }
     }
     else{
         console.log("Register failed")

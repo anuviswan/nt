@@ -1,5 +1,5 @@
 import { IResponseBase } from "@/types/ApiRequestResponseTypes";
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosError} from "axios";
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from "axios";
 
 class HttpApiService{
     private instance : AxiosInstance;
@@ -8,17 +8,18 @@ class HttpApiService{
         this.instance = axios.create({baseURL: "http://localhost:8001/"});
     }
 
-    protected async invoke<T>(config:AxiosRequestConfig):Promise<IResponseBase> {
+    protected async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {
 
         try{
-            return await this.instance.request<T>(config); 
+            const response =  await this.instance.request<T>(config); 
+            return response.data;
         }catch(error : AxiosError | any){
 
             if(axios.isAxiosError(error)){
-                return {
+                return <T>{
                     status : error.response?.status,
                     errors : error.response?.data.errors
-                }
+                } 
                 console.log(error.response?.status)
             }
             else{
@@ -26,7 +27,7 @@ class HttpApiService{
             }
         } 
 
-        return {};
+        return <T>{};
 
         
     }
