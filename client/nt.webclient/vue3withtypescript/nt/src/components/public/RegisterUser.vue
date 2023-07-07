@@ -13,7 +13,7 @@
                         : 'form-control block'
                         " placeholder="Username" />
                 </div>
-                <div class="d-flex justify-content-left" v-if="v$.userName.$error">
+                <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
                     <ValidationMessage :messages="v$.formData.userName.$errors.map((x:any) => x.$message)" v-bind:isError="true" />
                 </div>
                 <div class="form-group">
@@ -22,7 +22,7 @@
                         : 'form-control block'
                         " placeholder="Password" />
                 </div>
-                <div class="d-flex justify-content-left" v-if="v$.password.$error">
+                <div class="d-flex justify-content-left" v-if="v$.formData.password.$error">
                     <ValidationMessage :messages="v$.formData.password.$errors.map((x:any) => x.$message)" v-bind:isError="true" />
                 </div>
                 <div class="form-group">
@@ -32,7 +32,7 @@
                         " placeholder="Confirm Password" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.confirmPassword.$error">
-                    <ValidationMessage :messages="v$.confirmPassword.$errors.map((x : any) => x.$message)" v-bind:isError="true" />
+                    <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x : any) => x.$message)" v-bind:isError="true" />
                 </div>
 
                 <div class="form-group">
