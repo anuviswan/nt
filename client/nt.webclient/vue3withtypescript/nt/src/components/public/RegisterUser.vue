@@ -101,6 +101,14 @@ const onSubmit = async (): Promise<void> => {
         userName : formData.value.userName,
         password : formData.value.password,
     });
+
+    if(response) {
+        console.log("Registe succeeded");
+    }
+    else{
+        console.log("Register failed")
+    }
+
     
     //    await registerUser(userName.value,'',password.value);
 }
