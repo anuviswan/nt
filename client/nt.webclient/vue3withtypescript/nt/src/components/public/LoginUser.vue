@@ -16,12 +16,9 @@
         <div class="form-group">
           <input type="password" v-model="formData.password" placeholder="Password" class="form-control block" />
         </div>
-        <!-- <div class="d-flex justify-content-left" v-if="v$.password.$error">
-        <ValidationMessage   :messages="v$.password.$errors.map(x=>x.$message)"
-            v-bind:isError="true"
-          />
-        </div> -->
-        
+        <div class="d-flex justify-content-left" v-if="v$.formData.password.$error">
+          <ValidationMessage :messages="v$.formData.password.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
+        </div>
         <div class="form-group">
           <input type="submit" class="btn btn-block btn-primary" value="Submit" />
         </div>
