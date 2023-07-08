@@ -111,9 +111,11 @@ const onSubmit = async (): Promise<void> => {
         password : formData.value.password,
     });
 
-    if(response.status != 200) {
+    if(response.status != 200 ) {
         console.log("Register failed")
-        const errors = {
+
+        if(response.errors !=null ){
+            const errors = {
             //serverMessage : ['asdasdasd']
             formData:{
                 password : response.errors.Password,
@@ -122,9 +124,12 @@ const onSubmit = async (): Promise<void> => {
             }
         };
 
-        console.log(errors)
+            console.log(errors)
+            $externalResults.value = errors;    
+        }
+        
 
-        $externalResults.value = errors;    
+
     }
     else{
         console.log("Register succeeded")
