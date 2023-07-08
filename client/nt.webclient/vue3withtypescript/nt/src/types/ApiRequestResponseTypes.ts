@@ -1,4 +1,5 @@
 export interface IResponseBase{
+    hasError : boolean,
     status? : number,
     errors? : Array<string>
 }
@@ -9,8 +10,21 @@ export interface IRegisterUserRequest{
 }
 
 export interface IRegisterUserResponse extends IResponseBase{
-    status : number,
     data : {
         userName : string
     }
 }
+
+export interface IValidateUserRequest {
+    userName :string,
+    password : string
+}
+
+
+export interface IValidateUserResponse extends IResponseBase{
+    token : string,
+    isAuthenticated : boolean,
+    loginTime : Date,
+    userName : string
+}
+

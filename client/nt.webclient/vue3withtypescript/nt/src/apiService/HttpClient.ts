@@ -24,6 +24,7 @@ class HttpClient{
             if(axios.isAxiosError(error)){
                 return <T>{
                     status : error.response?.status,
+                    hasError : true,
                     errors : error.response?.data.errors
                 } 
             }
