@@ -12,11 +12,10 @@
         <div class="form-group">
           <input type="text" v-model="formData.userName" placeholder="Username" class="form-control block" />
         </div>
-        <!-- <div class="d-flex justify-content-left" v-if="v$.userName.$error">
-        <ValidationMessage   :messages="v$.userName.$errors.map(x=>x.$message)"
-            v-bind:isError="true"
-          />
-        </div> -->
+        <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
+                    <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
+                        v-bind:isError="true" />
+                </div>
         <div class="form-group">
           <input type="password" v-model="formData.password" placeholder="Password" class="form-control block" />
         </div>
@@ -39,9 +38,10 @@
         Not a member ?
         <router-link to="/register">Sign up here</router-link>
       </div>
-      <div>
-        <!-- <ValidationMessage v-bind="v$.value.$externalResults.$errors.map(x=>x.$message)"/> -->
-      </div>
+      <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
+                    <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
+                        v-bind:isError="true" />
+                </div>
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ import { IValidateUserRequest } from "@/types"
 import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import { computed, ref } from "vue";
-
+import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 interface IFormData {
   userName: string;
   password: string;
@@ -100,11 +100,15 @@ const onSubmit = async (): Promise<void> => {
 
   // Validate response from Api
   if (response.hasError) {
-    console.log("Register failed")
+    console.log("Login failed")
 
-    if (response.errors != null) {
+    if (response.status == 401) {
+      const errors = {formData: { userName: "Invalid Username or Password"}};
+      $externalResults.value = errors;
+      console.log(v$);
+    }
+    else if (response.errors != null) {
       const errors = {
-        //serverMessage : ['asdasdasd']
         formData: {
           password: response.errors.Password,
           userName: response.errors.UserName
@@ -113,6 +117,8 @@ const onSubmit = async (): Promise<void> => {
 
       console.log(errors)
       $externalResults.value = errors;
+
+      console.log(v$);
     }
   }
   else { console.log('succeeeded'); }

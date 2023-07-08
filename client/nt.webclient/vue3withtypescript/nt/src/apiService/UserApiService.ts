@@ -10,8 +10,7 @@ class UserApiService extends ApiServiceBase {
 
     public async registerUser(user:IRegisterUserRequest):Promise<IRegisterUserResponse>{
         
-        const response = await this.invoke<IRegisterUserResponse,AxiosResponse<IRegisterUserResponse>>({method:'post', url:"/user/createuser", data : user});
-        return response;
+        return await this.invoke<IRegisterUserResponse,AxiosResponse<IRegisterUserResponse>>({method:'post', url:"/user/createuser", data : user});
     }
 }
 
