@@ -21,9 +21,13 @@
             v-bind:isError="true"
           />
         </div> -->
+        
         <div class="form-group">
           <input type="submit" class="btn btn-block btn-primary" value="Submit" />
         </div>
+        <div class="d-flex justify-content-left" v-if="serverMessage">
+        <ValidationMessage :messages="serverMessage" v-bind:isError="true" />
+      </div>
         <!-- <div class="d-flex justify-content-left">
           <ValidationMessage
             v-bind:messages="serverMessage"
@@ -35,9 +39,7 @@
         Not a member ?
         <router-link to="/register">Sign up here</router-link>
       </div>
-      <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-        <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
-      </div>
+
     </div>
   </div>
 </template>
@@ -60,7 +62,7 @@ const formData = ref<IFormData>({
 });
 
 const $externalResults = ref({});
-const serverMessage = ref<string>('');
+const serverMessage = ref<string[]>([]);
 
 const rules = computed(() => ({
   formData: {
@@ -69,11 +71,10 @@ const rules = computed(() => ({
     },
     password: { required: helpers.withMessage('Password cannot be empty', required), },
   },
-  serverMessage: {}
 
 }))
 
-const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
+const v$ = useVuelidate(rules, { formData }, { $externalResults });
 
 const onSubmit = async (): Promise<void> => {
 
@@ -99,8 +100,7 @@ const onSubmit = async (): Promise<void> => {
     console.log("Login failed")
 
     if (response.status == 401) {
-      const errors = { formData: { userName: "Invalid Username or Password" } };
-      $externalResults.value = errors;
+      serverMessage.value = ['Invalid Username or Password'];
       console.log(v$);
     }
     else if (response.errors != null) {
