@@ -14,7 +14,8 @@
                         " placeholder="Username" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                    <ValidationMessage :messages="v$.formData.userName.$errors.map((x:any) => x.$message)" v-bind:isError="true" />
+                    <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
+                        v-bind:isError="true" />
                 </div>
                 <div class="form-group">
                     <input type="password" v-model="formData.password" v-bind:class="hasError('password')
@@ -23,7 +24,8 @@
                         " placeholder="Password" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.password.$error">
-                    <ValidationMessage :messages="v$.formData.password.$errors.map((x:any) => x.$message)" v-bind:isError="true" />
+                    <ValidationMessage :messages="v$.formData.password.$errors.map((x: any) => x.$message)"
+                        v-bind:isError="true" />
                 </div>
                 <div class="form-group">
                     <input type="password" v-model="formData.confirmPassword" v-bind:class="hasError('confirmPassword')
@@ -32,7 +34,8 @@
                         " placeholder="Confirm Password" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.confirmPassword.$error">
-                    <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x : any) => x.$message)" v-bind:isError="true" />
+                    <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x: any) => x.$message)"
+                        v-bind:isError="true" />
                 </div>
 
                 <div class="form-group">
@@ -40,7 +43,8 @@
                 </div>
 
                 <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-                    <ValidationMessage :messages="v$.serverMessage.$errors.map((x : any) => x.$message)" v-bind:isError="true" />
+                    <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
+                        v-bind:isError="true" />
                 </div>
             </form>
             <div>
@@ -56,8 +60,9 @@ import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
-import {userApiService} from "@/apiService/UserApiService"
+import { userApiService } from "@/apiService/UserApiService"
 import { RegisterUserRequest } from "@/apiService/userType";
+import { IRegisterUserRequest } from "@/types/ApiRequestResponseTypes";
 //   import {registerUser} from "@/api/user.js"
 
 
@@ -85,19 +90,18 @@ const rules = computed(() => ({
         password: { required: helpers.withMessage('Password cannot be empty', required), },
         confirmPassword: { sameAsPassword: helpers.withMessage('Password do not match', sameAs(formData.value.password)) }
     },
-    serverMessage :{}
+    serverMessage: {}
 
 }))
 
-function hasError(d:string):boolean{
+function hasError(d: string): boolean {
     console.log(d)
     return false;
 }
 
-const v$ = useVuelidate(rules, { formData, serverMessage }, {$externalResults});
+const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
 
 const onSubmit = async (): Promise<void> => {
-    console.log(v$.value)
     v$.value.$clearExternalResults();
     var validationResult = await v$.value.$validate();
 
@@ -105,37 +109,34 @@ const onSubmit = async (): Promise<void> => {
         console.log("Validation failed");
         return;
     }
-    
-    var response = await userApiService.registerUser({
-        userName : formData.value.userName,
-        password : formData.value.password,
-    });
 
-    if(response.status != 200 ) {
+    var response = await userApiService.registerUser({
+        userName: formData.value.userName,
+        password: formData.value.password,
+    } as IRegisterUserRequest);
+
+    if (response.status != 200) {
         console.log("Register failed")
 
-        if(response.errors !=null ){
+        if (response.errors != null) {
             const errors = {
-            //serverMessage : ['asdasdasd']
-            formData:{
-                password : response.errors.Password,
-                confirmPassword :  response.errors.ConfirmPassword,
-                userName : response.errors.UserName
-            }
-        };
+                //serverMessage : ['asdasdasd']
+                formData: {
+                    password: response.errors.Password,
+                    confirmPassword: response.errors.ConfirmPassword,
+                    userName: response.errors.UserName
+                }
+            };
 
             console.log(errors)
-            $externalResults.value = errors;    
+            $externalResults.value = errors;
         }
-        
-
-
     }
-    else{
+    else {
         console.log("Register succeeded")
     }
 
-    
+
     //    await registerUser(userName.value,'',password.value);
 }
 
