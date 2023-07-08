@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="card card-block rounded shadow shadow-sm">
     <div class="card-header bg-primary text-light text-uppercase">
@@ -13,9 +11,8 @@
           <input type="text" v-model="formData.userName" placeholder="Username" class="form-control block" />
         </div>
         <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                    <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                        v-bind:isError="true" />
-                </div>
+          <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
+        </div>
         <div class="form-group">
           <input type="password" v-model="formData.password" placeholder="Password" class="form-control block" />
         </div>
@@ -39,9 +36,8 @@
         <router-link to="/register">Sign up here</router-link>
       </div>
       <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-                    <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
-                        v-bind:isError="true" />
-                </div>
+        <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
+      </div>
     </div>
   </div>
 </template>
@@ -103,7 +99,7 @@ const onSubmit = async (): Promise<void> => {
     console.log("Login failed")
 
     if (response.status == 401) {
-      const errors = {formData: { userName: "Invalid Username or Password"}};
+      const errors = { formData: { userName: "Invalid Username or Password" } };
       $externalResults.value = errors;
       console.log(v$);
     }
