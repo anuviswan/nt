@@ -6,7 +6,12 @@ class HttpClient{
     private axiosInstance : AxiosInstance;
     
     constructor(){
-        this.axiosInstance = axios.create({baseURL: "http://localhost:8001/"});
+        const headers = {
+            "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+            "Content-Type": "application/json", // this shows the expected content type
+          };
+        this.axiosInstance = axios.create({baseURL: "http://localhost:8001/", headers:headers});
     }
 
     public async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {
@@ -21,7 +26,6 @@ class HttpClient{
                     status : error.response?.status,
                     errors : error.response?.data.errors
                 } 
-                console.log(error.response?.status)
             }
             else{
                 console.log("Some other error ?? " + error);

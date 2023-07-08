@@ -1,10 +1,6 @@
 import { IRegisterUserRequest, IRegisterUserResponse} from "../types/ApiRequestResponseTypes";
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
-import HttpClient from "./HttpClient";
+import{AxiosResponse} from "axios";
 import { ApiServiceBase } from "./ApiServiceBase";
-//import {registerUser} from "@/api/user.js"
-
-
 
 class UserApiService extends ApiServiceBase {
 
