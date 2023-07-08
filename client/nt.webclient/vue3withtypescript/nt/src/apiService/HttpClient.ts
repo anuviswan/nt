@@ -1,17 +1,18 @@
 import { IResponseBase } from "@/types/ApiRequestResponseTypes";
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from "axios";
 
-class HttpApiService{
-    private instance : AxiosInstance;
+class HttpClient{
+
+    private axiosInstance : AxiosInstance;
     
     constructor(){
-        this.instance = axios.create({baseURL: "http://localhost:8001/"});
+        this.axiosInstance = axios.create({baseURL: "http://localhost:8001/"});
     }
 
-    protected async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {
+    public async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {
 
         try{
-            const response =  await this.instance.request<T>(config); 
+            const response =  await this.axiosInstance.request<T>(config); 
             return response.data;
         }catch(error : AxiosError | any){
 
@@ -33,4 +34,4 @@ class HttpApiService{
     }
 }
 
-export default HttpApiService;
+export default HttpClient;

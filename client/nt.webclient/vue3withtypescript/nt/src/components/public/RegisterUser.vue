@@ -38,6 +38,10 @@
                 <div class="form-group">
                     <input type="submit" class="btn btn-block btn-primary" value="Submit" />
                 </div>
+
+                <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
+                    <ValidationMessage :messages="v$.serverMessage.$errors.map((x : any) => x.$message)" v-bind:isError="true" />
+                </div>
             </form>
             <div>
                 Already a member ?
@@ -61,15 +65,16 @@ interface IFormData {
     userName: string;
     password: string;
     confirmPassword: string;
-    $externalResults : any
 }
 
 const formData = ref<IFormData>({
     userName: '',
     password: '',
     confirmPassword: '',
-    $externalResults : {}
 });
+
+const $externalResults = ref({});
+const serverMessage = ref<string>('');
 
 const rules = computed(() => ({
     formData: {
@@ -79,7 +84,8 @@ const rules = computed(() => ({
         },
         password: { required: helpers.withMessage('Password cannot be empty', required), },
         confirmPassword: { sameAsPassword: helpers.withMessage('Password do not match', sameAs(formData.value.password)) }
-    }
+    },
+    serverMessage :{}
 
 }))
 
@@ -88,29 +94,40 @@ function hasError(d:string):boolean{
     return false;
 }
 
-const v$ = useVuelidate(rules, { formData });
+const v$ = useVuelidate(rules, { formData, serverMessage }, {$externalResults});
 
 const onSubmit = async (): Promise<void> => {
-
+    console.log(v$.value)
+    v$.value.$clearExternalResults();
     var validationResult = await v$.value.$validate();
+
     if (!validationResult) {
         console.log("Validation failed");
         return;
     }
-
     
     var response = await userApiService.registerUser({
         userName : formData.value.userName,
         password : formData.value.password,
     });
 
-    if(response) {
+    if(response.status != 200) {
+        console.log("Register failed")
         const errors = {
-            serverMessage : ['']
-        }
+            //serverMessage : ['asdasdasd']
+            formData:{
+                password : response.errors.Password,
+                confirmPassword :  response.errors.ConfirmPassword,
+                userName : response.errors.UserName
+            }
+        };
+
+        console.log(errors)
+
+        $externalResults.value = errors;    
     }
     else{
-        console.log("Register failed")
+        console.log("Register succeeded")
     }
 
     

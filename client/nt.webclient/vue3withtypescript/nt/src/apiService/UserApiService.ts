@@ -1,12 +1,13 @@
 import { IRegisterUserRequest, IRegisterUserResponse} from "../types/ApiRequestResponseTypes";
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
-import HttpApiService from "./HttpApiService";
+import HttpClient from "./HttpClient";
+import { ApiServiceBase } from "./ApiServiceBase";
 //import {registerUser} from "@/api/user.js"
 
 
 
-class UserApiService extends HttpApiService {
-    
+class UserApiService extends ApiServiceBase {
+
     public validateUser():boolean{
 
         return true;
