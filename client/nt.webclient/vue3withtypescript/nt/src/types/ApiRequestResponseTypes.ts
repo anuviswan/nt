@@ -26,7 +26,9 @@ export interface IValidateUserResponse extends IResponseBase {
         token: string,
         isAuthenticated: boolean,
         loginTime: Date,
-        userName: string
+        userName: string,
+        displayName? : string,
+        bio? : string
     }
 }
 

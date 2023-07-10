@@ -48,6 +48,8 @@ import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import { computed, ref } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
+import LoggedInUser from "@/types/StoreTypes";
+import useUserStore from "@/stores/userStore"
 interface IFormData {
   userName: string;
   password: string;
@@ -57,6 +59,8 @@ const formData = ref<IFormData>({
   userName: '',
   password: ''
 });
+
+const userStoreInstance = userStore();
 
 const $externalResults = ref({});
 const serverMessage = ref<string[]>([]);
@@ -114,9 +118,24 @@ const onSubmit = async (): Promise<void> => {
       console.log(v$);
     }
   }
-  else { console.log('succeeeded'); }
+  else 
+  { 
+    console.log('succeeeded'); 
   // Store in VueStore
+    const loggedInUser : LoggedInUser = { 
+      userName : response.data.userName,
+      displayName : response.data.displayName,
+      bio : response.data.bio,
+      token : response.data.token      
+    };
+
+    userStoreInstance.SaveUser(loggedInUser);
+  }
 
 }
 
+
+function userStore() {
+  throw new Error("Function not implemented.");
+}
 </script>
