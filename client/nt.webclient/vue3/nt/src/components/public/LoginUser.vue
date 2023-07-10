@@ -62,16 +62,17 @@
 <script setup>
 import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage";
-import { useStore } from "vuex";
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers  } from '@vuelidate/validators'
 import {validateUser} from "@/api/user.js"
 import router from "@/router";
+import {useUserStore} from '@/stores/user'
 
 const userName = ref("");
 const password = ref("");
-const store = useStore();
 const $externalResults = ref({})
+
+const userStore = useUserStore();
 
 
 const rules = computed(()=>({
@@ -121,7 +122,7 @@ const onSubmit = async () => {
 
   console.log(currentUser);
 
-  store.dispatch("updateCurrentUser", currentUser);
+  userStore.SaveUser(currentUser);
 
   console.log("User authenticated and updated, redirecting now..");
   router.push("/p/dashboard");

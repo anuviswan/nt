@@ -4,10 +4,12 @@ import router from './router'
 import store from './store'
 import axios from "axios";
 import { getHttpHeader } from "./api/utils";
+import { createPinia } from 'pinia';
+
 //import VueSimpleAlert from "vue-simple-alert";
 
 
-
+const pinia = createPinia();
 //Vue.use(VCalendar);
 
 // Init plugin
@@ -15,6 +17,7 @@ import { getHttpHeader } from "./api/utils";
 // Vue.use(VueSimpleAlert);
 
 createApp(App).use(store)
+              .use(pinia)
               .use(router)
             //  .use(VueSimpleAlert)
             //  .use(VCalendar)
