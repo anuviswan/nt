@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+
 import axios from "axios";
 import { getHttpHeader } from "./api/utils";
 import { createPinia } from 'pinia';
@@ -16,8 +16,7 @@ const pinia = createPinia();
 // Vue.use(Loading);
 // Vue.use(VueSimpleAlert);
 
-createApp(App).use(store)
-              .use(pinia)
+createApp(App).use(pinia)
               .use(router)
             //  .use(VueSimpleAlert)
             //  .use(VCalendar)

@@ -66,7 +66,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers  } from '@vuelidate/validators'
 import {validateUser} from "@/api/user.js"
 import router from "@/router";
-import {useUserStore} from '@/stores/user'
+import {useUserStore} from '@/store/user'
 
 const userName = ref("");
 const password = ref("");

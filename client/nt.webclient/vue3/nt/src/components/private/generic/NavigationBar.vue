@@ -97,12 +97,16 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
+import {ref} from "vue"
+import {useUserStore} from "@/store/user"
 
-const store = useStore();
-const currentUser = computed(() => store.getters.currentUser);
-console.log(currentUser.value.bio);
+const store = useUserStore();
+const currentUser = ref({
+  userName: store.UserName,
+  displayName: store.DisplayName,
+  bio: store.Bio
+});
+console.log(currentUser.value.userName);
 console.log("getter");
 </script>
 
