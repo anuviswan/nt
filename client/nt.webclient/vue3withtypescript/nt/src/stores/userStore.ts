@@ -1,4 +1,4 @@
-import LoggedInUser from "@/types/StoreTypes";
+import {LoggedInUser} from "@/types/StoreTypes";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
