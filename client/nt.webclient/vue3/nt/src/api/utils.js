@@ -1,4 +1,4 @@
-import store from "../store/index";
+import {useUserStore} from "@/store/user.js"
 
 const getHttpHeader = () => {
   
@@ -8,8 +8,10 @@ const getHttpHeader = () => {
     "Content-Type": "application/json", // this shows the expected content type
   };
 
-  if(store.getters.currentUser){
-    const authToken = store.getters.currentUser.token;
+  const userStore = useUserStore();
+
+  if(userStore.UserName){
+    const authToken = userStore.Token;
     if (authToken) {
       headers.Authorization = `Bearer ${authToken}`;
     }

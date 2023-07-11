@@ -34,17 +34,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
+import { ref } from "vue";
+import { useUserStore } from "@/store/user.js";
 import UserCard from "@/components/private/user/UserCard";
 
-const store = useStore();
-const currentUser = computed(() => store.getters.currentUser);
+const store = useUserStore();
+//const currentUser = computed(() => store.currentUser);
 
 const user = ref({
-  userName: currentUser.value.userName,
-  displayName: currentUser.value.displayName,
-  rating: currentUser.value.rating,
+  userName: store.UserName,
+  displayName: store.DisplayName,
+  rating: store.Rating,
 });
 
 console.log("Default User");
