@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using nt.gateway.OcelotExtensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Values;
 using System.Net;
 using System.Net.Security;
 using System.Text;
@@ -49,12 +51,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthentication(
         CertificateAuthenticationDefaults.AuthenticationScheme)
-    .AddCertificate();
+.AddCertificate();
+
+
 
 //builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
        .AddPollyWithInternalServerErrorHandling();
+builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
 var app = builder.Build();
 
 
@@ -75,6 +81,7 @@ app.MapGet("/dummy", () =>
 })
 .WithName("dummy");
 
+
 app.UseCors(corsPolicy);
 //app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -84,8 +91,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseOcelot().Wait();
-
-
+app.UseSwaggerForOcelotUI(opt =>
+{
+    opt.PathToSwaggerGenerator = "/swagger/docs";
+});
 
 
 app.MapRazorPages();

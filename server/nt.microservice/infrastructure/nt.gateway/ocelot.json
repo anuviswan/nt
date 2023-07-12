@@ -23,7 +23,8 @@
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,
-        "TimeoutValue": 3000
+        "TimeoutValue": 3000,
+        "SwaggerKey": "authentication"
       }
     },
     {
@@ -55,7 +56,7 @@
           "Host": "host.docker.internal",
           "Port": 8100
         }
-        
+
       ],
       "UpstreamPathTemplate": "/user/authenticate",
       "UpstreamHttpMethod": [ "Post" ],
@@ -87,6 +88,16 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthenticationKey",
         "AllowedScopes": []
+      }
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "authentication",
+      "Config": {
+        "Name": "Authentication API",
+        "Version": "V1",
+        "Url": "http://localhost:8100/swagger/v0.9/swagger.json"
       }
     }
   ],
