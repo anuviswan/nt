@@ -59,6 +59,9 @@ builder.Services.AddAuthentication(
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
        .AddPollyWithInternalServerErrorHandling();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
 var app = builder.Build();
@@ -91,10 +94,17 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseOcelot().Wait();
-app.UseSwaggerForOcelotUI(opt =>
+if (app.Environment.IsDevelopment())
 {
-    opt.PathToSwaggerGenerator = "/swagger/docs";
-});
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseSwaggerForOcelotUI(opt =>
+    {
+        opt.PathToSwaggerGenerator = "/swagger/docs";
+    });
+
+}
+
 
 
 app.MapRazorPages();

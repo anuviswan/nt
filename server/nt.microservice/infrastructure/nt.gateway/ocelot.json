@@ -20,11 +20,12 @@
       ],
       "UpstreamPathTemplate": "/demo/auth",
       "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "authentication",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,
-        "TimeoutValue": 3000,
-        "SwaggerKey": "authentication"
+        "TimeoutValue": 3000
+
       }
     },
     {
@@ -40,6 +41,7 @@
       ],
       "UpstreamPathTemplate": "/user/createuser",
       "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "authentication",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,
@@ -53,13 +55,14 @@
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
-          "Host": "host.docker.internal",
+          "Host": "localhost",
           "Port": 8100
         }
 
       ],
       "UpstreamPathTemplate": "/user/authenticate",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "SwaggerKey": "authentication",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 1000,
@@ -80,6 +83,7 @@
       ],
       "UpstreamPathTemplate": "/user/changepassword",
       "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "authentication",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,
@@ -94,11 +98,15 @@
   "SwaggerEndPoints": [
     {
       "Key": "authentication",
-      "Config": {
-        "Name": "Authentication API",
-        "Version": "V1",
-        "Url": "http://localhost:8100/swagger/v0.9/swagger.json"
-      }
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "Authentication API",
+          "Version": "v1",
+          //"Url": "http://localhost:8100/swagger/v0.9/swagger.json"
+          "Url": "http://localhost:8100/swagger/v1/swagger.json"
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {
