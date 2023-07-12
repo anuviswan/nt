@@ -1,10 +1,9 @@
 ﻿using Nt.WpfClient.ViewModels.Base;
 
-namespace Nt.WpfClient.Interfaces
+namespace Nt.WpfClient.Interfaces;
+
+public interface IHasMenuReference
 {
-    public interface IHasMenuReference
-    {
-        string Title { get; }
-        object Icon { get; }
-    }
+    string Title { get; }
+    object Icon { get; }
 }

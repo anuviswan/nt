@@ -6,27 +6,26 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Nt.WpfClient.Converters
-{
-    public class PageCollectionToMenuItemConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if(value is IEnumerable<NtMenuItemViewModelBase> nmItemCollection)
-            {
-                return nmItemCollection.Select(item => new HamburgerMenuIconItem
-                {
-                    Tag = item,
-                    Icon = item.Icon,
-                    Label = item.Title
-                });
-            }
-            return value;
-        }
+namespace Nt.WpfClient.Converters;
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+public class PageCollectionToMenuItemConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if(value is IEnumerable<NtMenuItemViewModelBase> nmItemCollection)
         {
-            throw new NotImplementedException();
+            return nmItemCollection.Select(item => new HamburgerMenuIconItem
+            {
+                Tag = item,
+                Icon = item.Icon,
+                Label = item.Title
+            });
         }
+        return value;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
