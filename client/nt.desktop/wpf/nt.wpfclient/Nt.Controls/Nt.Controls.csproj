@@ -46,12 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Data\Nt.Data.Contracts\Nt.Data.Contracts.csproj" />
     <ProjectReference Include="..\Data\Nt.Data\Nt.Data.csproj" />
-    <ProjectReference Include="..\Utils\Nt.Utils.Resources\Nt.Utils.Resources.csproj" />
     <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Caliburn.Micro.Core" Version="3.2.0" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />

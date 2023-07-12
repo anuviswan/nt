@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nt.Controls.UserProfile
+namespace Nt.Controls.UserProfile;
+
+public class UserProfileControl: NtControlBase<UserProfileViewModel>
 {
-    public class UserProfileControl: NtControlBase<UserProfileViewModel>
-    {
-        public string UserName { get; set; }
-        public string UserDisplayName { get; set; }
-        public string Bio { get; set; }
-    }
+    public string UserName { get; set; }
+    public string UserDisplayName { get; set; }
+    public string Bio { get; set; }
 }
