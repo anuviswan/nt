@@ -4,10 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Nt.Utils.Models;
 
-namespace Nt.Utils.ServiceInterfaces
+namespace Nt.Utils.ServiceInterfaces;
+
+public interface IMovieService
 {
-    public interface IMovieService
-    {
-        Task<IEnumerable<MovieReview>> GetRecentReviews();
-    }
+    Task<IEnumerable<MovieReview>> GetRecentReviews();
 }

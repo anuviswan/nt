@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Nt.Utils.Interfaces
+namespace Nt.Utils.Interfaces;
+
+public interface IHasId
 {
-    public interface IHasId
-    {
-        string Id { get; set; }
-    }
+    string Id { get; set; }
 }
