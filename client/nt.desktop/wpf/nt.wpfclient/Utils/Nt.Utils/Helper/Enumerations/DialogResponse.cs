@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nt.Utils.Helper.Enumerations
+namespace Nt.Utils.Helper.Enumerations;
+
+public enum DialogResponse
 {
-    public enum DialogResponse
-    {
-        Ok,
-        Cancel
-    }
+    Ok,
+    Cancel
 }

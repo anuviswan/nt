@@ -1,10 +1,9 @@
-﻿namespace Nt.Utils.Helper.Enumerations
+﻿namespace Nt.Utils.Helper.Enumerations;
+
+public enum Direction
 {
-    public enum Direction
-    {
-        Left,
-        Right,
-        Bottom,
-        Top
-    }
+    Left,
+    Right,
+    Bottom,
+    Top
 }

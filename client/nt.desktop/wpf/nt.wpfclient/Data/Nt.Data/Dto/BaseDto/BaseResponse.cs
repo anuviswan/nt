@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nt.Data.Dto.BaseDto
+namespace Nt.Data.Dto.BaseDto;
+
+public class BaseResponse:IBaseResponse
 {
-    public class BaseResponse:IBaseResponse
-    {
-        public IEnumerable<string> Errors { get; set; }
-        public bool HasError => Errors?.Any() == true;
-    }
+    public IEnumerable<string> Errors { get; set; }
+    public bool HasError => Errors?.Any() == true;
 }
