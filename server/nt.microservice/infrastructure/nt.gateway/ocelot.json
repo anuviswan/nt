@@ -55,7 +55,7 @@
           "Host": "host.docker.internal",
           "Port": 8100
         }
-        
+
       ],
       "UpstreamPathTemplate": "/user/authenticate",
       "UpstreamHttpMethod": [ "Post" ],
@@ -88,8 +88,46 @@
         "AuthenticationProviderKey": "GatewayAuthenticationKey",
         "AllowedScopes": []
       }
+    },
+
+    // for gateway swagger integration
+
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamSchema": "http",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8100
+        }
+
+      ],
+      "UpstreamPathTemplate": "/",
+      "UpstreamHttpMethod": [ "GET","POST" ],
+      "SwaggerKey": "authentication",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 1000,
+        "TimeoutValue": 10000
+      }
     }
   ],
+
+  "SwaggerEndPoints": [
+    {
+      "Key": "authentication",
+      "Config": [
+        {
+          "Name": "Authentication API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:8100/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:8001"
     //"BaseUrl": "http://localhost:5017"
