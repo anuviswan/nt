@@ -36,6 +36,7 @@ public class RegisterUserTests:ControllerTestBase
         mockMapper.Setup(x => x.Map<CreateUserResponseViewModel>(It.IsAny<UserMetaInformation>())).Returns<UserMetaInformation>(x => new CreateUserResponseViewModel
         {
             UserName = x.UserName,
+            DisplayName = x.DisplayName
         });
 
         mockPublishEndPoint.Setup(x => x.Publish(It.IsAny<object>(), It.IsAny<CancellationToken>()));
@@ -94,6 +95,7 @@ public class RegisterUserTests:ControllerTestBase
         mockMapper.Setup(x => x.Map<CreateUserResponseViewModel>(It.IsAny<UserMetaInformation>())).Returns<UserMetaInformation>(x => new CreateUserResponseViewModel
         {
             UserName = x.UserName,
+            DisplayName = x.DisplayName
         });
 
         var nullLogger = CreateNullLogger<UserController>();
