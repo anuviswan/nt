@@ -3,11 +3,11 @@ import axios from "axios";
 const validateUser = async (userName, passKey) => {
   const userDetails = {
     userName: userName,
-    passWord: btoa(passKey),
+    passKey: btoa(passKey),
   };
 
   const response = await axios.post(
-    "/user/authenticate",
+    "api/user/validateuser",
     userDetails
   );
   return response;
@@ -73,12 +73,12 @@ const searchUser = async (searchTerm) => {
 const registerUser = async (userName, displayName, passKey) => {
   const userDetails = {
     userName: userName,
-    password: btoa(passKey),
-    displayName : displayName
+    passKey: btoa(passKey),
+    displayName : displayName,
   };
 
   const response = await axios.post(
-    "/user/createuser",
+    "api/user/createuser",
     userDetails
   );
 
