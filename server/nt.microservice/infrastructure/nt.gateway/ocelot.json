@@ -1,11 +1,7 @@
-/*
-   AuthService : Port 8002
-   UserService : Port 8003
-*/
-
 {
   "Routes": [
 
+    // Demo Method
     {
       "DownstreamPathTemplate": "/api/User/demomethod",
       "DownstreamSchema": "http",
@@ -26,6 +22,8 @@
         "TimeoutValue": 3000
       }
     },
+
+    // Register User
     {
       "DownstreamPathTemplate": "/api/Users/Register",
       "DownstreamSchema": "http",
@@ -37,7 +35,7 @@
           "Port": 8301
         }
       ],
-      "UpstreamPathTemplate": "/user/createuser",
+      "UpstreamPathTemplate": "/api/user/createuser",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
@@ -45,6 +43,8 @@
         "TimeoutValue": 3000
       }
     },
+
+    // Authenticate
     {
       "DownstreamPathTemplate": "/api/authenticate/Validate",
       "DownstreamSchema": "http",
@@ -57,7 +57,7 @@
         }
 
       ],
-      "UpstreamPathTemplate": "/user/authenticate",
+      "UpstreamPathTemplate": "api/user/validateuser",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
@@ -66,6 +66,8 @@
       }
 
     },
+
+    // Change Password
     {
       "DownstreamPathTemplate": "/Users/ChangePassword",
       "DownstreamSchema": "https",
