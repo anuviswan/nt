@@ -104,9 +104,31 @@
         }
 
       ],
-      "UpstreamPathTemplate": "/",
-      "UpstreamHttpMethod": [ "GET","POST" ],
+      "UpstreamPathTemplate": "/authenticate",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "authentication",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 1000,
+        "TimeoutValue": 10000
+      }
+    },
+
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamSchema": "http",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8100
+        }
+
+      ],
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "user",
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 1000,
@@ -123,6 +145,17 @@
           "Name": "Authentication API",
           "Version": "v1",
           "Url": "http://host.docker.internal:8100/swagger/v1/swagger.json"
+        }
+      ]
+    },
+
+    {
+      "Key": "user",
+      "Config": [
+        {
+          "Name": "User API",
+          "Version": "v1",
+          "Url": "http://host.docker.internal:8301/swagger/v1/swagger.json"
         }
       ]
     }
