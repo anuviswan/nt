@@ -1,27 +1,6 @@
 {
   "Routes": [
-
-    // Demo Method
-    {
-      "DownstreamPathTemplate": "/api/User/demomethod",
-      "DownstreamSchema": "http",
-      "DownstreamHttpMethod": "GET",
-      "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          //"Host": "localhost",
-          "Port": "8002"
-        }
-      ],
-      "UpstreamPathTemplate": "/demo/auth",
-      "UpstreamHttpMethod": [ "GET" ],
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 10000,
-        "TimeoutValue": 3000
-      }
-    },
+      
 
     // Register User
     {
@@ -57,7 +36,7 @@
         }
 
       ],
-      "UpstreamPathTemplate": "api/user/validateuser",
+      "UpstreamPathTemplate": "/api/user/validateuser",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,

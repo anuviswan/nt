@@ -1,7 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Nt Demo Application REST API
-  description: The document defines the endpoints to be used with Nt Demo Applications and serves as guideline for API developers.
+  title: Nt.Infrastructure.WebApi
   version: '1.0'
 paths:
   /api/Movie/CreateMovie:
@@ -830,9 +829,6 @@ components:
         loginTime:
           type: string
           format: date-time
-        authenticationToken:
-          type: string
-          nullable: true
         displayName:
           type: string
           nullable: true
