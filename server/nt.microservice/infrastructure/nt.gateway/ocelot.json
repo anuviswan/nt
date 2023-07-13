@@ -54,8 +54,8 @@
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "7236"
+          "Host": "host.docker.internal",
+          "Port": "8301"
         }
       ],
       "UpstreamPathTemplate": "/user/changepassword",
