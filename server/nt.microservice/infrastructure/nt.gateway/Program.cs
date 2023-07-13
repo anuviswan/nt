@@ -2,17 +2,15 @@ using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MMLib.SwaggerForOcelot.DependencyInjection;
 using nt.gateway.OcelotExtensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Values;
-using System.Net;
-using System.Net.Security;
 using System.Text;
-using MMLib.SwaggerForOcelot.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Configuration.AddOcelotWithSwaggerSupport((c) => c.PrimaryOcelotConfigFileName = "ocelot.json");
 var corsPolicy = "_ntClientAppsOrigins";
 
 //Add services to the container.
@@ -61,8 +59,10 @@ builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
        .AddPollyWithInternalServerErrorHandling();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
+
 //builder.Services.AddControllers();
 
 //builder.Services.AddSwaggerGen(c =>
@@ -100,10 +100,19 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 //app.UseOcelot().Wait();
+
+//app.UseSwaggerForOcelotUI(opt =>
+//{
+//    opt.DownstreamSwaggerEndPointBasePath = "/gateway/swagger/docs";
+//    opt.PathToSwaggerGenerator = "/swagger/docs";
+//})
+//            .UseOcelot()
+//            .Wait();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
     app.UseSwaggerForOcelotUI(opt =>
     {
         opt.PathToSwaggerGenerator = "/swagger/docs";

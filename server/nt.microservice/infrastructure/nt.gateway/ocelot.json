@@ -6,61 +6,61 @@
 {
   "Routes": [
 
-    {
-      "DownstreamPathTemplate": "/api/User/demomethod",
-      "DownstreamSchema": "http",
-      "DownstreamHttpMethod": "GET",
-      "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          //"Host": "localhost",
-          "Port": "8002"
-        }
-      ],
-      "UpstreamPathTemplate": "/demo/auth",
-      "UpstreamHttpMethod": [ "GET" ],
-      "SwaggerKey": "authentication",
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 10000,
-        "TimeoutValue": 3000
+    //{
+    //  "DownstreamPathTemplate": "/api/User/demomethod",
+    //  "DownstreamSchema": "http",
+    //  "DownstreamHttpMethod": "GET",
+    //  "RouteIsCaseSensitive": false,
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "host.docker.internal",
+    //      //"Host": "localhost",
+    //      "Port": "8002"
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/demo/auth",
+    //  "UpstreamHttpMethod": [ "GET" ],
+    //  "SwaggerKey": "authentication1",
+    //  "QoSOptions": {
+    //    "ExceptionsAllowedBeforeBreaking": 2,
+    //    "DurationOfBreak": 10000,
+    //    "TimeoutValue": 3000
 
-      }
-    },
+    //  }
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/api/Users/Register",
+    //  "DownstreamSchema": "http",
+    //  "DownstreamHttpMethod": "POST",
+    //  "RouteIsCaseSensitive": false,
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "host.docker.internal",
+    //      "Port": 8301
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/user/createuser",
+    //  "UpstreamHttpMethod": [ "Post" ],
+    //  "SwaggerKey": "authentication1",
+    //  "QoSOptions": {
+    //    "ExceptionsAllowedBeforeBreaking": 2,
+    //    "DurationOfBreak": 10000,
+    //    "TimeoutValue": 3000
+    //  }
+    //},
     {
-      "DownstreamPathTemplate": "/api/Users/Register",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamSchema": "http",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 8301
-        }
-      ],
-      "UpstreamPathTemplate": "/user/createuser",
-      "UpstreamHttpMethod": [ "Post" ],
-      "SwaggerKey": "authentication",
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 10000,
-        "TimeoutValue": 3000
-      }
-    },
-    {
-      "DownstreamPathTemplate": "/api/authenticate/Validate",
-      "DownstreamSchema": "http",
-      "DownstreamHttpMethod": "POST",
-      "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
           "Port": 8100
         }
 
       ],
-      "UpstreamPathTemplate": "/user/authenticate",
+      "UpstreamPathTemplate": "/authentication/{everything}",
       "UpstreamHttpMethod": [ "GET" ],
       "SwaggerKey": "authentication",
       "QoSOptions": {
@@ -70,41 +70,43 @@
       }
 
     },
-    {
-      "DownstreamPathTemplate": "/Users/ChangePassword",
-      "DownstreamSchema": "https",
-      "DownstreamHttpMethod": "POST",
-      "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "7236"
-        }
-      ],
-      "UpstreamPathTemplate": "/user/changepassword",
-      "UpstreamHttpMethod": [ "POST" ],
-      "SwaggerKey": "authentication",
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 10000,
-        "TimeoutValue": 3000
-      },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "GatewayAuthenticationKey",
-        "AllowedScopes": []
-      }
-    }
+    //{
+    //  "DownstreamPathTemplate": "/Users/ChangePassword",
+    //  "DownstreamSchema": "https",
+    //  "DownstreamHttpMethod": "POST",
+    //  "RouteIsCaseSensitive": false,
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": "7236"
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/user/changepassword",
+    //  "UpstreamHttpMethod": [ "POST" ],
+    //  "SwaggerKey": "authentication1",
+    //  "QoSOptions": {
+    //    "ExceptionsAllowedBeforeBreaking": 2,
+    //    "DurationOfBreak": 10000,
+    //    "TimeoutValue": 3000
+    //  },
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "GatewayAuthenticationKey",
+    //    "AllowedScopes": []
+    //  }
+    //}
   ],
   "SwaggerEndPoints": [
     {
       "Key": "authentication",
-      "TransformByOcelotConfig": false,
+      //"TransformByOcelotConfig": false,
+      //"TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "Authentication API",
           "Version": "v1",
+
           //"Url": "http://localhost:8100/swagger/v0.9/swagger.json"
-          "Url": "http://localhost:8100/swagger/v1/swagger.json"
+          "Url": "http://host.docker.internal:8100/swagger/v1/swagger.json"
         }
       ]
     }
