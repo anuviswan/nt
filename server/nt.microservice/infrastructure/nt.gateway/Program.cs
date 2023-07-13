@@ -9,6 +9,8 @@ using Ocelot.Values;
 using System.Net;
 using System.Net.Security;
 using System.Text;
+using MMLib.SwaggerForOcelot.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var corsPolicy = "_ntClientAppsOrigins";
@@ -55,14 +57,18 @@ builder.Services.AddAuthentication(
 
 
 
-//builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
        .AddPollyWithInternalServerErrorHandling();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
+//builder.Services.AddControllers();
+
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+//});
 
 var app = builder.Build();
 
@@ -93,7 +99,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseOcelot().Wait();
+//app.UseOcelot().Wait();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -101,7 +107,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerForOcelotUI(opt =>
     {
         opt.PathToSwaggerGenerator = "/swagger/docs";
-    });
+    }).UseOcelot().Wait();
 
 }
 
