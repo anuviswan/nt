@@ -5,6 +5,7 @@ namespace UserService.Domain.Entities;
 [NotMapped]
 public class User : IEntity
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
     public string UserName { get; set; }
     

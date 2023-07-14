@@ -11,11 +11,7 @@
           <input
             type="text"
             v-model="userName"
-            v-bind:class="
-              hasError('userName')
-                ? 'form-control block is-invalid'
-                : 'form-control block'
-            "
+            class="form-control block"
             placeholder="Username"
           />
         </div>
@@ -28,11 +24,7 @@
           <input
             type="password"
             v-model="password"
-            v-bind:class="
-              hasError('password')
-                ? 'form-control block is-invalid'
-                : 'form-control block'
-            "
+            class="form-control block"
             placeholder="Password"
           />
         </div>
@@ -45,11 +37,7 @@
           <input
             type="password"
             v-model="confirmPassword"
-            v-bind:class="
-              hasError('confirmPassword')
-                ? 'form-control block is-invalid'
-                : 'form-control block'
-            "
+            class="form-control block"
             placeholder="Confirm Password"
           />
         </div>
@@ -85,6 +73,7 @@ import {registerUser} from "@/api/user.js"
 const userName = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+const $externalResults = ref({})
 
 
 const rules = computed(()=>({
@@ -92,25 +81,37 @@ const rules = computed(()=>({
                 required:helpers.withMessage('Username cannot be empty', required), 
                 minLengthValue: helpers.withMessage('Username should minimum 4 characters',minLength(4)) 
              },
-  password : {required:helpers.withMessage('Password cannot be empty', required),  },
+  password : 
+            {
+              required:helpers.withMessage('Password cannot be empty', required),  
+              minLengthValue: helpers.withMessage('Password should minimum 4 characters',minLength(4)) 
+            },
   confirmPassword : { sameAsPassword: helpers.withMessage('Password do not match', sameAs(password))}
 }))
 
-const hasError = (d)=> {
-  console.log(d);
-  return true;
-}
-
-const v$ = useVuelidate(rules,{userName,password,confirmPassword});
+const v$ = useVuelidate(rules,{userName,password,confirmPassword},{ $externalResults});
 
 const onSubmit = async () => {
  
+  v$.value.$clearExternalResults();
   var validationResult = await v$.value.$validate();
   if (!validationResult) {
         console.log("Validation failed");
         return;
       }
-      await registerUser(userName.value,'',password.value);
+      const response = await registerUser(userName.value,'',password.value);
+
+      if(response.hasError){
+        // error
+      }
+      else{
+        const errors = {
+        userName : ['user created successfully']
+       };
+        $externalResults.value = errors;
+      }
+
+
 }
 
 
