@@ -17,9 +17,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposab
         ArgumentNullException.ThrowIfNull(entity);
         var entities = UserDbContext.Set<TEntity>();
         await entities.AddAsync(entity);
-
-        //UserDbContext.Attach(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-        //UserDbContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         await UserDbContext.SaveChangesAsync();
 
         return entity;
