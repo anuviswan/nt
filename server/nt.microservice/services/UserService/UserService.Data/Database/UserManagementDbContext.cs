@@ -27,21 +27,21 @@ public class UserManagementDbContext : DbContext
             {
                 Id = 1,
                 UserName = "jia.anu",
-                Bio = "I am jia anu",
+                Bio = "I am Jia anu",
                 DisplayName = "Jia Anu",
             },
             new UserMetaInformation
             {
                 Id = 2,
                 UserName = "naina.anu",
-                Bio = "I am naina anu",
+                Bio = "I am Naina anu",
                 DisplayName = "Naina Anu",
             },
             new UserMetaInformation
             {
                 Id = 3,
                 UserName = "sreena.anu",
-                Bio = "I am sreena anu",
+                Bio = "I am Sreena anu",
                 DisplayName = "Sreena Anu",
             },
             new UserMetaInformation

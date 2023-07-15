@@ -11,7 +11,7 @@ using UserService.Data.Database;
 namespace UserService.Data.Migrations
 {
     [DbContext(typeof(UserManagementDbContext))]
-    [Migration("20220607001536_InitialDb")]
+    ///[Migration("20220607001536_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,28 +51,28 @@ namespace UserService.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            Bio = "I am jia anu",
+                            Bio = "I am Jia anu",
                             DisplayName = "Jia Anu",
                             UserName = "jia.anu"
                         },
                         new
                         {
                             Id = 2L,
-                            Bio = "I am naina anu",
+                            Bio = "I am Naina anu",
                             DisplayName = "Naina Anu",
                             UserName = "naina.anu"
                         },
                         new
                         {
                             Id = 3L,
-                            Bio = "I am sreena anu",
+                            Bio = "I am Sreena anu",
                             DisplayName = "Sreena Anu",
                             UserName = "sreena.anu"
                         },
                         new
                         {
                             Id = 4L,
-                            Bio = "I am admin",
+                            Bio = "I am Admin",
                             DisplayName = "Admin",
                             UserName = "admin"
                         });

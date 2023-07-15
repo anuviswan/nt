@@ -1,5 +1,5 @@
 ﻿namespace UserService.Data.Repository;
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity, new()
+public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposable where TEntity : class, IEntity, new()
 {
     protected readonly UserManagementDbContext UserDbContext;
 
@@ -12,12 +12,13 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await UserDbContext.Set<TEntity>().FindAsync(id);
     }
 
-    public async Task<TEntity> AddAsync(TEntity entity)
+    public async Task<TEntity> AddAsync(TEntity entity) 
     {
         ArgumentNullException.ThrowIfNull(entity);
+        var entities = UserDbContext.Set<TEntity>();
+        await entities.AddAsync(entity);
 
-        await UserDbContext.AddAsync(entity);
-        UserDbContext.Attach(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //UserDbContext.Attach(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         //UserDbContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         await UserDbContext.SaveChangesAsync();
 
@@ -41,5 +42,27 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         UserDbContext.Remove(itemToRemove);
         await UserDbContext.SaveChangesAsync();
         return itemToRemove;
+    }
+
+    private bool _disposed = false;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            UserDbContext.Dispose();
+        }
+        _disposed = true;
+    }
+    public void Dispose()
+    {
+        // Dispose of unmanaged resources.
+        Dispose(true);
+        // Suppress finalization.
+        GC.SuppressFinalize(this);
     }
 }
