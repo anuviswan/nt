@@ -1,23 +1,28 @@
-﻿namespace UserService.Data.Repository;
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity, new()
+﻿using Microsoft.EntityFrameworkCore;
+namespace UserService.Data.Repository;
+public class GenericRepository<TEntity,TDbContext> : IGenericRepository<TEntity,TDbContext>, IDisposable
+    where TEntity : class, IEntity, new()
+    where TDbContext : DbContext
 {
-    protected readonly UserManagementDbContext UserDbContext;
+    protected readonly TDbContext DatabaseContext;
 
-    public GenericRepository(UserManagementDbContext userDbContext) => UserDbContext = userDbContext;
+    public GenericRepository(TDbContext dbContext) => DatabaseContext = dbContext;
 
-    public IEnumerable<TEntity> GetAll() => UserDbContext.Set<TEntity>();
+    public IEnumerable<TEntity> GetAll() => DatabaseContext.Set<TEntity>();
 
     public async Task<TEntity?> GetByIdAsync(long id)
     {
-        return await UserDbContext.Set<TEntity>().FindAsync(id);
+        return await DatabaseContext.Set<TEntity>().FindAsync(id).ConfigureAwait(false);
     }
 
-    public async Task<TEntity> AddAsync(TEntity entity)
+    public async Task<TEntity> AddAsync(TEntity entity) 
     {
         ArgumentNullException.ThrowIfNull(entity);
-
-        await UserDbContext.AddAsync(entity);
-        await UserDbContext.SaveChangesAsync();
+        var entities = DatabaseContext.Set<TEntity>();
+        
+        await entities.AddAsync(entity).ConfigureAwait(false);
+        DatabaseContext.Entry(entity).State = EntityState.Added;
+        await DatabaseContext.SaveChangesAsync().ConfigureAwait(false);
 
         return entity;
     }
@@ -26,8 +31,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         ArgumentNullException.ThrowIfNull(entity);
 
-        UserDbContext.Update(entity);
-        await UserDbContext.SaveChangesAsync();
+        DatabaseContext.Update(entity);
+        await DatabaseContext.SaveChangesAsync().ConfigureAwait(false);
 
         return entity;
     }
@@ -35,9 +40,36 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public async Task<TEntity> DeleteAsync(TEntity entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
-        var itemToRemove = await UserDbContext.Set<TEntity>().FindAsync(entity.Id);
-        UserDbContext.Remove(itemToRemove);
-        await UserDbContext.SaveChangesAsync();
-        return itemToRemove;
+        var itemToRemove = await DatabaseContext.Set<TEntity>().FindAsync(entity.Id).ConfigureAwait(false);
+        if (itemToRemove != null)
+        {
+            DatabaseContext.Remove<TEntity>(itemToRemove);
+            await DatabaseContext.SaveChangesAsync().ConfigureAwait(false);
+            return itemToRemove;
+        }
+
+        return await Task.FromException<TEntity>(new ArgumentOutOfRangeException());
+    }
+
+    private bool _disposed = false;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            DatabaseContext.Dispose();
+        }
+        _disposed = true;
+    }
+    public void Dispose()
+    {
+        // Dispose of unmanaged resources.
+        Dispose(true);
+        // Suppress finalization.
+        GC.SuppressFinalize(this);
     }
 }

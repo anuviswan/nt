@@ -126,7 +126,7 @@ services:
         nt.userservice.network:
     environment:
        ACCEPT_EULA: Y
-       SA_PASSWORD: Admin123 
+       MSSQL_SA_PASSWORD: Admin123 
 
 
   # Aschronous Messaging Services

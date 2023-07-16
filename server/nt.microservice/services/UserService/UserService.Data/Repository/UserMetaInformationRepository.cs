@@ -1,22 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Data.Repository;
-public class UserMetaInformationRepository : GenericRepository<UserMetaInformation>, IUserMetaInformationRepository
+public class UserMetaInformationRepository : GenericRepository<UserMetaInformation,UserManagementDbContext>, IUserMetaInformationRepository
 {
     public UserMetaInformationRepository(UserManagementDbContext userDbContext) : base(userDbContext)
     {
     }
 
-    public async Task<UserMetaInformation> GetUser(string username)
+    public async Task<UserMetaInformation?> GetUser(string username)
     {
-        return await UserDbContext.UserMetaInformation
-            .FirstOrDefaultAsync(x => x.UserName.ToLower() == username.ToLower());
+        return await DatabaseContext.UserMetaInformation
+            .FirstOrDefaultAsync(x => x.UserName.ToLower() == username.ToLower()).ConfigureAwait(false);
     }
 
 
     public async Task<IEnumerable<UserMetaInformation>> SearchUser(string searchTerm)
     {
-        var results = await UserDbContext.UserMetaInformation.Where(x=>x.DisplayName.StartsWith(searchTerm)).ToListAsync();
+        var results = await DatabaseContext.UserMetaInformation.Where(x=>x.DisplayName.StartsWith(searchTerm)).ToListAsync().ConfigureAwait(false);
         return results;
     } 
 }

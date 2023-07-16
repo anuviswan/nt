@@ -27,12 +27,12 @@ public class CreateUserInitiatedConsumer : IConsumer<CreateUserInitiated>
             var result = await _mediator.Send(new AddUserCommand
             {
                 User = userModel,
-            });
+            }).ConfigureAwait(false);
 
             await _publishEndPoint.Publish<CreateUserInitiatedSucceeded>(new ()
             {
                 UserName = result.UserName
-            });
+            }).ConfigureAwait(false);
 
         }
         catch (Exception e)
@@ -41,7 +41,7 @@ public class CreateUserInitiatedConsumer : IConsumer<CreateUserInitiated>
             {
                 ExceptionMessage = e.ToString(),
                 UserName = context.Message.UserName
-            });
+            }).ConfigureAwait(false);
         }
        
     }

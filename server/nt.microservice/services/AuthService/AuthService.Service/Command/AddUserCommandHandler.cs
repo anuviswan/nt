@@ -13,20 +13,12 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, User>
     }
     public async Task<User> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            using var uow = _unitOfWorkFactory.CreateUnitOfWork();
-            var userNameExists = (await uow.UserRepository.GetAll())
-                .Any(x => string.Equals(x.UserName, request.User.UserName, StringComparison.InvariantCultureIgnoreCase));
+        using var uow = _unitOfWorkFactory.CreateUnitOfWork();
+        var currentUsers = await uow.UserRepository.GetAll().ConfigureAwait(false);
+        var userNameExists = currentUsers.Any(x => string.Equals(x.UserName, request.User!.UserName, StringComparison.InvariantCultureIgnoreCase));
 
-            if (userNameExists) throw new UserAlreadyExistsException();
-            return await uow.UserRepository.AddAsync(request.User);
-        }
-        catch (Exception e)
-        {
+        if (userNameExists) throw new UserAlreadyExistsException();
+        return await uow.UserRepository.AddAsync(request.User!).ConfigureAwait(false);
 
-            throw;
-        }
-        
     }
 }
