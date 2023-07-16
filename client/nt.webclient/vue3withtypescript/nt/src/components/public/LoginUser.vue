@@ -93,7 +93,7 @@ const onSubmit = async (): Promise<void> => {
 
   var userInfo: IValidateUserRequest = {
     userName: formData.value.userName,
-    password: btoa(formData.value.password)
+    passKey: btoa(formData.value.password)
   };
 
   var response = await userApiService.validateUser(userInfo);
@@ -109,7 +109,7 @@ const onSubmit = async (): Promise<void> => {
     else if (response.errors != null) {
       const errors = {
         formData: {
-          password: response.errors.Password,
+          passKey: response.errors.Password,
           userName: response.errors.UserName
         }
       };
