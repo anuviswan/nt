@@ -112,7 +112,7 @@ const onSubmit = async (): Promise<void> => {
 
     var response = await userApiService.registerUser({
         userName: formData.value.userName,
-        password: formData.value.password,
+        passKey: formData.value.password,
     } as IRegisterUserRequest);
 
     if (response.status != 200) {
