@@ -15,7 +15,7 @@ public class UserManagementDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer("Server = nt.userservice.db; Database = NtUserDb; User Id = sa; Password = Admin123;");
+        optionsBuilder.UseSqlServer("Server = host.docker.internal; Database = NtUserDb; User Id = sa; Password = Admin123;");
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
