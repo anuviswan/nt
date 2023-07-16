@@ -17,8 +17,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, User>
         {
             using var uow = _unitOfWorkFactory.CreateUnitOfWork();
             var currentUsers = await uow.UserRepository.GetAll();
-            var userNameExists = (currentUsers)
-                .Any(x => string.Equals(x.UserName, request.User.UserName, StringComparison.InvariantCultureIgnoreCase));
+            var userNameExists = currentUsers.Any(x => string.Equals(x.UserName, request.User.UserName, StringComparison.InvariantCultureIgnoreCase));
 
             if (userNameExists) throw new UserAlreadyExistsException();
             return await uow.UserRepository.AddAsync(request.User);
