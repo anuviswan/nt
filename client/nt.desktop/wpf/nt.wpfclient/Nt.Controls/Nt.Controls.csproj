@@ -46,6 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Data\Nt.Data.Contracts\Nt.Data.Contracts.csproj" />
     <ProjectReference Include="..\Data\Nt.Data\Nt.Data.csproj" />
+    <ProjectReference Include="..\Utils\Nt.Utils.Resources\Nt.Utils.Resources.csproj" />
     <ProjectReference Include="..\Utils\Nt.Utils\Nt.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>

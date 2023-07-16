@@ -68,7 +68,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.x
+          dotnet-version: 7.x
       - name: Build WPF Desktop Client
         run: dotnet build --configuration Release .\client\nt.desktop\wpf\nt.wpfclient\nt.wpfclient.sln
 
