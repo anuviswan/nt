@@ -1,5 +1,9 @@
-﻿namespace UserService.Data.Repository;
-public interface IGenericRepository<TEntity> where TEntity : class, IEntity, new()
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace UserService.Data.Repository;
+public interface IGenericRepository<TEntity,TDbContext> 
+    where TEntity : class, IEntity, new()
+    where TDbContext : DbContext
 {
     IEnumerable<TEntity> GetAll();
     Task<TEntity?> GetByIdAsync(long id);

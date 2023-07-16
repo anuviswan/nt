@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserManagementDbContext>();
 
 builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
-builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
