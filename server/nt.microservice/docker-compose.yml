@@ -193,6 +193,13 @@ services:
     command:
           - '--config.file=/etc/prometheus/prometheus.yml'
 
+  nt.common.grafana:
+    image: grafana/grafana
+    hostname: nt.common.grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana-data/data:/var/lib/grafana
   ## Mongo Express to manage MongoDb
   #nt.common.mongoexpress:
   #  image: mongo-express
