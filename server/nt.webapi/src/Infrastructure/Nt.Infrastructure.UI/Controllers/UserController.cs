@@ -47,7 +47,7 @@ public class UserController : BaseController
     /// <returns>User List</returns>
     [HttpGet]
     [Route(GetAll_RouteName)]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<UserProfileResponse>>> GetAll()
     {
