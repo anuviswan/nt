@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
+using Prometheus;
 using System.Text;
 
 internal class Program
@@ -106,6 +107,10 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseRouting();
+        app.UseMetricServer();
+        app.UseHttpMetrics();
 
         app.Migrate();
         //app.UseHttpsRedirection();
