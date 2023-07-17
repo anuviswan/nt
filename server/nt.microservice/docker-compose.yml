@@ -181,6 +181,18 @@ services:
       nt.common.network:
       nt.authservice.network:
 
+
+  # Prometheus 
+  nt.common.prometheus:
+    image: prom/prometheus:latest
+    hostname: nt.common.prometheus
+    ports:
+        - '9090:9090'
+    volumes:
+        - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+          - '--config.file=/etc/prometheus/prometheus.yml'
+
   ## Mongo Express to manage MongoDb
   #nt.common.mongoexpress:
   #  image: mongo-express
