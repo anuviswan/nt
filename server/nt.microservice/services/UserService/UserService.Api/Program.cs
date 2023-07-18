@@ -7,6 +7,7 @@ using MassTransit;
 using UserService.Api.Settings;
 using UserService.Api.ConsumerServices;
 using Serilog.Formatting.Compact;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
@@ -87,6 +88,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     
 }
+app.UseRouting();
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 app.UseCors(corsPolicy);
 //app.UseHttpsRedirection();

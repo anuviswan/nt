@@ -1,0 +1,31 @@
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
+rule_files:
+  - alert.yml
+
+scrape_configs:
+  - job_name: prometheus
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - 'localhost:9090'
+  
+  - job_name: nt.gateway.api
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - 'host.docker.internal:8001'
+
+  - job_name: nt.userservice.api
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - 'host.docker.internal:8301'        
+
+  - job_name: nt.authservice.api
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - 'host.docker.internal:8100'                

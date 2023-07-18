@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using nt.gateway.OcelotExtensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Prometheus;
 using System.Net;
 using System.Net.Security;
 using System.Text;
@@ -82,6 +83,8 @@ app.UseCors(corsPolicy);
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
