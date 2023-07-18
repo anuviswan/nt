@@ -66,7 +66,7 @@ services:
   # Database
   nt.authservice.db:
     image: postgres:14.1-alpine
-    # container_name: nt.authservice.db
+    container_name: nt.authservice.db
     hostname: "nt.authservice.db"
     restart: always
     environment:
@@ -97,7 +97,7 @@ services:
   # Service 
   nt.userservice.service:
     image: ${DOCKER_REGISTRY-}userserviceapi
-    # container_name: nt.userservice.service
+    container_name: nt.userservice.service
     hostname: nt.userservice.service
     build:
       context: .
@@ -119,7 +119,7 @@ services:
   # Database
   nt.userservice.db:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    # container_name: nt.userservice.db
+    container_name: nt.userservice.db
     hostname: nt.userservice.db
     networks:
         nt.common.network:
@@ -137,9 +137,8 @@ services:
   # administrator/pass
   nt.common.rabbitmq:
     image: "rabbitmq:3.10.6-management-alpine"
-    # container_name: nt.common.rabbitmq
+    container_name: nt.common.rabbitmq
     hostname: "ntqueue"
-
     networks:
         nt.common.network:
         nt.userservice.network:
@@ -159,7 +158,7 @@ services:
   # Portainer
   nt.common.portainer:
     image: portainer/portainer-ce
-    # container_name: nt.common.portainer
+    container_name: nt.common.portainer
     restart: always
     hostname : nt.common.portainer
     volumes:
@@ -170,13 +169,11 @@ services:
   # PgAdmin to manage Postgres
   nt.common.pgadmin:
     image: dpage/pgadmin4:latest
-    # container_name: nt.common.pgadmin
+    container_name: nt.common.pgadmin
     hostname: nt.common.pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=Admin123
-    ports:
-      - '5050:80'
     networks:
       nt.common.network:
       nt.authservice.network:
@@ -186,8 +183,7 @@ services:
   nt.common.prometheus:
     image: prom/prometheus:latest
     hostname: nt.common.prometheus
-    ports:
-        - '9090:9090'
+    container_name: nt.common.prometheus
     volumes:
         - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
@@ -196,17 +192,18 @@ services:
   nt.common.grafana:
     image: grafana/grafana
     hostname: nt.common.grafana
-    ports:
-      - "3000:3000"
+    container_name: nt.common.grafana
     volumes:
       - ./grafana-data/data:/var/lib/grafana
+
+
+
   ## Mongo Express to manage MongoDb
   #nt.common.mongoexpress:
   #  image: mongo-express
   #  hostname: nt.common.mongoexpress
+  #  container_name: nt.common.mongoexpress
   #  restart: always
-  #  ports:
-  #    - 8081:8081
   #  environment:
   #    ME_CONFIG_MONGODB_ADMINUSERNAME: root
   #    ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
@@ -214,8 +211,6 @@ services:
   #  networks:
   #    nt.authservice.network:
   #    nt.common.network:
-
-
 
 
 volumes:
