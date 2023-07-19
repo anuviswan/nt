@@ -7,6 +7,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin123  
     ports:
       - '27017:27017'
+    networks:
+      common.network:      
     volumes:
       - dbdata:/data/db
     # healthcheck:
