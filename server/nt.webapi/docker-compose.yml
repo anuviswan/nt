@@ -1,37 +1,23 @@
 version: '3.8'
 services:
   mongodb:
-    image: mongo:latest
+    # image: mongo:latest
+    build : ./database
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: admin123  
+      MONGO_INITDB_DATABASE: nt
     ports:
       - '27017:27017'
     networks:
       common.network:      
     volumes:
       - dbdata:/data/db
-    # healthcheck:
-    #   test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
-    #   retries: 5
-    #   interval: 15s
-    #   start_period: 30s
-    # healthcheck:
-    #   test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
-    #   interval: 10s
-    #   timeout: 10s
-    #   retries: 5    
     healthcheck:
       test:   echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5   
-
-  mongodb.seed:
-    build: .\database
-    depends_on:
-      mongodb:
-        condition: service_healthy
 
   mongodb.express:
     image: mongo-express
@@ -51,19 +37,6 @@ services:
       mongodb:
         condition: service_healthy
 
-  ## Mongo Express to manage MongoDb
-  #nt.common.mongoexpress:
-  #  image: mongo-express
-  #  hostname: nt.common.mongoexpress
-  #  container_name: nt.common.mongoexpress
-  #  restart: always
-  #  environment:
-  #    ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #    ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-  #    ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
-  #  networks:
-  #    nt.authservice.network:
-  #    nt.common.network:    
 volumes:
   dbdata:
 

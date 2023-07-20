@@ -1,3 +1,5 @@
+db.Users.drop();
+db.Users.insertMany(
 [
     {
       "userName": "jiaanu",
@@ -17,4 +19,4 @@
       "displayName" : "Anu Viswan",
       "bio" : "This is Anu Viswan"
     },
-  ]
+])
