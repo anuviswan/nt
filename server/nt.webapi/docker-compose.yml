@@ -27,6 +27,12 @@ services:
       timeout: 10s
       retries: 5   
 
+  mongodb.seed:
+    build: .\database
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
   mongodb.express:
     image: mongo-express
     restart: unless-stopped
