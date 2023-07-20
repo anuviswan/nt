@@ -1,0 +1,11 @@
+# FROM mongo
+
+# COPY seed/Users.json /Users.json
+# CMD mongoimport --host mongodb --db reach-engine --username root --password admin123 --collection Users --type json --file /users.json --jsonArray
+
+
+# # mongoimport --uri "mongodb://**user:passwd**@***host:port***/database?ssl=true&replicaSet=**replicasetneme**"
+# # -c **collection** --file **csvFile** --fields **fields with comma separated**
+
+FROM mongo:latest
+COPY ./seed/Users.js /docker-entrypoint-initdb.d
