@@ -18,6 +18,7 @@ axios.interceptors.request.use((request) => {
     headers.Authorization = authToken;
   }
   request.headers = headers;
+  console.log(request);
   return request;
 });
 
