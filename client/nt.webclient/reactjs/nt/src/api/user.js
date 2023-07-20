@@ -86,6 +86,8 @@ const registerUser = async (userName, displayName, passKey) => {
     displayName: displayName,
     passKey: passKey,
   };
+
+  console.log(userDetails);
   const response = await axios.post(
     "https://localhost:44353/api/User/CreateUser",
     userDetails
