@@ -1,5 +1,5 @@
-db.User.drop();
-db.User.insertMany(
+db.Users.drop();
+db.Users.insertMany(
 [
     {
       "userName": "jiaanu",
