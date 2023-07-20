@@ -2,11 +2,11 @@ import React, { useState, useContext } from "react";
 import UserContext from "../../context/user/userContext";
 import ValidationMessage from "../../components/layout/validationMessage";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import { validateUser } from "../../api/user";
 
 const Login = () => {
-  const history = useHistory();
+  const history = useNavigate ();
 
   const userContext = useContext(UserContext);
   const initialProfileValue = {
