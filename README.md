@@ -4,32 +4,27 @@ NT, or November Talkies is a Twitter-modeled short _Movie Review_ application. I
 
 Inspired from gothinkster's famous realworld repository, this project services as a _playground_ for experimenting with different tech stacks. This provides a good oppurtunity to learn and experiment with different frameworks while working on a real world sample project.
 
-Current Implementations
+The same project is implemented using different frameworks. All the backend projects follow the same [API definition](https://github.com/anuviswan/nt/tree/master/server/nt.api.definition).
 
-### Server
+## Current Implementations
 
-| [.Net 5 Web Api MVC](https://github.com/anuviswan/nt/tree/master/server/nt.webapi) | [.Net 5 Web Api MVC Microservices](https://github.com/anuviswan/nt/tree/master/server/nt.microservice) |
+### Backend
 
-### Client
+ - [.Net Web API MVC](https://github.com/anuviswan/nt/tree/master/server/nt.webapi)
 
-| [ReactJs-ContextApi](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs) | [VueJs](https://github.com/anuviswan/nt/tree/master/nt.webclient/vuejs/nt) |
-| -------- | ------------- |
-| [Vue 3](https://github.com/anuviswan/nt/tree/master/nt.webclient/vue3/nt)          | [Typescript-Vuejs](https://github.com/anuviswan/nt/tree/master/nt.webclient/typescriptvuejs/nt) |
- [.Net-Wpf](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient) | - |
+  - [.Net Web Api MVC Microservices](https://github.com/anuviswan/nt/tree/master/server/nt.microservice) 
 
+  The backend projects are tracked using the [Backend Dashboard](https://github.com/users/anuviswan/projects/3). 
 
-### Database
+### Frontend
 
-| Database | Status        |
-| -------- | ------------- |
-| MongoDb  | _Completed_ |
-| SqlServer| _In Progress_ |
+  - [ReactJs ContextApi](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs) 
+  -  [Vue 2](https://github.com/anuviswan/nt/tree/master/nt.webclient/vuejs/nt) 
+  -  [Vue 3  Composition Api](https://github.com/anuviswan/nt/tree/master/nt.webclient/vue3/nt)         
+  - [Vue 3 + Typescript](https://github.com/anuviswan/nt/tree/master/nt.webclient/typescriptvuejs/nt)
+  - [WPF + C#](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient) 
 
-### Unit Tests
-
-| Framework      | Status        |
-| -------------- | ------------- |
-| Xunit with Moq | _Completed_   |
+The frontend projects are tracked using the [Project Dashboard](https://github.com/users/anuviswan/projects/2)
 
 
-
+_Note: The Project dashboard themselves are under-development and are incomplete_.
