@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import UserContext from "../../context/user/userContext";
 import ValidationMessage from "../../components/layout/validationMessage";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate  } from "react-router-dom";
 import { validateUser } from "../../api/user";
 
@@ -62,7 +62,7 @@ const Login = () => {
         isAuthenticated: isAuthenticated,
       });
       console.log(history);
-      history.push("/home");
+      history("/home");
       console.log("Redirecting...");
     }
   };
@@ -96,7 +96,7 @@ const Login = () => {
           />
         </form>
         <div>
-          <Link to='/signup'>Sign up here</Link>
+          <NavLink to='/signup'>Sign up here</NavLink>
         </div>
       </div>
     </div>
