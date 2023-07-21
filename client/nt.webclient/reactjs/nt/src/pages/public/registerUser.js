@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ValidationMessage from "../../components/layout/validationMessage";
 import { registerUser } from "../../api/user";
+import { NavLink } from "react-router-dom";
 const RegisterUser = () => {
   const initialValue = {
     userName: "",
@@ -193,6 +194,9 @@ const RegisterUser = () => {
                     value='Sign Up'
                     className='bg-primary btn-block'
                   />
+                  <div>
+                    <NavLink to="/">Sign in</NavLink>
+                  </div>
                   <ValidationMessage
                     isVisible={formValidation.isVisible}
                     message={formValidation.message}
