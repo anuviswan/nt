@@ -7,8 +7,10 @@
     </div>
   </template>
   
-  <script setup>
-  import NavigationBar from "@/components/private/generic/NavigationBar";
+  <script setup lang="ts">
+  import NavigationBar from "@/components/private/generic/NavigationBar.vue";
+
+
   </script>
   
   <style></style>

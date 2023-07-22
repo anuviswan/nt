@@ -99,6 +99,7 @@
 <script setup lang="ts">
 import {ref} from "vue"
 import {useUserStore} from "@/stores/userStore"
+import router from "@/router";
 
 const store = useUserStore();
 const currentUser = ref({
@@ -108,6 +109,12 @@ const currentUser = ref({
 });
 console.log(currentUser.value.userName);
 console.log("getter");
+
+const logout=():void=>{
+  console.log("logging out");
+  store.Reset();
+  router.push("/");
+}
 </script>
 
 <style scoped>
