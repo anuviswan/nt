@@ -50,7 +50,7 @@ import { computed, ref } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 import {LoggedInUser} from "@/types/StoreTypes";
 import {useUserStore} from "@/stores/userStore";
-
+import router from "@/router";
 
 interface IFormData {
   userName: string;
@@ -133,6 +133,9 @@ const onSubmit = async (): Promise<void> => {
     };
 
     userStoreInstance.SaveUser(loggedInUser);
+
+    console.log("User authenticated and updated, redirecting now..");
+    router.push("/p/dashboard");
   }
 
 }

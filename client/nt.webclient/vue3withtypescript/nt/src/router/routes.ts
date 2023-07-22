@@ -2,6 +2,8 @@ import routesNames  from "./routeNames";
 import { RouteRecordRaw } from 'vue-router'
 import HomePage from '@/pages/public/HomePage.vue';
 import RegisterPage from '@/pages/public/RegisterPage.vue'
+import DashboardPage from '@/pages/private/DashboardPage.vue'
+import PrivateContainer from '@/pages/private/PrivateContainer.vue' 
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -23,6 +25,22 @@ const routes: Array<RouteRecordRaw> = [
       name: routesNames.register.name,
       component: RegisterPage
     },
+    {
+      path: "/p",
+      name: "PrivateContainer",
+      component: PrivateContainer,
+      meta :{
+        requiresAuth : true,
+      },
+      children:[
+        {
+          path: routesNames.dashboard.path,
+          name : routesNames.dashboard.name,
+          component : DashboardPage
+        }
+      ]
+    }
+    
   
   ]
 

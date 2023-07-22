@@ -5,7 +5,8 @@ interface IRouteInfo{
 export interface IRouteNames{
     home : IRouteInfo,
     login : IRouteInfo,
-    register : IRouteInfo 
+    register : IRouteInfo,
+    dashboard : IRouteInfo
 }
 
 const routesNames: Readonly<IRouteNames> = {
@@ -20,6 +21,10 @@ const routesNames: Readonly<IRouteNames> = {
     register: {
         name : 'register',
         path : '/register'
+    },
+    dashboard:{
+        name : 'dashboard',
+        path : '/p/dashboard'
     }
 }
 
