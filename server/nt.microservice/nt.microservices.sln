@@ -49,7 +49,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nt.helper", "infrastructure\nt.helper\nt.helper.csproj", "{47D8D6C3-B720-4F92-853A-7D3D01E0127F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.shared.dto", "infrastructure\nt.shared.dto\nt.shared.dto.csproj", "{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nt.shared.dto", "infrastructure\nt.shared.dto\nt.shared.dto.csproj", "{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.saga.orchestrator", "infrastructure\nt.saga.orchestrator\nt.saga.orchestrator.csproj", "{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,10 @@ Global
 		{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,6 +165,7 @@ Global
 		{B11FA7F0-A483-4BA8-955E-CA64189F17AA} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
 		{47D8D6C3-B720-4F92-853A-7D3D01E0127F} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 		{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
+		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}
