@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nt.shared.dto", "infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.saga.orchestrator", "infrastructure\nt.saga.orchestrator\nt.saga.orchestrator.csproj", "{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.saga.orchestrator.test", "infrastructure\nt.saga.orchestrator.test\nt.saga.orchestrator.test.csproj", "{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +172,7 @@ Global
 		{47D8D6C3-B720-4F92-853A-7D3D01E0127F} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 		{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 		{320DF4DF-3E40-4D1A-866B-9B14D4D084E0} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
+		{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}
