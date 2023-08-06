@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using NSwag;
 using NSwag.CodeGeneration.CSharp;
+using nt.saga.orchestrator.test.Configurations;
 
 namespace nt.saga.orchestrator.test;
 
@@ -19,7 +20,12 @@ public class NSwagClientCreationTests
         configurationBuilder.AddJsonFile("appsettings.json");
         var config = configurationBuilder.Build();
 
-        var outputFolder = config["OutputDirectory"];
+        _outputFolder = config["OutputDirectory"];
+        if (Directory.Exists(_outputFolder))
+        {
+            Directory.CreateDirectory(_outputFolder);
+        }
+
         var userSettings = config.GetSection("ApiSettings").Get<IEnumerable<ApiSetting>>()!;
 
         _userServiceSettings = userSettings.First(x => string.Equals(x.Key, "UserService"));
@@ -31,29 +37,35 @@ public class NSwagClientCreationTests
    // [Ignore] 
     public async Task CreateApiService_For_UserService()
     {
-        await GenerateCSharpClient(_userServiceSettings.Uri, _userServiceSettings.OutputFileName).ConfigureAwait(false);
+        await GenerateCSharpClient(_userServiceSettings).ConfigureAwait(false);
     }
 
     [TestMethod]
     // [Ignore] 
     public async Task CreateApiService_For_AuthService()
     {
-        await GenerateCSharpClient(_authServiceSettings.Uri, _authServiceSettings.OutputFileName).ConfigureAwait(false);
+        await GenerateCSharpClient(_authServiceSettings).ConfigureAwait(false);
     }
 
-    private async Task GenerateCSharpClient(string url, string outputFilePath)
+    private async Task GenerateCSharpClient(ApiSetting apiSettings)
     {
-        var openAiDocument = await OpenApiDocument.FromUrlAsync(url);
+        var openAiDocument = await OpenApiDocument.FromUrlAsync(apiSettings.Uri);
 
         var settings = new CSharpClientGeneratorSettings
         {
-            UseBaseUrl = false
+            UseBaseUrl = false,
+            ClassName = apiSettings.ClassName,
+            CSharpGeneratorSettings =
+            {
+                Namespace = apiSettings.Namespace,
+                ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco,
+            },
         };
 
         var codeGenerator = new CSharpClientGenerator(openAiDocument,settings);
         var sourceCode = codeGenerator.GenerateFile();
 
-        await File.WriteAllTextAsync(outputFilePath, sourceCode).ConfigureAwait(false);
+        await File.WriteAllTextAsync(Path.Combine(_outputFolder, apiSettings.FileName), sourceCode).ConfigureAwait(false);
 
     }
 
