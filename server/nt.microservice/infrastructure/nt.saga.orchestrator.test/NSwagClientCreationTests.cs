@@ -1,12 +1,13 @@
+using Microsoft.Extensions.Configuration;
 using NSwag;
 using NSwag.CodeGeneration.CSharp;
-using System.Configuration;
 
 namespace nt.saga.orchestrator.test;
 
 [TestClass]
 public class NSwagClientCreationTests
 {
+    private string _outputFolder = null!;
     private ApiSetting _userServiceSettings = null!;
     private ApiSetting _authServiceSettings = null!;
 
@@ -14,27 +15,15 @@ public class NSwagClientCreationTests
     [TestInitialize]
     public void Initialize()
     {
-        var fileMap = new ExeConfigurationFileMap
-        {
-            ExeConfigFilename = @"appSettings.config"
-        };
+        var configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.AddJsonFile("appsettings.json");
+        var config = configurationBuilder.Build();
 
-        var config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+        var outputFolder = config["OutputDirectory"];
+        var userSettings = config.GetSection("ApiSettings").Get<IEnumerable<ApiSetting>>()!;
 
-        var outputFolder = config.AppSettings.Settings["OutputDirectory"].Value;
-
-        if (!Directory.Exists(outputFolder))
-        {
-            Directory.CreateDirectory(outputFolder);
-        }
-
-
-        _userServiceSettings = new ApiSetting(config.AppSettings.Settings["UserServiceSwaggerUri"].Value,
-                                             Path.Combine(outputFolder, config.AppSettings.Settings["UserServiceSwaggerOutputFileName"].Value));
-
-        _authServiceSettings = new ApiSetting(config.AppSettings.Settings["AuthServiceSwaggerUri"].Value,
-                                             Path.Combine(outputFolder, config.AppSettings.Settings["AuthServiceSwaggerOutputFileName"].Value));
-
+        _userServiceSettings = userSettings.First(x => string.Equals(x.Key, "UserService"));
+        _authServiceSettings = userSettings.First(x => string.Equals(x.Key, "AuthService"));
 
     }
 
@@ -42,14 +31,14 @@ public class NSwagClientCreationTests
    // [Ignore] 
     public async Task CreateApiService_For_UserService()
     {
-        await GenerateCSharpClient(_userServiceSettings.SwaggerJsonUrl, _userServiceSettings.OutputFilePath);
+        await GenerateCSharpClient(_userServiceSettings.Uri, _userServiceSettings.OutputFileName).ConfigureAwait(false);
     }
 
     [TestMethod]
     // [Ignore] 
     public async Task CreateApiService_For_AuthService()
     {
-        await GenerateCSharpClient(_authServiceSettings.SwaggerJsonUrl, _authServiceSettings.OutputFilePath);
+        await GenerateCSharpClient(_authServiceSettings.Uri, _authServiceSettings.OutputFileName).ConfigureAwait(false);
     }
 
     private async Task GenerateCSharpClient(string url, string outputFilePath)
@@ -64,9 +53,9 @@ public class NSwagClientCreationTests
         var codeGenerator = new CSharpClientGenerator(openAiDocument,settings);
         var sourceCode = codeGenerator.GenerateFile();
 
-        await File.WriteAllTextAsync(outputFilePath, sourceCode);
+        await File.WriteAllTextAsync(outputFilePath, sourceCode).ConfigureAwait(false);
 
     }
 
-    public record ApiSetting(string SwaggerJsonUrl, string OutputFilePath);
+    public record OpenApiSetting(string SwaggerJsonUrl, string OutputFilePath);
 }
