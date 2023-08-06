@@ -13,4 +13,6 @@ public class UserMiniProfileDto
 
     public long TotalFollowers { get; set; }
     public bool IsFollowing { get; set; }
+
+    public string? Bio { get; set; }
 }
