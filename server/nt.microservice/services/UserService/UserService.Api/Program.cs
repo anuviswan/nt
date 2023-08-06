@@ -39,7 +39,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<UserManagementDbContext>();
+builder.Services.AddDbContext<UserserviceDbContext>();
 
 builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));

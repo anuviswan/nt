@@ -9,7 +9,7 @@ using UserService.Data.Database;
 
 namespace UserService.Data.Migrations
 {
-    [DbContext(typeof(UserManagementDbContext))]
+    [DbContext(typeof(UserserviceDbContext))]
     partial class UserManagementDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

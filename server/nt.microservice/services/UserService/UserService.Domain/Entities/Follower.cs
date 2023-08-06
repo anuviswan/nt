@@ -10,6 +10,10 @@ public class Follower : IEntity
     public long Id { get; set; }
 
     public long UserId { get; set; }
+
+    public UserMetaInformation User { get; set; }
     public long FollowerId { get; set;}
+
+    public UserMetaInformation FollowedBy { get; set; }
 
 }

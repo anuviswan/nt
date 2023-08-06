@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Data.Repository;
-public class UserMetaInformationRepository : GenericRepository<UserMetaInformation,UserManagementDbContext>, IUserMetaInformationRepository
+public class UserMetaInformationRepository : GenericRepository<UserMetaInformation,UserserviceDbContext>, IUserMetaInformationRepository
 {
-    public UserMetaInformationRepository(UserManagementDbContext userDbContext) : base(userDbContext)
+    public UserMetaInformationRepository(UserserviceDbContext userDbContext) : base(userDbContext)
     {
     }
 

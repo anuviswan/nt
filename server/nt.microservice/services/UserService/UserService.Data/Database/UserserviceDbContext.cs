@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Data.Database;
-public class UserManagementDbContext : DbContext
+public class UserserviceDbContext : DbContext
 {
-    public UserManagementDbContext()
+    public UserserviceDbContext()
     {
     }
 
-    public UserManagementDbContext(DbContextOptions<UserManagementDbContext> options) : base(options)
+    public UserserviceDbContext(DbContextOptions<UserserviceDbContext> options) : base(options)
     {
         Database.EnsureCreated();
     }
