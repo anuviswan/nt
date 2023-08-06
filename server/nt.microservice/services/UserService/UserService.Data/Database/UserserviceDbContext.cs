@@ -9,7 +9,7 @@ public class UserserviceDbContext : DbContext
 
     public UserserviceDbContext(DbContextOptions<UserserviceDbContext> options) : base(options)
     {
-        //Database.EnsureDeleted();
+        Database.EnsureDeleted();
         Database.EnsureCreated();
     }
 
@@ -133,11 +133,14 @@ public class UserserviceDbContext : DbContext
         jia.Followers = jiaFollowers;
         naina.Followers = nainaFollowers;
 
-        modelBuilder.Entity<UserMetaInformation>()
-                .HasData(jia, naina, sreena, admin);
-
         modelBuilder.Entity<UserFollower>()
-            .HasData(jiaFollowers, nainaFollowers);
+                .HasData(jiaFollowers.Concat(nainaFollowers).AsEnumerable<UserFollower>());
+
+        modelBuilder.Entity<UserMetaInformation>()
+                .HasData(new UserMetaInformation[] { jia, naina, sreena, admin });
+
+
+
     }
 
     public DbSet<UserMetaInformation> UserMetaInformation { get; set; }
