@@ -2,14 +2,14 @@
 
 namespace UserService.Service.Query;
 
-public class SearchUserQueryHandler : IRequestHandler<SearchUserQuery, IEnumerable<UserProfileDto>>
+public class SearchUserByDisplayNameQueryHandler : IRequestHandler<SearchUserByDisplayNameQuery, IEnumerable<UserProfileDto>>
 {
     private readonly IUserMetaInformationRepository _userMetaInformationRepository;
-    public SearchUserQueryHandler(IUserMetaInformationRepository userMetaInformationRepository)
+    public SearchUserByDisplayNameQueryHandler(IUserMetaInformationRepository userMetaInformationRepository)
     {
         _userMetaInformationRepository = userMetaInformationRepository;
     }
-    public async Task<IEnumerable<UserProfileDto>> Handle(SearchUserQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<UserProfileDto>> Handle(SearchUserByDisplayNameQuery request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request?.QueryPart);
         var userMetaInfo = await _userMetaInformationRepository.SearchUserByPartialDisplayName(request.QueryPart).ConfigureAwait(false);

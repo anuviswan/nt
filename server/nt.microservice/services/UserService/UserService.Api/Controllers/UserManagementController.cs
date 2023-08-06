@@ -24,7 +24,7 @@ public class UserManagementController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var response = Mediator.Send(new SearchUserQuery
+            var response = Mediator.Send(new SearchUserByDisplayNameQuery
             {
                 CurrentUserName = searchTerms.CurrentUserName,
                 QueryPart = searchTerms.SearchPart
