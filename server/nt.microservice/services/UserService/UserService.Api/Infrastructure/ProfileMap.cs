@@ -6,10 +6,7 @@ public class ProfileMap:Profile
 {
     public ProfileMap()
     {
-        CreateMap<CreateUserRequestViewModel, User>();
         CreateMap<CreateUserRequestViewModel, UserMetaInformation>();
         CreateMap<UserMetaInformation, CreateUserResponseViewModel>();
-
-        
     }
 }

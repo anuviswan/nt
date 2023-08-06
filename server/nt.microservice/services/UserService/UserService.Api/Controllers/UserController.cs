@@ -39,7 +39,9 @@ public class UserController : BaseController
             // Create User Meta information in User Service
             var result = await Mediator.Send(new CreateUserCommand
             {
-                User = userProfileToCreate,
+                UserName = user.UserName,
+                Bio = user.Bio,
+                DisplayName = user.DisplayName
             }).ConfigureAwait(false);
 
             // Now create User Authentication information in AuthService

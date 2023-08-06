@@ -2,5 +2,7 @@
 
 public class CreateUserCommand:IRequest<UserMetaInformation>
 {
-    public UserMetaInformation User { get; set; } = null!;
+    public string UserName { get; set; }
+    public string DisplayName { get; set; }
+    public string Bio { get; set; }
 }
