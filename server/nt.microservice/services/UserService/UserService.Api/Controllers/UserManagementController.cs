@@ -14,8 +14,8 @@ public class UserManagementController : BaseController
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [Route("SearchUser")]
-    public ActionResult<IEnumerable<SearchUserResponseViewModel>> SearchUser(SearchUserRequestViewModel searchTerms)
+    [Route("SearchUserByDisplayName")]
+    public ActionResult<IEnumerable<SearchUserResponseViewModel>> SearchUserByDisplayName(SearchUserRequestViewModel searchTerms)
     {
         try
         {
