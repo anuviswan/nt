@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserService.Service.Dtos;
 
-public class UserMiniProfileDto
+public record UserProfileDto
 {
     public string? UserName { get; set; }
     public string? DisplayName { get; set; }

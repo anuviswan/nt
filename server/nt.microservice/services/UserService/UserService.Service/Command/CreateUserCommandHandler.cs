@@ -8,12 +8,17 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserM
     }
     public async Task<UserMetaInformation> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request?.UserProfile);
-        var response = await _userMetaInformationRepository.AddAsync(request.UserProfile);
-        if(response.Id > 0)
-        {
+        ArgumentNullException.ThrowIfNull(request?.User);
 
+        var userFound = await _userMetaInformationRepository.GetUser(request.User.UserName);
+
+        if (userFound is not null)
+        {
+            throw new ArgumentException("User already exist");
         }
+
+        var response = await _userMetaInformationRepository.AddAsync(request.User);
+        
         return response;
     }
 }
