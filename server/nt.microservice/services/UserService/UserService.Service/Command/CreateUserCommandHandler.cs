@@ -10,14 +10,14 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserM
     {
         ArgumentNullException.ThrowIfNull(request?.User);
 
-        var userFound = await _userMetaInformationRepository.GetUser(request.User.UserName);
+        var userFound = await _userMetaInformationRepository.GetUser(request.User.UserName).ConfigureAwait(false);
 
         if (userFound is not null)
         {
             throw new ArgumentException("User already exist");
         }
 
-        var response = await _userMetaInformationRepository.AddAsync(request.User);
+        var response = await _userMetaInformationRepository.AddAsync(request.User).ConfigureAwait(false);
         
         return response;
     }

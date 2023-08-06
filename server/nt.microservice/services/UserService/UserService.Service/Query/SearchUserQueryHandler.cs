@@ -12,7 +12,7 @@ public class SearchUserQueryHandler : IRequestHandler<SearchUserQuery, IEnumerab
     public async Task<IEnumerable<UserProfileDto>> Handle(SearchUserQuery request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request?.QueryPart);
-        var userMetaInfo = await _userMetaInformationRepository.SearchUser(request.QueryPart).ConfigureAwait(false);
+        var userMetaInfo = await _userMetaInformationRepository.SearchUserByPartialDisplayName(request.QueryPart).ConfigureAwait(false);
         return userMetaInfo.Select(x=> new UserProfileDto
         {
             DisplayName = x.DisplayName,
