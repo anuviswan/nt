@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using NSwag;
 using NSwag.CodeGeneration.CSharp;
+using NSwag.CodeGeneration.OperationNameGenerators;
 using nt.saga.orchestrator.test.Configurations;
 
 namespace nt.saga.orchestrator.test;
