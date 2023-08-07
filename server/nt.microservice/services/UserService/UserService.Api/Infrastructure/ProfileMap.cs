@@ -1,4 +1,5 @@
-﻿using UserService.Api.ViewModels.User;
+﻿using nt.shared.dto.User;
+using UserService.Api.ViewModels.User;
 using UserService.Api.ViewModels.UserManagement;
 using UserService.Domain.Entities;
 using UserService.Service.Dtos;
@@ -9,8 +10,10 @@ public class ProfileMap:Profile
 {
     public ProfileMap()
     {
-        CreateMap<CreateUserRequestViewModel, UserMetaInformation>().ReverseMap();
-        CreateMap<UserMetaInformation, CreateUserResponseViewModel>().ReverseMap();
+        CreateMap<CreateUserRequestViewModel, CreateUserCommand>().ReverseMap();
+        CreateMap<UserProfileDto, CreateUserResponseViewModel>().ReverseMap();
+        CreateMap<CreateUserRequestViewModel, CreateUserInitiated>();
+
 
         CreateMap<UserProfileDto, UserProfileViewModel>().ReverseMap();
 

@@ -1,12 +1,17 @@
-﻿namespace UserService.Service.Command;
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserMetaInformation>
+﻿using AutoMapper;
+using UserService.Service.Dtos;
+
+namespace UserService.Service.Command;
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserProfileDto>
 {
     private readonly IUserMetaInformationRepository _userMetaInformationRepository;
-    public CreateUserCommandHandler(IUserMetaInformationRepository userMetaInformationRepository)
+    private readonly IMapper _mapper;
+    public CreateUserCommandHandler(IUserMetaInformationRepository userMetaInformationRepository, IMapper mapper)
     {
         _userMetaInformationRepository = userMetaInformationRepository;
+        _mapper = mapper;
     }
-    public async Task<UserMetaInformation> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<UserProfileDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request?.UserName);
 
@@ -17,13 +22,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserM
             throw new ArgumentException("User already exist");
         }
 
-        var response = await _userMetaInformationRepository.AddAsync(new UserMetaInformation 
-        { 
-            UserName = request.UserName,
-            DisplayName = request.DisplayName,
-            Bio = request.Bio
-        }).ConfigureAwait(false);
+        var response = await _userMetaInformationRepository.AddAsync(_mapper.Map<UserMetaInformation>(request)).ConfigureAwait(false);
         
-        return response;
+        return _mapper.Map<UserProfileDto>(response);
     }
 }

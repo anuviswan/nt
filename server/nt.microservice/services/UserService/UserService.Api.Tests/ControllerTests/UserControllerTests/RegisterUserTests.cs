@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
+using UserService.Service.Dtos;
 
 namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
 
@@ -19,21 +20,21 @@ public class RegisterUserTests:ControllerTestBase
         var mockPublishEndPoint = new Moq.Mock<IPublishEndpoint>()
 ;
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(),It.IsAny<CancellationToken>()))
-            .Returns<CreateUserCommand,CancellationToken>((x,_)=> Task.FromResult(new UserMetaInformation
+            .Returns<CreateUserCommand,CancellationToken>((x,_)=> Task.FromResult(new UserProfileDto
             {
                 UserName = x.UserName,
                 DisplayName = x.DisplayName
             }));
         
         
-        mockMapper.Setup(x => x.Map<UserMetaInformation>(It.IsAny<CreateUserRequestViewModel>())).Returns<CreateUserRequestViewModel>(x => new UserMetaInformation
+        mockMapper.Setup(x => x.Map<CreateUserCommand>(It.IsAny<CreateUserRequestViewModel>())).Returns<CreateUserRequestViewModel>(x => new CreateUserCommand
         {
             UserName = x.UserName,
             DisplayName = x.DisplayName,
             Bio = x.Bio,
         });
 
-        mockMapper.Setup(x => x.Map<CreateUserResponseViewModel>(It.IsAny<UserMetaInformation>())).Returns<UserMetaInformation>(x => new CreateUserResponseViewModel
+        mockMapper.Setup(x => x.Map<CreateUserResponseViewModel>(It.IsAny<UserProfileDto>())).Returns<UserProfileDto>(x => new CreateUserResponseViewModel
         {
             UserName = x.UserName,
             DisplayName = x.DisplayName
@@ -59,7 +60,7 @@ public class RegisterUserTests:ControllerTestBase
     {
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = "SampleUser"},
+            new CreateUserRequestViewModel { UserName = "SampleUser", Password = "SamplePassword"},
             new CreateUserResponseViewModel { UserName = "SampleUser" }
         }
     };
@@ -78,7 +79,7 @@ public class RegisterUserTests:ControllerTestBase
         var mockPublishEndPoint = new Moq.Mock<IPublishEndpoint>();
 
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
-            .Returns<CreateUserCommand, CancellationToken>((x, _) => Task.FromResult(new UserMetaInformation
+            .Returns<CreateUserCommand, CancellationToken>((x, _) => Task.FromResult(new UserProfileDto
             {
                 UserName = x.UserName,
                 DisplayName = x.DisplayName
@@ -138,6 +139,7 @@ public class RegisterUserTests:ControllerTestBase
             new SerializableError
             {
                 [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName is mandatory."},
+                [nameof(CreateUserRequestViewModel.Password)]= new[] {"Password is mandatory."},
             }
         },
        
@@ -146,10 +148,11 @@ public class RegisterUserTests:ControllerTestBase
         #region Minimum Fields
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = "12345"},
+            new CreateUserRequestViewModel { UserName = "12345", Password = "Dummy"},
             new SerializableError
             {
-                [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName should be minimum 6 characters."},
+                [nameof(CreateUserRequestViewModel.UserName)]= new[] {$"{nameof(CreateUserRequestViewModel.UserName)} should be minimum 6 characters."},
+                [nameof(CreateUserRequestViewModel.Password)]= new[] { $"{nameof(CreateUserRequestViewModel.Password)} should be minimum 6 characters."},
             }
         },
 
@@ -158,7 +161,7 @@ public class RegisterUserTests:ControllerTestBase
         #region Maximum Fields
         new object[]
         {
-            new CreateUserRequestViewModel { UserName = "1234567890123456"},
+            new CreateUserRequestViewModel { UserName = "1234567890123456", Password="Dummy123"},
             new SerializableError
             {
                 [nameof(CreateUserRequestViewModel.UserName)]= new[] {"UserName should be maximum 15 characters."},

@@ -13,8 +13,7 @@ public class ValidatePassword:ValidationAttribute
         if (value is string password)
         {
             return password.Any(x => char.IsUpper(x))
-                && password.Any(x => char.IsLower(x))
-                && password.Length >= 6;
+                && password.Any(x => char.IsLower(x));
         }
 
         return base.IsValid(value);

@@ -12,7 +12,7 @@ public record CreateUserRequestViewModel
     public string UserName { get; init; }
     
     [Required(ErrorMessage = $"{nameof(Password)} is mandatory.")]
-    [MinLength(6, ErrorMessage = $"{nameof(Password)} should be minimum 6 characters long")]
+    [MinLength(6, ErrorMessage = $"{nameof(Password)} should be minimum 6 characters.")]
     [ValidatePassword(ErrorMessage = $"{nameof(Password)} should contain atleast one upper case character and atleast one lower case character")]
     [JsonPropertyName("passKey")]
     public string Password { get; init; }
