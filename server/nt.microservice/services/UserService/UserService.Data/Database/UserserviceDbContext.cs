@@ -24,11 +24,21 @@ public class UserserviceDbContext : DbContext
 
         modelBuilder.Entity<UserMetaInformation>()
                     .HasMany(x => x.Followers)
-                    .WithOne(x => x.Follower);
+                    .WithOne(x => x.Follower)
+                    .HasForeignKey(x=> x.FollowerId);
+
+        modelBuilder.Entity<UserFollower>()
+            .HasOne(x => x.Follower)
+            .WithMany(x => x.Followers);
 
         modelBuilder.Entity<UserMetaInformation>()
                     .HasMany(x => x.Following)
-                    .WithOne(x => x.Followee);
+                    .WithOne(x => x.Followee)
+                    .HasForeignKey(x => x.FolloweeId); ;
+
+        modelBuilder.Entity<UserFollower>()
+            .HasOne(x => x.Followee)
+            .WithMany(x => x.Following);
 
 
         SeedUsers(modelBuilder);
@@ -103,14 +113,14 @@ public class UserserviceDbContext : DbContext
             new UserFollower
             {
                 Id = 1,
-                Followee = jia,
-                Follower = naina,
+                FolloweeId = jia.Id,
+                FollowerId = naina.Id,
             },
             new UserFollower
             {
                 Id = 2,
-                Followee = jia,
-                Follower = sreena,
+                FolloweeId = jia.Id,
+                FollowerId = sreena.Id,
             }
         };
 
@@ -119,14 +129,14 @@ public class UserserviceDbContext : DbContext
             new UserFollower
             {
                 Id = 3,
-                Followee = naina,
-                Follower = jia,
+                FolloweeId = naina.Id,
+                FollowerId  = jia.Id,
             },
             new UserFollower
             {
                 Id = 4,
-                Followee = naina,
-                Follower = sreena,
+                FolloweeId = naina.Id,
+                FollowerId = sreena.Id,
             }
         };
 
@@ -134,7 +144,7 @@ public class UserserviceDbContext : DbContext
         naina.Followers = nainaFollowers;
 
         modelBuilder.Entity<UserFollower>()
-                .HasData(jiaFollowers.Concat(nainaFollowers).AsEnumerable<UserFollower>());
+                .HasData(jiaFollowers.Concat(nainaFollowers).ToArray<UserFollower>());
 
         modelBuilder.Entity<UserMetaInformation>()
                 .HasData(new UserMetaInformation[] { jia, naina, sreena, admin });

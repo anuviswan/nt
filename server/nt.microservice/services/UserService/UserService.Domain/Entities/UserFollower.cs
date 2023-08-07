@@ -9,7 +9,10 @@ public class UserFollower : IEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
     
-    public UserMetaInformation Follower { get; set; }
-    public UserMetaInformation Followee { get; set; }
+    public long FollowerId { get; set; }
+    public UserMetaInformation Follower { get; set; } = null!;
+    
+    public long FolloweeId { get; set; }
+    public UserMetaInformation Followee { get; set; } = null !;
 
 }
