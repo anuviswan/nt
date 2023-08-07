@@ -39,11 +39,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<UserManagementDbContext>();
+builder.Services.AddDbContext<UserserviceDbContext>();
 
 builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));
-builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddAutoMapper(typeof(UserController));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
 builder.Services.AddMassTransit(mt =>
@@ -51,7 +50,6 @@ builder.Services.AddMassTransit(mt =>
                             mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedSucceededConsumer));
                             mt.UsingRabbitMq((cntxt, cfg) =>
                             {
-
 
                                 cfg.Host(rabbitMqSettings?.Host, "/", c =>
                                 {

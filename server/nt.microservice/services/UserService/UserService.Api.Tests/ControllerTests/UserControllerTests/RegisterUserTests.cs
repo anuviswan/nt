@@ -21,8 +21,8 @@ public class RegisterUserTests:ControllerTestBase
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(),It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand,CancellationToken>((x,_)=> Task.FromResult(new UserMetaInformation
             {
-                UserName = x.UserProfile.UserName,
-                DisplayName = x.UserProfile.DisplayName
+                UserName = x.UserName,
+                DisplayName = x.DisplayName
             }));
         
         
@@ -80,8 +80,8 @@ public class RegisterUserTests:ControllerTestBase
         mockMediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .Returns<CreateUserCommand, CancellationToken>((x, _) => Task.FromResult(new UserMetaInformation
             {
-                UserName = x.UserProfile.UserName,
-                DisplayName = x.UserProfile.DisplayName
+                UserName = x.UserName,
+                DisplayName = x.DisplayName
             }));
 
         

@@ -14,8 +14,8 @@ public class UserManagementController : BaseController
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [Route("SearchUser")]
-    public ActionResult<IEnumerable<SearchUserResponseViewModel>> SearchUser(SearchUserRequestViewModel searchTerms)
+    [Route("SearchUserByDisplayName")]
+    public async Task<ActionResult<IEnumerable<SearchUserResponseViewModel>>> SearchUserByDisplayName(SearchUserRequestViewModel searchTerms)
     {
         try
         {
@@ -24,11 +24,11 @@ public class UserManagementController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var response = Mediator.Send(new SearchUserQuery
+            var response = await Mediator.Send(new SearchUserByDisplayNameQuery
             {
                 CurrentUserName = searchTerms.CurrentUserName,
                 QueryPart = searchTerms.SearchPart
-            });
+            }).ConfigureAwait(false);
 
             return Ok(response);
         }
