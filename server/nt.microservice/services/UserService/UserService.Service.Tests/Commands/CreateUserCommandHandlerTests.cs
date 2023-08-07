@@ -45,12 +45,10 @@ public class CreateUserCommandHandlerTests
         var userInfo = result.Should().BeOfType<UserProfileDto>().Subject;
         userInfo.Should().BeEquivalentTo<UserProfileDto>(expectedResult);
 
-        mockUserMetaRepository.Verify(x => x.AddAsync(new UserMetaInformation
-        {
-            UserName = request.UserName,
-            DisplayName = request.DisplayName,
-            Bio = request.Bio,
-        }), Times.Exactly(1));
+        mockUserMetaRepository.Verify(x => x.AddAsync(It.Is<UserMetaInformation>
+            ((s) => s.UserName == request.UserName 
+            && s.DisplayName == request.DisplayName 
+            && s.Bio == request.Bio )), Times.Exactly(1));
     }
 
 
