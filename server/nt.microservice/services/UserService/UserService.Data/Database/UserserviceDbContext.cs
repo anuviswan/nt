@@ -25,20 +25,15 @@ public class UserserviceDbContext : DbContext
         modelBuilder.Entity<UserMetaInformation>()
                     .HasMany(x => x.Followers)
                     .WithOne(x => x.Follower)
-                    .HasForeignKey(x=> x.FollowerId);
+                    .HasForeignKey(x=> x.FollowerId)
+                    ;
 
-        modelBuilder.Entity<UserFollower>()
-            .HasOne(x => x.Follower)
-            .WithMany(x => x.Followers);
 
         modelBuilder.Entity<UserMetaInformation>()
                     .HasMany(x => x.Following)
                     .WithOne(x => x.Followee)
                     .HasForeignKey(x => x.FolloweeId); ;
 
-        modelBuilder.Entity<UserFollower>()
-            .HasOne(x => x.Followee)
-            .WithMany(x => x.Following);
 
 
         SeedUsers(modelBuilder);
@@ -102,7 +97,7 @@ public class UserserviceDbContext : DbContext
 
         var admin = new UserMetaInformation
         {
-            Id = 3,
+            Id = 4,
             UserName = "admin",
             Bio = "I am Admin",
             DisplayName = "Admin",
@@ -140,11 +135,11 @@ public class UserserviceDbContext : DbContext
             }
         };
 
-        jia.Followers = jiaFollowers;
-        naina.Followers = nainaFollowers;
+        //jia.Followers = jiaFollowers;
+        //naina.Followers = nainaFollowers;
 
-        modelBuilder.Entity<UserFollower>()
-                .HasData(jiaFollowers.Concat(nainaFollowers).ToArray<UserFollower>());
+        //modelBuilder.Entity<UserFollower>()
+        //        .HasData(jiaFollowers.Concat(nainaFollowers).ToArray<UserFollower>());
 
         modelBuilder.Entity<UserMetaInformation>()
                 .HasData(new UserMetaInformation[] { jia, naina, sreena, admin });
