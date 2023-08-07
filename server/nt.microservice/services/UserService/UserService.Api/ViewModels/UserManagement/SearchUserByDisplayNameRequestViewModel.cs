@@ -2,7 +2,7 @@
 
 namespace UserService.Api.ViewModels.UserManagement;
 
-public record SearchUserRequestViewModel
+public record SearchUserByDisplayNameRequestViewModel
 {
     [Required(ErrorMessage = $"{nameof(SearchPart)} is mandatory.")]
     [MinLength(3, ErrorMessage = $"{nameof(SearchPart)} should be of minimum 3 characters")]

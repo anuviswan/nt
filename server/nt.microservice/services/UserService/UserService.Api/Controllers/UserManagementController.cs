@@ -12,10 +12,15 @@ public class UserManagementController : BaseController
     {
     }
 
+    /// <summary>
+    /// Searches for User by Display Name
+    /// </summary>
+    /// <param name="searchTerms">partial display name</param>
+    /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Route("SearchUserByDisplayName")]
-    public async Task<ActionResult<IEnumerable<SearchUserResponseViewModel>>> SearchUserByDisplayName(SearchUserRequestViewModel searchTerms)
+    public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName(SearchUserByDisplayNameRequestViewModel searchTerms)
     {
         try
         {
@@ -31,6 +36,30 @@ public class UserManagementController : BaseController
             }).ConfigureAwait(false);
 
             return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            return BadRequest(ex.Message);
+        }
+    }
+
+    public async Task<ActionResult<SearchUserByUserNameResponseViewModel>> SearchUserByUserName(SearchUserByUserNameResponseViewModel searchTerms)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await Mediator.Send(Mapper.Map<SearchUserByUserNameQuery>(searchTerms)).ConfigureAwait(false);
+
+            return Ok(new SearchUserByUserNameResponseViewModel
+            {
+                User  = Mapper.Map<UserProfileViewModel>(response)
+            });
+
         }
         catch (Exception ex)
         {
