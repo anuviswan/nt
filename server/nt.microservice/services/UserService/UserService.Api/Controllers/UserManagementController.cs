@@ -35,7 +35,10 @@ public class UserManagementController : BaseController
                 QueryPart = searchTerms.SearchPart
             }).ConfigureAwait(false);
 
-            return Ok(response);
+            return Ok(new SearchUserByDisplayNameResponseViewModel
+            {
+                Users = Mapper.Map<IEnumerable<UserProfileViewModel>>(response)
+            });
         }
         catch (Exception ex)
         {

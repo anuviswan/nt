@@ -2,5 +2,5 @@
 
 public record SearchUserByDisplayNameResponseViewModel
 {
-    public IEnumerable<UserProfileViewModel> User { get; set; }
+    public IEnumerable<UserProfileViewModel> Users { get; set; }
 }
