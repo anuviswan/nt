@@ -9,7 +9,7 @@ public class UserserviceDbContext : DbContext
 
     public UserserviceDbContext(DbContextOptions<UserserviceDbContext> options) : base(options)
     {
-        Database.EnsureDeleted();
+        //Database.EnsureDeleted();
         Database.EnsureCreated();
     }
 
@@ -25,14 +25,13 @@ public class UserserviceDbContext : DbContext
         modelBuilder.Entity<UserMetaInformation>()
                     .HasMany(x => x.Followers)
                     .WithOne(x => x.Follower)
-                    .HasForeignKey(x=> x.FollowerId)
-                    ;
+                    .OnDelete(DeleteBehavior.ClientNoAction);
 
 
         modelBuilder.Entity<UserMetaInformation>()
                     .HasMany(x => x.Following)
                     .WithOne(x => x.Followee)
-                    .HasForeignKey(x => x.FolloweeId); ;
+                    .OnDelete(DeleteBehavior.ClientNoAction);
 
 
 
@@ -109,7 +108,7 @@ public class UserserviceDbContext : DbContext
             {
                 Id = 1,
                 FolloweeId = jia.Id,
-                FollowerId = naina.Id,
+                FollowerId  = naina.Id,
             },
             new UserFollower
             {
@@ -125,7 +124,7 @@ public class UserserviceDbContext : DbContext
             {
                 Id = 3,
                 FolloweeId = naina.Id,
-                FollowerId  = jia.Id,
+                FollowerId = jia.Id,
             },
             new UserFollower
             {
@@ -138,11 +137,13 @@ public class UserserviceDbContext : DbContext
         //jia.Followers = jiaFollowers;
         //naina.Followers = nainaFollowers;
 
-        //modelBuilder.Entity<UserFollower>()
-        //        .HasData(jiaFollowers.Concat(nainaFollowers).ToArray<UserFollower>());
-
         modelBuilder.Entity<UserMetaInformation>()
                 .HasData(new UserMetaInformation[] { jia, naina, sreena, admin });
+
+        modelBuilder.Entity<UserFollower>()
+                .HasData(jiaFollowers.Concat(nainaFollowers).ToArray<UserFollower>());
+
+        
 
 
 
