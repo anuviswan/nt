@@ -20,16 +20,45 @@ namespace nt.saga.orchestrator.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Route("Validate")]
         public async Task<ActionResult<ValidateUserResponseViewModel>> ValidateUser(ValidateUserRequestViewModel request)
         {
-            var authenticateResponse = await _authService.ValidateAsync(new AuthorizeRequestViewModel
+            try
             {
-                UserName = request.userName,
-                PassKey = request.passKey
-            });
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            return default;
+                var authenticateResponse = await _authService.ValidateAsync(new AuthorizeRequestViewModel
+                {
+                    UserName = request.userName,
+                    PassKey = request.passKey
+                });
+
+                if (!authenticateResponse.IsAuthenticated)
+                    return Unauthorized();
+
+                var userDetails = await _userService.SearchUserByUserNameAsync(new SearchUserByUserNameRequestViewModel { UserName = request.userName });
+
+                return Ok(new ValidateUserResponseViewModel
+                {
+                    IsAuthenticated = true,
+                    Token = authenticateResponse.Token,
+                    LoginTime = authenticateResponse.LoginTime,
+                    UserName = authenticateResponse.UserName,
+                    Bio = userDetails.User.Bio,
+                    DisplayName = userDetails.User.DisplayName,
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
