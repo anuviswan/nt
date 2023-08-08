@@ -41,7 +41,14 @@ public class SearchUserByUserNameTests : ControllerTestBase
 
         mockMapper.Setup(x => x.Map<SearchUserByUserNameResponseViewModel>(It.IsAny<UserProfileDto>())).Returns<UserProfileDto>(x => new SearchUserByUserNameResponseViewModel
         {
-            User = new UserProfileViewModel(x.UserName, x.DisplayName, 0, false)
+            User = new UserProfileViewModel
+            {
+                UserName = x.UserName,
+                DisplayName = x.DisplayName,
+                Bio = x.Bio,
+                Followers = x.Followers.Count(),
+                IsFollowing = false
+            }
         });
 
         var nullLogger = CreateNullLogger<UserManagementController>();
@@ -70,7 +77,17 @@ public class SearchUserByUserNameTests : ControllerTestBase
         new object[]
         {
             new SearchUserByUserNameRequestViewModel { UserName = "SampleUser"},
-            new SearchUserByUserNameResponseViewModel { User = new UserProfileViewModel("SearchUser","Search User",0,false) }
+            new SearchUserByUserNameResponseViewModel
+            {
+                User = new UserProfileViewModel
+                {
+                    UserName = "SearchUser",
+                    DisplayName ="Search User",
+                    Bio = "I am Search User",
+                    Followers =0,
+                    IsFollowing = false
+                }
+            }
         }
     };
 }
