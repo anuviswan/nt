@@ -1,19 +1,12 @@
-﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using UserService.Api.ViewModels.UserManagement;
+﻿using UserService.Api.ViewModels.UserManagement;
 using UserService.Service.Dtos;
 using UserService.Service.Query;
-using Xunit.Sdk;
 
 namespace UserService.Api.Tests.ControllerTests.UserManagementControllerTests;
 
 public class SearchUserByUserNameTests : ControllerTestBase
 {
+    #region 200 Test
     [Theory]
     [MemberData(nameof(SearchUserByUserName_ValidData_ShouldSucceed_TestData))]
     public async Task SearchUserByUserName_ValidData_ShouldSucceed(SearchUserByUserNameRequestViewModel request, SearchUserByUserNameResponseViewModel expectedResult)
@@ -91,4 +84,62 @@ public class SearchUserByUserNameTests : ControllerTestBase
             }
         }
     };
+
+    #endregion
+
+
+    #region 400 Test
+    [Theory]
+    [MemberData(nameof(SearchUserByUserName_InvalidData_ShouldFail_TestData))]
+    public async Task SearchUserByUserName_InvalidData_ShouldFail(SearchUserByUserNameRequestViewModel request,  SerializableError expectedError)
+    {
+        #region Arrange
+        var cancellationToken = default(CancellationToken);
+        var mockMediator = new Mock<IMediator>();
+        var mockMapper = new Mock<IMapper>();
+
+        var nullLogger = CreateNullLogger<UserManagementController>();
+
+        #endregion
+
+        #region Act
+
+        var userController = new UserManagementController(mockMediator.Object, mockMapper.Object, nullLogger);
+        MockModelState(request, userController);
+        var actualResult = await userController.SearchUserByUserName(request);
+        #endregion
+
+        #region Assert
+        var badObjectResult = actualResult.Result
+                            .Should()
+                            .BeOfType<BadRequestObjectResult>()
+                            .Subject;
+
+        var error = badObjectResult.Value
+            .Should()
+            .BeOfType<SerializableError>()
+            .Subject;
+
+        error.Should().BeEquivalentTo(expectedError);
+        //mockMediator.Verify(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        #endregion
+    }
+
+    public static IEnumerable<object[]> SearchUserByUserName_InvalidData_ShouldFail_TestData => new List<object[]>
+    {
+        new object[]
+        {
+            new SearchUserByUserNameRequestViewModel { UserName = string.Empty },
+            new SerializableError
+            {
+                [nameof(SearchUserByUserNameRequestViewModel.UserName)]= new[] {"UserName is mandatory."},
+            }
+        }
+    };
+
+    #endregion
+
+
+
+
 }

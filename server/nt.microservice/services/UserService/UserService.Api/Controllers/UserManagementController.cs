@@ -19,6 +19,7 @@ public class UserManagementController : BaseController
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("SearchUserByDisplayName")]
     public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName(SearchUserByDisplayNameRequestViewModel searchTerms)
     {
