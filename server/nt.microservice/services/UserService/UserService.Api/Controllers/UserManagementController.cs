@@ -12,10 +12,16 @@ public class UserManagementController : BaseController
     {
     }
 
+    /// <summary>
+    /// Searches for User by Display Name
+    /// </summary>
+    /// <param name="searchTerms">partial display name</param>
+    /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("SearchUserByDisplayName")]
-    public async Task<ActionResult<IEnumerable<SearchUserResponseViewModel>>> SearchUserByDisplayName(SearchUserRequestViewModel searchTerms)
+    public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName(SearchUserByDisplayNameRequestViewModel searchTerms)
     {
         try
         {
@@ -30,7 +36,34 @@ public class UserManagementController : BaseController
                 QueryPart = searchTerms.SearchPart
             }).ConfigureAwait(false);
 
-            return Ok(response);
+            return Ok(new SearchUserByDisplayNameResponseViewModel
+            {
+                Users = Mapper.Map<IEnumerable<UserProfileViewModel>>(response)
+            });
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Route("SearchUserByUserName")]
+    public async Task<ActionResult<SearchUserByUserNameResponseViewModel>> SearchUserByUserName(SearchUserByUserNameRequestViewModel searchTerms)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await Mediator.Send(Mapper.Map<SearchUserByUserNameQuery>(searchTerms)).ConfigureAwait(false);
+
+            return Ok(Mapper.Map<SearchUserByUserNameResponseViewModel>(response));
+
         }
         catch (Exception ex)
         {

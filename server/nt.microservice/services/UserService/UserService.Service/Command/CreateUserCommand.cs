@@ -1,6 +1,8 @@
-﻿namespace UserService.Service.Command;
+﻿using UserService.Service.Dtos;
 
-public class CreateUserCommand:IRequest<UserMetaInformation>
+namespace UserService.Service.Command;
+
+public class CreateUserCommand:IRequest<UserProfileDto>
 {
     public string UserName { get; set; }
     public string DisplayName { get; set; }

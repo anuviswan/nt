@@ -37,19 +37,10 @@ public class UserController : BaseController
             var userProfileToCreate = Mapper.Map<UserMetaInformation>(user);
 
             // Create User Meta information in User Service
-            var result = await Mediator.Send(new CreateUserCommand
-            {
-                UserName = user.UserName,
-                Bio = user.Bio,
-                DisplayName = user.DisplayName
-            }).ConfigureAwait(false);
+            var result = await Mediator.Send(Mapper.Map<CreateUserCommand>(user)).ConfigureAwait(false);
 
             // Now create User Authentication information in AuthService
-            await _publishEndPoint.Publish<CreateUserInitiated>(new()
-            {
-                UserName = user.UserName,
-                Password = user.Password
-            }).ConfigureAwait(false);
+            await _publishEndPoint.Publish<CreateUserInitiated>(Mapper.Map<CreateUserInitiated>(user)).ConfigureAwait(false);
 
             return new OkObjectResult(Mapper.Map<CreateUserResponseViewModel>(result));
         }
