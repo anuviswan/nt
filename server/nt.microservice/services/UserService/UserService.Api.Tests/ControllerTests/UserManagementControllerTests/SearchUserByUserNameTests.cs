@@ -26,8 +26,9 @@ public class SearchUserByUserNameTests : ControllerTestBase
         mockMediator.Setup(x => x.Send(It.IsAny<SearchUserByUserNameQuery>(), It.IsAny<CancellationToken>()))
                     .Returns<SearchUserByUserNameQuery, CancellationToken>((x, _) => Task.FromResult(new UserProfileDto
                     {
-                        UserName = expectedResult.User.DisplayName,
+                        UserName = expectedResult.User.UserName,
                         DisplayName = expectedResult.User.DisplayName,
+                        Bio = expectedResult.User.Bio,
                         FollowedBy = default,
                         Followers = default
                     }));
@@ -46,7 +47,7 @@ public class SearchUserByUserNameTests : ControllerTestBase
                 UserName = x.UserName,
                 DisplayName = x.DisplayName,
                 Bio = x.Bio,
-                FollowersCount = x.Followers.Count(),
+                FollowersCount = 0,
                 IsFollowing = false
             }
         });
