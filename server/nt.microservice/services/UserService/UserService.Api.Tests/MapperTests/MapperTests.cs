@@ -19,6 +19,7 @@ public class MapperTests
         var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserService.Api.Infrastructure.ProfileMap>());
         var mapper = configuration.CreateMapper();
 
+        var response1 = mapper.Map<UserProfileViewModel>(input);
         var response = mapper.Map<SearchUserByUserNameResponseViewModel>(input);
 
         Assert.Equal(expectedResult, response);
@@ -43,7 +44,7 @@ public class MapperTests
                     UserName = "Sample",
                     DisplayName = "Sample User",
                     Bio = "I am sample user",
-                    Followers = 0,
+                    FollowersCount = 0,
                     IsFollowing = false
                 }
             }

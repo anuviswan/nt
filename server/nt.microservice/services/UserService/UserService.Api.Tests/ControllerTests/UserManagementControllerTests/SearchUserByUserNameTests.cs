@@ -46,7 +46,7 @@ public class SearchUserByUserNameTests : ControllerTestBase
                 UserName = x.UserName,
                 DisplayName = x.DisplayName,
                 Bio = x.Bio,
-                Followers = x.Followers.Count(),
+                FollowersCount = x.Followers.Count(),
                 IsFollowing = false
             }
         });
@@ -84,7 +84,7 @@ public class SearchUserByUserNameTests : ControllerTestBase
                     UserName = "SearchUser",
                     DisplayName ="Search User",
                     Bio = "I am Search User",
-                    Followers =0,
+                    FollowersCount =0,
                     IsFollowing = false
                 }
             }
