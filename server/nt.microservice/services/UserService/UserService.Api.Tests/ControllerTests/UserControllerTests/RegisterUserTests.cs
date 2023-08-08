@@ -1,7 +1,4 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using System;
 using UserService.Service.Dtos;
 
 namespace UserService.Api.Tests.ControllerTests.UserControllerTests;

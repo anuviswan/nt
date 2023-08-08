@@ -47,7 +47,10 @@ public class UserManagementController : BaseController
         }
     }
 
-    public async Task<ActionResult<SearchUserByUserNameResponseViewModel>> SearchUserByUserName(SearchUserByUserNameResponseViewModel searchTerms)
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [Route("SearchUserByUserName")]
+    public async Task<ActionResult<SearchUserByUserNameResponseViewModel>> SearchUserByUserName(SearchUserByUserNameRequestViewModel searchTerms)
     {
         try
         {
@@ -58,10 +61,7 @@ public class UserManagementController : BaseController
 
             var response = await Mediator.Send(Mapper.Map<SearchUserByUserNameQuery>(searchTerms)).ConfigureAwait(false);
 
-            return Ok(new SearchUserByUserNameResponseViewModel
-            {
-                User  = Mapper.Map<UserProfileViewModel>(response)
-            });
+            return Ok(Mapper.Map<SearchUserByUserNameResponseViewModel>(response));
 
         }
         catch (Exception ex)

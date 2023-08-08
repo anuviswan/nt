@@ -3,12 +3,12 @@ using Microsoft.Extensions.Logging.Abstractions;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
+namespace UserService.Api.Tests.ControllerTests;
 public class ControllerTestBase
 {
     protected void MockModelState<TModel, TController>(TModel model, TController controller) where TController : ControllerBase
     {
-        var validationContext = new System.ComponentModel.DataAnnotations.ValidationContext(model, null, null);
+        var validationContext = new ValidationContext(model, null, null);
         var validationResults = new List<ValidationResult>();
         Validator.TryValidateObject(model, validationContext, validationResults, true);
 
