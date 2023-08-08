@@ -3,7 +3,7 @@ using UserService.Service.Dtos;
 
 namespace UserService.Service.Query;
 
-public class SearchUserByUserNameQueryHandler : IRequestHandler<SearchUserByUserNameQuery, UserProfileDto>
+public class SearchUserByUserNameQueryHandler : IRequestHandler<SearchUserByUserNameQuery, UserProfileDto?>
 {
     private readonly IUserMetaInformationRepository _userMetaInformationRepository;
     private readonly IMapper _mapper;
@@ -12,10 +12,15 @@ public class SearchUserByUserNameQueryHandler : IRequestHandler<SearchUserByUser
         _userMetaInformationRepository = userMetaInformationRepository;
         _mapper = mapper;
     }
-    public async Task<UserProfileDto> Handle(SearchUserByUserNameQuery request, CancellationToken cancellationToken)
+    public async Task<UserProfileDto?> Handle(SearchUserByUserNameQuery request, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request?.UserName);
+        if(string.IsNullOrWhiteSpace(request.UserName))
+        {
+            throw new ArgumentNullException(nameof(request.UserName));
+        }
+        
         var userMetaInfo = await _userMetaInformationRepository.GetUser(request.UserName).ConfigureAwait(false);
-        return _mapper.Map<UserProfileDto>(userMetaInfo);
+
+        return userMetaInfo == null ? null : _mapper.Map<UserProfileDto>(userMetaInfo);
     }
 }
