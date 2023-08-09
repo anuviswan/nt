@@ -22,7 +22,7 @@ public class InitialSeed202302072003 : Migration
 
 
         Insert.IntoTable(User.TABLE_NAME)
-            .Row(new { username = "jiaanu", password = "bXlwYXNz" })
-            .Row(new { username = "nainaanu", password = "bXlwYXNz" });
+            .Row(new { username = "jia.anu", password = "bXlwYXNz" })
+            .Row(new { username = "naina.anu", password = "bXlwYXNz" });
     }
 }

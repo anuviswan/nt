@@ -20,7 +20,7 @@ namespace nt.saga.orchestrator.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("Validate")]
