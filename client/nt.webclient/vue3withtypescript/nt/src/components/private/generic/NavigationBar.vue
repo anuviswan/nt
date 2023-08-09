@@ -62,7 +62,7 @@
             id="navbardrop"
             data-toggle="dropdown"
           >
-            {{ currentUser.userName }}
+            {{ currentUser.displayName }}
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <router-link
@@ -107,7 +107,7 @@ const currentUser = ref({
   displayName: store.DisplayName,
   bio: store.Bio
 });
-console.log(currentUser.value.userName);
+console.log(currentUser.value.displayName);
 console.log("getter");
 
 const logout=():void=>{
