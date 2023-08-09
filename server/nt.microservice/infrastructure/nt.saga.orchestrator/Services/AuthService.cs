@@ -331,7 +331,7 @@ namespace Nt.Saga.Orchestrator.Services.AuthService
         public bool IsAuthenticated { get; set; }
 
         [Newtonsoft.Json.JsonProperty("loginTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset LoginTime { get; set; }
+        public DateTime LoginTime { get; set; }
 
         [Newtonsoft.Json.JsonProperty("userName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string UserName { get; set; }

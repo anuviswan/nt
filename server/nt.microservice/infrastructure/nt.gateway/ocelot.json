@@ -1,6 +1,6 @@
 {
   "Routes": [
-      
+
 
     // Register User
     {
@@ -25,14 +25,14 @@
 
     // Authenticate
     {
-      "DownstreamPathTemplate": "/api/authenticate/Validate",
+      "DownstreamPathTemplate": "/api/user/Validate",
       "DownstreamSchema": "http",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": 8100
+          "Port": 8002
         }
 
       ],
@@ -94,6 +94,29 @@
         "TimeoutValue": 10000
       }
     },
+
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamSchema": "http",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8002
+        }
+
+      ],
+      "UpstreamPathTemplate": "/orchestrator",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "orchestrator",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 1000,
+        "TimeoutValue": 10000
+      }
+    },
+
 
     {
       "DownstreamPathTemplate": "/{everything}",

@@ -26,6 +26,20 @@ services:
       - "nt.authservice.service"
       - "nt.userservice.service" 
 
+  nt.orchestrator.service:
+    image: ${DOCKER_REGISTRY-}ntorchestrator
+    hostname: nt.orchestrator.service
+    build:
+        context: .
+        dockerfile: infrastructure/nt.saga.orchestrator/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      nt.common.network:
+    depends_on:
+      - "nt.authservice.service"
+      - "nt.userservice.service" 
 
   # Authentication Service : Responsible for handling Authentication
   

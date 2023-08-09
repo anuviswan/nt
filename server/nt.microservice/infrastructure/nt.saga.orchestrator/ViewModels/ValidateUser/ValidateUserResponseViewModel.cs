@@ -1,3 +1,18 @@
-﻿namespace nt.saga.orchestrator.ViewModels.ValidateUser;
+﻿using System.Text.Json.Serialization;
 
-public record ValidateUserResponseViewModel(string token,string userName,DateTime loginTime, string displayName, string bio);
+namespace nt.saga.orchestrator.ViewModels.ValidateUser;
+
+public record ValidateUserResponseViewModel
+{
+    public string Token { get; set; }
+
+    public bool IsAuthenticated { get; set; }
+
+    public DateTime LoginTime { get; set; }
+
+    public string UserName { get; set; }
+
+    public string DisplayName { get; set; }
+
+    public string Bio { get; set; }
+}

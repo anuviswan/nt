@@ -35,14 +35,14 @@ public class NSwagClientCreationTests
     }
 
     [TestMethod]
-    [Ignore] 
+    //[Ignore] 
     public async Task CreateApiService_For_UserService()
     {
         await GenerateCSharpClient(_userServiceSettings).ConfigureAwait(false);
     }
 
     [TestMethod]
-    [Ignore] 
+    //[Ignore] 
     public async Task CreateApiService_For_AuthService()
     {
         await GenerateCSharpClient(_authServiceSettings).ConfigureAwait(false);
@@ -60,6 +60,7 @@ public class NSwagClientCreationTests
             {
                 Namespace = apiSettings.Namespace,
                 ClassStyle = NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.Poco,
+                DateTimeType = nameof(DateTime)
             },
         };
 

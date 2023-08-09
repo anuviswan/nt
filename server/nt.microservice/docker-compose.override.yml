@@ -7,6 +7,10 @@ services:
       - "8001:80" 
       # - "9001:443"
 
+  nt.orchestrator.service:
+    ports:
+      # - "8000-8099:80"
+      - "8002:80" 
 
   nt.authservice.service:
     ports:

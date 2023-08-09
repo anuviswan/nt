@@ -43,7 +43,7 @@ builder.Services.AddDbContext<UserserviceDbContext>();
 
 builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));
-builder.Services.AddAutoMapper(typeof(UserController));
+builder.Services.AddAutoMapper(typeof(UserController),typeof(CreateUserCommand));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
 builder.Services.AddMassTransit(mt =>
                         {

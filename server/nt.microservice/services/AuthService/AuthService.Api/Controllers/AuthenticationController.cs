@@ -28,7 +28,11 @@ public class AuthenticationController : Controller
     {
         try
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var userRequestQuery = _mapper.Map<User>(request);
             var user = await _mediator.Send(new ValidateUserQuery
             {
