@@ -6,7 +6,7 @@ using Nt.Saga.Orchestrator.Services.UserService;
 namespace nt.saga.orchestrator.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly AuthService _authService;
