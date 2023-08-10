@@ -1,6 +1,9 @@
 ﻿using AuthService.Api.Authentication;
+using AuthService.Api.ViewModels.ChangePassword;
 using AuthService.Api.ViewModels.Validate;
 using AuthService.Domain.Entities;
+using AuthService.Service.Command;
+using AuthService.Service.Exceptions;
 using AuthService.Service.Query;
 using MapsterMapper;
 using MediatR;
@@ -61,4 +64,38 @@ public class AuthenticationController : Controller
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("ChangePassword")]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword(ChangePasswordRequestViewModel request)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var changePasswordRequest = _mapper.Map<ChangePasswordCommand>(request);
+            changePasswordRequest.UserName = User.Identity!.Name!;
+            var response = await _mediator.Send(changePasswordRequest).ConfigureAwait(false);
+
+            if (response) return NoContent();
+
+            return BadRequest("Error changing password. Try again");
+        }
+        catch (IncorrectPasswordException)
+        {
+            return BadRequest("Incorrect old password");
+        }
+        catch (Exception)
+        {
+            return BadRequest("Error changing password");
+        }
+    }
+
+
 }

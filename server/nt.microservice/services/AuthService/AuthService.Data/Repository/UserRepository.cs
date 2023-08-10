@@ -1,5 +1,4 @@
-﻿using AuthService.Data.Database;
-using AuthService.Domain.Entities;
+﻿using AuthService.Domain.Entities;
 using System.Data;
 
 namespace AuthService.Data.Repository;
@@ -9,11 +8,26 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     {
 
     }
-    public async Task<User?> ValidateUser(User user)
+    public async Task<User?> ValidateUserAsync(User user)
     {
         var users = await GetAll(); 
         var userFound = users.FirstOrDefault(x => x.UserName.ToLower().Equals(user.UserName.ToLower()) &&
                                             x.Password.ToLower().Equals(user.Password.ToLower()));
         return userFound;
+    }
+
+    public async Task<bool> ChangePasswordAsync(User user, string newPassword)
+    {
+        try
+        {
+            user.Password = newPassword;
+            await UpdateAsync(user).ConfigureAwait(false);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+        
     }
 }

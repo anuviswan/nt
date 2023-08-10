@@ -3,5 +3,6 @@
 namespace AuthService.Data.Repository;
 public interface IUserRepository:IGenericRepository<User>
 {
-    Task<User?> ValidateUser(User user);
+    Task<User?> ValidateUserAsync(User user);
+    Task<bool> ChangePasswordAsync(User user,string newPassword);
 }
