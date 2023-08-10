@@ -14,6 +14,6 @@ public class ValidateUserQueryHandler : IRequestHandler<ValidateUserQuery, User>
     public async Task<User> Handle(ValidateUserQuery request, CancellationToken cancellationToken)
     {
         using var uow = _unitOfWorkFactory.CreateUnitOfWork();
-        return await uow.UserRepository.ValidateUser(request.User);
+        return await uow.UserRepository.ValidateUserAsync(request.User);
     }
 }
