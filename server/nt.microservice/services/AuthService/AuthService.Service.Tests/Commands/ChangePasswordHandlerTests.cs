@@ -94,4 +94,92 @@ public class ChangePasswordHandlerTests
             }
         };
     }
+
+
+
+    [Test]
+    [TestCaseSource(nameof(ChangePasswordHandler_Handle_InvalidData_Exception_TestData))]
+    public void ChangePasswordHandler_Handle_InvalidData_Exception(ChangePasswordCommand command, Type exceptionType)
+    {
+        #region Arrange
+        _unitOfWorkFactory.CreateUnitOfWork().Returns(_ => _unitOfWork);
+        _unitOfWork.UserRepository.Returns(_ => _userRepository);
+
+        _userRepository.ValidateUserAsync(Arg.Any<User>()).Returns<User>(_ => null);
+        _userRepository.ChangePasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(_ => true);
+        #endregion
+
+
+        #region Act And Assert
+        var sut = new ChangePasswordCommandHandler(_unitOfWorkFactory);
+        Assert.ThrowsAsync(exceptionType,async () => await sut.Handle(command, default).ConfigureAwait(false));
+        #endregion
+
+    }
+
+    static IEnumerable<object[]> ChangePasswordHandler_Handle_InvalidData_Exception_TestData()
+    {
+        yield return new object[]
+        {
+            new ChangePasswordCommand
+            {
+                NewPassword = string.Empty,
+                OldPassword = "Test",
+                UserName = "Test"
+            },
+            typeof(ArgumentException)
+        };
+
+        yield return new object[]
+        {
+            new ChangePasswordCommand
+            {
+                NewPassword = "Test",
+                OldPassword = string.Empty,
+                UserName = "Test"
+            },
+            typeof(ArgumentException)
+        };
+
+        yield return new object[]
+        {
+            new ChangePasswordCommand
+            {
+                NewPassword = "Test",
+                OldPassword = "Test",
+                UserName = string.Empty
+            },
+            typeof(ArgumentException)
+        };
+
+        yield return new object[]
+       {
+            new ChangePasswordCommand
+            {
+                OldPassword = "Test",
+                UserName = "Test"
+            },
+            typeof(ArgumentNullException)
+       };
+
+        yield return new object[]
+        {
+            new ChangePasswordCommand
+            {
+                NewPassword = "Test",
+                UserName = "Test"
+            },
+            typeof(ArgumentNullException)
+        };
+
+        yield return new object[]
+        {
+            new ChangePasswordCommand
+            {
+                NewPassword = "Test",
+                OldPassword = "Test",
+            },
+            typeof(ArgumentNullException)
+        };
+    }
 }
