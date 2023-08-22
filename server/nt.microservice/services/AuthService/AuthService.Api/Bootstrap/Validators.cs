@@ -1,4 +1,5 @@
 ﻿using AuthService.Api.ViewModels.AddUser;
+using AuthService.Api.ViewModels.ChangePassword;
 using AuthService.Api.ViewModels.Validatators;
 using AuthService.Api.ViewModels.Validate;
 using FluentValidation;
@@ -10,5 +11,6 @@ public static class Validators
     {
         serviceCollection.AddTransient<IValidator<AuthorizeRequestViewModel>, AuthorizeRequestViewModelValidator>();
         serviceCollection.AddTransient<IValidator<AddUserRequestViewModel>, AddUserRequestViewModelValidator>();
+        serviceCollection.AddTransient<IValidator<ChangePasswordRequestViewModel>, ChangePasswordRequestViewModelValidator>();
     }
 }
