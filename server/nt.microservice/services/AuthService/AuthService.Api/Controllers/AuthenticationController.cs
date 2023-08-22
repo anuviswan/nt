@@ -19,9 +19,9 @@ public class AuthenticationController : Controller
     private readonly ITokenGenerator _tokenService;
     private readonly IConfiguration _configuration;
     private readonly ILogger<AuthenticationController> _logger;
-    public AuthenticationController(IMapper mapper,IMediator mediator,ITokenGenerator tokenService,IConfiguration configuration, ILogger<AuthenticationController> logger)
+    public AuthenticationController(IMapper mapper,IMediator mediator,ITokenGenerator tokenService,ILogger<AuthenticationController> logger)
     {
-        (_mediator, _mapper, _tokenService, _configuration, _logger) = (mediator, mapper, tokenService, configuration,logger);
+        (_mediator, _mapper, _tokenService, _logger) = (mediator, mapper, tokenService, logger);
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -40,7 +40,7 @@ public class AuthenticationController : Controller
             var user = await _mediator.Send(new ValidateUserQuery
             {
                 User = userRequestQuery
-            });
+            }).ConfigureAwait(false);
 
 
             if(user is null)
