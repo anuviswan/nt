@@ -22,7 +22,7 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
         {
             UserName = request.UserName,
             Password = request.OldPassword,
-        });
+        }).ConfigureAwait(false);
 
         if (user is null)
         {
