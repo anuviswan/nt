@@ -67,12 +67,11 @@ public class AddUserCommandHandlerTests
 
 
     [Test]
-    [TestCaseSource(nameof(AddUser_Handle_UserExists_Success_TestData))]
-    public void AddUser_Handle_UserExists_Success(AddUserCommand request, User expectedResponse)
+    [TestCaseSource(nameof(AddUser_Handle_UserExists_ThrowsException_TestData))]
+    public void AddUser_Handle_UserExists_ThrowsException(AddUserCommand request, User existingUser)
     {
         #region Arrange
-        _userRepository.GetAll().Returns(x => new[] { expectedResponse });
-        _userRepository.AddAsync(Arg.Any<User>()).Returns(x => expectedResponse);
+        _userRepository.GetAll().Returns(x => new[] { existingUser });
         #endregion
 
         #region Act
@@ -81,7 +80,7 @@ public class AddUserCommandHandlerTests
         #endregion
     }
 
-    static IEnumerable<object[]> AddUser_Handle_UserExists_Success_TestData()
+    static IEnumerable<object[]> AddUser_Handle_UserExists_ThrowsException_TestData()
     {
         yield return new object[]
         {
@@ -99,6 +98,76 @@ public class AddUserCommandHandlerTests
                 UserName = "John Doe",
                 Password = "Random"
             }
+        };
+    }
+
+
+    [Test]
+    [TestCaseSource(nameof(AddUser_Handle_InvalidData_ThrowsException_TestData))]
+    public void AddUser_Handle_InvalidData_ThrowsException(AddUserCommand request, Type expectedException)
+    {
+        #region Arrange
+        #endregion
+
+        #region Act
+        var sut = new AddUserCommandHandler(_unitOfWorkFactory);
+        Assert.ThrowsAsync(expectedException, async () => await sut.Handle(request, default).ConfigureAwait(false));
+        #endregion
+    }
+
+    static IEnumerable<object[]> AddUser_Handle_InvalidData_ThrowsException_TestData()
+    {
+        yield return new object[]
+        {
+            new AddUserCommand
+            {
+                User = new User
+                {
+                    UserName = string.Empty,
+                    Password = "Random"
+                },
+
+            },
+            typeof(ArgumentException)
+        };
+
+        yield return new object[]
+        {
+            new AddUserCommand
+            {
+                User = new User
+                {
+                    Password = "Random"
+                },
+
+            },
+            typeof(ArgumentNullException)
+        };
+        yield return new object[]
+        {
+            new AddUserCommand
+            {
+                User = new User
+                {
+                    UserName = "Random",
+                    Password = string.Empty
+                },
+
+            },
+            typeof(ArgumentException)
+        };
+
+        yield return new object[]
+        {
+            new AddUserCommand
+            {
+                User = new User
+                {
+                    UserName = "Random"
+                },
+
+            },
+            typeof(ArgumentNullException)
         };
     }
 }

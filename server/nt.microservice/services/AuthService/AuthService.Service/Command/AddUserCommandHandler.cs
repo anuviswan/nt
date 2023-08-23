@@ -13,6 +13,9 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, User>
     }
     public async Task<User> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(request),"User.UserName");
+        ArgumentException.ThrowIfNullOrEmpty(nameof(request),"User.Password");
+
         using var uow = _unitOfWorkFactory.CreateUnitOfWork();
         var currentUsers = await uow.UserRepository.GetAll().ConfigureAwait(false);
         var userNameExists = currentUsers.Any(x => string.Equals(x.UserName, request.User!.UserName, StringComparison.InvariantCultureIgnoreCase));
