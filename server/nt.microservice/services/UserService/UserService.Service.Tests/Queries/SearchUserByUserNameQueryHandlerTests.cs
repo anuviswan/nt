@@ -98,7 +98,7 @@ public class SearchUserByUserNameQueryHandlerTests
 
     [Theory]
     [MemberData(nameof(SearchUserByUserNameQueryHandler_NullOrEmptyUser_FindUser_TestData))]
-    public async Task SearchUserByUserNameQueryHandler_NullOrEmptyUser_FindUser(SearchUserByUserNameQuery request)
+    public async Task SearchUserByUserNameQueryHandler_NullOrEmptyUser_FindUser(SearchUserByUserNameQuery request, Type expectedException)
     {
         #region Arrange
         var mockUserMetaRepository = new Mock<IUserMetaInformationRepository>();
@@ -117,7 +117,7 @@ public class SearchUserByUserNameQueryHandlerTests
 
         #region Act
         var queryHandler = new SearchUserByUserNameQueryHandler(mockUserMetaRepository.Object, mockMapper.Object);
-        await Assert.ThrowsAsync<ArgumentNullException>(async ()=>await queryHandler.Handle(request, cts.Token));
+        await Assert.ThrowsAsync(expectedException, async ()=>await queryHandler.Handle(request, cts.Token));
         #endregion
 
     }
@@ -127,10 +127,12 @@ public class SearchUserByUserNameQueryHandlerTests
         new object[]
         {
             new SearchUserByUserNameQuery { UserName = string.Empty},
+            typeof(ArgumentException)
         },
         new object[]
         {
-            new SearchUserByUserNameQuery { UserName = null},
+            new SearchUserByUserNameQuery(),
+            typeof(ArgumentNullException)
         }
     };
 }
