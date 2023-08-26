@@ -14,7 +14,7 @@ public class SearchUserByUserNameQueryHandler : IRequestHandler<SearchUserByUser
     }
     public async Task<UserProfileDto?> Handle(SearchUserByUserNameQuery request, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(nameof(request.UserName));
+        ArgumentNullException.ThrowIfNullOrEmpty(request.UserName);
         
         var userMetaInfo = await _userMetaInformationRepository.GetUser(request.UserName).ConfigureAwait(false);
 
