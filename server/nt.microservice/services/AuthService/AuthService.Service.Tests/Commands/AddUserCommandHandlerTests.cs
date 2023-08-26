@@ -34,8 +34,8 @@ public class AddUserCommandHandlerTests
         #region Arrange
         _unitOfWorkFactory.CreateUnitOfWork().Returns(_ => _unitOfWork);
         _unitOfWork.UserRepository.Returns(_ => _userRepository);
-        _userRepository.GetAll().Returns(x=> Enumerable.Empty<User>());
-        _userRepository.AddAsync(Arg.Any<Domain.Entities.User>()).Returns(x=> expectedResult);
+        _userRepository.GetAll().Returns(x => Enumerable.Empty<User>());
+        _userRepository.AddAsync(Arg.Any<Domain.Entities.User>()).Returns(x => expectedResult);
         #endregion
 
         #region Act
@@ -82,7 +82,7 @@ public class AddUserCommandHandlerTests
         _userRepository.GetAll()
                        .Returns(x => new User[] { request.User! });
         _userRepository.AddAsync(Arg.Any<User>())
-                       .Returns<User>(x => request.User! );
+                       .Returns<User>(x => request.User!);
         #endregion
 
         #region Act And Assert
