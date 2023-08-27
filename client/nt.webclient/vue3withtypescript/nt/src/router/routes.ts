@@ -5,9 +5,6 @@ import RegisterPage from '@/pages/public/RegisterPage.vue'
 import DashboardPage from '@/pages/private/DashboardPage.vue'
 import ChangePassword from '@/pages/private/user/ChangePassword.vue'
 import PrivateContainer from '@/pages/private/PrivateContainer.vue' 
-import {useUserStore} from "@/stores/userStore"
-
-const store = useUserStore();
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -45,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
         {
           
           name : routesNames.changePassword.name,
-          path: routesNames.changePassword.path + '/' + store.UserName + '/chpwd',
+          path: routesNames.changePassword.path + '/:userid/chpwd',
           component : ChangePassword
         }
       ]
