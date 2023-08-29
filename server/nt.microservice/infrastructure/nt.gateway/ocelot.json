@@ -58,7 +58,7 @@
           "Port": "8301"
         }
       ],
-      "UpstreamPathTemplate": "/user/changepassword",
+      "UpstreamPathTemplate": "/api/User/ChangePassword",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
