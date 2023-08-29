@@ -2,10 +2,12 @@
     <div class="container-fluid">
       <div class="row align-items-center justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-6">
-          <div class="card">
-            <div class="card-header font-weight-bold text-uppercase">
-              Change Password
+          <div class="card card-block rounded shadow shadow-sm">
+            <div class="card-header bg-primary text-light ">
+            <div class="card-subtitle align-middle">
+                <h4 class="mb-0">Change Password</h4>
             </div>
+        </div>
             <div class="card-body">
               <form class="form needs-validation" v-on:submit="onSubmit">
                 <div class="form-group">
@@ -16,7 +18,7 @@
                     name="oldPassword"
                   />
                 </div>
-                <div class="d-flex justify-content-left" v-if="v$.formData.oldPassword.$error">
+                <div class="d-flex justify-content-center" v-if="v$.formData.oldPassword.$error">
                   <ValidationMessage :messages="v$.formData.oldPassword.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
                 </div>
   
@@ -28,7 +30,7 @@
                     v-model="formData.newPassword"
                   />
                 </div>
-                <div class="d-flex justify-content-left" v-if="v$.formData.newPassword.$error">
+                <div class="d-flex justify-content-center" v-if="v$.formData.newPassword.$error">
                   <ValidationMessage :messages="v$.formData.newPassword.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
                 </div>
   
@@ -40,7 +42,7 @@
                     v-model="formData.confirmPassword"
                   />
                 </div>
-                <div class="d-flex justify-content-left" v-if="v$.formData.confirmPassword.$error">
+                <div class="d-flex justify-content-center" v-if="v$.formData.confirmPassword.$error">
                   <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
                 </div>
   
@@ -66,6 +68,7 @@
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { ref, computed } from "vue";
+import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 
 interface IFormData{
     oldPassword : string,
@@ -101,6 +104,7 @@ const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults }
 
 const onSubmit = async ()=>{
 
+  console.log("submitting");
 
     v$.value.$clearExternalResults();
     var validationResult = await v$.value.$validate();
@@ -110,6 +114,7 @@ const onSubmit = async ()=>{
         return;
     }
 
+    console.log("validation succeeded")
     // Validate Old Password
 
 
