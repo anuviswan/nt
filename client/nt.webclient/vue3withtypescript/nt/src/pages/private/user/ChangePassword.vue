@@ -9,30 +9,39 @@
             <div class="card-body">
               <form class="form needs-validation" v-on:submit="onSubmit">
                 <div class="form-group">
-                  <label for="oldPassword">Old Password</label>
                   <input
                     type="password"
+                    placeholder="Old Password"
                     v-model="formData.oldPassword"
                     name="oldPassword"
                   />
                 </div>
+                <div class="d-flex justify-content-left" v-if="v$.formData.oldPassword.$error">
+                  <ValidationMessage :messages="v$.formData.oldPassword.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
+                </div>
   
                 <div class="form-group">
-                  <label for="newPassword">New Password</label>
                   <input
                     type="text"
+                    placeholder="New Password"
                     name="newPassword"
                     v-model="formData.newPassword"
                   />
                 </div>
+                <div class="d-flex justify-content-left" v-if="v$.formData.newPassword.$error">
+                  <ValidationMessage :messages="v$.formData.newPassword.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
+                </div>
   
                 <div class="form-group">
-                  <label for="confirmPassword">Confirm Password</label>
                   <input
                     type="text"
                     name="confirmPassword"
+                    placeholder="Confirm Password"
                     v-model="formData.confirmPassword"
                   />
+                </div>
+                <div class="d-flex justify-content-left" v-if="v$.formData.confirmPassword.$error">
+                  <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
                 </div>
   
                 <div class="form-group">
@@ -42,11 +51,9 @@
                     value="Update Password"
                   />
                 </div>
-                <!-- <div class="form-group">
-                  <div v-bind:class="showServerMessage()">
-                    <small>{{ this.serverMessage }}</small>
-                  </div>
-                </div> -->
+                <div class="d-flex justify-content-left" v-if="serverMessage">
+                  <ValidationMessage :messages="serverMessage" v-bind:isError="true" />
+                </div>
               </form>
             </div>
           </div>
