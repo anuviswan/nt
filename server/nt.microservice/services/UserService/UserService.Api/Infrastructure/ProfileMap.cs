@@ -10,6 +10,7 @@ public class ProfileMap:Profile
 {
     public ProfileMap()
     {
+
         CreateMap<CreateUserRequestViewModel, CreateUserCommand>().ReverseMap();
         CreateMap<UserProfileDto, CreateUserResponseViewModel>().ReverseMap();
         CreateMap<CreateUserRequestViewModel, CreateUserInitiated>();
