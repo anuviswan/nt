@@ -86,6 +86,7 @@ const onSubmit = async (): Promise<void> => {
 
   if (!validationResult) {
     console.log("Validation failed");
+    
     return;
   }
 
@@ -98,6 +99,7 @@ const onSubmit = async (): Promise<void> => {
 
   var response = await userApiService.validateUser(userInfo);
 
+  console.log(response);
   // Validate response from Api
   if (response.hasError) {
     console.log("Login failed")
@@ -118,6 +120,9 @@ const onSubmit = async (): Promise<void> => {
       $externalResults.value = errors;
 
       console.log(v$);
+    }
+    else{
+      serverMessage.value = ['Unexpected error. Please try later'];
     }
   }
   else 
