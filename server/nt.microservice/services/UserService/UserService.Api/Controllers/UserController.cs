@@ -34,8 +34,6 @@ public class UserController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var userProfileToCreate = Mapper.Map<UserMetaInformation>(user);
-
             // Create User Meta information in User Service
             var result = await Mediator.Send(Mapper.Map<CreateUserCommand>(user)).ConfigureAwait(false);
 
