@@ -24,6 +24,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Service.Tests", "services\UserService\UserService.Service.Tests\UserService.Service.Tests.csproj", "{1AEA23E6-D70B-4101-BB11-86E49D331BDE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService", "{379A563F-E8CE-4BF6-9267-455ABAD65681}"
+	ProjectSection(SolutionItems) = preProject
+		services\AuthService\AuthService.LoadBalancer\nginx\nginx.conf = services\AuthService\AuthService.LoadBalancer\nginx\nginx.conf
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Api", "services\AuthService\AuthService.Api\AuthService.Api.csproj", "{CDDC3574-6181-48C5-AD92-13EABFA8CFD1}"
 EndProject
@@ -55,7 +58,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nt.saga.orchestrator", "inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nt.saga.orchestrator.test", "infrastructure\nt.saga.orchestrator.test\nt.saga.orchestrator.test.csproj", "{99354DB2-7BF7-4DB5-A4BB-AA873DDF0813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Service.Tests", "services\AuthService\AuthService.Service.Tests\AuthService.Service.Tests.csproj", "{11EB8D38-997E-468D-B48F-E8468A2D92F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Service.Tests", "services\AuthService\AuthService.Service.Tests\AuthService.Service.Tests.csproj", "{11EB8D38-997E-468D-B48F-E8468A2D92F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
