@@ -69,6 +69,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { ref, computed } from "vue";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
+import { userApiService } from '@/apiService/UserApiService';
 
 interface IFormData{
     oldPassword : string,
@@ -117,6 +118,12 @@ const onSubmit = async ()=>{
     console.log("validation succeeded")
     // Validate Old Password
 
+    var response = await userApiService.changePassword({
+      oldPassword : formData.value.oldPassword,
+      newPassword : formData.value.newPassword
+    });
+
+    console.log(response);
 
     // Change new Password
     return false;
