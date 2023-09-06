@@ -125,6 +125,13 @@ const onSubmit = async ()=>{
 
     console.log(response);
 
+    if(response.hasError){
+      console.log("Failed with Status Code " + response.status )
+    }
+    else{
+      console.log("Success");
+    }
+
     // Change new Password
     return false;
 }
