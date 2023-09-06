@@ -67,6 +67,7 @@ services:
   # Load Balancer for AuthService
   nt.authservice.loadbalancer:
     image: nginx:latest
+    hostname: nt.authservice.loadbalancer
     volumes:
         # - ./services/AuthService/AuthService.LoadBalancer/nginx:/etc/nginx/nginx.conf:ro
         - ./services/AuthService/AuthService.LoadBalancer/nginx/nginx.conf:/etc/nginx/nginx.conf:ro

@@ -54,6 +54,10 @@ namespace nt.saga.orchestrator.Controllers
                     DisplayName = userDetails.User.DisplayName,
                 });
             }
+            catch(Nt.Saga.Orchestrator.Services.AuthService.ApiException apiex) when (apiex.StatusCode == 401)
+            {
+                return Unauthorized();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
