@@ -24,7 +24,7 @@
   
                 <div class="form-group">
                   <input
-                    type="text"
+                    type="password"
                     placeholder="New Password"
                     name="newPassword"
                     v-model="formData.newPassword"
@@ -36,7 +36,7 @@
   
                 <div class="form-group">
                   <input
-                    type="text"
+                    type="password"
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     v-model="formData.confirmPassword"
