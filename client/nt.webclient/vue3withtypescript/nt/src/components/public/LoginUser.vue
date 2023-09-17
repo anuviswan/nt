@@ -146,7 +146,5 @@ const onSubmit = async (): Promise<void> => {
 }
 
 
-function userStore() {
-  throw new Error("Function not implemented.");
-}
+
 </script>

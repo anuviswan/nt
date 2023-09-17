@@ -15,13 +15,18 @@ class HttpClient{
           };
         this.axiosInstance = axios.create({baseURL: "http://localhost:8001/", headers:headers});
 
-        const userStoreInstance = useUserStore();
+        
 
         
         this.axiosInstance.interceptors.request.use(function (config) 
         {
+            const userStoreInstance = useUserStore();
             if(userStoreInstance.Token){
-                config.headers.Authorization  = userStoreInstance.Token;
+                console.log("Submitting with token " + userStoreInstance.Token)
+                config.headers.Authorization  = `Bearer ${userStoreInstance.Token}`; 
+            }
+            else{
+                console.log("Token not available")
             }
             return config;
         });

@@ -9,7 +9,7 @@
             </div>
         </div>
             <div class="card-body">
-              <form class="form needs-validation" v-on:submit="onSubmit">
+              <form class="form needs-validation" @submit.prevent="onSubmit">
                 <div class="form-group">
                   <input
                     type="password"
