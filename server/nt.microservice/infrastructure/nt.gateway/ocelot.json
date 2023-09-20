@@ -48,14 +48,14 @@
 
     // Change Password
     {
-      "DownstreamPathTemplate": "/Users/ChangePassword",
+      "DownstreamPathTemplate": "/api/authenticate/ChangePassword",
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8301"
+          "Port": "8100"
         }
       ],
       "UpstreamPathTemplate": "/api/User/ChangePassword",

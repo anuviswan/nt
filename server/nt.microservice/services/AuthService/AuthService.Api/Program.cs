@@ -93,12 +93,16 @@ internal class Program
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudiences = new string[]
                     {
-                builder.Configuration["Jwt:Aud1"],
-                builder.Configuration["Jwt:Aud2"]
+                        builder.Configuration["Jwt:Aud1"],
+                        builder.Configuration["Jwt:Aud2"],
+                        builder.Configuration["Jwt:Aud3"],
                     },
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
+
+        builder.Services.AddAuthorization();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
