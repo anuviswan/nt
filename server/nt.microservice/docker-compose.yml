@@ -194,22 +194,22 @@ services:
       nt.authservice.network:
 
 
-  # Prometheus 
-  nt.common.prometheus:
-    image: prom/prometheus:latest
-    hostname: nt.common.prometheus
-    container_name: nt.common.prometheus
-    volumes:
-        - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-          - '--config.file=/etc/prometheus/prometheus.yml'
+  # # Prometheus 
+  # nt.common.prometheus:
+  #   image: prom/prometheus:latest
+  #   hostname: nt.common.prometheus
+  #   container_name: nt.common.prometheus
+  #   volumes:
+  #       - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   command:
+  #         - '--config.file=/etc/prometheus/prometheus.yml'
 
-  nt.common.grafana:
-    image: grafana/grafana
-    hostname: nt.common.grafana
-    container_name: nt.common.grafana
-    volumes:
-      - ./grafana-data/data:/var/lib/grafana
+  # nt.common.grafana:
+  #   image: grafana/grafana
+  #   hostname: nt.common.grafana
+  #   container_name: nt.common.grafana
+  #   volumes:
+  #     - ./grafana-data/data:/var/lib/grafana
 
 
 
