@@ -14,7 +14,7 @@ services:
 
   nt.authservice.service:
     ports:
-      - "8101-8105:80"
+      - "8105:80"
       # - "9002:443"
 
   nt.authservice.loadbalancer:
@@ -51,13 +51,13 @@ services:
   #    - 8081:8081
 
 
-  nt.common.grafana:
-    ports:
-      - "3000:3000"
+  # nt.common.grafana:
+  #   ports:
+  #     - "3000:3000"
 
-  nt.common.prometheus:
-    ports:
-        - '9090:9090'
+  # nt.common.prometheus:
+  #   ports:
+  #       - '9090:9090'
 
   nt.common.pgadmin:
     ports:

@@ -1,5 +1,6 @@
 import { IResponseBase } from "@/types/ApiRequestResponseTypes";
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from "axios";
+import {useUserStore} from "@/stores/userStore";
 
 class HttpClient{
 
@@ -13,6 +14,22 @@ class HttpClient{
             "Content-Type": "application/json", // this shows the expected content type
           };
         this.axiosInstance = axios.create({baseURL: "http://localhost:8001/", headers:headers});
+
+        
+
+        
+        this.axiosInstance.interceptors.request.use(function (config) 
+        {
+            const userStoreInstance = useUserStore();
+            if(userStoreInstance.Token){
+                console.log("Submitting with token " + userStoreInstance.Token)
+                config.headers.Authorization  = `Bearer ${userStoreInstance.Token}`; 
+            }
+            else{
+                console.log("Token not available")
+            }
+            return config;
+        });
     }
 
     public async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {

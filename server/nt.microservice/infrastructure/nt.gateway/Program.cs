@@ -38,12 +38,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
      {
          option.TokenValidationParameters = new TokenValidationParameters
          {
-             ValidateIssuer = true,
+             ValidateIssuer = false,
              ValidateAudience = true,
              ValidateLifetime = true,
              ValidateIssuerSigningKey = true,
              ValidIssuer = builder.Configuration["Jwt:Issuer"],
-             ValidAudience = builder.Configuration["Jwt:Aud"],
+             ValidAudience = builder.Configuration["Jwt:Aud1"],
              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
          };
      });
@@ -86,8 +86,8 @@ app.UseRouting();
 app.UseMetricServer();
 app.UseHttpMetrics();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

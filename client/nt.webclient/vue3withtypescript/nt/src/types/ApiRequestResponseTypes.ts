@@ -32,3 +32,14 @@ export interface IValidateUserResponse extends IResponseBase {
     }
 }
 
+export interface IChangePasswordRequest {
+    oldPassword : string,
+    newPassword : string
+}
+
+export interface IChangePasswordResponse extends IResponseBase{
+    data: {
+        
+    }
+}
+

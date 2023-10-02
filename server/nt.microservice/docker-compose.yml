@@ -61,20 +61,22 @@ services:
       nt.common.network:
       nt.authservice.network:
     depends_on:
-      - "nt.authservice.db"
+      - nt.authservice.db
       #- "nt.authservice.log.db"
 
   # Load Balancer for AuthService
   nt.authservice.loadbalancer:
     image: nginx:latest
+    hostname: nt.authservice.loadbalancer
+    container_name: nt.authservice.loadbalancer
     volumes:
         # - ./services/AuthService/AuthService.LoadBalancer/nginx:/etc/nginx/nginx.conf:ro
         - ./services/AuthService/AuthService.LoadBalancer/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - nt.authservice.service
     networks:
-      - nt.common.network
-      - nt.authservice.network
+      nt.common.network:
+      nt.authservice.network:
 
 
   # Database
@@ -193,22 +195,22 @@ services:
       nt.authservice.network:
 
 
-  # Prometheus 
-  nt.common.prometheus:
-    image: prom/prometheus:latest
-    hostname: nt.common.prometheus
-    container_name: nt.common.prometheus
-    volumes:
-        - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-          - '--config.file=/etc/prometheus/prometheus.yml'
+  # # Prometheus 
+  # nt.common.prometheus:
+  #   image: prom/prometheus:latest
+  #   hostname: nt.common.prometheus
+  #   container_name: nt.common.prometheus
+  #   volumes:
+  #       - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   command:
+  #         - '--config.file=/etc/prometheus/prometheus.yml'
 
-  nt.common.grafana:
-    image: grafana/grafana
-    hostname: nt.common.grafana
-    container_name: nt.common.grafana
-    volumes:
-      - ./grafana-data/data:/var/lib/grafana
+  # nt.common.grafana:
+  #   image: grafana/grafana
+  #   hostname: nt.common.grafana
+  #   container_name: nt.common.grafana
+  #   volumes:
+  #     - ./grafana-data/data:/var/lib/grafana
 
 
 
@@ -237,8 +239,8 @@ volumes:
 
 networks:
   nt.authservice.network:
-   # driver: bridge
+   driver: bridge
   nt.userservice.network:
-   # driver: bridge
+   driver: bridge
   nt.common.network:
-   # driver: bridge
+   driver: bridge

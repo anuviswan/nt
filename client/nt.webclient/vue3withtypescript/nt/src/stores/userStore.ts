@@ -16,6 +16,7 @@ export const useUserStore = defineStore('UserStore',()=>{
     const UserName = computed(()=> loggedInUser.value.userName);
     const DisplayName = computed(() => loggedInUser.value.displayName ? loggedInUser.value.displayName : loggedInUser.value.userName);
     const Bio = computed(()=> loggedInUser.value.bio);
+    const Token = computed(( )=> loggedInUser.value.token)
 
     // methods
     const SaveUser = (user:LoggedInUser):void=>{
@@ -37,6 +38,7 @@ export const useUserStore = defineStore('UserStore',()=>{
         UserName,
         DisplayName,
         Bio,
+        Token,
         SaveUser,
         Reset
     };

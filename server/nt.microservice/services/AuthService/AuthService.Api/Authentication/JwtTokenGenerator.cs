@@ -20,6 +20,7 @@ public class JwtTokenGenerator : ITokenGenerator
             new Claim(JwtRegisteredClaimNames.UniqueName,userName),
             new Claim(JwtRegisteredClaimNames.Aud,_configuration["Jwt:Aud1"]),
             new Claim(JwtRegisteredClaimNames.Aud,_configuration["Jwt:Aud2"]),
+            new Claim(JwtRegisteredClaimNames.Aud,_configuration["Jwt:Aud3"]),
 
         };
         var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
