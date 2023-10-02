@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient<AuthService>(options =>
 {
-    options.BaseAddress = new Uri("http://host.docker.internal:8105/");
+    options.BaseAddress = new Uri("http://host.docker.internal:8100/");
 });
 
 builder.Services.AddHttpClient<UserService>(options =>
