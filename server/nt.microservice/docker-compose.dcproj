@@ -7,6 +7,7 @@
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>nt.gateway</DockerServiceName>
+	<DockerComposeBuildArguments> --scale nt.authservice.service=3 -d</DockerComposeBuildArguments>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
