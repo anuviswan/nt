@@ -13,8 +13,10 @@ services:
       - "8002:80" 
 
   nt.authservice.service:
-    ports:
-      - "8105:80"
+    expose: 
+      - "80"
+    # ports:
+      # - "8101-8105:80"
       # - "9002:443"
 
   nt.authservice.loadbalancer:
