@@ -119,8 +119,8 @@ const onSubmit = async ()=>{
     // Validate Old Password
 
     var response = await userApiService.changePassword({
-      oldPassword : formData.value.oldPassword,
-      newPassword : formData.value.newPassword
+      oldPassword : btoa(formData.value.oldPassword),
+      newPassword : btoa(formData.value.newPassword)
     });
 
     console.log(response);
