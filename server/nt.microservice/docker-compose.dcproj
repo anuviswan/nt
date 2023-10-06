@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>88fac380-9f80-441f-a86d-765d39b0f9a9</ProjectGuid>
-    
+    <DockerComposeUpArguments> --scale nt.authservice.service=1 -d</DockerComposeUpArguments>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
