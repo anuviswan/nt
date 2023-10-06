@@ -4,10 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>88fac380-9f80-441f-a86d-765d39b0f9a9</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>nt.gateway</DockerServiceName>
-	<DockerComposeBuildArguments> --scale nt.authservice.service=3 -d</DockerComposeBuildArguments>
+    
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -46,8 +46,6 @@ services:
   # Service 
   nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
-    # container_name: nt.authservice.service
-    hostname: nt.authservice.service
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
