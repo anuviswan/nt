@@ -24,8 +24,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             await UpdateAsync(user).ConfigureAwait(false);
             return true;
         }
-        catch
+        catch(Exception e)
         {
+            Console.WriteLine(e.Message);
             return false;
         }
         
