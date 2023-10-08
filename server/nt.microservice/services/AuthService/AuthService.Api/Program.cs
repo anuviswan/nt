@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
+using Npgsql.Logging;
 using Prometheus;
 using System.Text;
 
@@ -102,6 +103,7 @@ internal class Program
             });
 
         builder.Services.AddAuthorization();
+        NpgsqlLogManager.Provider = new ConsoleLoggingProvider(NpgsqlLogLevel.Trace, true, true);
 
         var app = builder.Build();
 
