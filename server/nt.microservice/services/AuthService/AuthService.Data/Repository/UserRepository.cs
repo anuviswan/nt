@@ -18,17 +18,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
     public async Task<bool> ChangePasswordAsync(User user, string newPassword)
     {
-        try
-        {
-            user.Password = newPassword;
-            await UpdateAsync(user).ConfigureAwait(false);
-            return true;
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine(e.Message);
-            return false;
-        }
-        
+        user.Password = newPassword;
+        await UpdateAsync(user).ConfigureAwait(false);
+        return true;
+
     }
 }
