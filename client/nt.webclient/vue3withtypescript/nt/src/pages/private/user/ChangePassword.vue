@@ -83,7 +83,7 @@ const formData = ref<IFormData>({
     confirmPassword : ''
 })
 const $externalResults = ref({});
-const serverMessage = ref<string>('');
+const serverMessage = ref<string[]>([]);
 
 const rules = computed(() => ({
     formData: {
@@ -102,6 +102,8 @@ const rules = computed(() => ({
 }))
 
 const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
+
+
 
 const onSubmit = async ()=>{
 
@@ -127,9 +129,12 @@ const onSubmit = async ()=>{
 
     if(response.hasError){
       console.log("Failed with Status Code " + response.status )
+      serverMessage.value = ['Invalid Username or Password'];
+      console.log(v$);
     }
     else{
       console.log("Success");
+      serverMessage.value = ['Password Changed'];
     }
 
     // Change new Password

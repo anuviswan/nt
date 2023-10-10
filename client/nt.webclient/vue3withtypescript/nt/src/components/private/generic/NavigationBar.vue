@@ -54,16 +54,6 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li>
-          <router-link
-              class="dropdown-item"
-              exact
-              v-bind:to="`/p/user/${currentUser.userName}/chpwd`"
-              >Change Password</router-link
-            >
-        </li>
-      </ul>
-      <ul class="navbar-nav">
         
         <li class="nav-item dropdown active">
           <a
