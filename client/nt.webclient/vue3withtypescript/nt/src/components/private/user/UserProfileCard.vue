@@ -1,70 +1,67 @@
 <template>
-  <div class="container-fluid">
-    <div class="row align-items-center justify-content-center">
+ <div class="container mt-5 d-flex justify-content-center">
 
-      <!-- Mini Card -->
-      <div class="col-sm-12 col-md-6 col-lg-2" v-if="isMiniCard" width="400">
-        <div>
-          <div class="card card-block rounded shadow shadow-sm">
+<div class="card p-3 shadow">
 
-            <div class="card-header bg-primary text-light ">
-              <div class="align-middle">
-                <h5 class="card-title">{{ user.displayName }} Mini</h5>
-              </div>
-            </div>
-            <div class="align-middle">
-              <img class="card-img-top " src="@/assets/user.png" alt="Card image cap">
-            </div>
-            <div class="card-body">
-              <div class="align-middle">
-                <h5 class="card-title">{{ user.userName }}</h5>
-              </div>
-              <div class="align-middle">
-                <p class="card-text">{{ user.bio }}</p>
-              </div>
-              <div class="row">
-                <div class="col-6 border-right">
-                  <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                    <h5 class="m-1">108k</h5>
-                    <p class="m-0">Followers</p>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                    <h5 class="m-1">108k</h5>
-                    <p class="m-0">Following</p>
-                  </div>
-                </div>
-              </div>
+    <div class="d-flex align-items-center">
 
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Full Card -->
-      <div class="col-sm-12 col-md-6 col-lg-4" v-else>
-        <div>
-          <div class="card card-block rounded shadow shadow-sm">
-            <div class="card-header bg-primary text-light ">
-              <div class="card-title align-middle">
-                <h5 class="mb-0">{{ user.displayName }} Mini</h5>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="text--primary align-middle">
-                <b class="mb-0">{{ user.userName }}</b>
-              </div>
-              <div class="card-text align-middle">
-                <i class="mb-0">{{ user.bio }}</i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <div class="image">
+    <img src="@/assets/user.png" class="rounded" width="155" >
     </div>
-  </div>
+
+    <div class="ml-3 w-100">
+        
+       <h4 class="mb-0 mt-0">{{ user.displayName }}</h4>
+       <span>{{ user.userName }}</span>
+       <p class="bio">{{ user.bio }}</p>
+
+       <div class="p-2 mt-2 bg-secondary d-flex justify-content-between rounded text-white stats">
+
+        <div class="d-flex flex-column">
+
+            <span class="stat-heading">Followers<i class="bi bi-people"></i></span>
+            <span class="number1">{{ getValueOrDefault(user.countOfFollowers) }}</span>
+            
+        </div>
+
+        <div class="d-flex flex-column">
+
+            <span class="stat-heading">Following</span>
+            <span class="number2">{{ getValueOrDefault(user.countOfFollowedUsers) }}</span>
+            
+        </div>
+
+
+        <div class="d-flex flex-column">
+            <span class="stat-heading">Rating</span>
+            <span class="number3">{{ getValueOrDefault(user.Downrated) }}</span>
+        </div>
+
+        
+           
+       </div>
+
+
+       <div class="button mt-2 d-flex flex-row align-items-center">
+
+        <button class="btn btn-sm btn-outline-primary w-100">Chat</button>
+        <button class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
+
+           
+       </div>
+
+
+    </div>
+
+        
+    </div>
+    
+</div>
+ 
+</div>
 </template>
 <script setup lang="ts">
+import {computed } from 'vue'
 import { withDefaults, defineProps } from "vue"
 import { User } from "@/types/UserTypes";
 interface Props {
@@ -82,11 +79,43 @@ const props = withDefaults(defineProps<Props>(), {
   isMiniCard: true
 });
 
+const getValueOrDefault = (val:number|undefined) => val === null || val === undefined ? 0: val;
 </script>
 <style scoped>
-.card-img-top {
-  width: 50%;
-  height: 10vh;
-  object-fit: cover;
+
+.card{
+  width: 400px;
+  border: 10;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+
+
+.stats{
+
+      background: #f2f5f8 !important;
+
+    color: #000 !important;
+}
+
+.bio{
+  font-size:12px;
+  font-style: italic;
+}
+.stat-heading{
+  font-size:10px;
+  color: #6a6b6e;
+}
+.number1{
+  font-weight:500;
+}
+
+.number2{
+  font-weight:500;
+}
+
+.number3{
+  font-weight:500;
 }
 </style>
