@@ -5,6 +5,7 @@ import RegisterPage from '@/pages/public/RegisterPage.vue'
 import DashboardPage from '@/pages/private/DashboardPage.vue'
 import ChangePassword from '@/pages/private/user/ChangePassword.vue'
 import PrivateContainer from '@/pages/private/PrivateContainer.vue' 
+import ViewProfile from "@/pages/private/user/ViewProfile.vue"
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -44,6 +45,11 @@ const routes: Array<RouteRecordRaw> = [
           name : routesNames.changePassword.name,
           path: routesNames.changePassword.path + '/:userid/chpwd',
           component : ChangePassword
+        },
+        {
+          name: routesNames.viewUserProfile.name,
+          path: routesNames.viewUserProfile.path + '/:userid/view',
+          component : ViewProfile
         }
       ]
     }
