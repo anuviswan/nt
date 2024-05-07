@@ -1,49 +1,54 @@
 <template>
     <div class="container-fluid">
         <div class="card rounded shadow shadow-sm">
-        <div class="bg-primary text-light text-uppercase">
-            <div class="card-title">
-                <h5 class="mb-0">Edit User</h5>
+            <div class="row">
+                <div class="card-body bg-light text-uppercase">
+                    <div class="card-title">
+                        <h5 class="mb-0" align-middle>Edit User</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <form class="form needs-validation" @submit.prevent="onSubmit">
+                    <div class="form-group text-start">
+                        <label>UserName</label>
+                        <input type="text" v-model="formData.userName" class="form-control block" placeholder="Username" />
+                    </div>
+                    <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
+                        <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
+                            v-bind:isError="true" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-block btn-primary" value="Submit" />
+                    </div>
+
+                    <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
+                        <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
+                            v-bind:isError="true" />
+                    </div>
+                </form>
+
             </div>
         </div>
-        <div class="card-body">
-            <form class="form needs-validation" @submit.prevent="onSubmit">
-                <div class="form-group">
-                    <input type="text" v-model="formData.userName" class="form-control block" placeholder="Username" />
-                </div>
-                <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                    <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                        v-bind:isError="true" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-block btn-primary" value="Submit" />
-                </div>
-
-                <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-                    <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
-                        v-bind:isError="true" />
-                </div>
-            </form>
-
-        </div>
-    </div>
     </div>
 </template>
 <script setup lang="ts">
-import {ref, computed} from 'vue'
+import { ref, computed } from 'vue'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 
-interface IFormData{
-    userName : string,
-    displayName : string,
-    bio : string,
+interface IFormData {
+    userName: string,
+    displayName: string,
+    bio: string,
 }
 
 const formData = ref<IFormData>({
-    userName : '',
-    displayName : '',
-    bio : ''
+    userName: '',
+    displayName: '',
+    bio: ''
 });
 const $externalResults = ref({});
 const serverMessage = ref<string>('');
@@ -54,7 +59,7 @@ const rules = computed(() => ({
             required: helpers.withMessage('Username cannot be empty', required),
             minLengthValue: helpers.withMessage('Username should minimum 4 characters', minLength(4))
         },
-        displayName :{
+        displayName: {
             required: helpers.withMessage('DisplayName cannot be empty', required),
             minLengthValue: helpers.withMessage('DisplayName should minimum 6 characters', minLength(6))
         },
@@ -66,10 +71,9 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
 
-const onSubmit = async () : Promise<void>=>{
-return;
+const onSubmit = async (): Promise<void> => {
+    return;
 }
 
 </script>
-<style scoped>
-</style>
+<style scoped></style>
