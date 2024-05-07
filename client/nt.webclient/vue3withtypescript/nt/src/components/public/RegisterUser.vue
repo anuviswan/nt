@@ -8,30 +8,22 @@
         <div class="card-body">
             <form class="form needs-validation" @submit.prevent="onSubmit">
                 <div class="form-group">
-                    <input type="text" v-model="formData.userName" v-bind:class="hasError('userName')
-                        ? 'form-control block is-invalid'
-                        : 'form-control block'
-                        " placeholder="Username" />
+                    <input type="text" v-model="formData.userName" class="form-control block"
+                         placeholder="Username" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
                     <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
                         v-bind:isError="true" />
                 </div>
                 <div class="form-group">
-                    <input type="password" v-model="formData.password" v-bind:class="hasError('password')
-                        ? 'form-control block is-invalid'
-                        : 'form-control block'
-                        " placeholder="Password" />
+                    <input type="password" v-model="formData.password" class="form-control block" placeholder="Password" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.password.$error">
                     <ValidationMessage :messages="v$.formData.password.$errors.map((x: any) => x.$message)"
                         v-bind:isError="true" />
                 </div>
                 <div class="form-group">
-                    <input type="password" v-model="formData.confirmPassword" v-bind:class="hasError('confirmPassword')
-                        ? 'form-control block is-invalid'
-                        : 'form-control block'
-                        " placeholder="Confirm Password" />
+                    <input type="password" v-model="formData.confirmPassword" class="form-control block" placeholder="Confirm Password" />
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.confirmPassword.$error">
                     <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x: any) => x.$message)"
@@ -94,10 +86,6 @@ const rules = computed(() => ({
 
 }))
 
-function hasError(d: string): boolean {
-    console.log(d)
-    return false;
-}
 
 const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
 
