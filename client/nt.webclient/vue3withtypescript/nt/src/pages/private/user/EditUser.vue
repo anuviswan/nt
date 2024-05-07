@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid">
-        <div class="card card-block rounded shadow shadow-sm">
-        <div class="card-header bg-primary text-light text-uppercase">
-            <div class="card-title align-middle">
+        <div class="card rounded shadow shadow-sm">
+        <div class="bg-primary text-light text-uppercase">
+            <div class="card-title">
                 <h5 class="mb-0">Edit User</h5>
             </div>
         </div>
