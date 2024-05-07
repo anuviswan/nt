@@ -24,6 +24,7 @@
                         v-bind:isError="true" />
                 </div>
             </form>
+
         </div>
     </div>
     </div>
@@ -66,7 +67,7 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
 
 const onSubmit = async () : Promise<void>=>{
-
+return;
 }
 
 </script>

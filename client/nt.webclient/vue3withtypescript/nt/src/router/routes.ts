@@ -6,6 +6,7 @@ import DashboardPage from '@/pages/private/DashboardPage.vue'
 import ChangePassword from '@/pages/private/user/ChangePassword.vue'
 import PrivateContainer from '@/pages/private/PrivateContainer.vue' 
 import ViewProfile from "@/pages/private/user/ViewProfile.vue"
+import EditUser from  "@/pages/private/user/EditUser.vue"
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -50,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
           name: routesNames.viewUserProfile.name,
           path: routesNames.viewUserProfile.path + '/:userid/view',
           component : ViewProfile
+        },
+        {
+          name: routesNames.editUserProfile.name,
+          path: routesNames.editUserProfile.path,
+          component : EditUser
         }
       ]
     }
