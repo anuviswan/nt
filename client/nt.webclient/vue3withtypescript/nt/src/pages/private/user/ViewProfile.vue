@@ -1,6 +1,6 @@
 <template>
  <div class="container-fluid">
-      <UserProfileCard :user="currentUser"/>
+      <UserProfileCard :user="currentUser" :isMiniCard='false'/>
     </div>
 </template>
 <script setup lang="ts">
