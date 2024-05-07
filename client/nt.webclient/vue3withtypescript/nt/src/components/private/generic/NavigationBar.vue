@@ -68,7 +68,7 @@
             <router-link
               class="dropdown-item"
               exact
-              v-bind:to="`/p/user/${currentUser.userName}`"
+              v-bind:to="`/p/user/${currentUser.userName}/view`"
             >
               View Profile
             </router-link>
