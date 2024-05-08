@@ -9,36 +9,10 @@
                     </div>
                 </div>
             <div class="card-body">
-                <form class="form needs-validation" @submit.prevent="onSubmit">
-                    <div class="form-group text-left">
-                        <label>UserName</label>
-                        <input type="text" v-model="formData.userName" class="form-control block" placeholder="Username" />
-                    </div>
-                    <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                        <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                            v-bind:isError="true" />
-                    </div>
-                    <div class="form-group text-left">
-                        <label>Display Name</label>
-                        <input type="text" v-model="formData.userName" class="form-control block" placeholder="Display Name" />
-                    </div>
-                    <div class="form-group text-left">
-                        <label>About yourself</label>
-                        <input type="text" v-model="formData.userName" class="form-control block" placeholder="Display Name" />
-                    </div>
-                    <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                        <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                            v-bind:isError="true" />
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-block btn-primary" value="Submit" />
-                    </div>
-
-                    <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-                        <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
-                            v-bind:isError="true" />
-                    </div>
-                </form>
+                <div>
+                    <AvataarCard/>
+                </div>
+                
 
             </div>
         </div>
@@ -94,6 +68,7 @@
 import { ref, computed } from 'vue'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
+import AvataarCard from '@/components/private/user/AvataarCard.vue'
 
 interface IFormData {
     userName: string,
