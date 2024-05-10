@@ -31,7 +31,7 @@ const browseImage = ():void=>{
     return;
 }
 
-const handleImageChanged = (e:Event) => {
+const handleImageChanged = async (e:Event) : Promise<void> => {
     const file = (e.target as HTMLInputElement)!.files?.[0];
     
     if(file){
@@ -42,8 +42,9 @@ const handleImageChanged = (e:Event) => {
             imgSrc.value = e.target?.result as string;
         }
         reader.readAsDataURL(file);
-
         isDirty.value = true;
+
+
     }
 }
 
