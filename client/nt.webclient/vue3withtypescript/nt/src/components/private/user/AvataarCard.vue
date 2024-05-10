@@ -9,7 +9,7 @@
                 <i class="fas fa-file-upload fa-2x fileupload" @click="browseImage()"></i>
             </div>
         </div>
-        <input type="button" value="Update" v-if="imgSrc">
+        <input type="button" value="Update" v-if="isDirty">
     </div>
 </template>
 <script setup lang="ts">
@@ -19,6 +19,7 @@ const fileUploader = ref<HTMLInputElement|null>(null);
 // eslint-disable-next-line @typescript-eslint/no-var-requires    
 const defaultImage = require('@/assets/DefaultProfile.jpg')
 const imgSrc = ref<string>(defaultImage);
+const isDirty = ref<boolean>(false);
 
 onMounted(()=>{
     imgSrc.value = defaultImage;
@@ -37,12 +38,12 @@ const handleImageChanged = (e:Event) => {
 
         console.log(file);
         const reader = new FileReader();
-        
-
         reader.onload = (e)=>{
             imgSrc.value = e.target?.result as string;
         }
         reader.readAsDataURL(file);
+
+        isDirty.value = true;
     }
 }
 
