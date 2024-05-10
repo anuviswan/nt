@@ -9,12 +9,11 @@
                 <i class="fas fa-file-upload fa-2x fileupload" @click="browseImage()"></i>
             </div>
         </div>
+        <input type="button" value="Update" v-if="imgSrc">
     </div>
 </template>
 <script setup lang="ts">
-import { def } from '@vue/shared';
 import {onMounted, ref} from 'vue'
-
 const fileUploader = ref<HTMLInputElement|null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires    
