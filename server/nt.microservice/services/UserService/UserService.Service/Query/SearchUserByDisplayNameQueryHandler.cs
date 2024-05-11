@@ -15,6 +15,7 @@ public class SearchUserByDisplayNameQueryHandler : IRequestHandler<SearchUserByD
         var userMetaInfo = await _userMetaInformationRepository.SearchUserByPartialDisplayName(request.QueryPart).ConfigureAwait(false);
         return userMetaInfo.Select(x=> new UserProfileDto
         {
+            UserName = x.UserName,
             DisplayName = x.DisplayName,
         });
     }

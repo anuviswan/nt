@@ -114,6 +114,9 @@ public class CreateUserCommandHandlerTests
         new object[]
         {
             new CreateUserCommand()
+            {
+                UserName = string.Empty
+            }
         },
         
     };
