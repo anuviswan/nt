@@ -88,7 +88,9 @@
         </div>
       </div>
     </div>
-    <div class="card p-3 shadow" ></div>
+    <div class="card p-3 shadow" >
+      
+    </div>
   </div>
     <!-- Details Card Starts here -->
   </div>

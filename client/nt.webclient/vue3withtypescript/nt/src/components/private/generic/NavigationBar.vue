@@ -74,7 +74,7 @@
             </router-link>
             <router-link
               exact
-              v-bind:to="`/p/user/${currentUser.userName}/edit`"
+              v-bind:to="`/p/user/edit`"
               class="dropdown-item"
             >
               Edit User
