@@ -25,5 +25,7 @@ public class ProfileMap:Profile
         {
             dest.User = cntxt.Mapper.Map<UserProfileViewModel>(src);
         });
+
+        CreateMap<UpdateProfileImageRequestViewModel, UploadProfileImageCommand>();
     }
 }
