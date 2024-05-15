@@ -2,7 +2,7 @@
 
 namespace UserService.Service.Command;
 
-public class UploadImageCommand:IRequest<ProfileImageDto>
+public class UploadProfileImageCommand:IRequest<ProfileImageDto>
 {
     public required string UserName { get; set; }
     public required string ImageKey { get; set; }

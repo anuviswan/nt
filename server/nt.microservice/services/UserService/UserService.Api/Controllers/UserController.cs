@@ -61,7 +61,7 @@ public class UserController : BaseController
             updateProfileImage.ImageData.File.CopyTo(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var uploadImageCommand = Mapper.Map<UploadImageCommand>(updateProfileImage);
+            var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
             uploadImageCommand.FileData = memoryStream;
             uploadImageCommand.ImageKey = updateProfileImage.UserName;
             var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);

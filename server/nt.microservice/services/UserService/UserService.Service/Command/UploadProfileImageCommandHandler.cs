@@ -3,14 +3,14 @@ using UserService.Service.Services;
 
 namespace UserService.Service.Command;
 
-public class UploadImageCommandHandler : IRequestHandler<UploadImageCommand, ProfileImageDto>
+public class UploadProfileImageCommandHandler : IRequestHandler<UploadProfileImageCommand, ProfileImageDto>
 {
     private readonly IBlobHandlerService _blobHandlerService;
-    public UploadImageCommandHandler(IBlobHandlerService blobHandlerService)
+    public UploadProfileImageCommandHandler(IBlobHandlerService blobHandlerService)
     {
         _blobHandlerService = blobHandlerService;
     }
-    public async Task<ProfileImageDto> Handle(UploadImageCommand request, CancellationToken cancellationToken)
+    public async Task<ProfileImageDto> Handle(UploadProfileImageCommand request, CancellationToken cancellationToken)
     {
         using var memoryStream = new MemoryStream();
         request.FileData.CopyTo(memoryStream);
