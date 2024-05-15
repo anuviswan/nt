@@ -49,4 +49,10 @@ public class UserController : BaseController
         }
     }
 
+
+    public async Task<IActionResult> UpdateProfileImage(UpdateProfileImageRequestViewModel updateProfileImage)
+    {
+        throw new NotImplementedByDesignException();
+    }
+
 }
