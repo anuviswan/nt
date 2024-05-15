@@ -8,6 +8,7 @@ using UserService.Api.Settings;
 using UserService.Api.ConsumerServices;
 using Serilog.Formatting.Compact;
 using Prometheus;
+using UserService.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
@@ -45,6 +46,8 @@ builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));
 builder.Services.AddAutoMapper(typeof(UserController),typeof(CreateUserCommand));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
+
+builder.Services.AddSingleton<IBlobHandlerService, BlobHandlerService>();
 builder.Services.AddMassTransit(mt =>
                         {
                             mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedSucceededConsumer));
