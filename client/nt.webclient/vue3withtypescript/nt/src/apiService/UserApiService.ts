@@ -1,4 +1,4 @@
-import { IChangePasswordRequest, IChangePasswordResponse, IRegisterUserRequest, IRegisterUserResponse, IValidateUserRequest, IValidateUserResponse} from "../types/ApiRequestResponseTypes";
+import { IChangePasswordRequest, IChangePasswordResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
 import{AxiosResponse} from "axios";
 import { ApiServiceBase } from "./ApiServiceBase";
 
@@ -17,6 +17,9 @@ class UserApiService extends ApiServiceBase {
         return await this.invoke<IChangePasswordResponse,AxiosResponse<IChangePasswordResponse>>({method:'post', url:"/api/user/ChangePassword", data : request});
     }
 
+    public async uploadProfileImage(request:IUploadProfileImageRequest):Promise<IUploadProfileImageResponse>{
+        return await this.invoke<IUploadProfileImageResponse,AxiosResponse<IUploadProfileImageResponse>>({method:'post', url:"api/user/uploadprofileimage", data : request});
+    }
 }
 
 export const userApiService = new UserApiService();

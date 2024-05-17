@@ -49,7 +49,10 @@ public class UserController : BaseController
         }
     }
 
-
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("uploadprofileimage")]
     public async Task<IActionResult> UpdateProfileImage(UpdateProfileImageRequestViewModel updateProfileImage)
     {
         try

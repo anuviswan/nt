@@ -9,7 +9,7 @@
                 <i class="fas fa-file-upload fa-2x fileupload" @click="browseImage()"></i>
             </div>
         </div>
-        <input type="button" value="Update" v-if="isDirty">
+        <input type="button" value="Update" v-if="isDirty" :on-click="uploadImage()">
     </div>
 </template>
 <script setup lang="ts">
@@ -20,6 +20,7 @@ const fileUploader = ref<HTMLInputElement|null>(null);
 const defaultImage = require('@/assets/DefaultProfile.jpg')
 const imgSrc = ref<string>(defaultImage);
 const isDirty = ref<boolean>(false);
+const file = ref<File|undefined|null>(null);
 
 onMounted(()=>{
     imgSrc.value = defaultImage;
@@ -31,8 +32,8 @@ const browseImage = ():void=>{
     return;
 }
 
-const handleImageChanged = async (e:Event) : Promise<void> => {
-    const file = (e.target as HTMLInputElement)!.files?.[0];
+const handleImageChanged =  (e:Event) : void => {
+    file.value = (e.target as HTMLInputElement)!.files?.[0];
     
     if(file){
 
@@ -40,14 +41,17 @@ const handleImageChanged = async (e:Event) : Promise<void> => {
         const reader = new FileReader();
         reader.onload = (e)=>{
             imgSrc.value = e.target?.result as string;
+            
         }
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file.value);
         isDirty.value = true;
-
-
     }
 }
 
+const uploadImage = async () : Promise<void> =>{
+
+
+}
 
 </script>
 <style scoped>

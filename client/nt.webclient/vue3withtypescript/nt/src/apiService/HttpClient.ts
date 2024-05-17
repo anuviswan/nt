@@ -1,4 +1,4 @@
-import { IResponseBase } from "@/types/ApiRequestResponseTypes";
+import { IResponseBase } from "@/types/apirequestresponsetypes/User";
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from "axios";
 import {useUserStore} from "@/stores/userStore";
 
