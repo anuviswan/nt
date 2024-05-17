@@ -9,18 +9,20 @@
                 <i class="fas fa-file-upload fa-2x fileupload" @click="browseImage()"></i>
             </div>
         </div>
-        <input type="button" value="Update" v-if="isDirty" :on-click="uploadImage()">
+        <input type="button" value="Update" :on-click="uploadImageToServer()" v-if="isDirty">
     </div>
 </template>
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
+import { userApiService } from "@/apiService/UserApiService";
+import { IUploadProfileImageRequest } from '@/types/apirequestresponsetypes/User';
 const fileUploader = ref<HTMLInputElement|null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires    
 const defaultImage = require('@/assets/DefaultProfile.jpg')
 const imgSrc = ref<string>(defaultImage);
 const isDirty = ref<boolean>(false);
-const file = ref<File|undefined|null>(null);
+const file = ref<File|null|undefined>(null);
 
 onMounted(()=>{
     imgSrc.value = defaultImage;
@@ -32,25 +34,39 @@ const browseImage = ():void=>{
     return;
 }
 
-const handleImageChanged =  (e:Event) : void => {
+const handleImageChanged = (e:Event) :void => {
     file.value = (e.target as HTMLInputElement)!.files?.[0];
-    
-    if(file){
+    if(file.value){
 
-        console.log(file);
+        console.log(file.value);
         const reader = new FileReader();
         reader.onload = (e)=>{
             imgSrc.value = e.target?.result as string;
-            
         }
         reader.readAsDataURL(file.value);
         isDirty.value = true;
     }
 }
 
-const uploadImage = async () : Promise<void> =>{
+const uploadImageToServer = async ():Promise<void>=>{
 
+    console.log("Checking if ready to upload file")
+    if(file.value && isDirty){
+        console.log("Ready to upload file to server");
 
+        const formData = new FormData();
+        formData.append('image', file.value);
+        const fileInfo:IUploadProfileImageRequest = {
+            userName : '',
+            fileData :{
+                imageKey : '',
+                file: formData
+            }
+        } ;
+        var response = await userApiService.uploadProfileImage(fileInfo);
+
+        console.log(response);
+    }
 }
 
 </script>
