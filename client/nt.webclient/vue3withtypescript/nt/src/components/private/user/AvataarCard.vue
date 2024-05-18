@@ -1,5 +1,6 @@
 <template>
-    <input id="profile-image-upload" ref="fileUploader" class="d-none" type="file" @change="handleImageChanged">
+    <input id="profile-image-upload" ref="fileUploader" class="d-none" 
+    type="file" @change="handleImageChanged" accept="image/*">
     <div class="card">
         <img :src="imgSrc" 
         class="avataar image-center  rounded-circle card-img img-thumbnail mx-auto d-block" 
@@ -58,11 +59,13 @@ const uploadImageToServer = async ():Promise<void>=>{
         formData.append('image', file.value);
         const fileInfo:IUploadProfileImageRequest = {
             userName : '',
-            fileData :{
+            imageData :{
                 imageKey : '',
                 file: formData
             }
         } ;
+
+        console.log(fileInfo);
         var response = await userApiService.uploadProfileImage(fileInfo);
 
         console.log(response);

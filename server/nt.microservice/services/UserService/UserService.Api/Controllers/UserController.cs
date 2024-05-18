@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
 using UserService.Domain.Entities;
@@ -53,6 +54,7 @@ public class UserController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("uploadprofileimage")]
+    [Authorize]
     public async Task<IActionResult> UpdateProfileImage(UpdateProfileImageRequestViewModel updateProfileImage)
     {
         try

@@ -45,7 +45,7 @@ export interface IChangePasswordResponse extends IResponseBase{
 
 export interface IUploadProfileImageRequest{
     userName : string,
-    fileData : FileData
+    imageData : FileData
 }
 
 export interface FileData{
