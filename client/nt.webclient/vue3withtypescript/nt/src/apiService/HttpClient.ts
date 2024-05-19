@@ -2,6 +2,7 @@ import { IResponseBase } from "@/types/apirequestresponsetypes/User";
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from "axios";
 import {useUserStore} from "@/stores/userStore";
 
+
 class HttpClient{
 
     private axiosInstance : AxiosInstance;
@@ -14,9 +15,6 @@ class HttpClient{
             "Content-Type": "application/json", // this shows the expected content type
           };
         this.axiosInstance = axios.create({baseURL: "http://localhost:8001/", headers:headers});
-
-        
-
         
         this.axiosInstance.interceptors.request.use(function (config) 
         {
@@ -35,8 +33,7 @@ class HttpClient{
     public async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {
 
         try{
-            const response =  await this.axiosInstance.request<T>(config); 
-
+            const response =await this.axiosInstance.request<T>(config); 
             console.log(response.data)
             return response.data;
         }catch(error : AxiosError | any){
@@ -57,6 +54,8 @@ class HttpClient{
 
         
     }
+
+
 }
 
 export default HttpClient;

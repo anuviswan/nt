@@ -55,7 +55,7 @@ public class UserController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("uploadprofileimage")]
     [Authorize]
-    public async Task<IActionResult> UpdateProfileImage(UpdateProfileImageRequestViewModel updateProfileImage)
+    public async Task<IActionResult> UpdateProfileImage([FromForm]UpdateProfileImageRequestViewModel updateProfileImage)
     {
         try
         {
@@ -63,12 +63,12 @@ public class UserController : BaseController
                 return BadRequest(ModelState);
 
             using var memoryStream = new MemoryStream();
-            updateProfileImage.ImageData.File.CopyTo(memoryStream);
+            updateProfileImage.File.CopyTo(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
             uploadImageCommand.FileData = memoryStream;
-            uploadImageCommand.ImageKey = updateProfileImage.UserName;
+            uploadImageCommand.ImageKey = updateProfileImage.ImageKey;
             var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);
             return Ok("Image uploaded");
         }

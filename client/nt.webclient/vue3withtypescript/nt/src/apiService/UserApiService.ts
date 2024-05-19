@@ -18,11 +18,16 @@ class UserApiService extends ApiServiceBase {
     }
 
     public async uploadProfileImage(request:IUploadProfileImageRequest):Promise<IUploadProfileImageResponse>{
+
+        const formData = new FormData();
+        formData.append('imageKey',request.imageKey);
+        formData.append('file', request.file);
+
         return await this.invoke<IUploadProfileImageResponse,AxiosResponse<IUploadProfileImageResponse>>(
             {
                 method:'post', 
                 url:"api/user/uploadprofileimage", 
-                data : request,
+                data : formData,
                 headers: { "Content-Type": "multipart/form-data" }
             });
     }

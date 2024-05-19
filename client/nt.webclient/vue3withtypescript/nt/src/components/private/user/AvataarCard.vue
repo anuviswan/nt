@@ -1,6 +1,6 @@
 <template>
     <input id="profile-image-upload" ref="fileUploader" class="d-none" 
-    type="file" @change="handleImageChanged" accept="image/*">
+    type="file" @change="handleImageChanged">
     <div class="card">
         <img :src="imgSrc" 
         class="avataar image-center  rounded-circle card-img img-thumbnail mx-auto d-block" 
@@ -17,6 +17,12 @@
 import {onMounted, ref} from 'vue'
 import { userApiService } from "@/apiService/UserApiService";
 import { IUploadProfileImageRequest } from '@/types/apirequestresponsetypes/User';
+import {useUserStore } from '@/stores/userStore';
+
+
+const store = useUserStore();
+const currentUserName = ref(store.UserName);
+
 const fileUploader = ref<HTMLInputElement|null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires    
@@ -55,14 +61,10 @@ const uploadImageToServer = async ():Promise<void>=>{
     if(file.value && isDirty){
         console.log("Ready to upload file to server");
 
-        const formData = new FormData();
-        formData.append('image', file.value);
+        
         const fileInfo:IUploadProfileImageRequest = {
-            userName : '',
-            imageData :{
-                imageKey : '',
-                file: formData
-            }
+                imageKey : currentUserName.value,
+                file: file.value
         } ;
 
         console.log(fileInfo);
