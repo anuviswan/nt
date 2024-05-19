@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
 using UserService.Domain.Entities;
@@ -49,8 +50,12 @@ public class UserController : BaseController
         }
     }
 
-
-    public async Task<IActionResult> UpdateProfileImage(UpdateProfileImageRequestViewModel updateProfileImage)
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("uploadprofileimage")]
+    [Authorize]
+    public async Task<IActionResult> UpdateProfileImage([FromForm]UpdateProfileImageRequestViewModel updateProfileImage)
     {
         try
         {
@@ -58,12 +63,12 @@ public class UserController : BaseController
                 return BadRequest(ModelState);
 
             using var memoryStream = new MemoryStream();
-            updateProfileImage.ImageData.File.CopyTo(memoryStream);
+            updateProfileImage.File.CopyTo(memoryStream);
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
             uploadImageCommand.FileData = memoryStream;
-            uploadImageCommand.ImageKey = updateProfileImage.UserName;
+            uploadImageCommand.ImageKey = updateProfileImage.ImageKey;
             var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);
             return Ok("Image uploaded");
         }

@@ -43,5 +43,16 @@ export interface IChangePasswordResponse extends IResponseBase{
     }
 }
 
+export interface IUploadProfileImageRequest{
+    imageKey : string,
+    file: File 
+}
+
+export interface IUploadProfileImageResponse extends IResponseBase{
+    data: {
+        
+    }
+}
+
 
 
