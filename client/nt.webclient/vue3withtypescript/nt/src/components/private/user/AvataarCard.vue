@@ -10,7 +10,7 @@
                 <i class="fas fa-file-upload fa-2x fileupload" @click="browseImage()"></i>
             </div>
         </div>
-        <input type="button" value="Update" :on-click="uploadImageToServer()" v-if="isDirty">
+        <input type="submit" value="Update" :on-click="uploadImageToServer()" v-if="isDirty">
     </div>
 </template>
 <script setup lang="ts">
@@ -30,7 +30,7 @@ const defaultImage = require('@/assets/DefaultProfile.jpg')
 const imgSrc = ref<string>(defaultImage);
 const isDirty = ref<boolean>(false);
 const file = ref<File|null|undefined>(null);
-
+const canExecute = ref<boolean>(false);
 onMounted(()=>{
     imgSrc.value = defaultImage;
 })
@@ -48,6 +48,7 @@ const handleImageChanged = (e:Event) :void => {
         console.log(file.value);
         const reader = new FileReader();
         reader.onload = (e)=>{
+            canExecute.value = true;
             imgSrc.value = e.target?.result as string;
         }
         reader.readAsDataURL(file.value);
@@ -56,7 +57,7 @@ const handleImageChanged = (e:Event) :void => {
 }
 
 const uploadImageToServer = async ():Promise<void>=>{
-
+    if(canExecute.value == false) return;
     console.log("Checking if ready to upload file")
     if(file.value && isDirty){
         console.log("Ready to upload file to server");
@@ -67,7 +68,8 @@ const uploadImageToServer = async ():Promise<void>=>{
                 file: file.value
         } ;
 
-        console.log(fileInfo);
+        console.log("sending request");
+        canExecute.value = false;
         var response = await userApiService.uploadProfileImage(fileInfo);
 
         console.log(response);

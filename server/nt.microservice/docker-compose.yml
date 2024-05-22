@@ -129,7 +129,18 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-    
+  nt.userservice.blobstorage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: nt.userservice.blobstorage
+    hostname: ntuserserviceblobstorage
+    volumes:
+      - ./localstorage/data:/data
+    command: "azurite-blob --blobHost 0.0.0.0 -l /data"
+    ports:
+      - "10000:10000"
+      - "10001:10001"    
+    networks:
+      nt.userservice.network: 
   # Database
   nt.userservice.db:
     image: mcr.microsoft.com/mssql/server:2019-latest

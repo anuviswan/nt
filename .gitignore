@@ -277,3 +277,4 @@ __pycache__/
 /server/nt.microservice/NDependOut
 /server/nt.microservice/services/AuthService/AuthService.Api/ctempinternal-nlog-AspNetCore.txt
 /server/nt.microservice/grafana-data/data
+/server/nt.microservice/localstorage
