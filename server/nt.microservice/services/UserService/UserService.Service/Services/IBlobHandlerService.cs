@@ -13,7 +13,7 @@ public interface IBlobHandlerService
 
 public class BlobHandlerService : IBlobHandlerService
 {
-    private const string ConnectionString = "AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://nt.userservice.blobstorage:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;";
+    private const string ConnectionString = "AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://ntuserserviceblobstorage:10000/devstoreaccount1;";
     private const string ContainerName = "democontainer";
 
     private readonly BlobServiceClient _blobServiceClient;
@@ -21,7 +21,12 @@ public class BlobHandlerService : IBlobHandlerService
 
     public BlobHandlerService()
     {
-        _blobServiceClient = new BlobServiceClient(ConnectionString);
+        var options = new BlobClientOptions()
+        {
+            Diagnostics = { IsLoggingContentEnabled = true, IsLoggingEnabled = true, IsTelemetryEnabled = false }
+        };
+
+        _blobServiceClient = new BlobServiceClient(ConnectionString, options);
         _blobContainerClient = _blobServiceClient.GetBlobContainerClient(ContainerName);
     }
     public async Task<byte[]> GetFile(string blobFileName, CancellationToken cancellationToken = default)

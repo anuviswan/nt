@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Azure;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
@@ -54,7 +55,7 @@ public class UserController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("uploadprofileimage")]
-    [Authorize]
+   // [Authorize]
     public async Task<IActionResult> UpdateProfileImage([FromForm]UpdateProfileImageRequestViewModel updateProfileImage)
     {
         try
@@ -62,19 +63,30 @@ public class UserController : BaseController
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            using var memoryStream = new MemoryStream();
-            updateProfileImage.File.CopyTo(memoryStream);
-            memoryStream.Seek(0, SeekOrigin.Begin);
+            using (var memoryStream = new MemoryStream())
+            {
+                updateProfileImage.File.CopyTo(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
 
-            var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
-            uploadImageCommand.FileData = memoryStream;
-            uploadImageCommand.ImageKey = updateProfileImage.ImageKey;
-            var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);
+                var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
+                uploadImageCommand.FileData = memoryStream;
+                uploadImageCommand.ImageKey = updateProfileImage.ImageKey;
+                var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);
+            }
+            
             return Ok("Image uploaded");
+        }
+        catch (RequestFailedException ex)
+        {
+            Console.WriteLine($"Request failed: {ex.Message}");
+            Console.WriteLine($"Status: {ex.Status}");
+            Console.WriteLine($"ErrorCode: {ex.ErrorCode}");
+            Console.WriteLine($"Additional Information: {ex.Data}");
+            return BadRequest(ex);
         }
         catch (Exception e)
         {
-            return BadRequest($"Error: {e}");
+            return BadRequest(e);
         }
     }
 
