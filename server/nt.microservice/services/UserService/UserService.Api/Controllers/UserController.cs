@@ -1,9 +1,7 @@
 ﻿using Azure;
 using MassTransit;
-using Microsoft.AspNetCore.Authorization;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
-using UserService.Domain.Entities;
 using UserService.Service.Query;
 
 namespace UserService.Api.Controllers;

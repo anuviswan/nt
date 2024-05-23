@@ -12,5 +12,6 @@ public class TechnicalDebt:Attribute
 
 public enum DebtType
 {
-    CodeDesign
+    BadDesign,
+    ComplexDesign,
 }

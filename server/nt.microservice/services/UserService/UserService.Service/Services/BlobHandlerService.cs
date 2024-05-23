@@ -7,7 +7,7 @@ namespace UserService.Service.Services;
 
 public class BlobHandlerService : IBlobHandlerService
 {
-    [TechnicalDebt(DebtType.CodeDesign,"Read connection string from configuration file")]
+    [TechnicalDebt(DebtType.BadDesign,"Read connection string from configuration file")]
     private const string ConnectionString = "AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://ntuserserviceblobstorage:10000/devstoreaccount1;";
     private const string ContainerName = "democontainer";
 
