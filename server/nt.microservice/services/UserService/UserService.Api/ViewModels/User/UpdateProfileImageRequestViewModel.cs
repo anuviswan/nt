@@ -1,9 +1,13 @@
-﻿namespace UserService.Api.ViewModels.User;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UserService.Api.ViewModels.User;
 
 public record UpdateProfileImageRequestViewModel
 {
-    public string ImageKey { get; set; }
-    public IFormFile File { get; set; }
+    [Required(ErrorMessage = $"{nameof(ImageKey)} is mandatory.")]
+    public required string ImageKey { get; set; }
+    [Required(ErrorMessage = $"{nameof(File)} is mandatory.")]
+    public required IFormFile File { get; set; }
 }
 
 public class UpdateProfileImageResponseViewModel

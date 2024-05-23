@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\infrastructure\nt.shared.dto\nt.shared.dto.csproj" />
     <ProjectReference Include="..\UserService.Data\UserService.Data.csproj" />
     <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
   </ItemGroup>

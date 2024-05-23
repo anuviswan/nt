@@ -83,8 +83,33 @@
           "Port": "8301"
         }
       ],
-      "UpstreamPathTemplate": "/api/User/uploadprofileimage",
+      "UpstreamPathTemplate": "/user/api/Users/uploadprofileimage",
       "UpstreamHttpMethod": [ "POST" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationKey",
+        "AllowedScopes": []
+      }
+    },
+
+    // Get Profile Image
+    {
+      "DownstreamPathTemplate": "/api/users/getprofileimage",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "GET",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8301"
+        }
+      ],
+      "UpstreamPathTemplate": "/user/api/Users/getprofileimage",
+      "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,

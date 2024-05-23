@@ -1,4 +1,4 @@
-import { IChangePasswordRequest, IChangePasswordResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
+import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, IGetProfileImageResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
 import{AxiosResponse} from "axios";
 import { ApiServiceBase } from "./ApiServiceBase";
 
@@ -10,11 +10,11 @@ class UserApiService extends ApiServiceBase {
 
     public async registerUser(user:IRegisterUserRequest):Promise<IRegisterUserResponse>{
         
-        return await this.invoke<IRegisterUserResponse,AxiosResponse<IRegisterUserResponse>>({method:'post', url:"api/user/createuser", data : user});
+        return await this.invoke<IRegisterUserResponse>({method:'post', url:"api/user/createuser", data : user});
     }
 
     public async changePassword(request:IChangePasswordRequest):Promise<IChangePasswordResponse>{
-        return await this.invoke<IChangePasswordResponse,AxiosResponse<IChangePasswordResponse>>({method:'post', url:"/api/user/ChangePassword", data : request});
+        return await this.invoke<IChangePasswordResponse>({method:'post', url:"/api/user/ChangePassword", data : request});
     }
 
     public async uploadProfileImage(request:IUploadProfileImageRequest):Promise<IUploadProfileImageResponse>{
@@ -23,14 +23,31 @@ class UserApiService extends ApiServiceBase {
         formData.append('imageKey',request.imageKey);
         formData.append('file', request.file);
 
-        return await this.invoke<IUploadProfileImageResponse,AxiosResponse<IUploadProfileImageResponse>>(
+        return await this.invoke<IUploadProfileImageResponse>(
             {
                 method:'post', 
-                url:"api/user/uploadprofileimage", 
+                url:"user/api/Users/uploadprofileimage", 
                 data : formData,
                 headers: { "Content-Type": "multipart/form-data" }
             });
     }
+
+    public async getProfileImage(request:IGetProfileImageRequest):Promise<Blob>{
+
+        console.log(request)
+        const response = await this.invokeBlob<Blob>({
+            method:'get',
+            'url':'user/api/Users/getprofileimage',
+            params:{
+                userName : request.userName
+            },
+            responseType: 'blob'
+        })
+
+        console.log("response = "+ response)
+        return response;
+    }
+
 }
 
 export const userApiService = new UserApiService();
