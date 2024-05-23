@@ -6,7 +6,6 @@ namespace AuthService.Data.Repository;
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity, new()
 {
     protected readonly IDbConnection Connection;
-    protected readonly string TableName;
     public GenericRepository(IDbConnection connection)
     {
         Connection = connection;

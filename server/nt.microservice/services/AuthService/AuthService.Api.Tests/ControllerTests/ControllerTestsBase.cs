@@ -6,7 +6,7 @@ public class ControllerTestsBase
 {
     protected void MockModelState<TModel, TController>(TModel model, TController controller) where TController : ControllerBase
     {
-        var validationContext = new System.ComponentModel.DataAnnotations.ValidationContext(model, null, null);
+        var validationContext = new ValidationContext(model, null, null);
         var validationResults = new List<ValidationResult>();
         Validator.TryValidateObject(model, validationContext, validationResults, true);
 
