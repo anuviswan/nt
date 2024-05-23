@@ -1,6 +1,7 @@
 ﻿using Azure;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
+using nt.shared.dto.Attributes;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
 using UserService.Service.Query;
@@ -51,6 +52,11 @@ public class UserController : BaseController
         }
     }
 
+    /// <summary>
+    /// Upload Profile image for user
+    /// </summary>
+    /// <param name="updateProfileImage">Username and Image</param>
+    /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -90,12 +96,17 @@ public class UserController : BaseController
         }
     }
 
-
+    /// <summary>
+    /// Returns Profile image for the user
+    /// </summary>
+    /// <param name="userName">Username for whom to retrieve profile image</param>
+    /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("getprofileimage")]
     [Authorize]
+    [TechnicalDebt(DebtType.BadDesign,"Exception Handling has to improve when expected return type is image/jpeg")]
     public async Task<IActionResult> GetProfileImage(string userName)
     {
         try
@@ -103,7 +114,8 @@ public class UserController : BaseController
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await Mediator.Send(new GetProfileImageQuery() { UserName = userName}).ConfigureAwait(false);
+            var result = await Mediator.Send(new GetProfileImageQuery() { UserName = userName})
+                                       .ConfigureAwait(false);
             return File(result,"image/jpeg");
         }
         catch (Exception e)

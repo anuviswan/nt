@@ -68,15 +68,21 @@ builder.Services.AddMassTransit(mt =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option =>
     {
+        var jwt = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+        if ((jwt?.Validate()) != true)
+        {
+            throw new Exception("Unable to read Jwt Settings");
+        }
+
         option.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Aud"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            ValidIssuer = jwt.Issuer,
+            ValidAudience = jwt.Aud,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
         };
     });
 

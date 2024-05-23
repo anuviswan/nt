@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace AuthService.Api.ViewModels.Validate;
-public class AuthorizeRequestViewModel
+public record AuthorizeRequestViewModel
 {
     [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    public string UserName { get; set; } = null!;
 
     [JsonPropertyName("passKey")]
-    public string Password { get; set; }    
+    public string Password { get; set; } = null!;  
 }

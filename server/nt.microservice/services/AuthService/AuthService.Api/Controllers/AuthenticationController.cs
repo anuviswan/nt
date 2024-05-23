@@ -17,7 +17,6 @@ public class AuthenticationController : Controller
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
     private readonly ITokenGenerator _tokenService;
-    private readonly IConfiguration _configuration;
     private readonly ILogger<AuthenticationController> _logger;
     public AuthenticationController(IMapper mapper,IMediator mediator,ITokenGenerator tokenService,ILogger<AuthenticationController> logger)
     {

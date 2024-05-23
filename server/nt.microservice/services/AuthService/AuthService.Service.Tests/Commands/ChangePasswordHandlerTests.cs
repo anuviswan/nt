@@ -70,7 +70,7 @@ public class ChangePasswordHandlerTests
         _unitOfWorkFactory.CreateUnitOfWork().Returns(_ => _unitOfWork);
         _unitOfWork.UserRepository.Returns(_ => _userRepository);
 
-        _userRepository.ValidateUserAsync(Arg.Any<User>()).Returns<User>(_ => null);
+        _userRepository.ValidateUserAsync(Arg.Any<User>()).Returns<User?>(_ => null);
         _userRepository.ChangePasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(_ => true);
         #endregion
 
@@ -105,7 +105,7 @@ public class ChangePasswordHandlerTests
         _unitOfWorkFactory.CreateUnitOfWork().Returns(_ => _unitOfWork);
         _unitOfWork.UserRepository.Returns(_ => _userRepository);
 
-        _userRepository.ValidateUserAsync(Arg.Any<User>()).Returns<User>(_ => null);
+        _userRepository.ValidateUserAsync(Arg.Any<User>()).Returns<User?>(_ => null);
         _userRepository.ChangePasswordAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(_ => true);
         #endregion
 

@@ -2,5 +2,5 @@
 
 public record ProfileImageDto
 {
-    public string ImageKey { get; set; }
+    public required string ImageKey { get; set; }
 }
