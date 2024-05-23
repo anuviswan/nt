@@ -83,7 +83,7 @@
           "Port": "8301"
         }
       ],
-      "UpstreamPathTemplate": "/api/User/uploadprofileimage",
+      "UpstreamPathTemplate": "/user/api/Users/uploadprofileimage",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
@@ -108,7 +108,7 @@
           "Port": "8301"
         }
       ],
-      "UpstreamPathTemplate": "/api/User/getprofileimage",
+      "UpstreamPathTemplate": "/user/api/Users/getprofileimage",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,

@@ -26,7 +26,7 @@ class UserApiService extends ApiServiceBase {
         return await this.invoke<IUploadProfileImageResponse,AxiosResponse<IUploadProfileImageResponse>>(
             {
                 method:'post', 
-                url:"api/user/uploadprofileimage", 
+                url:"user/api/Users/uploadprofileimage", 
                 data : formData,
                 headers: { "Content-Type": "multipart/form-data" }
             });

@@ -1,5 +1,6 @@
 ﻿using Azure;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
 using UserService.Service.Query;
@@ -54,7 +55,7 @@ public class UserController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("uploadprofileimage")]
-   // [Authorize]
+    [Authorize]
     public async Task<IActionResult> UpdateProfileImage([FromForm]UpdateProfileImageRequestViewModel updateProfileImage)
     {
         try
@@ -94,6 +95,7 @@ public class UserController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("getprofileimage")]
+    [Authorize]
     public async Task<IActionResult> GetProfileImage(string userName)
     {
         try
