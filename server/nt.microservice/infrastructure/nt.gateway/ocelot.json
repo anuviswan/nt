@@ -96,6 +96,31 @@
       }
     },
 
+    // Get Profile Image
+    {
+      "DownstreamPathTemplate": "/api/users/getprofileimage",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "GET",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8301"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/User/getprofileimage",
+      "UpstreamHttpMethod": [ "GET" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationKey",
+        "AllowedScopes": []
+      }
+    },
+
     // for gateway swagger integration
 
     {
