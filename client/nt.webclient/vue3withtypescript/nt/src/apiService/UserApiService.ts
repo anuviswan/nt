@@ -1,4 +1,4 @@
-import { IChangePasswordRequest, IChangePasswordResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
+import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, IGetProfileImageResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
 import{AxiosResponse} from "axios";
 import { ApiServiceBase } from "./ApiServiceBase";
 
@@ -31,6 +31,15 @@ class UserApiService extends ApiServiceBase {
                 headers: { "Content-Type": "multipart/form-data" }
             });
     }
+
+    public async getProfileImage(request:IGetProfileImageRequest):Promise<IGetProfileImageResponse>{
+        return await this.invoke<IGetProfileImageResponse,AxiosResponse<IGetProfileImageResponse>>({
+            method:'get',
+            'url':'',
+            data:request
+        })
+    }
+
 }
 
 export const userApiService = new UserApiService();

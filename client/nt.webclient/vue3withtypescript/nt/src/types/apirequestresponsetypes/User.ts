@@ -54,5 +54,12 @@ export interface IUploadProfileImageResponse extends IResponseBase{
     }
 }
 
+export interface IGetProfileImageRequest{
+    userName : string
+}
+
+export interface IGetProfileImageResponse extends IResponseBase{
+    file:File
+}
 
 
