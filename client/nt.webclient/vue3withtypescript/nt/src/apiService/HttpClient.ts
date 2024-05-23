@@ -30,7 +30,7 @@ class HttpClient{
         });
     }
 
-    public async invoke<T extends IResponseBase,R = AxiosResponse<T>>(config:AxiosRequestConfig):Promise<T> {
+    public async invoke<T extends IResponseBase>(config:AxiosRequestConfig):Promise<T> {
 
         try{
             const response =await this.axiosInstance.request<T>(config); 
@@ -49,12 +49,27 @@ class HttpClient{
                 console.log("Some other error ?? " + error);
             }
         } 
-
         return <T>{};
-
-        
     }
+    public async invokeBlob<T>(config:AxiosRequestConfig):Promise<T>
+    {
+        try{
+            const response =await this.axiosInstance.request<T>(config); 
+            console.log(response.data)
+            return response.data;
+        }catch(error : AxiosError | any){
 
+            if(axios.isAxiosError(error)){
+                return <T>{
+                    
+                } 
+            }
+            else{
+                console.log("Some other error ?? " + error);
+            }
+        } 
+        return <T>{};
+    }
 
 }
 

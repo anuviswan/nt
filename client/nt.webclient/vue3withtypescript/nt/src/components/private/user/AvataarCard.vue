@@ -43,7 +43,9 @@ const getProfileImage = async() :  Promise<void> => {
     });
 
     console.log(response);
-    imgSrc.value = response.file;
+    const imageFile = await response;
+    var path =  URL.createObjectURL(imageFile)
+    imgSrc.value = path;
 }
 
 const browseImage = ():void=>{
