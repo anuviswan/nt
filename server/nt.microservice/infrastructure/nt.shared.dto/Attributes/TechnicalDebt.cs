@@ -1,6 +1,7 @@
 ﻿namespace nt.shared.dto.Attributes;
 
-public class TechnicalDebt:Attribute
+[AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
+public sealed class TechnicalDebt:Attribute
 {
     public DebtType DebtType { get; }
     public string Description { get; }
