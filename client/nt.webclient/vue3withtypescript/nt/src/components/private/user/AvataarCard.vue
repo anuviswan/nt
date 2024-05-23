@@ -27,13 +27,24 @@ const fileUploader = ref<HTMLInputElement|null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires    
 const defaultImage = require('@/assets/DefaultProfile.jpg')
-const imgSrc = ref<string>(defaultImage);
+const imgSrc = ref<string|File>(defaultImage);
 const isDirty = ref<boolean>(false);
 const file = ref<File|null|undefined>(null);
 const canExecute = ref<boolean>(false);
 onMounted(()=>{
-    imgSrc.value = defaultImage;
+    getProfileImage();
+    // check if profile image exist in blob
+    //imgSrc.value = defaultImage;
 })
+
+const getProfileImage = async() :  Promise<void> => {
+    var response  = await userApiService.getProfileImage({
+        userName : 'jia.anu'
+    });
+
+    console.log(response);
+    imgSrc.value = response.file;
+}
 
 const browseImage = ():void=>{
     if(fileUploader?.value == null) return;

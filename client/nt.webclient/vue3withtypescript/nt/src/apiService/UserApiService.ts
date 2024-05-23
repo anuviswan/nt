@@ -33,10 +33,14 @@ class UserApiService extends ApiServiceBase {
     }
 
     public async getProfileImage(request:IGetProfileImageRequest):Promise<IGetProfileImageResponse>{
+
+        console.log(request)
         return await this.invoke<IGetProfileImageResponse,AxiosResponse<IGetProfileImageResponse>>({
             method:'get',
-            'url':'',
-            data:request
+            'url':'user/api/Users/getprofileimage',
+            params:{
+                userName : request.userName
+            }
         })
     }
 
