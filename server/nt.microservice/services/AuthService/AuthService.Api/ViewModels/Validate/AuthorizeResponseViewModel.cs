@@ -5,7 +5,7 @@ namespace AuthService.Api.ViewModels.Validate;
 public class AuthorizeResponseViewModel
 {
     [JsonPropertyName("token")]
-    public string Token { get; set; }
+    public string? Token { get; set; }
 
 
     [JsonPropertyName("isAuthenticated")]
@@ -17,11 +17,11 @@ public class AuthorizeResponseViewModel
 
     
     [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
     [JsonPropertyName("displayName")]
-    public string DisplayName { get; set; }
+    public string? DisplayName { get; set; }
 
     [JsonPropertyName("bio")]
-    public string Bio { get; set; }
+    public string? Bio { get; set; }
 }

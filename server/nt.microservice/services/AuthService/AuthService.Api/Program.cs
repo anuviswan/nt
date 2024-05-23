@@ -27,7 +27,13 @@ internal class Program
         logger.Debug("init main");
 
         var builder = WebApplication.CreateBuilder(args);
-        var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
+        var rabbitMqSettings = builder.Configuration
+                                      .GetSection(nameof(RabbitMqSettings))
+                                      .Get<RabbitMqSettings>();
+        if ((rabbitMqSettings?.Validate()) != true)
+        {
+            throw new Exception("Unable to read RabbitMq Settings");
+        }
         // Add services to the container.
         builder.Services.AddDapperTypeMaps();
         builder.Services.AddControllers();
@@ -44,7 +50,7 @@ internal class Program
         builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
-        builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString));
+        builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString??string.Empty));
 
         var serviceProvider = builder.Services.BuildServiceProvider();
         var mapperService = serviceProvider.GetService<IMapper>();
@@ -85,20 +91,25 @@ internal class Program
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(option =>
             {
+                var jwt = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+
+                if ((jwt?.Validate()) != true)
+                    throw new Exception("Unable to read Jwt Settings");
+
                 option.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudiences = new string[]
-                    {
-                        builder.Configuration["Jwt:Aud1"],
-                        builder.Configuration["Jwt:Aud2"],
-                        builder.Configuration["Jwt:Aud3"],
-                    },
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    ValidIssuer = jwt.Issuer,
+                    ValidAudiences =
+                    [
+                        jwt.Aud1,
+                        jwt.Aud2,
+                        jwt.Aud3,
+                    ],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
                 };
             });
 

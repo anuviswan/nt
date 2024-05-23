@@ -1,6 +1,6 @@
 ﻿namespace AuthService.Api.ViewModels.AddUser;
-public class AddUserRequestViewModel
+public record AddUserRequestViewModel
 {
-    public string UserName { get; set; }
-    public string Password { get; set; }
+    public string UserName { get; init; } = null!;
+    public string Password { get; set; } = null!;
 }

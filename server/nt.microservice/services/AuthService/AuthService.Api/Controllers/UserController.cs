@@ -52,14 +52,5 @@ public class UserController : Controller
     //        return BadRequest(ex);
     //    }
     //}
-
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [Route("DemoMethod")]
-    public async Task<ActionResult<string>> DemoMethod()
-    {
-        //_logger.LogError("Forced Error");
-        return new OkObjectResult("Random");
-    }
-
+   
 }
