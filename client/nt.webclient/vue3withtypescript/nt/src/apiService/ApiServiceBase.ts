@@ -15,7 +15,7 @@ export abstract class ApiServiceBase
         return this.httpClient.invoke(request);
     }
 
-    protected async invokeBlob<T>(request:AxiosRequestConfig):Promise<T> {
-        return this.httpClient.invokeBlob(request);
+    protected async getBlob<T>(request:AxiosRequestConfig):Promise<T|null> {
+        return this.httpClient.getBlob(request);
     }
 }
