@@ -51,7 +51,7 @@ class HttpClient{
         } 
         return <T>{};
     }
-    public async invokeBlob<T>(config:AxiosRequestConfig):Promise<T>
+    public async getBlob<T>(config:AxiosRequestConfig):Promise<T|null>
     {
         try{
             const response =await this.axiosInstance.request<T>(config); 
@@ -60,9 +60,7 @@ class HttpClient{
         }catch(error : AxiosError | any){
 
             if(axios.isAxiosError(error)){
-                return <T>{
-                    
-                } 
+                return null;
             }
             else{
                 console.log("Some other error ?? " + error);

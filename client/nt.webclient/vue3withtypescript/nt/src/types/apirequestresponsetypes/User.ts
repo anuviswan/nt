@@ -59,7 +59,7 @@ export interface IGetProfileImageRequest{
 }
 
 export interface IGetProfileImageResponse extends IResponseBase{
-    file:File
+    file:Blob
 }
 
 

@@ -42,12 +42,19 @@ const getProfileImage = async() :  Promise<void> => {
         userName : 'jia.anu'
     });
 
-    console.log(response);
-    const imageFile = await response;
-    var path =  URL.createObjectURL(imageFile)
+    if (!isValidBlob(response)) {
+        imgSrc.value = defaultImage;
+        return;
+      }
+    console.log('imageFIle' + response);
+    //const imageFile = await response;
+    var path =  URL.createObjectURL(response)
     imgSrc.value = path;
 }
 
+const isValidBlob = (blob: Blob): boolean =>{
+      return blob instanceof Blob && blob.size > 0;
+    }
 const browseImage = ():void=>{
     if(fileUploader?.value == null) return;
     fileUploader!.value!.click();

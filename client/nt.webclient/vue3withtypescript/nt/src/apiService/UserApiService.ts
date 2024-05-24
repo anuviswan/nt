@@ -1,5 +1,4 @@
 import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, IGetProfileImageResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
-import{AxiosResponse} from "axios";
 import { ApiServiceBase } from "./ApiServiceBase";
 
 class UserApiService extends ApiServiceBase {
@@ -32,10 +31,10 @@ class UserApiService extends ApiServiceBase {
             });
     }
 
-    public async getProfileImage(request:IGetProfileImageRequest):Promise<Blob>{
+    public async getProfileImage(request:IGetProfileImageRequest):Promise<Blob|null>{
 
         console.log(request)
-        const response = await this.invokeBlob<Blob>({
+        const response = await this.getBlob<Blob>({
             method:'get',
             'url':'user/api/Users/getprofileimage',
             params:{
