@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using nt.gateway.OcelotExtensions;
+using nt.gateway.Settings;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Prometheus;
@@ -36,15 +37,20 @@ builder.Services.AddRazorPages();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer("GatewayAuthenticationKey", option =>
      {
+         var jwt = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+         if ((jwt?.Validate()) != true)
+         {
+             throw new Exception("Unable to read Jwt Settings");
+         }
          option.TokenValidationParameters = new TokenValidationParameters
          {
              ValidateIssuer = false,
              ValidateAudience = true,
              ValidateLifetime = true,
              ValidateIssuerSigningKey = true,
-             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-             ValidAudience = builder.Configuration["Jwt:Aud1"],
-             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+             ValidIssuer = jwt.Issuer,
+             ValidAudience = jwt.Aud1,
+             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
          };
      });
 

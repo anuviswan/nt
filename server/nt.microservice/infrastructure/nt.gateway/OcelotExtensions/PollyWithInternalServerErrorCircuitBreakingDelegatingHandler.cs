@@ -42,6 +42,7 @@ namespace nt.gateway.Ocelot
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error", ex);
                 throw;
             }
         }

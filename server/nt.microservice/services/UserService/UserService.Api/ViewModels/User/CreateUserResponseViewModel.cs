@@ -7,5 +7,5 @@ public record CreateUserResponseViewModel
     public string UserName { get; init; }
 
     [JsonPropertyName("displayName")]
-    public string DisplayName { get;init; }
+    public string? DisplayName { get;init; }
 }

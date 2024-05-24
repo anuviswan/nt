@@ -12,18 +12,17 @@ public class SearchUserByUserNameTests : ControllerTestBase
     public async Task SearchUserByUserName_ValidData_ShouldSucceed(SearchUserByUserNameRequestViewModel request, SearchUserByUserNameResponseViewModel expectedResult)
     {
         #region Arrange
-        var cancellationToken = default(CancellationToken);
         var mockMediator = new Mock<IMediator>();
         var mockMapper = new Mock<IMapper>();
 
         mockMediator.Setup(x => x.Send(It.IsAny<SearchUserByUserNameQuery>(), It.IsAny<CancellationToken>()))
-                    .Returns<SearchUserByUserNameQuery, CancellationToken>((x, _) => Task.FromResult(new UserProfileDto
+                    .Returns<SearchUserByUserNameQuery, CancellationToken>((x, _) => Task.FromResult<UserProfileDto?>(new UserProfileDto
                     {
                         UserName = expectedResult.User.UserName,
                         DisplayName = expectedResult.User.DisplayName,
                         Bio = expectedResult.User.Bio,
-                        FollowedBy = default,
-                        Followers = default
+                        FollowedBy = [],
+                        Followers = []
                     }));
 
 
@@ -94,7 +93,6 @@ public class SearchUserByUserNameTests : ControllerTestBase
     public async Task SearchUserByUserName_InvalidData_ShouldFail(SearchUserByUserNameRequestViewModel request,  SerializableError expectedError)
     {
         #region Arrange
-        var cancellationToken = default(CancellationToken);
         var mockMediator = new Mock<IMediator>();
         var mockMapper = new Mock<IMapper>();
 
