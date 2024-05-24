@@ -11,7 +11,6 @@ public class RegisterUserTests:ControllerTestBase
     [MemberData(nameof(RegisterUser_ValidData_ShouldSucceed_TestData))]
     public async Task RegisterUser_ValidData_ShouldSucceed(CreateUserRequestViewModel request,CreateUserResponseViewModel expectedResult)
     {
-        var cancellationToken = default(CancellationToken);
         var mockMediator = new Moq.Mock<IMediator>();
         var mockMapper = new Moq.Mock<IMapper>();
         var mockPublishEndPoint = new Moq.Mock<IPublishEndpoint>()

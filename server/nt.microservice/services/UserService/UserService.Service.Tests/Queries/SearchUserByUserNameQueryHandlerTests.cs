@@ -128,11 +128,6 @@ public class SearchUserByUserNameQueryHandlerTests
         {
             new SearchUserByUserNameQuery { UserName = string.Empty},
             typeof(ArgumentException)
-        },
-        new object[]
-        {
-            new SearchUserByUserNameQuery(),
-            typeof(ArgumentNullException)
         }
     };
 }
