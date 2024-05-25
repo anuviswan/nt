@@ -1,6 +1,7 @@
 ﻿using Azure;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using nt.shared.dto.Attributes;
 using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
@@ -51,6 +52,29 @@ public class UserController : BaseController
             return BadRequest(ex.Message);
         }
     }
+
+
+
+    public async Task<ActionResult<UpdateUserResponseViewModel>> UpdateUser(UpdateUserRequestViewModel request)
+    {
+        try
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (User?.Identity?.Name == null) return BadRequest("Invalid User");
+
+            // Create User Meta information in User Service
+            var updateUserCommand = Mapper.Map<UpdateUserCommand>(request);
+            updateUserCommand.UserName = User.Identity.Name;
+            var result = await Mediator.Send(updateUserCommand).ConfigureAwait(false);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Error registering user : {ex.Message}");
+            return BadRequest(ex.Message);
+        }
+    } 
 
     /// <summary>
     /// Upload Profile image for user
