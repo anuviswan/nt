@@ -36,12 +36,12 @@
                             </div>
                             <div class="form-group text-left">
                                 <label>Display Name</label>
-                                <input type="text" v-model="formData.userName" class="form-control block"
+                                <input type="text" v-model="formData.displayName" class="form-control block"
                                     placeholder="Display Name" />
                             </div>
                             <div class="form-group text-left">
                                 <label>About yourself</label>
-                                <input type="text" v-model="formData.userName" class="form-control block"
+                                <input type="text" v-model="formData.bio" class="form-control block"
                                     placeholder="Display Name" />
                             </div>
                             <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
@@ -70,6 +70,9 @@ import { ref, computed } from 'vue'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import AvataarCard from '@/components/private/user/AvataarCard.vue'
+import {useUserStore } from '@/stores/userStore';
+
+const store = useUserStore();
 
 interface IFormData {
     userName: string,
@@ -78,9 +81,9 @@ interface IFormData {
 }
 
 const formData = ref<IFormData>({
-    userName: '',
-    displayName: '',
-    bio: ''
+    userName: store.UserName,
+    displayName: store.DisplayName,
+    bio: store.Bio
 });
 const $externalResults = ref({});
 const serverMessage = ref<string>('');
