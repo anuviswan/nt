@@ -1,16 +1,13 @@
 <template>
     <div v-bind:class="getMessageClass()">
-      <div v-if="messages.length > 1">
-        <ul>
+      <div>
+        <ul class="error-list">
           <li v-for="(msg, index) in messages" :key="index">
             <small>{{ msg }}</small>
           </li>
         </ul>
       </div>
-      <div v-else>
-        <small>{{ messages[0] }}</small>
       </div>
-    </div>
   </template>
   
   <script setup lang="ts">
@@ -18,7 +15,7 @@
 
   interface Props{
       messages: string[], 
-      isError: boolean 
+      isError: boolean,
   }
     const props = withDefaults(defineProps<Props>(),{
       messages : ()=>[],
@@ -39,4 +36,9 @@
   
   </script>
   
-  <style></style>
+  <style>
+.error-list {
+  list-style-type: none;
+  padding: 0;
+}
+</style>
