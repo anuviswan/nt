@@ -116,6 +116,7 @@ const onSubmit = async (): Promise<void> => {
     });
 
     console.log(response);
+    console.log(response.status);
 
     if (response.status != 200) {
         console.log("User Profile updattion failed")
