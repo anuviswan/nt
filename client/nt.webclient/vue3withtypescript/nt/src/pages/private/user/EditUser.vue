@@ -71,6 +71,7 @@ import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import AvataarCard from '@/components/private/user/AvataarCard.vue'
 import {useUserStore } from '@/stores/userStore';
+import { userApiService } from '@/apiService/UserApiService';
 
 const store = useUserStore();
 
@@ -107,7 +108,38 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
 
 const onSubmit = async (): Promise<void> => {
-    return;
+
+    console.log('Submiting changes with new values [displayName:' + formData.value.displayName +'bio:'+ formData.value.bio + ']');
+
+    v$.value.$clearExternalResults();
+    var validationResult = await v$.value.$validate();
+
+    if (!validationResult) {
+        console.log("Validation failed");
+        return;
+    }
+
+    console.log("validation succeeded")
+
+    var response = await userApiService.updateUser({
+      displayName : formData.value.displayName,
+      bio :  formData.value.bio
+    });
+
+    console.log(response);
+
+    if(response.hasError){
+      console.log("Failed with Status Code " + response.status )
+      serverMessage.value = ['Invalid Username or Password'];
+      console.log(v$);
+    }
+    else{
+      console.log("Success");
+      serverMessage.value = ['Password Changed'];
+    }
+
+    // Change new Password
+    return false;
 }
 
 </script>

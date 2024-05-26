@@ -1,4 +1,4 @@
-import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, IGetProfileImageResponse, IRegisterUserRequest, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
+import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, IRegisterUserRequest,IUpdateUserRequest, IUpdateUserResponse, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
 import { ApiServiceBase } from "./ApiServiceBase";
 
 class UserApiService extends ApiServiceBase {
@@ -14,6 +14,11 @@ class UserApiService extends ApiServiceBase {
 
     public async changePassword(request:IChangePasswordRequest):Promise<IChangePasswordResponse>{
         return await this.invoke<IChangePasswordResponse>({method:'post', url:"/api/user/ChangePassword", data : request});
+    }
+
+
+    public async updateUser(user:IUpdateUserRequest):Promise<IUpdateUserResponse>{
+        return await this.invoke<IRegisterUserResponse>({method:'post', url:"api/user/updateuser", data : user});
     }
 
     public async uploadProfileImage(request:IUploadProfileImageRequest):Promise<IUploadProfileImageResponse>{
