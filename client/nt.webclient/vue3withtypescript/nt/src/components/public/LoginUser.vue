@@ -8,19 +8,19 @@
     <div class="card-body">
       <form class="form needs-validation" @submit.prevent="onSubmit">
         <div class="form-group">
-          <input type="text" v-model="formData.userName" placeholder="Username" class="form-control block" />
+          <input type="text" v-model="formData.userName" placeholder="Username" class="form-control block"  @blur="v$.formData.userName.$touch()"/>
         </div>
         <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
           <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
         </div>
         <div class="form-group">
-          <input type="password" v-model="formData.password" placeholder="Password" class="form-control block" />
+          <input type="password" v-model="formData.password" placeholder="Password" class="form-control block" @blur="v$.formData.password.$touch()"/>
         </div>
         <div class="d-flex justify-content-left" v-if="v$.formData.password.$error">
           <ValidationMessage :messages="v$.formData.password.$errors.map((x: any) => x.$message)" v-bind:isError="true" />
         </div>
         <div class="form-group">
-          <input type="submit" class="btn btn-block btn-primary" value="Submit" />
+          <input type="submit" class="btn btn-block btn-primary" value="Submit" :disabled="v$.formData.$invalid"/>
         </div>
         <div class="d-flex justify-content-left" v-if="serverMessage">
         <ValidationMessage :messages="serverMessage" v-bind:isError="true" />
@@ -99,10 +99,8 @@ const onSubmit = async (): Promise<void> => {
 
   var response = await userApiService.validateUser(userInfo);
 
-  console.log(response);
   // Validate response from Api
   if (response.hasError) {
-    console.log("Login failed")
 
     if (response.status == 401) {
       serverMessage.value = ['Invalid Username or Password'];
@@ -116,10 +114,7 @@ const onSubmit = async (): Promise<void> => {
         }
       };
 
-      console.log(errors)
       $externalResults.value = errors;
-
-      console.log(v$);
     }
     else{
       serverMessage.value = ['Unexpected error. Please try later'];

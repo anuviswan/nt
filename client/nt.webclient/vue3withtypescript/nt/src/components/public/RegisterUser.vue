@@ -9,21 +9,23 @@
             <form class="form needs-validation" @submit.prevent="onSubmit">
                 <div class="form-group">
                     <input type="text" v-model="formData.userName" class="form-control block"
-                         placeholder="Username" />
+                         placeholder="Username" @blur="v$.formData.userName.$touch()"/>
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
                     <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
                         v-bind:isError="true" />
                 </div>
                 <div class="form-group">
-                    <input type="password" v-model="formData.password" class="form-control block" placeholder="Password" />
+                    <input type="password" v-model="formData.password" class="form-control block" 
+                    placeholder="Password"  @blur="v$.formData.password.$touch()"/>
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.password.$error">
                     <ValidationMessage :messages="v$.formData.password.$errors.map((x: any) => x.$message)"
                         v-bind:isError="true" />
                 </div>
                 <div class="form-group">
-                    <input type="password" v-model="formData.confirmPassword" class="form-control block" placeholder="Confirm Password" />
+                    <input type="password" v-model="formData.confirmPassword" class="form-control block" 
+                    placeholder="Confirm Password"  @blur="v$.formData.confirmPassword.$touch()"/>
                 </div>
                 <div class="d-flex justify-content-left" v-if="v$.formData.confirmPassword.$error">
                     <ValidationMessage :messages="v$.formData.confirmPassword.$errors.map((x: any) => x.$message)"
@@ -77,7 +79,7 @@ const rules = computed(() => ({
     formData: {
         userName: {
             required: helpers.withMessage('Username cannot be empty', required),
-            minLengthValue: helpers.withMessage('Username should minimum 4 characters', minLength(4))
+            minLengthValue: helpers.withMessage('Username should minimum 6 characters', minLength(6))
         },
         password: { required: helpers.withMessage('Password cannot be empty', required), },
         confirmPassword: { sameAsPassword: helpers.withMessage('Password do not match', sameAs(formData.value.password)) }
@@ -108,7 +110,6 @@ const onSubmit = async (): Promise<void> => {
 
         if (response.errors != null) {
             const errors = {
-                //serverMessage : ['asdasdasd']
                 formData: {
                     password: response.errors.Password,
                     confirmPassword: response.errors.ConfirmPassword,
@@ -116,7 +117,6 @@ const onSubmit = async (): Promise<void> => {
                 }
             };
 
-            console.log(errors)
             $externalResults.value = errors;
         }
     }
