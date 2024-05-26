@@ -28,11 +28,7 @@
                             <div class="form-group text-left">
                                 <label>UserName</label>
                                 <input type="text" v-model="formData.userName" class="form-control block"
-                                    placeholder="Username" />
-                            </div>
-                            <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                                <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                                    v-bind:isError="true" />
+                                    placeholder="Username" readonly />
                             </div>
                             <div class="form-group text-left">
                                 <label>Display Name</label>
@@ -42,12 +38,9 @@
                             <div class="form-group text-left">
                                 <label>About yourself</label>
                                 <input type="text" v-model="formData.bio" class="form-control block"
-                                    placeholder="Display Name" />
+                                    placeholder="Hello !" />
                             </div>
-                            <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                                <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                                    v-bind:isError="true" />
-                            </div>
+
                             <div class="form-group">
                                 <input type="submit" class="btn btn-block btn-primary" value="Submit" />
                             </div>
@@ -93,11 +86,7 @@ const rules = computed(() => ({
     formData: {
         userName: {
             required: helpers.withMessage('Username cannot be empty', required),
-            minLengthValue: helpers.withMessage('Username should minimum 4 characters', minLength(4))
-        },
-        displayName: {
-            required: helpers.withMessage('DisplayName cannot be empty', required),
-            minLengthValue: helpers.withMessage('DisplayName should minimum 6 characters', minLength(6))
+            minLengthValue: helpers.withMessage('Username should minimum 6 characters', minLength(6))
         },
     },
     serverMessage: {}
@@ -143,11 +132,12 @@ const onSubmit = async (): Promise<void> => {
         }
     }
     else {
-        console.log("User Profile Updated successfully")
+        console.log("User Profile Updated successfully");
+        store.DisplayName = response.displayName;
+        store.Bio = response.bio;
     }
 
-    // Change new Password
-    return false;
+    
 }
 
 
