@@ -8,17 +8,24 @@ public class UpdateUserCommandHandlerTests
 {
     [Theory]
     [MemberData(nameof(Handle_ValidData_Success_Data))]
-    public async Task Handle_ValidData_Success(UpdateUserCommand request, UserProfileDto expectedResult)
+    public async Task Handle_ValidData_Success(UpdateUserCommand request, UserProfileDto currentData, UserProfileDto expectedResult)
     {
         var mockUserMetaRepository = new Mock<IUserMetaInformationRepository>();
         var mockMapper = new Mock<IMapper>();
 
-        mockUserMetaRepository.Setup(x => x.AddAsync(It.IsAny<UserMetaInformation>()))
+        mockUserMetaRepository.Setup(x=> x.GetUser(It.IsAny<string>()))
+            .Returns<string?>(x => Task.FromResult<UserMetaInformation?>(new UserMetaInformation
+            {
+                UserName = currentData.UserName,
+                Bio = currentData.Bio,
+                DisplayName = currentData.DisplayName,
+            }));
+        mockUserMetaRepository.Setup(x => x.UpdateAsync(It.IsAny<UserMetaInformation>()))
             .Returns<UserMetaInformation>(x => Task.FromResult(new UserMetaInformation
             {
-                UserName = x.UserName,
-                Bio = x.Bio,
-                DisplayName = x.DisplayName,
+                UserName = expectedResult.UserName,
+                Bio = expectedResult.Bio,
+                DisplayName = expectedResult.DisplayName,
             }));
 
         mockMapper.Setup(x => x.Map<UserProfileDto>(It.IsAny<UserMetaInformation>()))
@@ -41,13 +48,13 @@ public class UpdateUserCommandHandlerTests
 
 
         var cts = new CancellationTokenSource();
-        var handler = new UpdateUserCommandHandler();
-        var result = await handler.Handle(request, cts.Token);
+        var sut = new UpdateUserCommandHandler(mockUserMetaRepository.Object,mockMapper.Object);
+        var result = await sut.Handle(request, cts.Token);
 
         var userInfo = result.Should().BeOfType<UserProfileDto>().Subject;
         userInfo.Should().BeEquivalentTo<UserProfileDto>(expectedResult);
 
-        mockUserMetaRepository.Verify(x => x.AddAsync(It.Is<UserMetaInformation>
+        mockUserMetaRepository.Verify(x => x.UpdateAsync(It.Is<UserMetaInformation>
             ((s) => s.UserName == request.UserName
             && s.DisplayName == request.DisplayName
             && s.Bio == request.Bio)), Times.Exactly(1));
@@ -61,14 +68,20 @@ public class UpdateUserCommandHandlerTests
             new UpdateUserCommand
             {
                 UserName = "JiaAndNaina",
-                DisplayName = "Jia Naina",
-                Bio = "We are Jia and Naina"
+                DisplayName = "Jia Anu & Naina Anu",
+                Bio = "Hello, We are Jia& Naina"
             },
             new UserProfileDto
             {
                 UserName = "JiaAndNaina",
                 DisplayName = "Jia Naina",
                 Bio = "We are Jia and Naina"
+            },
+            new UserProfileDto
+            {
+                UserName = "JiaAndNaina",
+                DisplayName = "Jia Anu & Naina Anu",
+                Bio = "Hello, We are Jia& Naina"
             }
         }
     };
@@ -98,9 +111,9 @@ public class UpdateUserCommandHandlerTests
                 });
 
         var cts = new CancellationTokenSource();
-        var handler = new UpdateUserCommandHandler();
+        var sut = new UpdateUserCommandHandler(mockUserMetaRepository.Object,mockMapper.Object);
 
-        await handler.Invoking(x => x.Handle(request, cts.Token))
+        await sut.Invoking(x => x.Handle(request, cts.Token))
             .Should()
             .ThrowAsync<ArgumentNullException>(); ;
 
