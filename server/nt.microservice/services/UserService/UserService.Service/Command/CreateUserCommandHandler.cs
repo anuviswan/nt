@@ -13,7 +13,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserP
     }
     public async Task<UserProfileDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request?.UserName);
+        ArgumentNullException.ThrowIfNullOrEmpty(request?.UserName);
 
         var userFound = await _userMetaInformationRepository.GetUser(request.UserName).ConfigureAwait(false);
 

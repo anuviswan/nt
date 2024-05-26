@@ -1,7 +1,6 @@
 ﻿using nt.shared.dto.User;
 using UserService.Api.ViewModels.User;
 using UserService.Api.ViewModels.UserManagement;
-using UserService.Domain.Entities;
 using UserService.Service.Dtos;
 using UserService.Service.Query;
 
@@ -27,5 +26,8 @@ public class ProfileMap:Profile
         });
 
         CreateMap<UpdateProfileImageRequestViewModel, UploadProfileImageCommand>();
+
+        CreateMap<UpdateUserRequestViewModel, UpdateUserCommand>();
+        CreateMap<UserProfileDto, UpdateUserResponseViewModel>().ReverseMap();
     }
 }
