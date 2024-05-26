@@ -95,11 +95,7 @@ public class UpdateUserCommandHandlerTests
         var mockUserMetaRepository = new Mock<IUserMetaInformationRepository>();
         var mockMapper = new Moq.Mock<IMapper>();
 
-        mockUserMetaRepository.Setup(x => x.AddAsync(It.IsAny<UserMetaInformation>()))
-            .Returns<UserMetaInformation>(x => Task.FromResult(new UserMetaInformation
-            {
-                UserName = x.UserName
-            }));
+        mockUserMetaRepository.Setup(x => x.UpdateAsync(It.IsAny<UserMetaInformation>()));
 
         mockMapper.Setup(x => x.Map<UserProfileDto>(It.IsAny<UserMetaInformation>()))
                 .Returns<UserMetaInformation>((x) =>
@@ -115,9 +111,9 @@ public class UpdateUserCommandHandlerTests
 
         await sut.Invoking(x => x.Handle(request, cts.Token))
             .Should()
-            .ThrowAsync<ArgumentNullException>(); ;
+            .ThrowAsync<ArgumentException>(); ;
 
-        mockUserMetaRepository.Verify(x => x.AddAsync(new UserMetaInformation
+        mockUserMetaRepository.Verify(x => x.UpdateAsync(new UserMetaInformation
         {
             UserName = request.UserName,
             Bio = request.Bio,

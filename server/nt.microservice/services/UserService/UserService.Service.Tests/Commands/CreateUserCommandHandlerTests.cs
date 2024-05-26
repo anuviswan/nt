@@ -100,7 +100,7 @@ public class CreateUserCommandHandlerTests
 
         await handler.Invoking(x => x.Handle(request, cts.Token))
             .Should()
-            .ThrowAsync<ArgumentNullException>(); ;
+            .ThrowAsync<ArgumentException>(); ;
 
         mockUserMetaRepository.Verify(x => x.AddAsync(new UserMetaInformation
         {

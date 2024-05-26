@@ -14,7 +14,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserP
     }
     public async Task<UserProfileDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(request?.UserName);
+        ArgumentNullException.ThrowIfNullOrEmpty(request?.UserName);
 
         var userFound = await _userMetaInformationRepository.GetUser(request.UserName).ConfigureAwait(false);
 
