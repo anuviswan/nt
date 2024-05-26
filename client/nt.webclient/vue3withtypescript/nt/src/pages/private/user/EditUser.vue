@@ -67,7 +67,7 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
+import { required, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import AvataarCard from '@/components/private/user/AvataarCard.vue'
 import {useUserStore } from '@/stores/userStore';
@@ -128,19 +128,28 @@ const onSubmit = async (): Promise<void> => {
 
     console.log(response);
 
-    if(response.hasError){
-      console.log("Failed with Status Code " + response.status )
-      serverMessage.value = ['Invalid Username or Password'];
-      console.log(v$);
+    if (response.status != 200) {
+        console.log("User Profile updattion failed")
+
+        if (response.errors != null) {
+            const errors = {
+                formData: {
+                    displayName: response.errors.displayName,
+                    bio: response.errors.bio,
+                }
+            };
+
+            $externalResults.value = errors;
+        }
     }
-    else{
-      console.log("Success");
-      serverMessage.value = ['Password Changed'];
+    else {
+        console.log("User Profile Updated successfully")
     }
 
     // Change new Password
     return false;
 }
+
 
 </script>
 <style scoped></style>
