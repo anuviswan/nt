@@ -67,7 +67,7 @@ public class UserController : BaseController
             var updateUserCommand = Mapper.Map<UpdateUserCommand>(request);
             updateUserCommand.UserName = User.Identity.Name;
             var result = await Mediator.Send(updateUserCommand).ConfigureAwait(false);
-            return Ok();
+            return Ok(Mapper.Map<UpdateUserResponseViewModel>(result));
         }
         catch (Exception ex)
         {

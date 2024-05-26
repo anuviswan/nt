@@ -1,10 +1,6 @@
 ﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using UserService.Service.Dtos;
 
 namespace UserService.Api.Tests.ControllerTests.UserControllerTests;
@@ -42,19 +38,20 @@ public class UpdateUserTests : ControllerTestBase
         });
 
         mockMapper.Setup(x => x.Map<UpdateUserResponseViewModel>(It.IsAny<UserProfileDto>()))
-            .Returns<UpdateUserResponseViewModel>(x => new UpdateUserResponseViewModel
+            .Returns<UserProfileDto>(x => new UpdateUserResponseViewModel
 
         {
             DisplayName = x.DisplayName,
+            Bio = x.Bio,
         });
 
-        mockPublishEndPoint.Setup(x => x.Publish(It.IsAny<object>(), It.IsAny<CancellationToken>()));
 
         var nullLogger = CreateNullLogger<UserController>();
 
-        var userController = new UserController(mockMediator.Object, mockMapper.Object, nullLogger, mockPublishEndPoint.Object);
-        MockModelState(request, userController);
-        var actualResult = await userController.UpdateUser(request);
+        var sut = new UserController(mockMediator.Object, mockMapper.Object, nullLogger, mockPublishEndPoint.Object);
+        sut.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+        MockModelState(request, sut);
+        var actualResult = await sut.UpdateUser(request);
 
         var okObjectResult = actualResult.Result.Should()
                            .BeOfType<OkObjectResult>()
@@ -68,8 +65,8 @@ public class UpdateUserTests : ControllerTestBase
     {
         new object[]
         {
-            new UpdateUserRequestViewModel {  DisplayName = "Anu Viswan" },
-            new UpdateUserRequestViewModel { DisplayName = "Anu Viswan", Bio = "Hello, I am Anu" }
+            new UpdateUserRequestViewModel {  DisplayName = "Anu Viswan", Bio = "Hello, I am Anu" },
+            new UpdateUserResponseViewModel { DisplayName = "Anu Viswan", Bio = "Hello, I am Anu" }
         }
     };
 
