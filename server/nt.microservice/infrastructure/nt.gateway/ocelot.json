@@ -23,6 +23,27 @@
       }
     },
 
+    // Update User
+    {
+      "DownstreamPathTemplate": "/api/Users/Update",
+      "DownstreamSchema": "http",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 8301
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user/update",
+      "UpstreamHttpMethod": [ "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      }
+    },
+
     // Authenticate
     {
       "DownstreamPathTemplate": "/api/user/Validate",

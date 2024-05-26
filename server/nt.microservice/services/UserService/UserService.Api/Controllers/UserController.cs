@@ -54,7 +54,15 @@ public class UserController : BaseController
     }
 
 
-
+    /// <summary>
+    /// Udpates User Profile Information.
+    /// </summary>
+    /// <param name="user">User information to be updated</param>
+    /// <returns>Updated User Information</returns>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("Update")]
     public async Task<ActionResult<UpdateUserResponseViewModel>> UpdateUser(UpdateUserRequestViewModel request)
     {
         try
