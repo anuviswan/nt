@@ -28,11 +28,7 @@
                             <div class="form-group text-left">
                                 <label>UserName</label>
                                 <input type="text" v-model="formData.userName" class="form-control block"
-                                    placeholder="Username" />
-                            </div>
-                            <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                                <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                                    v-bind:isError="true" />
+                                    placeholder="Username" readonly />
                             </div>
                             <div class="form-group text-left">
                                 <label>Display Name</label>
@@ -42,20 +38,16 @@
                             <div class="form-group text-left">
                                 <label>About yourself</label>
                                 <input type="text" v-model="formData.bio" class="form-control block"
-                                    placeholder="Display Name" />
+                                    placeholder="Hello !" />
                             </div>
-                            <div class="d-flex justify-content-left" v-if="v$.formData.userName.$error">
-                                <ValidationMessage :messages="v$.formData.userName.$errors.map((x: any) => x.$message)"
-                                    v-bind:isError="true" />
-                            </div>
+
                             <div class="form-group">
                                 <input type="submit" class="btn btn-block btn-primary" value="Submit" />
                             </div>
-
-                            <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-                                <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
-                                    v-bind:isError="true" />
+                            <div class="d-flex justify-content-center" v-if="serverMessage">
+                                <ValidationMessage :messages="serverMessage" v-bind:isError="!isServerSuccessful" />
                             </div>
+
                         </form>
 
                     </div>
@@ -67,11 +59,13 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
+import { required, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import AvataarCard from '@/components/private/user/AvataarCard.vue'
-import {useUserStore } from '@/stores/userStore';
-
+import { useUserStore } from '@/stores/userStore';
+import { userApiService } from '@/apiService/UserApiService';
+import { LoggedInUser } from "@/types/StoreTypes";
+import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 const store = useUserStore();
 
 interface IFormData {
@@ -86,17 +80,14 @@ const formData = ref<IFormData>({
     bio: store.Bio
 });
 const $externalResults = ref({});
-const serverMessage = ref<string>('');
+const serverMessage = ref<string[]>([]);
+const isServerSuccessful = ref<boolean>(false);
 
 const rules = computed(() => ({
     formData: {
         userName: {
             required: helpers.withMessage('Username cannot be empty', required),
-            minLengthValue: helpers.withMessage('Username should minimum 4 characters', minLength(4))
-        },
-        displayName: {
-            required: helpers.withMessage('DisplayName cannot be empty', required),
-            minLengthValue: helpers.withMessage('DisplayName should minimum 6 characters', minLength(6))
+            minLengthValue: helpers.withMessage('Username should minimum 6 characters', minLength(6))
         },
     },
     serverMessage: {}
@@ -107,8 +98,60 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults });
 
 const onSubmit = async (): Promise<void> => {
-    return;
+
+    console.log('Submiting changes with new values [displayName:' + formData.value.displayName + 'bio:' + formData.value.bio + ']');
+
+    v$.value.$clearExternalResults();
+    var validationResult = await v$.value.$validate();
+
+    if (!validationResult) {
+        console.log("Validation failed");
+        return;
+    }
+
+    console.log("validation succeeded")
+
+    var response = await userApiService.updateUser({
+        displayName: formData.value.displayName,
+        bio: formData.value.bio
+    });
+
+    console.log(response);
+    console.log(response.status);
+
+    if (response.hasError) {
+        console.log("User Profile updattion failed")
+
+        if (response.errors != null) {
+            const errors = {
+                formData: {
+                    displayName: response.errors.displayName,
+                    bio: response.errors.bio,
+                }
+            };
+
+            $externalResults.value = errors;
+        }
+    }
+    else {
+        console.log("User Profile Updated successfully");
+
+
+        const loggedInUser: LoggedInUser = {
+            userName: store.userName,
+            displayName: response.displayName,
+            bio: response.bio,
+            token: store.token
+        };
+
+        store.SaveUser(loggedInUser);
+        isServerSuccessful.value = true;
+        serverMessage.value = ["User updated successfully"];
+    }
+
+
 }
+
 
 </script>
 <style scoped></style>

@@ -15,7 +15,7 @@ export const useUserStore = defineStore('UserStore',()=>{
     // getters
     const UserName = computed(()=> loggedInUser.value.userName);
     const DisplayName = computed(() => loggedInUser.value.displayName ? loggedInUser.value.displayName : loggedInUser.value.userName);
-    const Bio = computed(()=> loggedInUser.value.bio);
+    const Bio = computed(()=> loggedInUser.value.bio ? loggedInUser.value.bio  : '');
     const Token = computed(( )=> loggedInUser.value.token)
 
     // methods

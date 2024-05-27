@@ -9,10 +9,22 @@ export interface IRegisterUserRequest {
     password: string,
 }
 
+
+
 export interface IRegisterUserResponse extends IResponseBase {
     data: {
         userName: string
     }
+}
+
+export interface IUpdateUserRequest{
+    displayName?:string,
+    bio?:string
+}
+
+export interface IUpdateUserResponse extends IResponseBase {
+    displayName?:string,
+    bio?:string
 }
 
 export interface IValidateUserRequest {
