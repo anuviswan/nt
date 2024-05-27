@@ -22,9 +22,11 @@
     });
   
     const getMessageClass = () => {
+      console.log('validation message')
         if (!props.messages) return;
   
         if (props.messages.length == 0) {
+          console.log('no messages')
           return "d-none";
         }
   

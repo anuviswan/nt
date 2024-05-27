@@ -44,11 +44,10 @@
                             <div class="form-group">
                                 <input type="submit" class="btn btn-block btn-primary" value="Submit" />
                             </div>
-
-                            <div class="d-flex justify-content-left" v-if="v$.serverMessage.$error">
-                                <ValidationMessage :messages="v$.serverMessage.$errors.map((x: any) => x.$message)"
-                                    v-bind:isError="true" />
+                            <div class="d-flex justify-content-center" v-if="serverMessage">
+                                <ValidationMessage :messages="serverMessage" v-bind:isError="!isServerSuccessful" />
                             </div>
+
                         </form>
 
                     </div>
@@ -63,10 +62,10 @@ import { ref, computed } from 'vue'
 import { required, minLength, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import AvataarCard from '@/components/private/user/AvataarCard.vue'
-import {useUserStore } from '@/stores/userStore';
+import { useUserStore } from '@/stores/userStore';
 import { userApiService } from '@/apiService/UserApiService';
-import {LoggedInUser} from "@/types/StoreTypes";
-
+import { LoggedInUser } from "@/types/StoreTypes";
+import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 const store = useUserStore();
 
 interface IFormData {
@@ -81,7 +80,8 @@ const formData = ref<IFormData>({
     bio: store.Bio
 });
 const $externalResults = ref({});
-const serverMessage = ref<string>('');
+const serverMessage = ref<string[]>([]);
+const isServerSuccessful = ref<boolean>(false);
 
 const rules = computed(() => ({
     formData: {
@@ -99,7 +99,7 @@ const v$ = useVuelidate(rules, { formData, serverMessage }, { $externalResults }
 
 const onSubmit = async (): Promise<void> => {
 
-    console.log('Submiting changes with new values [displayName:' + formData.value.displayName +'bio:'+ formData.value.bio + ']');
+    console.log('Submiting changes with new values [displayName:' + formData.value.displayName + 'bio:' + formData.value.bio + ']');
 
     v$.value.$clearExternalResults();
     var validationResult = await v$.value.$validate();
@@ -112,8 +112,8 @@ const onSubmit = async (): Promise<void> => {
     console.log("validation succeeded")
 
     var response = await userApiService.updateUser({
-      displayName : formData.value.displayName,
-      bio :  formData.value.bio
+        displayName: formData.value.displayName,
+        bio: formData.value.bio
     });
 
     console.log(response);
@@ -137,17 +137,19 @@ const onSubmit = async (): Promise<void> => {
         console.log("User Profile Updated successfully");
 
 
-        const loggedInUser : LoggedInUser = { 
-        userName : store.userName,
-        displayName : response.displayName,
-        bio : response.bio,
-        token : store.token      
+        const loggedInUser: LoggedInUser = {
+            userName: store.userName,
+            displayName: response.displayName,
+            bio: response.bio,
+            token: store.token
         };
 
         store.SaveUser(loggedInUser);
+        isServerSuccessful.value = true;
+        serverMessage.value = ["User updated successfully"];
     }
 
-    
+
 }
 
 
