@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row row-cols-2">
-            <div class="col col-4 col-xl-2 align-self-start">
+            <div class="col col-4 col-xl-3 align-self-start">
                 <div class="card rounded shadow shadow-sm">
                     <div class="card-body bg-light text-uppercase">
                         <div class="card-title text-left">
