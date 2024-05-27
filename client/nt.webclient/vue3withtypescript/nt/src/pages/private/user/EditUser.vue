@@ -65,6 +65,7 @@ import { useVuelidate } from '@vuelidate/core'
 import AvataarCard from '@/components/private/user/AvataarCard.vue'
 import {useUserStore } from '@/stores/userStore';
 import { userApiService } from '@/apiService/UserApiService';
+import {LoggedInUser} from "@/types/StoreTypes";
 
 const store = useUserStore();
 
@@ -118,7 +119,7 @@ const onSubmit = async (): Promise<void> => {
     console.log(response);
     console.log(response.status);
 
-    if (response.status != 200) {
+    if (response.hasError) {
         console.log("User Profile updattion failed")
 
         if (response.errors != null) {
@@ -134,8 +135,16 @@ const onSubmit = async (): Promise<void> => {
     }
     else {
         console.log("User Profile Updated successfully");
-        store.DisplayName = response.displayName;
-        store.Bio = response.bio;
+
+
+        const loggedInUser : LoggedInUser = { 
+        userName : store.userName,
+        displayName : response.displayName,
+        bio : response.bio,
+        token : store.token      
+        };
+
+        store.SaveUser(loggedInUser);
     }
 
     

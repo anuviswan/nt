@@ -35,7 +35,7 @@
           "Port": 8301
         }
       ],
-      "UpstreamPathTemplate": "/api/user/update",
+      "UpstreamPathTemplate": "/user/api/Users/Update",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,

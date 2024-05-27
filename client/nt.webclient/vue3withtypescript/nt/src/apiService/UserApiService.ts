@@ -18,7 +18,7 @@ class UserApiService extends ApiServiceBase {
 
 
     public async updateUser(user:IUpdateUserRequest):Promise<IUpdateUserResponse>{
-        return await this.invoke<IUpdateUserResponse>({method:'post', url:"api/user/update", data : user});
+        return await this.invoke<IUpdateUserResponse>({method:'post', url:"/user/api/Users/Update", data : user});
     }
 
     public async uploadProfileImage(request:IUploadProfileImageRequest):Promise<IUploadProfileImageResponse>{
