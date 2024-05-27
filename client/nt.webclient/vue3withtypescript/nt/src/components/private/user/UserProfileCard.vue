@@ -4,8 +4,8 @@
     <!-- Mini Card Starts here -->
     <div class="card p-3 shadow"  v-if="isMiniCard">
       <div class="d-flex align-items-center">
-        <div class="image">
-          <img src="@/assets/user.png" class="rounded" width="155">
+        <div>
+          <AvataarCard :user-name="user.userName"/>
         </div>
         <div class="ml-3 w-100">
           <h4 class="mb-0 mt-0">{{ user.displayName }}</h4>
@@ -50,7 +50,7 @@
     <div class="card p-3 shadow" >
       <div class="d-flex align-items-center">
         <div class="image">
-          <img src="@/assets/user.png" class="rounded" width="155">
+          <AvataarCard :user-name="user.userName"/>
         </div>
         <div class="ml-3 w-100">
           <h4 class="mb-0 mt-0">{{ user.displayName }}</h4>
@@ -100,6 +100,7 @@ import {ref} from 'vue';
 import { withDefaults, defineProps } from "vue"
 import { User } from "@/types/UserTypes";
 import {useUserStore } from '@/stores/userStore';
+import AvataarCard from './AvataarCard.vue';
 
 interface Props {
   user: User,

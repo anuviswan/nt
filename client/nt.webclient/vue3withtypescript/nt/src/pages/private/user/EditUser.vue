@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row row-cols-2">
-            <div class="col col-4 col-xl-2 align-self-start">
+            <div class="col col-4 col-xl-3 align-self-start">
                 <div class="card rounded shadow shadow-sm">
                     <div class="card-body bg-light text-uppercase">
                         <div class="card-title text-left">
@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <AvataarCard />
+                            <AvataarCard :user-name="formData.userName"/>
                         </div>
                     </div>
                 </div>
@@ -66,6 +66,7 @@ import { useUserStore } from '@/stores/userStore';
 import { userApiService } from '@/apiService/UserApiService';
 import { LoggedInUser } from "@/types/StoreTypes";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
+
 const store = useUserStore();
 
 interface IFormData {
