@@ -17,11 +17,17 @@
 import {onMounted, ref} from 'vue'
 import { userApiService } from "@/apiService/UserApiService";
 import { IUploadProfileImageRequest } from '@/types/apirequestresponsetypes/User';
-import {useUserStore } from '@/stores/userStore';
+import { withDefaults, defineProps } from "vue"
 
+interface Props{
+    userName: string
+}
 
-const store = useUserStore();
-const currentUserName = ref(store.UserName);
+const props = withDefaults(defineProps<Props>(),{
+})
+ 
+
+const currentUserName = ref(props.userName);
 
 const fileUploader = ref<HTMLInputElement|null>(null);
 

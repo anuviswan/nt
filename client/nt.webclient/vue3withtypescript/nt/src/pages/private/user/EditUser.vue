@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <AvataarCard />
+                            <AvataarCard :user-name="formData.userName"/>
                         </div>
                     </div>
                 </div>
@@ -66,6 +66,7 @@ import { useUserStore } from '@/stores/userStore';
 import { userApiService } from '@/apiService/UserApiService';
 import { LoggedInUser } from "@/types/StoreTypes";
 import ValidationMessage from "@/components/generic/ValidationMessage.vue";
+
 const store = useUserStore();
 
 interface IFormData {
