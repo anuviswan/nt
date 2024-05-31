@@ -53,6 +53,18 @@
           </div>
         </li>
       </ul>
+
+      <form class="d-flex ">
+        <div class="input-group">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+        <button class="btn btn-outline-light" type="submit">Search</button>
+        </div>
+      </div>
+      </form>
+      
+
+    
       <ul class="navbar-nav">
         
         <li class="nav-item dropdown active">
