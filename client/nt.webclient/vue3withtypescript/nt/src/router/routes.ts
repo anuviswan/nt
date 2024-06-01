@@ -7,6 +7,7 @@ import ChangePassword from '@/pages/private/user/ChangePassword.vue'
 import PrivateContainer from '@/pages/private/PrivateContainer.vue' 
 import ViewProfile from "@/pages/private/user/ViewProfile.vue"
 import EditUser from  "@/pages/private/user/EditUser.vue"
+import SearchPage from "@/pages/private/search/SearchPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -42,21 +43,35 @@ const routes: Array<RouteRecordRaw> = [
           component : DashboardPage
         },
         {
+          path : "/user",
+          name : "LoggedInUser",
+          children:[
+
+            {
           
-          name : routesNames.changePassword.name,
-          path: routesNames.changePassword.path + '/:userid/chpwd',
-          component : ChangePassword
+              name : routesNames.changePassword.name,
+              path: routesNames.changePassword.path + '/:userid/chpwd',
+              component : ChangePassword
+            },
+            {
+              name: routesNames.viewUserProfile.name,
+              path: routesNames.viewUserProfile.path + '/:userid/view',
+              component : ViewProfile
+            },
+            {
+              name: routesNames.editUserProfile.name,
+              path: routesNames.editUserProfile.path,
+              component : EditUser
+            }
+          ]
         },
         {
-          name: routesNames.viewUserProfile.name,
-          path: routesNames.viewUserProfile.path + '/:userid/view',
-          component : ViewProfile
-        },
-        {
-          name: routesNames.editUserProfile.name,
-          path: routesNames.editUserProfile.path,
-          component : EditUser
+          path : routesNames.searchPage.path + ':searchTerm',
+          name : routesNames.searchPage.name,
+          component : SearchPage
         }
+
+        
       ]
     }
     
