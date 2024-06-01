@@ -39,13 +39,6 @@
             <router-link
               class="dropdown-item"
               exact
-              v-bind:to="`/p/movie/search`"
-            >
-              Search
-            </router-link>
-            <router-link
-              class="dropdown-item"
-              exact
               v-bind:to="`/p/movie/create`"
             >
               Create
@@ -56,7 +49,9 @@
 
       <div class="d-flex ">
         <div class="input-group">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="search" 
+        v-model="searchTerm"
+        placeholder="Search" aria-label="Search">
         <div class="input-group-append">
         <button class="btn btn-outline-light" type="button" @click="onSearch">Search</button>
         </div>
@@ -120,10 +115,8 @@ const currentUser = ref({
   displayName: store.DisplayName,
   bio: store.Bio
 });
-console.log(currentUser.value.displayName);
-console.log("getter");
 
-
+const searchTerm = ref<string>('');
 
 const logout=():void=>{
   console.log("logging out");
@@ -134,7 +127,7 @@ const logout=():void=>{
 const onSearch = (): void => {
   console.log("Triggering Search");
 
-  router.push({ name:   routesNames.searchPage.name, params: { searchTerm: 'aaa' } });
+  router.push({ name:   routesNames.searchPage.name, params: { searchTerm: searchTerm.value } });
 } 
 </script>
 
