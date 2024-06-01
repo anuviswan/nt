@@ -1,4 +1,7 @@
-import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, IRegisterUserRequest,IUpdateUserRequest, IUpdateUserResponse, IRegisterUserResponse, IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, IValidateUserResponse} from "../types/apirequestresponsetypes/User";
+import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, 
+    IRegisterUserRequest,IUpdateUserRequest, IUpdateUserResponse, IRegisterUserResponse, 
+    IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, 
+    IValidateUserResponse, ISearchUsersRequest,ISearchUsersResponse} from "../types/apirequestresponsetypes/User";
 import { ApiServiceBase } from "./ApiServiceBase";
 
 class UserApiService extends ApiServiceBase {
@@ -38,7 +41,6 @@ class UserApiService extends ApiServiceBase {
 
     public async getProfileImage(request:IGetProfileImageRequest):Promise<Blob|null>{
 
-        console.log(request)
         const response = await this.getBlob<Blob>({
             method:'get',
             'url':'user/api/Users/getprofileimage',
@@ -50,6 +52,11 @@ class UserApiService extends ApiServiceBase {
 
         console.log("response = "+ response)
         return response;
+    }
+
+
+    public async searchUsers(request:ISearchUsersRequest):Promise<ISearchUsersResponse>{
+        return await this.invoke<ISearchUsersResponse>({method:'post', url:"/api/user//user/usermanagement/searchuserbydisplayname", data : request});
     }
 
 }

@@ -1,3 +1,5 @@
+import {User} from "@/types/UserTypes"
+
 export interface IResponseBase {
     hasError: boolean,
     status?: number,
@@ -72,6 +74,15 @@ export interface IGetProfileImageRequest{
 
 export interface IGetProfileImageResponse extends IResponseBase{
     file:Blob
+}
+
+
+export interface ISearchUsersRequest{
+    searchTerm : string
+}
+
+export interface ISearchUsersResponse extends IResponseBase{
+    users : User[]
 }
 
 
