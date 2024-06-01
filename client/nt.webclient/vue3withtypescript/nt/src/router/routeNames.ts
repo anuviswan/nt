@@ -9,7 +9,8 @@ export interface IRouteNames{
     dashboard : IRouteInfo,
     changePassword : IRouteInfo,
     viewUserProfile: IRouteInfo,
-    editUserProfile: IRouteInfo
+    editUserProfile: IRouteInfo,
+    searchPage : IRouteInfo
 }
 
 const routesNames: Readonly<IRouteNames> = {
@@ -40,6 +41,10 @@ const routesNames: Readonly<IRouteNames> = {
     editUserProfile:{
         name : 'editUserProfile',
         path : '/p/user/edit'
+    },
+    searchPage:{
+        name: 'searchPage',
+        path: '/p/search'
     }
 }
 

@@ -54,14 +54,14 @@
         </li>
       </ul>
 
-      <form class="d-flex ">
+      <div class="d-flex ">
         <div class="input-group">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-        <button class="btn btn-outline-light" type="submit">Search</button>
+        <button class="btn btn-outline-light" type="button" @click="onSearch">Search</button>
         </div>
       </div>
-      </form>
+    </div>
       
 
     
@@ -112,7 +112,7 @@
 import {ref} from "vue"
 import {useUserStore} from "@/stores/userStore"
 import router from "@/router";
-
+import routesNames from "@/router/routeNames";
 
 const store = useUserStore();
 const currentUser = ref({
@@ -130,6 +130,12 @@ const logout=():void=>{
   store.Reset();
   router.push("/");
 }
+
+const onSearch = (): void => {
+  console.log("Triggering Search");
+
+  router.push({ name:   routesNames.searchPage.name, params: { searchTerm: 'aaa' } });
+} 
 </script>
 
 <style scoped>
