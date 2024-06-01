@@ -33,7 +33,8 @@ public class SearchUserByDisplayNameTests : ControllerTestBase
                         .Select(user => new UserProfileDto 
                         {
                             UserName = user.UserName,
-                            DisplayName = user.DisplayName
+                            DisplayName = user.DisplayName,
+                            Bio = user.Bio
                         })
                     ));
 
@@ -107,21 +108,26 @@ public class SearchUserByDisplayNameTests : ControllerTestBase
     #region 400 Test
     [Theory]
     [MemberData(nameof(SearchUserByDisplayName_InvalidData_ShouldFail_TestData))]
-    public async Task SearchUserByDisplayName_InvalidData_ShouldFail(string request, SerializableError expectedError)
+    public async Task SearchUserByDisplayName_InvalidData_ShouldFail(string request, string expectedError)
     {
         #region Arrange
         var mockMediator = new Mock<IMediator>();
         var mockMapper = new Mock<IMapper>();
 
         var nullLogger = CreateNullLogger<UserManagementController>();
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Name, "anuviswan"),
 
+        }, "mock"));
         #endregion
 
         #region Act
 
-        var userController = new UserManagementController(mockMediator.Object, mockMapper.Object, nullLogger);
-        MockModelState(request, userController);
-        var actualResult = await userController.SearchUserByDisplayName(request);
+        var sut = new UserManagementController(mockMediator.Object, mockMapper.Object, nullLogger);
+        sut.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+        MockModelState(request, sut);
+        var actualResult = await sut.SearchUserByDisplayName(request);
         #endregion
 
         #region Assert
@@ -132,11 +138,11 @@ public class SearchUserByDisplayNameTests : ControllerTestBase
 
         var error = badObjectResult.Value
             .Should()
-            .BeOfType<SerializableError>()
+            .BeOfType<string>()
             .Subject;
 
         error.Should().BeEquivalentTo(expectedError);
-        //mockMediator.Verify(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        mockMediator.Verify(x => x.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()), Times.Never);
         #endregion
     }
 
@@ -145,10 +151,7 @@ public class SearchUserByDisplayNameTests : ControllerTestBase
         new object[]
         {
             string.Empty,
-            new SerializableError
-            {
-                [nameof(SearchUserByUserNameRequestViewModel.UserName)]= new[] {"UserName is mandatory."},
-            }
+            "Search Term cannot be empty."
         }
     };
 

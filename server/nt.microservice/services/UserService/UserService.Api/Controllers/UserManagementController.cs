@@ -25,10 +25,7 @@ public class UserManagementController : BaseController
     {
         try
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (string.IsNullOrEmpty(searchTerm)) return BadRequest("Search Term cannot be empty.");
 
             if (User?.Identity?.Name == null) return BadRequest("Invalid User");
 
@@ -38,10 +35,7 @@ public class UserManagementController : BaseController
                 QueryPart = searchTerm
             }).ConfigureAwait(false);
 
-            return Ok(new SearchUserByDisplayNameResponseViewModel
-            {
-                Users = Mapper.Map<IEnumerable<UserProfileViewModel>>(response)
-            });
+            return Ok(Mapper.Map<SearchUserByDisplayNameResponseViewModel>(response));
         }
         catch (Exception ex)
         {
