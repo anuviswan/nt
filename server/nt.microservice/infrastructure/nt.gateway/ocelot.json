@@ -92,6 +92,31 @@
       }
     },
 
+    // Search User by Display Name
+    {
+      "DownstreamPathTemplate": "/user/usermanagement/searchuserbydisplayname",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8100"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/User/searchuser",
+      "UpstreamHttpMethod": [ "POST" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationKey",
+        "AllowedScopes": []
+      }
+    },
+
     // Upload Profile Image
     {
       "DownstreamPathTemplate": "/api/users/uploadprofileimage",

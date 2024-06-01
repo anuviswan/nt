@@ -17,11 +17,11 @@ public class UserManagementController : BaseController
     /// </summary>
     /// <param name="searchTerms">partial display name</param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("SearchUserByDisplayName")]
-    public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName(SearchUserByDisplayNameRequestViewModel searchTerms)
+    public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName(string searchTerm)
     {
         try
         {
@@ -30,10 +30,12 @@ public class UserManagementController : BaseController
                 return BadRequest(ModelState);
             }
 
+            if (User?.Identity?.Name == null) return BadRequest("Invalid User");
+
             var response = await Mediator.Send(new SearchUserByDisplayNameQuery
             {
-                CurrentUserName = searchTerms.CurrentUserName,
-                QueryPart = searchTerms.SearchPart
+                CurrentUserName = User.Identity.Name,
+                QueryPart = searchTerm
             }).ConfigureAwait(false);
 
             return Ok(new SearchUserByDisplayNameResponseViewModel
