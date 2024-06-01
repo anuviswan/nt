@@ -20,7 +20,7 @@ public class ProfileMap:Profile
         CreateMap<SearchUserByUserNameRequestViewModel, SearchUserByUserNameQuery>().ReverseMap();
         CreateMap<UserProfileViewModel, UserProfileDto>().ReverseMap();
 
-        CreateMap<UserProfileDto, SearchUserByDisplayNameResponseViewModel>().AfterMap((src, dest, cntxt) =>
+        CreateMap<IEnumerable<UserProfileDto>, SearchUserByDisplayNameResponseViewModel>().AfterMap((src, dest, cntxt) =>
         {
             dest.Users = cntxt.Mapper.Map<IEnumerable<UserProfileViewModel>>(src);
         });
