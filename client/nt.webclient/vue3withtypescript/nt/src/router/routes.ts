@@ -7,7 +7,7 @@ import ChangePassword from '@/pages/private/user/ChangePassword.vue'
 import PrivateContainer from '@/pages/private/PrivateContainer.vue' 
 import ViewProfile from "@/pages/private/user/ViewProfile.vue"
 import EditUser from  "@/pages/private/user/EditUser.vue"
-import SearchPage from "@/pages/private/general/SearchPage.vue";
+import SearchPage from "@/pages/private/search/SearchPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
