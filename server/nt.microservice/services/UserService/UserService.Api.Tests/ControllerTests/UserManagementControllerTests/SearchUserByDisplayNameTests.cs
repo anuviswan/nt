@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Security.Claims;
 using UserService.Api.ViewModels.UserManagement;
 using UserService.Service.Dtos;
 using UserService.Service.Query;
@@ -15,6 +17,12 @@ public class SearchUserByDisplayNameTests : ControllerTestBase
         #region Arrange
         var mockMediator = new Mock<IMediator>();
         var mockMapper = new Mock<IMapper>();
+
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Name, "anuviswan"),
+
+        }, "mock"));
 
         mockMediator.Setup(x => x.Send(It.IsAny<SearchUserByDisplayNameQuery>(), It.IsAny<CancellationToken>()))
                     .Returns<SearchUserByDisplayNameQuery, CancellationToken>((x, _) 
@@ -48,9 +56,10 @@ public class SearchUserByDisplayNameTests : ControllerTestBase
 
         #region Act
 
-        var userController = new UserManagementController(mockMediator.Object, mockMapper.Object, nullLogger);
-        MockModelState(request, userController);
-        var actualResult = await userController.SearchUserByDisplayName(request);
+        var sut = new UserManagementController(mockMediator.Object, mockMapper.Object, nullLogger);
+        sut.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+        MockModelState(request, sut);
+        var actualResult = await sut.SearchUserByDisplayName(request);
         #endregion
 
         #region Assert
