@@ -1,0 +1,24 @@
+name: WPF Desktop Client Workflow
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  # Build Wpf Client
+  BuildWpfClient:
+    name: Build Wpf Desktop Client
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.x
+      
+      - name: Build WPF Desktop Client
+        run: dotnet build --configuration Release .\client\nt.desktop\wpf\nt.wpfclient\nt.wpfclient.sln
+
