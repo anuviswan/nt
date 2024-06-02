@@ -3,7 +3,8 @@ name: VueJs Web Client Workflow
 on:
   pull_request:
     branches: [master]
-
+    paths:
+      - 'client/nt.webclient/vuejs/**'
 jobs:
   # Build Vuejs Client
   BuildVuejsApp:

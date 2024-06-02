@@ -3,7 +3,8 @@ name: WPF Desktop Client Workflow
 on:
   pull_request:
     branches: [master]
-
+    paths:
+      - 'client/nt.webclient/wpf/**'
 jobs:
   # Build Wpf Client
   BuildWpfClient:

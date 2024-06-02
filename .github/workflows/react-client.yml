@@ -2,7 +2,7 @@ name: React Web Client Workflow
 
 on:
   pull_request:
-    # branches: [master]
+    branches: [master]
     paths:
         - 'client/nt.webclient/reactjs/**'
 jobs:
