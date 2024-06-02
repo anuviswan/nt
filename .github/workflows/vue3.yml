@@ -1,26 +1,26 @@
-name: React Web Client Workflow
+name: Vue 3 Web Client Workflow
 
 on:
   pull_request:
     branches: [master]
     paths:
-        - 'client/nt.webclient/reactjs/**'
+      - 'client/nt.webclient/vue3/**'
 jobs:
-  # Build React Client
-  BuildReactApp:
-    name: Build React App
+  # Build Vuejs Client
+  BuildVuejsApp:
+    name: Build Vuejs App
     runs-on: ubuntu-latest
     env:
-      working-directory: ./client/nt.webclient/reactjs/nt
+      working-directory: ./client/nt.webclient/vue3/nt
 
     steps:
-      - name: Check out Source code
+      - name: Check out code 
         uses: actions/checkout@v2
 
       - name: Set up Node Js
         uses: actions/setup-node@v1
         with:
-          node-version: "v12.18.2"
+          node-version: "20.*"
 
       - name: Install npm
         run: npm install

@@ -1,20 +1,20 @@
-name: React Web Client Workflow
+name: VueJs Web Client Workflow
 
 on:
   pull_request:
     branches: [master]
     paths:
-        - 'client/nt.webclient/reactjs/**'
+      - 'client/nt.webclient/vuejs/**'
 jobs:
-  # Build React Client
-  BuildReactApp:
-    name: Build React App
+  # Build Vuejs Client
+  BuildVuejsApp:
+    name: Build Vuejs App
     runs-on: ubuntu-latest
     env:
-      working-directory: ./client/nt.webclient/reactjs/nt
+      working-directory: ./client/nt.webclient/vuejs/nt
 
     steps:
-      - name: Check out Source code
+      - name: Check out code 
         uses: actions/checkout@v2
 
       - name: Set up Node Js
