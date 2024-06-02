@@ -1,0 +1,31 @@
+name: Microservices Server Workflow
+
+on:
+  pull_request:
+    branches: [master]
+    
+
+jobs:
+
+  BuildWebApi:
+    name: Build Services
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore server/nt.microservice/nt.microservices.sln
+
+      - name: Build Project
+        run: dotnet build server/nt.microservice/nt.microservices.sln --configuration Release
+
+      - name: Execute Unit Tests
+        if: ${{ success() }}
+        run: dotnet test server/nt.microservice/nt.microservices.sln --no-restore --verbosity normal
