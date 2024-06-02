@@ -13,12 +13,18 @@ jobs:
       working-directory: ./client/nt.webclient/reactjs/nt
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out Source code
+        uses: actions/checkout@v2
+
       - name: Set up Node Js
         uses: actions/setup-node@v1
         with:
           node-version: "v12.18.2"
-      - run: npm install
+
+      - name: Install npm
+        run: npm install
         working-directory: ${{env.working-directory}}
-      - run: npm run build --if-present
+
+      - name: build solution
+        run: npm run build --if-present
         working-directory: ${{env.working-directory}}
