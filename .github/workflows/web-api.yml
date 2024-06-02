@@ -3,6 +3,8 @@ name: Web Api Server Workflow
 on:
   pull_request:
     branches: [master]
+    paths:
+      - 'server/nt.webapi/**'
     
 
 jobs:
