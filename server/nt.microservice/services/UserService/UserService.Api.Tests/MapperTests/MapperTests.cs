@@ -44,4 +44,63 @@ public class MapperTests
             }
         }
     };
+
+
+    [Theory]
+    [MemberData(nameof(UserProfileDto_To_SearchUserByDisplayNameResponseViewModel_TestData))]
+    public void UserProfileDto_To_SearchUserByDisplayNameResponseViewModel_ShouldSucceed(IList<UserProfileDto> input, SearchUserByDisplayNameResponseViewModel expectedResult)
+    {
+        var configuration = new MapperConfiguration(cfg => cfg.AddProfile<UserService.Api.Infrastructure.ProfileMap>());
+        var mapper = configuration.CreateMapper();
+
+        var response = mapper.Map<SearchUserByDisplayNameResponseViewModel>(input);
+
+        expectedResult.Should().BeEquivalentTo(response);
+    }
+
+    public static IEnumerable<object[]> UserProfileDto_To_SearchUserByDisplayNameResponseViewModel_TestData => new List<object[]>
+    {
+        new object[]
+        {
+            new List<UserProfileDto>{
+                new UserProfileDto
+                {
+                    UserName = "jia.anu",
+                    DisplayName = "Jia Anu",
+                    Bio = "I am Jia Anu",
+                    FollowedBy = [],
+                    Followers = [],
+                },
+                new UserProfileDto
+                {
+                    UserName = "naina.anu",
+                    DisplayName = "Naina Anu",
+                    Bio = "I am Naina Anu",
+                    FollowedBy = [],
+                    Followers = [],
+                }
+            },
+            new SearchUserByDisplayNameResponseViewModel
+            {
+                Users = new List<UserProfileViewModel>{
+                    new UserProfileViewModel
+                    {
+                        UserName = "jia.anu",
+                        DisplayName = "Jia Anu",
+                        Bio = "I am Jia Anu",
+                        FollowersCount = 0,
+                        IsFollowing = false
+                    },
+                    new UserProfileViewModel
+                    {
+                        UserName = "naina.anu",
+                        DisplayName = "Naina Anu",
+                        Bio = "I am Naina Anu",
+                        FollowersCount = 0,
+                        IsFollowing = false
+                    }
+                }
+            }
+        }
+    };
 }
