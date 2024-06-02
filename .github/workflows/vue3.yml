@@ -1,0 +1,31 @@
+name: Vue 3 Web Client Workflow
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'client/nt.webclient/vue3/**'
+jobs:
+  # Build Vuejs Client
+  BuildVuejsApp:
+    name: Build Vuejs App
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./client/nt.webclient/vue3/nt
+
+    steps:
+      - name: Check out code 
+        uses: actions/checkout@v2
+
+      - name: Set up Node Js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "20.*"
+
+      - name: Install npm
+        run: npm install
+        working-directory: ${{env.working-directory}}
+
+      - name: build solution
+        run: npm run build --if-present
+        working-directory: ${{env.working-directory}}
