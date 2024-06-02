@@ -1,4 +1,4 @@
-name: DotNetCore-React Workflow
+name: Web Api Server Workflow
 
 on:
   pull_request:

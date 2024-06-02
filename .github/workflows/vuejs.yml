@@ -1,4 +1,4 @@
-name: DotNetCore-React Workflow
+name: VueJs Web Client Workflow
 
 on:
   pull_request:
