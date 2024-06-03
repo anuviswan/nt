@@ -56,7 +56,7 @@ class UserApiService extends ApiServiceBase {
 
 
     public async searchUsers(request:ISearchUsersRequest):Promise<ISearchUsersResponse>{
-        return await this.invoke<ISearchUsersResponse>({method:'post', url:"/api/user//user/usermanagement/searchuserbydisplayname", data : request});
+        return await this.invoke<ISearchUsersResponse>({method:'get', url:"/api/User/searchuser", data : request});
     }
 
 }

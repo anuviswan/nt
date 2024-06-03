@@ -94,18 +94,18 @@
 
     // Search User by Display Name
     {
-      "DownstreamPathTemplate": "/user/usermanagement/searchuserbydisplayname",
+      "DownstreamPathTemplate": "/api/usermanagement/searchuserbydisplayname",
       "DownstreamSchema": "https",
-      "DownstreamHttpMethod": "POST",
+      "DownstreamHttpMethod": "GET",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8100"
+          "Port": "8301"
         }
       ],
       "UpstreamPathTemplate": "/api/User/searchuser",
-      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,

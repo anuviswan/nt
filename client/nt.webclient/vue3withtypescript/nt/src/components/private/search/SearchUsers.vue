@@ -10,10 +10,11 @@
 </template>
 <script setup lang="ts">
 
-import {defineProps, withDefaults,ref} from 'vue'
+import {defineProps, withDefaults,ref, watch} from 'vue'
 import {User} from '@/types/UserTypes'
 import UserProfileCard from "@/components/private/user/UserProfileCard.vue";
-
+import { userApiService } from '@/apiService/UserApiService';
+import { ISearchUsersRequest } from '@/types/apirequestresponsetypes/User';
 interface Props{
     searchTerm : string
 }
@@ -30,6 +31,18 @@ const searchResults = ref<User[]>([
         displayName:'Jia Anu'
     }
 ]);
+
+watch(()=> props.searchTerm, async (oldValue,newValue)=> {
+    console.log('Searching for ' + props.searchTerm);
+
+    const searchRequest : ISearchUsersRequest = {
+        searchTerm : newValue
+    }; 
+    const response = await userApiService.searchUsers(searchRequest);
+
+    console.log(response);
+
+})
 </script>
 <style scoped>
 </style>
