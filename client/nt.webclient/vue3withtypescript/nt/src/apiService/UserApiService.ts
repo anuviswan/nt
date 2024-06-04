@@ -1,7 +1,7 @@
 import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, 
     IRegisterUserRequest,IUpdateUserRequest, IUpdateUserResponse, IRegisterUserResponse, 
     IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, 
-    IValidateUserResponse, ISearchUsersRequest,ISearchUsersResponse} from "../types/apirequestresponsetypes/User";
+    IValidateUserResponse, ISearchUsersResponse} from "../types/apirequestresponsetypes/User";
 import { ApiServiceBase } from "./ApiServiceBase";
 
 class UserApiService extends ApiServiceBase {
@@ -58,8 +58,17 @@ class UserApiService extends ApiServiceBase {
     }
 
 
-    public async searchUsers(request:ISearchUsersRequest):Promise<ISearchUsersResponse>{
-        return await this.invoke<ISearchUsersResponse>({method:'get', url:"/api/User/searchuser", data : request});
+    public async searchUsers(request:string):Promise<ISearchUsersResponse>{
+        console.log(request);
+        return await this.invoke<ISearchUsersResponse>(
+            {
+                method:'get', 
+                url:"/api/User/searchuser", 
+                params : 
+                {
+                    searchTerm:request
+                }
+            });
     }
 
 }
