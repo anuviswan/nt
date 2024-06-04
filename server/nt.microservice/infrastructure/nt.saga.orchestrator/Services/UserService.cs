@@ -146,7 +146,7 @@ namespace Nt.Saga.Orchestrator.Services.UserService
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SearchUserByDisplayNameResponseViewModel>> SearchUserByDisplayNameAsync(SearchUserByDisplayNameRequestViewModel body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("UserManagement/SearchUserByDisplayName");
+            urlBuilder_.Append("api/UserManagement/SearchUserByDisplayName");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -158,7 +158,7 @@ namespace Nt.Saga.Orchestrator.Services.UserService
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -234,7 +234,7 @@ namespace Nt.Saga.Orchestrator.Services.UserService
         public virtual async System.Threading.Tasks.Task<SearchUserByUserNameResponseViewModel> SearchUserByUserNameAsync(SearchUserByUserNameRequestViewModel body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("UserManagement/SearchUserByUserName");
+            urlBuilder_.Append("api/UserManagement/SearchUserByUserName");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
