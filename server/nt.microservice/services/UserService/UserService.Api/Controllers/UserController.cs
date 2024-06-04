@@ -84,76 +84,76 @@ public class UserController : BaseController
         }
     } 
 
-    ///// <summary>
-    ///// Upload Profile image for user
-    ///// </summary>
-    ///// <param name="updateProfileImage">Username and Image</param>
-    ///// <returns></returns>
-    //[HttpPost]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    //[Route("uploadprofileimage")]
-    //[Authorize]
-    //public async Task<IActionResult> UpdateProfileImage([FromForm]UpdateProfileImageRequestViewModel updateProfileImage)
-    //{
-    //    try
-    //    {
-    //        if (!ModelState.IsValid)
-    //            return BadRequest(ModelState);
+    /// <summary>
+    /// Upload Profile image for user
+    /// </summary>
+    /// <param name="updateProfileImage">Username and Image</param>
+    /// <returns></returns>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("uploadprofileimage")]
+    [Authorize]
+    public async Task<IActionResult> UpdateProfileImage([FromForm]UpdateProfileImageRequestViewModel updateProfileImage)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-    //        using (var memoryStream = new MemoryStream())
-    //        {
-    //            updateProfileImage.File.CopyTo(memoryStream);
-    //            memoryStream.Seek(0, SeekOrigin.Begin);
+            using (var memoryStream = new MemoryStream())
+            {
+                updateProfileImage.File.CopyTo(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
 
-    //            var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
-    //            uploadImageCommand.FileData = memoryStream;
-    //            uploadImageCommand.ImageKey = updateProfileImage.ImageKey;
-    //            var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);
-    //        }
+                var uploadImageCommand = Mapper.Map<UploadProfileImageCommand>(updateProfileImage);
+                uploadImageCommand.FileData = memoryStream;
+                uploadImageCommand.ImageKey = updateProfileImage.ImageKey;
+                var result = await Mediator.Send(uploadImageCommand).ConfigureAwait(false);
+            }
             
-    //        return Ok("Image uploaded");
-    //    }
-    //    catch (RequestFailedException ex)
-    //    {
-    //        Console.WriteLine($"Request failed: {ex.Message}");
-    //        Console.WriteLine($"Status: {ex.Status}");
-    //        Console.WriteLine($"ErrorCode: {ex.ErrorCode}");
-    //        Console.WriteLine($"Additional Information: {ex.Data}");
-    //        return BadRequest(ex);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        return BadRequest(e);
-    //    }
-    //}
+            return Ok("Image uploaded");
+        }
+        catch (RequestFailedException ex)
+        {
+            Console.WriteLine($"Request failed: {ex.Message}");
+            Console.WriteLine($"Status: {ex.Status}");
+            Console.WriteLine($"ErrorCode: {ex.ErrorCode}");
+            Console.WriteLine($"Additional Information: {ex.Data}");
+            return BadRequest(ex);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e);
+        }
+    }
 
-    ///// <summary>
-    ///// Returns Profile image for the user
-    ///// </summary>
-    ///// <param name="userName">Username for whom to retrieve profile image</param>
-    ///// <returns></returns>
-    //[HttpGet]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-    //[Route("getprofileimage")]
-    //[Authorize]
-    //[TechnicalDebt(DebtType.BadDesign,"Exception Handling has to improve when expected return type is image/jpeg")]
-    //public async Task<IActionResult> GetProfileImage(string userName)
-    //{
-    //    try
-    //    {
-    //        if (!ModelState.IsValid)
-    //            return BadRequest(ModelState);
+    /// <summary>
+    /// Returns Profile image for the user
+    /// </summary>
+    /// <param name="userName">Username for whom to retrieve profile image</param>
+    /// <returns></returns>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Route("getprofileimage")]
+    [Authorize]
+    [TechnicalDebt(DebtType.BadDesign,"Exception Handling has to improve when expected return type is image/jpeg")]
+    public async Task<IActionResult> GetProfileImage(string userName)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-    //        var result = await Mediator.Send(new GetProfileImageQuery() { UserName = userName})
-    //                                   .ConfigureAwait(false);
-    //        return File(result,"image/jpeg");
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        return BadRequest(e);
-    //    }
-    //}
+            var result = await Mediator.Send(new GetProfileImageQuery() { UserName = userName})
+                                       .ConfigureAwait(false);
+            return File(result,"image/jpeg");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e);
+        }
+    }
 
 }
