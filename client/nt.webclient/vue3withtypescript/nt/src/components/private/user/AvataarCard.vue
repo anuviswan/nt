@@ -5,7 +5,7 @@
         <img :src="imgSrc" 
         class="avataar image-center  rounded-circle card-img img-thumbnail mx-auto d-block" 
         alt="Profile Image">
-        <div class="card-img-overlay d-flex">
+        <div class="card-img-overlay d-flex" v-if="!props.isReadOnly">
             <div class="align-self-center mx-auto">
                 <i class="fas fa-file-upload fa-2x fileupload" @click="browseImage()"></i>
             </div>
@@ -20,10 +20,12 @@ import { IUploadProfileImageRequest } from '@/types/apirequestresponsetypes/User
 import { withDefaults, defineProps } from "vue"
 
 interface Props{
-    userName: string
+    userName: string,
+    isReadOnly : boolean
 }
 
 const props = withDefaults(defineProps<Props>(),{
+    isReadOnly : false
 })
  
 

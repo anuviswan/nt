@@ -2,7 +2,7 @@
     <div>
         <ul class="user-grid">
           <li v-for="(user, index) in searchResults" :key="index">
-            <UserProfileCard :user="user" :isMiniCard='true'/>  
+            <UserProfileCard :user="user" :isMiniCard='true' :isReadOnly='true'/>  
           </li>
         </ul>
         <div>{{ searchTerm }}</div>
