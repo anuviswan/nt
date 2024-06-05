@@ -45,7 +45,7 @@ onMounted(()=>{
 
 const getProfileImage = async() :  Promise<void> => {
     var response  = await userApiService.getProfileImage({
-        userName : 'jia.anu'
+        userName : props.userName
     });
 
     if (!isValidBlob(response)) {
