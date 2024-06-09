@@ -125,9 +125,8 @@ const logout=():void=>{
 }
 
 const onSearch = (): void => {
-  console.log("Triggering Search");
-
   router.push({ name:   routesNames.searchPage.name, params: { searchTerm: searchTerm.value } });
+  searchTerm.value = '';
 } 
 </script>
 
