@@ -1,11 +1,10 @@
 <template>
     <div>
         <ul class="user-grid">
-          <li v-for="(user, index) in searchResults" :key="index">
+          <li v-for="(user, index) in searchResults" :key="index" class="user-list">
             <UserProfileCard :user="user" :isMiniCard='true' :isReadOnly='true'/>  
           </li>
         </ul>
-        <div>{{ searchTerm }}</div>
     </div>
 </template>
 <script setup lang="ts">
@@ -67,6 +66,11 @@ watch(()=> props.searchTerm, async (newValue,oldValue)=> {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+}
+
+.user-list {
+  list-style-type: none;
+  padding: 0;
 }
 
 </style>
