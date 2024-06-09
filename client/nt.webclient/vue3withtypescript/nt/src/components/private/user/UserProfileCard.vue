@@ -5,7 +5,7 @@
     <div class="card p-3 shadow"  v-if="isMiniCard">
       <div class="d-flex align-items-center">
         <div>
-          <AvataarCard :user-name="user.userName"/>
+          <AvataarCard :user-name="user.userName" :is-read-only="props.isReadOnly"/>
         </div>
         <div class="ml-3 w-100">
           <h4 class="mb-0 mt-0">{{ user.displayName }}</h4>
@@ -50,7 +50,7 @@
     <div class="card p-3 shadow" >
       <div class="d-flex align-items-center">
         <div class="image">
-          <AvataarCard :user-name="user.userName"/>
+          <AvataarCard :user-name="user.userName" :is-read-only="props.isReadOnly"/>
         </div>
         <div class="ml-3 w-100">
           <h4 class="mb-0 mt-0">{{ user.displayName }}</h4>
@@ -88,9 +88,7 @@
         </div>
       </div>
     </div>
-    <div class="card p-3 shadow" >
-      
-    </div>
+
   </div>
     <!-- Details Card Starts here -->
   </div>
@@ -104,7 +102,8 @@ import AvataarCard from './AvataarCard.vue';
 
 interface Props {
   user: User,
-  isMiniCard: boolean
+  isMiniCard: boolean,
+  isReadOnly : boolean
 }
 
 const store = useUserStore();
@@ -118,7 +117,8 @@ const props = withDefaults(defineProps<Props>(), {
       bio: 'Hello, I am Default User',
     }
   },
-  isMiniCard: true
+  isMiniCard: true,
+  isReadOnly : false
 });
 
 const getValueOrDefault = (val: number | undefined) => val === null || val === undefined ? 0 : val;

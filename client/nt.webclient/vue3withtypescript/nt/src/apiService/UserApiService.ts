@@ -1,13 +1,16 @@
 import { IChangePasswordRequest, IChangePasswordResponse, IGetProfileImageRequest, 
     IRegisterUserRequest,IUpdateUserRequest, IUpdateUserResponse, IRegisterUserResponse, 
     IUploadProfileImageRequest, IUploadProfileImageResponse, IValidateUserRequest, 
-    IValidateUserResponse, ISearchUsersRequest,ISearchUsersResponse} from "../types/apirequestresponsetypes/User";
+    IValidateUserResponse, ISearchUsersResponse} from "../types/apirequestresponsetypes/User";
 import { ApiServiceBase } from "./ApiServiceBase";
 
 class UserApiService extends ApiServiceBase {
 
     public async validateUser(user:IValidateUserRequest):Promise<IValidateUserResponse>{
-        return await this.invoke<IValidateUserResponse>({method:'post', url:"/api/User/ValidateUser", data:  user});
+        const response = await this.invoke<IValidateUserResponse>({method:'post', url:"/api/User/ValidateUser", data:  user});
+        console.log('Response from validation')
+        console.log(response);
+        return response;
     }
 
     public async registerUser(user:IRegisterUserRequest):Promise<IRegisterUserResponse>{
@@ -55,8 +58,17 @@ class UserApiService extends ApiServiceBase {
     }
 
 
-    public async searchUsers(request:ISearchUsersRequest):Promise<ISearchUsersResponse>{
-        return await this.invoke<ISearchUsersResponse>({method:'post', url:"/api/user//user/usermanagement/searchuserbydisplayname", data : request});
+    public async searchUsers(request:string):Promise<ISearchUsersResponse>{
+        console.log(request);
+        return await this.invoke<ISearchUsersResponse>(
+            {
+                method:'get', 
+                url:"/api/User/searchuser", 
+                params : 
+                {
+                    searchTerm:request
+                }
+            });
     }
 
 }

@@ -5,7 +5,7 @@ using UserService.Service.Query;
 namespace UserService.Api.Controllers;
 
 [ApiController]
-[Route("UserManagement")]
+[Route("api/UserManagement")]
 public class UserManagementController : BaseController
 {
     public UserManagementController(IMediator mediator, IMapper mapper, ILogger<UserManagementController> logger) : base(mediator,mapper,logger)

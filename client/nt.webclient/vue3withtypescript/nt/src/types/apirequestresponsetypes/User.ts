@@ -76,11 +76,6 @@ export interface IGetProfileImageResponse extends IResponseBase{
     file:Blob
 }
 
-
-export interface ISearchUsersRequest{
-    searchTerm : string
-}
-
 export interface ISearchUsersResponse extends IResponseBase{
     users : User[]
 }
