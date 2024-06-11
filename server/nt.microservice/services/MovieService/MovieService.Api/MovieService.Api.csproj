@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="ValueInjecter" Version="3.2.0" />
   </ItemGroup>
 
 </Project>
