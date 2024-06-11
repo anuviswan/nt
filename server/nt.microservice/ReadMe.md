@@ -10,7 +10,7 @@ Implementation details of different services are as follows.
 | ------- | --------------- | ---------- | ---------------- | ----------------- | -------------- | --------- | ----------- | ------- |
 | Auth    | Authentication  | Postgres   | Dapper           | Fluent Validation | Mapster        | NUnit     | NSubstitute | NLog    |
 | User    | User Management | Sql Server | Entity Framework | Data Annotations  | Automapper     | XUnit     | Moq         | SeriLog |
-| Movies  | Movie Meta info | MongoDb    | TBD              | Data Annotations  | Automapper     | MsTest    | FakeItEasy  | TBD     |
+| Movies  | Movie Meta info | MongoDb    | TBD              | Data Annotations  | ValueInjector     | MsTest    | FakeItEasy  | TBD     |
 | Reviews | User Reviews    | TBD        | TBD              | Fluent Validation | Automapper     | MsTest    | Rhinomock   | TBD     |
 
 
