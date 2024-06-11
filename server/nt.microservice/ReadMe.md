@@ -12,6 +12,7 @@ Implementation details of different services are as follows.
 | User    | User Management | Sql Server | Entity Framework | Data Annotations  | Automapper     | XUnit     | Moq         | SeriLog |
 | Movies  | Movie Meta info | MongoDb    | TBD              | Data Annotations  | ValueInjector     | MsTest    | FakeItEasy  | TBD     |
 | Reviews | User Reviews    | TBD        | TBD              | Fluent Validation | Automapper     | MsTest    | Rhinomock   | TBD     |
+| Orchestrator | Orchestration between services    | None        | None              | None | None     | MsTest    | None   | TBD     |
 
 
 Messaging Systems involved
