@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using MovieService.Api.ViewModels;
+using MovieService.Service.Services;
 
 namespace MovieService.Api.Controllers;
 
@@ -8,16 +9,22 @@ namespace MovieService.Api.Controllers;
 [Route("api/[controller]")]
 public class MovieController : ControllerBase
 {
-    public MovieController()
+    private readonly IMovieService _movieService;
+    public MovieController(IMovieService movieService)
     {
-            
+        _movieService = movieService;
     }
 
-    public ActionResult<CreateMovieResponse> CreateMovie(CreateMovieRequest request)
+    public  ActionResult<CreateMovieResponse> CreateMovie(CreateMovieRequest request)
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+           // var response = await _movieService.CreateMovie(default).ConfigureAwait(false);
         }
         catch (Exception)
         {
