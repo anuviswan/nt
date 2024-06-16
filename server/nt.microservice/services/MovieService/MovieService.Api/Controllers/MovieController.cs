@@ -1,7 +1,9 @@
 
 using Microsoft.AspNetCore.Mvc;
 using MovieService.Api.ViewModels;
+using MovieService.Domain.Entities;
 using MovieService.Service.Services;
+using Omu.ValueInjecter;
 
 namespace MovieService.Api.Controllers;
 
@@ -10,12 +12,13 @@ namespace MovieService.Api.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly IMovieService _movieService;
-    public MovieController(IMovieService movieService)
+    private readonly ILogger<MovieController> _logger;
+    public MovieController(IMovieService movieService,ILogger<MovieController> logger)
     {
-        _movieService = movieService;
+        (_movieService, _logger) = (movieService, logger); 
     }
 
-    public  ActionResult<CreateMovieResponse> CreateMovie(CreateMovieRequest request)
+    public async Task<ActionResult<CreateMovieResponse>> CreateMovie(CreateMovieRequest request)
     {
         try
         {
@@ -24,7 +27,8 @@ public class MovieController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-           // var response = await _movieService.CreateMovie(default).ConfigureAwait(false);
+            var movieEntity = Mapper.Map<Movie>(request);
+            var response = await _movieService.CreateMovie(movieEntity).ConfigureAwait(false);
         }
         catch (Exception)
         {
@@ -32,6 +36,6 @@ public class MovieController : ControllerBase
             throw;
         }
 
-        return new CreateMovieResponse();
+        throw new NotImplementedException();
     } 
 }
