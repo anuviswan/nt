@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MovieService.Api.ViewModels;
 using MovieService.Domain.Entities;
 using MovieService.Service.Services;
@@ -9,13 +10,12 @@ namespace MovieService.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MovieController : ControllerBase
+public class MovieController : BaseController
 {
     private readonly IMovieService _movieService;
-    private readonly ILogger<MovieController> _logger;
-    public MovieController(IMovieService movieService,ILogger<MovieController> logger)
+    public MovieController(IMovieService movieService,ILogger<MovieController> logger):base(logger)
     {
-        (_movieService, _logger) = (movieService, logger); 
+        _movieService = movieService; 
     }
 
     public async Task<ActionResult<CreateMovieResponse>> CreateMovie(CreateMovieRequest request)
@@ -31,10 +31,10 @@ public class MovieController : ControllerBase
             var response = await _movieService.CreateMovie(movieEntity).ConfigureAwait(false);
             return Ok(Mapper.Map<CreateMovieResponse>(response));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
-            throw;
+            Logger.LogError($"Error registering user : {ex.Message}");
+            return BadRequest(ex.Message);
         }
     } 
 }
