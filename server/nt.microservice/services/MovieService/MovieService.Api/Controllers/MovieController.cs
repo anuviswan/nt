@@ -29,13 +29,12 @@ public class MovieController : ControllerBase
 
             var movieEntity = Mapper.Map<Movie>(request);
             var response = await _movieService.CreateMovie(movieEntity).ConfigureAwait(false);
+            return Ok(Mapper.Map<CreateMovieResponse>(response));
         }
         catch (Exception)
         {
 
             throw;
         }
-
-        throw new NotImplementedException();
     } 
 }
