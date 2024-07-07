@@ -4,12 +4,14 @@ services:
 
   # APPLICATION SERVICES
 
+  ###############################################################################################################
   # Gateway - Application API Gateway
+  ############################################################################################################### 
 
   # Service
   nt.gateway.service:
     image: ${DOCKER_REGISTRY-}ntgateway
-    # container_name: nt.gateway.service
+    container_name: nt.gateway.service
     hostname: nt.gateway.service
     build:
       context: .
@@ -25,10 +27,17 @@ services:
     depends_on:
       - "nt.authservice.service"
       - "nt.userservice.service" 
-
+    ports:
+      - "8001:80" 
+      # - "9001:443"
+   
+  ###############################################################################################################
+  # Orchestrator
+  ###############################################################################################################
   nt.orchestrator.service:
     image: ${DOCKER_REGISTRY-}ntorchestrator
     hostname: nt.orchestrator.service
+    container_name: nt.orchestrator.service
     build:
         context: .
         dockerfile: infrastructure/nt.saga.orchestrator/Dockerfile
@@ -40,12 +49,19 @@ services:
     depends_on:
       - "nt.authservice.service"
       - "nt.userservice.service" 
+    ports:
+      # - "8000-8099:80"
+      - "8002:80" 
+ 
 
+  ###############################################################################################################
   # Authentication Service : Responsible for handling Authentication
+  ###############################################################################################################
   
-  # Service 
+  # AuthService: Service 
   nt.authservice.service:
     image: ${DOCKER_REGISTRY-}authserviceapi
+    hostname: nt.authservice.service
     build:
       context: .
       dockerfile: services/AuthService/AuthService.Api/Dockerfile
@@ -61,8 +77,14 @@ services:
     depends_on:
       - nt.authservice.db
       #- "nt.authservice.log.db"
+    expose: 
+      - "80"
+    # ports:
+      # - "8101-8105:80"
+      # - "9002:443"
 
-  # Load Balancer for AuthService
+
+  # AuthService: Load Balancer
   nt.authservice.loadbalancer:
     image: nginx:latest
     hostname: nt.authservice.loadbalancer
@@ -75,13 +97,14 @@ services:
     networks:
       nt.common.network:
       nt.authservice.network:
+    ports:
+        - "8100:80" 
 
-
-  # Database
+  # AuthService: Database
   nt.authservice.db:
     image: postgres:14.1-alpine
     container_name: nt.authservice.db
-    hostname: "nt.authservice.db"
+    hostname: nt.authservice.db
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -92,8 +115,24 @@ services:
       - ./services/db/scripts:/docker-entrypoint-initdb.d
     networks:
       nt.authservice.network:
+    ports:
+      - '5432:5432'
 
-  ## Log Database for Authentication Service
+  # AuthService: PgAdmin to manage Postgres Database
+  nt.common.pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: nt.common.pgadmin
+    hostname: nt.common.pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=Admin123
+    networks:
+      nt.common.network:
+      nt.authservice.network:
+    ports:
+      - '5050:80'
+
+  ## AuthService: Log Database for Authentication Service
   #nt.authservice.log.db:
   #  image: mongo:latest
   #  hostname : nt.authservice.log.db
@@ -106,9 +145,11 @@ services:
   #  volumes:
   #    - nt.authservice.log.db.volume:/data/db
 
+  ###############################################################################################################
   # User Service : Responsible for User Management
+  ###############################################################################################################
   
-  # Service 
+  # UserService: Service 
   nt.userservice.service:
     image: ${DOCKER_REGISTRY-}userserviceapi
     container_name: nt.userservice.service
@@ -128,11 +169,16 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    ports:
+      - "8301:80"
+      # - "9003:443"
 
+
+  # UserService: BlobService for Images
   nt.userservice.blobstorage:
     image: mcr.microsoft.com/azure-storage/azurite
     container_name: nt.userservice.blobstorage
-    hostname: ntuserserviceblobstorage
+    hostname: nt.userservice.blobstorage
     volumes:
       - ./localstorage/data:/data
     command: "azurite-blob --blobHost 0.0.0.0 -l /data"
@@ -141,7 +187,8 @@ services:
       - "10001:10001"    
     networks:
       nt.userservice.network: 
-  # Database
+
+  # UserService: Database
   nt.userservice.db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: nt.userservice.db
@@ -152,18 +199,78 @@ services:
     environment:
        ACCEPT_EULA: Y
        MSSQL_SA_PASSWORD: Admin123 
+    ports:
+        - 1433:1433  
 
 
-  # Aschronous Messaging Services
+  ###############################################################################################################
+  # Movie Service : Responsible for Movie
+  ###############################################################################################################
+
+  # MovieService: Service 
+  nt.movieservice.service:
+    image: ${DOCKER_REGISTRY-}movieserviceapi
+    container_name: nt.movieservice.service
+    hostname: nt.movieservice.service
+    build:
+      context: .
+      dockerfile: services/MovieService/MovieService.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      nt.common.network:
+      nt.movieservice.network:
+    depends_on:
+        - "nt.movieservice.db"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    ports:
+      - "8401:80"
+      # - "9003:443"
+ 
+  # MovieService: Database
+  nt.movieservice.db:
+    image: mongo:latest
+    hostname : nt.movieservice.db
+    container_name : nt.movieservice.db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mypass
+    networks:
+      nt.movieservice.network:
+    volumes:
+         - nt.movieservice.db.volume:/data/db
+
+  # MovieService: Database Management Tool
+  mongo-express:
+    image: mongo-express
+    hostname: nt.common.mongoexpress
+    container_name: nt.common.mongoexpress
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mypass
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+
+  ###############################################################################################################
+  # Infrastructure Services
+  ###############################################################################################################
+  
+  # RabbitMq : Aschronous Messaging Services
 
   # $ docker run -d --hostname demo-rabbit --name demo-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 rabbitmq:3-management
-
   # ntuser/pass
   # administrator/pass
   nt.common.rabbitmq:
     image: "rabbitmq:3.10.6-management-alpine"
     container_name: nt.common.rabbitmq
-    hostname: "ntqueue"
+    hostname: nt.common.rabbitmq
     networks:
         nt.common.network:
         nt.userservice.network:
@@ -178,8 +285,11 @@ services:
       - type: bind
         source: ./services/transportservices/rabbitmq-defs.json
         target: /etc/rabbitmq/definitions.json
-  # HELPER SERVICES
+    ports:
+      - 5672:5672
+      - 15672:15672
 
+  
   # Portainer
   nt.common.portainer:
     image: portainer/portainer-ce
@@ -189,19 +299,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - nt.common.portainer.volume:/data
-
-
-  # PgAdmin to manage Postgres
-  nt.common.pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: nt.common.pgadmin
-    hostname: nt.common.pgadmin
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=anu.viswan@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=Admin123
-    networks:
-      nt.common.network:
-      nt.authservice.network:
+    ports:
+      - "8080:8000"
+      - "9000:9000"
 
 
   # # Prometheus 
@@ -213,6 +313,9 @@ services:
   #       - ./services/monitoringservices/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
   #   command:
   #         - '--config.file=/etc/prometheus/prometheus.yml'
+  #   ports:
+  #       - '9090:9090'
+
 
   # nt.common.grafana:
   #   image: grafana/grafana
@@ -220,6 +323,9 @@ services:
   #   container_name: nt.common.grafana
   #   volumes:
   #     - ./grafana-data/data:/var/lib/grafana
+  #   ports:
+  #     - "3000:3000"
+
 
 
 
@@ -236,6 +342,9 @@ services:
   #  networks:
   #    nt.authservice.network:
   #    nt.common.network:
+  #  ports:
+  #    - 8081:8081
+
 
 
 volumes:
@@ -245,11 +354,16 @@ volumes:
     name: "nt.common.portainer.volume"
   nt.authservice.log.db.volume:
     name: "nt.authservice.log.db.volume"
+  nt.movieservice.db.volume:
+    name: "nt.movieservice.db.volume"
 
 networks:
   nt.authservice.network:
    driver: bridge
   nt.userservice.network:
    driver: bridge
+  nt.movieservice.network:
+   driver: bridge
   nt.common.network:
    driver: bridge
+
