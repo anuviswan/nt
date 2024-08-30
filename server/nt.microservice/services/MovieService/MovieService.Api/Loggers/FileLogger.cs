@@ -11,7 +11,20 @@ public class FileLogger : ILogger
     public FileLogger(string filePath, LogLevel minLogLevel)
     {
         (_filePath, _minLogLevel) = (filePath, minLogLevel);
+
+        EnsurePathExists();
     }
+
+    private void EnsurePathExists()
+    {
+        var directoryPath = Path.GetDirectoryName(_filePath);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath!);
+        }
+    }
+
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
 
     // Check minimum log levels
@@ -27,6 +40,7 @@ public class FileLogger : ILogger
         var logMessage = $"{DateTime.Now.ToString("dd/mm/yyyy hh:mm:ss.ff", _ci)}: [{logLevel.ToString()}] : {message}";
         lock (_lock)
         {
+
             File.AppendAllText(_filePath, logMessage);
         }
 
