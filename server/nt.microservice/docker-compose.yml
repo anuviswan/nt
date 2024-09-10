@@ -241,6 +241,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mypass
     networks:
       nt.movieservice.network:
+    ports:
+      - "27017:27017"
     volumes:
          - nt.movieservice.db.volume:/data/db
 
@@ -255,8 +257,14 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: mypass
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      # ME_CONFIG_MONGODB_URL: mongodb://root:mypass@nt:27017/
       ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_SERVER: nt.movieservice.db  # MongoDB service name
+      ME_CONFIG_MONGODB_PORT: 27017  # MongoDB port
+    networks:
+      nt.movieservice.network:
+    depends_on:
+      - nt.movieservice.db
 
   ###############################################################################################################
   # Infrastructure Services
