@@ -1,10 +1,15 @@
 using MovieService.Api.Loggers;
 using MovieService.Api.Settings;
+using MovieService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerConfiguration = builder.Configuration
                               .GetSection(nameof(LoggerConfiguration))
                               .Get<LoggerConfiguration>();
+
+var databaseConnectionString = builder.Configuration
+                                .GetSection("MovieDatabase")
+                                .Get<DatabaseSettings>();
 
 if (loggerConfiguration is null)
     throw new Exception("Logger not found !");
