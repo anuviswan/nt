@@ -1,8 +1,9 @@
 using MovieService.Api.Loggers;
 using MovieService.Api.Settings;
 using MovieService.Data;
+using MovieService.Data.Interfaces.Services;
 using MovieService.Data.Services;
-using MovieService.Service.Services;
+using MovieService.Service.Interfaces.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerConfiguration = builder.Configuration
@@ -20,6 +21,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<IMovieService,MovieService.Service.Services.MovieService>();
+
 builder.Services.AddSingleton<IMovieCrudService, MovieCrudService>();
 builder.Logging.AddProvider(new CustomLoggerProvider(loggerConfiguration!));
 

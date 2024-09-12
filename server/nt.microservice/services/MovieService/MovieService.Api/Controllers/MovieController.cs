@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MovieService.Api.ViewModels;
 using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Services;
 using MovieService.Service.Services;
 using Omu.ValueInjecter;
 

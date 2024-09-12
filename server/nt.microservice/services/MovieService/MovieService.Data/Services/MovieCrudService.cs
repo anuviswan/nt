@@ -1,19 +1,11 @@
-﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using System.Threading.Tasks;
+using MovieService.Data.Interfaces.Services;
 using MovieService.Domain.Entities;
 
 namespace MovieService.Data.Services;
 
-public interface IMovieCrudService
-{
 
-}
 public class MovieCrudService : IMovieCrudService
 {
     private readonly IMongoCollection<Movie> _moviesCollection;
@@ -31,4 +23,6 @@ public class MovieCrudService : IMovieCrudService
             bookStoreDatabaseSettings.Value.MovieCollectionName);
     }
 
+    public async Task CreateAsync(Movie newBook) =>
+        await _moviesCollection.InsertOneAsync(newBook);
 }
