@@ -17,6 +17,8 @@ public class MovieController : BaseController
         _movieService = movieService; 
     }
 
+    [HttpPost]
+    [Route("create")]
     public async Task<ActionResult<CreateMovieResponse>> CreateMovie(CreateMovieRequest request)
     {
         try

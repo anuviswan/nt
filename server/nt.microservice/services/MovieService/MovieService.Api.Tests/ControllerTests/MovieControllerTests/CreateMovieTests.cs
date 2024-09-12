@@ -1,16 +1,9 @@
-﻿using MovieService.Api.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FakeItEasy;
-using MovieService.Service.Services;
-using MovieService.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MovieService.Api.Controllers;
-using Microsoft.Extensions.Logging;
+﻿using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using MovieService.Api.Controllers;
+using MovieService.Api.ViewModels;
+using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Services;
 
 namespace MovieService.Api.Tests.ControllerTests.MovieControllerTests;
 

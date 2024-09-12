@@ -4,6 +4,8 @@ using MovieService.Data;
 using MovieService.Data.Interfaces.Services;
 using MovieService.Data.Services;
 using MovieService.Service.Interfaces.Services;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var loggerConfiguration = builder.Configuration
@@ -17,7 +19,11 @@ if (loggerConfiguration is null)
     throw new Exception("Logger not found !");
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    options.JsonSerializerOptions.Converters.Add(new MovieService.Api.JsonConverters.DateOnlyJsonConverter());
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
