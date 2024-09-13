@@ -15,4 +15,5 @@ public enum DebtType
 {
     BadDesign,
     ComplexDesign,
+    MissingFeature
 }

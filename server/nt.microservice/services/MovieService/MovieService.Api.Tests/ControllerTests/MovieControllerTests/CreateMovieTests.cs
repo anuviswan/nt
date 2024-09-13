@@ -1,16 +1,9 @@
-﻿using MovieService.Api.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FakeItEasy;
-using MovieService.Service.Services;
-using MovieService.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using MovieService.Api.Controllers;
-using Microsoft.Extensions.Logging;
+﻿using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using MovieService.Api.Controllers;
+using MovieService.Api.ViewModels;
+using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Services;
 
 namespace MovieService.Api.Tests.ControllerTests.MovieControllerTests;
 
@@ -27,7 +20,7 @@ public class CreateMovieTests : ControllerTestsBase
         {
             Title = movie.Title,
             Language = movie.Language,
-            ReleaseDate = new DateOnly(2016, 1, 1)
+            ReleaseDate = new DateTime(2016, 1, 1)
         }));
 
         var nullLogger = CreateNullLogger<MovieController>();
@@ -54,7 +47,7 @@ public class CreateMovieTests : ControllerTestsBase
                 {
                     Title = "Inception",
                     Language = "English",
-                    ReleaseDate = new DateOnly(2010, 7, 16)
+                    ReleaseDate = new DateTime(2010, 7, 16)
                 },
                 new CreateMovieResponse
                 {

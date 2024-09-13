@@ -1,9 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MovieService.Api.ViewModels;
 using MovieService.Domain.Entities;
-using MovieService.Service.Services;
+using MovieService.Service.Interfaces.Services;
 using Omu.ValueInjecter;
 
 namespace MovieService.Api.Controllers;
@@ -18,6 +17,8 @@ public class MovieController : BaseController
         _movieService = movieService; 
     }
 
+    [HttpPost]
+    [Route("create")]
     public async Task<ActionResult<CreateMovieResponse>> CreateMovie(CreateMovieRequest request)
     {
         try
