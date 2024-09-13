@@ -56,15 +56,7 @@ app.MapControllers();
 
 
 var serviceProvider = app.Services;
-try
-{
-    var moduleInitializer = serviceProvider.GetService<ModuleInitializer>();
-    moduleInitializer?.Initialize().Wait();
-}
-catch (Exception ex)
-{
-    var _ = ex;
-    throw;
-}
+var moduleInitializer = serviceProvider.GetService<ModuleInitializer>();
+moduleInitializer?.Initialize().Wait();
 
 app.Run();
