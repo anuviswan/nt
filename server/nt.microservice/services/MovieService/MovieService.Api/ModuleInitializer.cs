@@ -45,7 +45,11 @@ public class DatabaseInitializer
 
             var documents = new[]
             {
-                new BsonDocument{{"title","DemoMovie"}}
+                new BsonDocument{
+                    {"title","DemoMovie"},
+                    {"language","" },
+                    {"releaseDate","" }
+                }
             };
 
             await collection.InsertManyAsync(documents).ConfigureAwait(false);

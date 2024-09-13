@@ -15,7 +15,7 @@ public class Movie
     [BsonElement("language")]
     public string? Language { get; set; }
 
-    [BsonElement("release-date")]
+    [BsonElement("releaseDate")]
     public DateOnly? ReleaseDate { get; set; }
 
     [BsonElement("director")]
