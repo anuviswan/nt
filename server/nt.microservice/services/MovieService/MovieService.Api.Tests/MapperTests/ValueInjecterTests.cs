@@ -15,7 +15,7 @@ public class ValueInjecterTests
         {
             Title = "Title",
             Language = "en",
-            ReleaseDate = new DateOnly(2001, 1, 1)
+            ReleaseDate = new DateTime(2001, 1, 1)
         };
 
         // Act

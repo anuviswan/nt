@@ -20,7 +20,7 @@ public class CreateMovieTests : ControllerTestsBase
         {
             Title = movie.Title,
             Language = movie.Language,
-            ReleaseDate = new DateOnly(2016, 1, 1)
+            ReleaseDate = new DateTime(2016, 1, 1)
         }));
 
         var nullLogger = CreateNullLogger<MovieController>();
@@ -47,7 +47,7 @@ public class CreateMovieTests : ControllerTestsBase
                 {
                     Title = "Inception",
                     Language = "English",
-                    ReleaseDate = new DateOnly(2010, 7, 16)
+                    ReleaseDate = new DateTime(2010, 7, 16)
                 },
                 new CreateMovieResponse
                 {

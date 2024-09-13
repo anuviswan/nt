@@ -48,7 +48,7 @@ public class DatabaseInitializer
                 new BsonDocument{
                     {"title","Yodha"},
                     {"language","Malayalam" },
-                    {"releaseDate", new DateTime(1992, 1, 2) }
+                    {"releaseDate", new DateOnly(1992, 1, 2).ToDateTime(TimeOnly.MinValue) }
                 }
             };
 
