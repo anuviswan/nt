@@ -46,9 +46,9 @@ public class DatabaseInitializer
             var documents = new[]
             {
                 new BsonDocument{
-                    {"title","DemoMovie"},
-                    {"language","" },
-                    {"releaseDate","" }
+                    {"title","Yodha"},
+                    {"language","Malayalam" },
+                    {"releaseDate","1992-01-01" }
                 }
             };
 
