@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using MovieService.Api;
+using MovieService.Api.Helpers;
 using MovieService.Api.Loggers;
 using MovieService.Api.Settings;
 using MovieService.Data;
@@ -10,10 +11,6 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-//var loggerConfiguration = builder.Configuration
-//                              .GetSection(nameof(LoggerConfiguration))
-//                              .Get<LoggerConfiguration>();
-
 
 
 // Add services to the container.
@@ -25,19 +22,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 
-builder.Services.Configure<DatabaseSettings>(
-    builder.Configuration.GetSection("MovieDatabase"));
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MovieDatabase"));
 builder.Services.Configure<LoggerConfiguration>(builder.Configuration.GetSection(nameof(LoggerConfiguration)));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IMovieService,MovieService.Service.Services.MovieService>();
-builder.Services.AddSingleton<IMovieCrudService, MovieCrudService>();
-builder.Services.AddSingleton<DatabaseInitializer>();
-builder.Services.AddSingleton<ModuleInitializer>();
+builder.Services.RegisterServices();
 
-builder.Logging.AddProvider(new CustomLoggerProvider(builder.Services.BuildServiceProvider().GetRequiredService<IOptions<LoggerConfiguration>>()));
 
 var app = builder.Build();
 
