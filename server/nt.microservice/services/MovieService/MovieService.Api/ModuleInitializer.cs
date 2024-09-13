@@ -48,7 +48,7 @@ public class DatabaseInitializer
                 new BsonDocument{
                     {"title","Yodha"},
                     {"language","Malayalam" },
-                    {"releaseDate","1992-01-01" }
+                    {"releaseDate", new DateTime(1992, 1, 2) }
                 }
             };
 
