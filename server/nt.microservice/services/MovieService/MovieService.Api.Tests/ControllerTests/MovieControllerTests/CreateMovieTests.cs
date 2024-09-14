@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieService.Api.Controllers;
 using MovieService.Api.ViewModels;
-using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Dtos;
 using MovieService.Service.Interfaces.Services;
 
 namespace MovieService.Api.Tests.ControllerTests.MovieControllerTests;
@@ -16,7 +16,7 @@ public class CreateMovieTests : ControllerTestsBase
     {
         #region Arrange
         var mockMovieService = A.Fake<IMovieService>();
-        A.CallTo(() => mockMovieService.CreateMovie(A<Domain.Entities.Movie>.Ignored)).ReturnsLazily( (Movie movie) => Task.FromResult(new Movie
+        A.CallTo(() => mockMovieService.CreateMovie(A<MovieDto>.Ignored)).ReturnsLazily( (MovieDto movie) => Task.FromResult(new MovieDto
         {
             Title = movie.Title,
             Language = movie.Language,

@@ -1,5 +1,5 @@
 ﻿using MovieService.Api.ViewModels;
-using MovieService.Domain.Entities;
+using MovieService.Data.Interfaces.Entities;
 using Omu.ValueInjecter;
 
 namespace MovieService.Api.Tests.MapperTests;

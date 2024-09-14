@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieService.Domain\MovieService.Domain.csproj" />
+    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+    <PackageReference Include="MongoDB.Entities" Version="23.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\infrastructure\nt.shared.dto\nt.shared.dto.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace MovieService.Data.Interfaces.Services;
+﻿using MovieService.Data.Interfaces.Entities;
+
+namespace MovieService.Data.Interfaces.Services;
 
 public interface IMovieCrudService
 {

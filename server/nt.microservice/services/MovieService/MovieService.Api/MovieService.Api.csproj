@@ -25,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MovieService.Data.Interfaces\MovieService.Data.Interfaces.csproj" />
     <ProjectReference Include="..\MovieService.Data\MovieService.Data.csproj" />
+    <ProjectReference Include="..\MovieService.Service.Interfaces\MovieService.Service.Interfaces.csproj" />
     <ProjectReference Include="..\MovieService.Service\MovieService.Service.csproj" />
   </ItemGroup>
 

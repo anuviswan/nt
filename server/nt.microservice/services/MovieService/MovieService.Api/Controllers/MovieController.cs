@@ -1,7 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using MovieService.Api.ViewModels;
-using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Dtos;
 using MovieService.Service.Interfaces.Services;
 using Omu.ValueInjecter;
 
@@ -28,7 +28,7 @@ public class MovieController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var movieEntity = Mapper.Map<Movie>(request);
+            var movieEntity = Mapper.Map<MovieDto>(request);
             var response = await _movieService.CreateMovie(movieEntity).ConfigureAwait(false);
             return Ok(Mapper.Map<CreateMovieResponse>(response));
         }
