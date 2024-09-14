@@ -1,25 +1,23 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Entities;
 using nt.shared.dto.Attributes;
 
 namespace MovieService.Data.Interfaces.Entities;
 
-public class Movie
+[Collection(Movie.CollectionName)]
+public class Movie : Entity
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id { get; set; }
+    internal const string CollectionName = "movies";
 
-    [BsonElement("title")]
+    [Field("title")]
     public string Title { get; set; } = null!;
 
-    [BsonElement("language")]
+    [Field("language")]
     public string? Language { get; set; }
 
     [TechnicalDebt(DebtType.MissingFeature, "Missing support for DateOnly in MongoDb, will use DateTime until then")]
-    [BsonElement("releaseDate")]
+    [Field("releaseDate")]
     public DateTime? ReleaseDate { get; set; }
 
-    [BsonElement("director")]
+    [Field("director")]
     public string? Director { get; set; }
 }

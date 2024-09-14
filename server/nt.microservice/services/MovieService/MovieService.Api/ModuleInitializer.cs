@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Entities;
 using MovieService.Data;
 
 namespace MovieService.Api;
@@ -31,10 +32,13 @@ public class DatabaseInitializer
     private readonly IMongoDatabase _database;
     public DatabaseInitializer(IOptions<DatabaseSettings> databaseSettings)
     {
+
         _databaseSettings = databaseSettings.Value;
 
-        var client = new MongoClient(_databaseSettings.ConnectionString);
-        _database = client.GetDatabase(_databaseSettings.DatabaseName);
+        DB.InitAsync(_databaseSettings.DatabaseName,MongoClientSettings.FromConnectionString(_databaseSettings.ConnectionString));
+
+        //var client = new MongoClient(_databaseSettings.ConnectionString);
+        _database = DB.Database(_databaseSettings.DatabaseName);
     }
 
     public async Task Initialize()
