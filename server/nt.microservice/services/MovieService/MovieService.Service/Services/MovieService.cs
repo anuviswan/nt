@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
-using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Dtos;
 using MovieService.Service.Interfaces.Services;
+using Omu.ValueInjecter;
 
 namespace MovieService.Service.Services;
 
@@ -23,11 +25,11 @@ public class MovieService : ServiceBase, IMovieService
     {
         _movieCrudService = movieCrudService;
     }
-    public async Task<Movie> CreateMovie(Movie movie)
+    public async Task<MovieDto> CreateMovie(MovieDto movie)
     {
         try
         {
-            await _movieCrudService.CreateAsync(movie).ConfigureAwait(false);
+            await _movieCrudService.CreateAsync(Mapper.Map<Movie>(movie)).ConfigureAwait(false);
             return movie;
         }
         catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
+using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
-using MovieService.Domain.Entities;
+using MovieService.Service.Interfaces.Dtos;
 
 namespace MovieService.Service.Tests.ServicesTests;
 
@@ -9,7 +10,7 @@ public class MovieServiceTests : ServiceTestsBase
 {
     [TestMethod]
     [DynamicData(nameof(CreateMovie_ValidMovieTitle_Success_DataSource), DynamicDataSourceType.Property)]
-    public async Task CreateMovie_ValidParameters_Success(Movie movie, Movie expectedResult)
+    public async Task CreateMovie_ValidParameters_Success(MovieDto movie, MovieDto expectedResult)
     {
         #region Arrange
         var movieCrudService = A.Fake<IMovieCrudService>();
@@ -36,13 +37,13 @@ public class MovieServiceTests : ServiceTestsBase
         {
             yield return new object[]
              {
-                new Movie
+                new MovieDto
                 {
                     Title = "Inception",
                     Language = "English",
                     ReleaseDate = new DateTime(2010, 7, 16)
                 },
-                new Movie
+                new MovieDto
                 {
                     Title = "Inception",
                     Language = "English",

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
-using MovieService.Domain.Entities;
 
 namespace MovieService.Data.Services;
 

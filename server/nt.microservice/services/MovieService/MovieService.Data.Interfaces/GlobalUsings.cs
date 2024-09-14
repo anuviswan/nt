@@ -1,1 +1,1 @@
-﻿global using MovieService.Domain.Entities;
+﻿global using MovieService.Data.Interfaces.Entities;

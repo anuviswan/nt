@@ -42,8 +42,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Api", "service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Data", "services\MovieService\MovieService.Data\MovieService.Data.csproj", "{A59BD915-B88C-491C-B540-FB3002874BA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Domain", "services\MovieService\MovieService.Domain\MovieService.Domain.csproj", "{F58CD006-4956-4566-A5B3-D0A7671910C2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Service", "services\MovieService\MovieService.Service\MovieService.Service.csproj", "{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Api.Tests", "services\AuthService\AuthService.Api.Tests\AuthService.Api.Tests.csproj", "{B11FA7F0-A483-4BA8-955E-CA64189F17AA}"
@@ -66,7 +64,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Service.Interf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Data.Interfaces", "services\MovieService\MovieService.Data.Interfaces\MovieService.Data.Interfaces.csproj", "{5CD6C065-557D-40F6-8CDA-95AF78A9385D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService.Service.Tests", "services\MovieService\MovieService.Service.Tests\MovieService.Service.Tests.csproj", "{16916481-BAE6-4072-9503-A6B949348353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Service.Tests", "services\MovieService\MovieService.Service.Tests\MovieService.Service.Tests.csproj", "{16916481-BAE6-4072-9503-A6B949348353}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,10 +124,6 @@ Global
 		{A59BD915-B88C-491C-B540-FB3002874BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A59BD915-B88C-491C-B540-FB3002874BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A59BD915-B88C-491C-B540-FB3002874BA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F58CD006-4956-4566-A5B3-D0A7671910C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F58CD006-4956-4566-A5B3-D0A7671910C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F58CD006-4956-4566-A5B3-D0A7671910C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F58CD006-4956-4566-A5B3-D0A7671910C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -199,7 +193,6 @@ Global
 		{5E936570-0AA2-4F73-B85C-A78F16439768} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
 		{1EEB25C8-25DD-407C-8ECC-887FD228C75E} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{A59BD915-B88C-491C-B540-FB3002874BA0} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
-		{F58CD006-4956-4566-A5B3-D0A7671910C2} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{B11FA7F0-A483-4BA8-955E-CA64189F17AA} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
 		{47D8D6C3-B720-4F92-853A-7D3D01E0127F} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
