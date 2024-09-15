@@ -1,5 +1,5 @@
 ﻿using AuthService.Data.Database;
-using AuthService.Domain.Entities;
+using AuthService.Data.Interfaces.Entities;
 using AuthService.Service.Helpers.Exceptions;
 using MediatR;
 

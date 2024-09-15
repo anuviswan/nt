@@ -1,6 +1,7 @@
 ﻿using AuthService.Data.Database;
+using AuthService.Data.Interfaces.Database;
 using AuthService.Data.Repository;
-using AuthService.Domain.Entities;
+using AuthService.Data.Interfaces.Entities;
 using AuthService.Service.Command;
 using AuthService.Service.Helpers.Exceptions;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
+using AuthService.Data.Interfaces.Repository;
 
 namespace AuthService.Service.Tests.Commands;
 
@@ -29,13 +31,13 @@ public class AddUserCommandHandlerTests
 
     [Test]
     [TestCaseSource(nameof(AddUser_Handle_ValidData_Success_TestData))]
-    public async Task AddUser_Handle_ValidData_Success(AddUserCommand request, Domain.Entities.User expectedResult)
+    public async Task AddUser_Handle_ValidData_Success(AddUserCommand request, User expectedResult)
     {
         #region Arrange
         _unitOfWorkFactory.CreateUnitOfWork().Returns(_ => _unitOfWork);
         _unitOfWork.UserRepository.Returns(_ => _userRepository);
         _userRepository.GetAll().Returns(x => Enumerable.Empty<User>());
-        _userRepository.AddAsync(Arg.Any<Domain.Entities.User>()).Returns(x => expectedResult);
+        _userRepository.AddAsync(Arg.Any<User>()).Returns(x => expectedResult);
         #endregion
 
         #region Act
@@ -57,7 +59,7 @@ public class AddUserCommandHandlerTests
         {
             new AddUserCommand
             {
-                User = new Domain.Entities.User
+                User = new User
                 {
                     UserName = "Test",
                     Password = "password",
@@ -97,7 +99,7 @@ public class AddUserCommandHandlerTests
         {
             new AddUserCommand
             {
-                User = new Domain.Entities.User
+                User = new User
                 {
                     UserName = "Test",
                     Password = "password",
@@ -132,7 +134,7 @@ public class AddUserCommandHandlerTests
         {
             new AddUserCommand
             {
-                User = new Domain.Entities.User
+                User = new User
                 {
                     UserName = string.Empty,
                     Password = "password",
@@ -145,7 +147,7 @@ public class AddUserCommandHandlerTests
         {
             new AddUserCommand
             {
-                User = new Domain.Entities.User
+                User = new User
                 {
                     Password = "password",
                 }
@@ -157,7 +159,7 @@ public class AddUserCommandHandlerTests
         {
             new AddUserCommand
             {
-                User = new Domain.Entities.User
+                User = new User
                 {
                     UserName = "Test",
                     Password = string.Empty,
@@ -170,7 +172,7 @@ public class AddUserCommandHandlerTests
         {
             new AddUserCommand
             {
-                User = new Domain.Entities.User
+                User = new User
                 {
                     UserName = "Test",
                 }

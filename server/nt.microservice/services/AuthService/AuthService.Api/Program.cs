@@ -3,6 +3,7 @@ using AuthService.Api.ConsumerServices;
 using AuthService.Api.Helpers.ExtensionMethods;
 using AuthService.Api.Settings;
 using AuthService.Data.Database;
+using AuthService.Data.Interfaces.Repository;
 using AuthService.Data.Repository;
 using AuthService.Service.Query;
 using FluentMigrator.Runner;

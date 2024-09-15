@@ -1,4 +1,4 @@
-﻿using AuthService.Domain.Entities;
+﻿using AuthService.Data.Interfaces.Entities;
 using MediatR;
 
 namespace AuthService.Service.Query;

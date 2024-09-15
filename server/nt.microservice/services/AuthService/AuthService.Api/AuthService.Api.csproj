@@ -47,6 +47,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\infrastructure\nt.shared.dto\nt.shared.dto.csproj" />
     <ProjectReference Include="..\AuthService.Data\AuthService.Data.csproj" />
+    <ProjectReference Include="..\AuthService.LoadBalancer\AuthService.Data.Interfaces\AuthService.Data.Interfaces.csproj" />
     <ProjectReference Include="..\AuthService.Service\AuthService.Service.csproj" />
   </ItemGroup>
 

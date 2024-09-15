@@ -1,7 +1,6 @@
 ﻿using AuthService.Api.Authentication;
 using AuthService.Api.ViewModels.ChangePassword;
 using AuthService.Api.ViewModels.Validate;
-using AuthService.Domain.Entities;
 using AuthService.Service.Command;
 using AuthService.Service.Exceptions;
 using AuthService.Service.Query;

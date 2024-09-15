@@ -28,11 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthService.Domain\AuthService.Domain.csproj" />
+    <Folder Include="SeedScripts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SeedScripts\" />
+    <ProjectReference Include="..\AuthService.LoadBalancer\AuthService.Data.Interfaces\AuthService.Data.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

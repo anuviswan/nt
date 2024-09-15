@@ -1,4 +1,5 @@
 ﻿using AuthService.Data.Database;
+using AuthService.Data.Interfaces.Entities;
 using AuthService.Service.Exceptions;
 using MediatR;
 
@@ -18,7 +19,7 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
         ArgumentNullException.ThrowIfNullOrEmpty(request.NewPassword);
 
         using var uow = _unitOfWorkFactory.CreateUnitOfWork();
-        var user = await uow.UserRepository.ValidateUserAsync(new Domain.Entities.User
+        var user = await uow.UserRepository.ValidateUserAsync(new User
         {
             UserName = request.UserName,
             Password = request.OldPassword,

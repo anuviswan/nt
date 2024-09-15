@@ -1,6 +1,7 @@
 ﻿using AuthService.Data.Database;
-using AuthService.Data.Repository;
-using AuthService.Domain.Entities;
+using AuthService.Data.Interfaces.Database;
+using AuthService.Data.Interfaces.Entities;
+using AuthService.Data.Interfaces.Repository;
 using AuthService.Service.Command;
 using AuthService.Service.Exceptions;
 
@@ -29,7 +30,7 @@ public class ChangePasswordHandlerTests
         _unitOfWorkFactory.CreateUnitOfWork().Returns(_ => _unitOfWork);
         _unitOfWork.UserRepository.Returns(_ => _userRepository);
 
-        _userRepository.ValidateUserAsync(Arg.Any<Domain.Entities.User>()).Returns(_ => new User
+        _userRepository.ValidateUserAsync(Arg.Any<User>()).Returns(_ => new User
         {
             UserName = "Test",
             Password = "Test",

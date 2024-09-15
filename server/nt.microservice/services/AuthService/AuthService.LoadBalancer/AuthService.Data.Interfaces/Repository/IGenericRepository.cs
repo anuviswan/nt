@@ -1,11 +1,4 @@
-﻿using AuthService.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AuthService.Data.Repository;
+﻿namespace AuthService.Data.Interfaces.Repository;
 public interface IGenericRepository<TEntity> where TEntity : class, IEntity, new()
 {
     Task<IEnumerable<TEntity>> GetAll();

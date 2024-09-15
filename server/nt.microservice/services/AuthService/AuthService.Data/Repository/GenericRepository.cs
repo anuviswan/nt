@@ -1,4 +1,4 @@
-﻿using AuthService.Domain.Entities;
+﻿using AuthService.Data.Interfaces.Repository;
 using DapperExtensions;
 using System.Data;
 

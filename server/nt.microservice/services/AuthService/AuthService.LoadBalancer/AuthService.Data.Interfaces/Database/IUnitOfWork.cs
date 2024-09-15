@@ -1,8 +1,7 @@
-﻿using AuthService.Data.Repository;
-using AuthService.Domain.Entities;
+﻿using AuthService.Data.Interfaces.Repository;
 using System.Data;
 
-namespace AuthService.Data.Database;
+namespace AuthService.Data.Interfaces.Database;
 public interface IUnitOfWork : IDisposable
 {
     IUserRepository UserRepository { get; }

@@ -1,5 +1,4 @@
-﻿using AuthService.Domain.Entities;
-using FluentMigrator;
+﻿using FluentMigrator;
 
 namespace AuthService.Data.Migrations;
 

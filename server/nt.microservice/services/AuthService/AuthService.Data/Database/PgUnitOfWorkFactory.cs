@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AuthService.Data.Interfaces.Database;
 
 namespace AuthService.Data.Database;
 public class PgUnitOfWorkFactory : IUnitOfWorkFactory

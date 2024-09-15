@@ -1,6 +1,5 @@
 ﻿using AuthService.Data.Database;
-using AuthService.Data.Repository;
-using AuthService.Domain.Entities;
+using AuthService.Data.Interfaces.Entities;
 using MediatR;
 
 namespace AuthService.Service.Query;
