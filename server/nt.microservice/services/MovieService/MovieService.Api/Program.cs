@@ -1,13 +1,7 @@
-using Microsoft.Extensions.Options;
 using MovieService.Api;
 using MovieService.Api.Helpers;
-using MovieService.Api.Loggers;
 using MovieService.Api.Settings;
 using MovieService.Data;
-using MovieService.Data.Interfaces.Services;
-using MovieService.Data.Services;
-using MovieService.Service.Interfaces.Services;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

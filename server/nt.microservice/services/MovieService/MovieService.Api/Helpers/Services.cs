@@ -11,7 +11,7 @@ public static class Services
 {
     public static void Register(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddSingleton<IMovieService, MovieService.Service.Services.MovieService>();
+        serviceCollection.AddSingleton<IMovieService, Service.Services.MovieService>();
         serviceCollection.AddSingleton<IMovieCrudService, MovieCrudService>();
 
         RegisterInitializersAndProviders(serviceCollection);

@@ -53,11 +53,6 @@ internal class Program
         var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
         builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString??string.Empty));
 
-        var serviceProvider = builder.Services.BuildServiceProvider();
-        var mapperService = serviceProvider.GetService<IMapper>();
-        var mediatorService = serviceProvider.GetService<IMediator>();
-
-
         builder.Services.AddMassTransit(mt =>
                                 {
                                     mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedConsumer));
