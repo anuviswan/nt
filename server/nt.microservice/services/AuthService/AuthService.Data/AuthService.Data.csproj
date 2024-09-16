@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthService.LoadBalancer\AuthService.Data.Interfaces\AuthService.Data.Interfaces.csproj" />
+    <ProjectReference Include="..\AuthService.Data.Interfaces\AuthService.Data.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
