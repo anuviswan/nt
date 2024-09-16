@@ -1,5 +1,5 @@
 global using Xunit;
-global using UserService.Domain.Entities;
+global using UserService.Data.Interfaces.Entities;
 global using System.Collections.Generic;
 global using AutoMapper;
 global using FluentAssertions;

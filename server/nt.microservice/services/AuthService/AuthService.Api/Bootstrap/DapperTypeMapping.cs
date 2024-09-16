@@ -1,8 +1,4 @@
-﻿using AuthService.Domain.Entities;
-using Dapper;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AuthService.Api.Bootstrap
+﻿namespace AuthService.Api.Bootstrap
 {
     public static class DapperTypeMapping
     {

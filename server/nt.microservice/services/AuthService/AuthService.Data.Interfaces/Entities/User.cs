@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AuthService.Domain.Entities;
+namespace AuthService.Data.Interfaces.Entities;
 
 public class User : IEntity
 {
@@ -17,7 +17,7 @@ public class User : IEntity
     [Column("password")]
     public string Password { get; set; } = null!;
 }
-public sealed class UserMapper : ClassMapper<User> 
+public sealed class UserMapper : ClassMapper<User>
 {
     public UserMapper()
     {

@@ -1,6 +1,6 @@
-﻿using AuthService.Data.Repository;
-using AuthService.Domain.Entities;
-using Microsoft.Data.SqlClient;
+﻿using AuthService.Data.Interfaces.Database;
+using AuthService.Data.Interfaces.Repository;
+using AuthService.Data.Repository;
 using Npgsql;
 using System.Data;
 

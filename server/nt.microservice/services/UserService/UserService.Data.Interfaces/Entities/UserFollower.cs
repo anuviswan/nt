@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserService.Domain.Entities;
+namespace UserService.Data.Interfaces.Entities;
 
 public class UserFollower : IEntity
 {
@@ -15,6 +15,6 @@ public class UserFollower : IEntity
 
     [ForeignKey(nameof(Followee))]
     public long FolloweeId { get; set; }
-    public virtual UserMetaInformation Followee { get; set; } = null !;
+    public virtual UserMetaInformation Followee { get; set; } = null!;
 
 }

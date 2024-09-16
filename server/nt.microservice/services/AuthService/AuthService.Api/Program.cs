@@ -3,6 +3,7 @@ using AuthService.Api.ConsumerServices;
 using AuthService.Api.Helpers.ExtensionMethods;
 using AuthService.Api.Settings;
 using AuthService.Data.Database;
+using AuthService.Data.Interfaces.Repository;
 using AuthService.Data.Repository;
 using AuthService.Service.Query;
 using FluentMigrator.Runner;
@@ -51,11 +52,6 @@ internal class Program
 
         var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
         builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString??string.Empty));
-
-        var serviceProvider = builder.Services.BuildServiceProvider();
-        var mapperService = serviceProvider.GetService<IMapper>();
-        var mediatorService = serviceProvider.GetService<IMediator>();
-
 
         builder.Services.AddMassTransit(mt =>
                                 {

@@ -1,5 +1,4 @@
-﻿using AuthService.Domain.Entities;
-using AuthService.Service.Command;
+﻿using AuthService.Service.Command;
 using MapsterMapper;
 using MassTransit;
 using MediatR;

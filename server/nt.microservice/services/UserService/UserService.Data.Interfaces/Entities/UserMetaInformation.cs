@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserService.Domain.Entities;
-public class UserMetaInformation:IEntity
+namespace UserService.Data.Interfaces.Entities;
+public class UserMetaInformation : IEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -13,5 +13,5 @@ public class UserMetaInformation:IEntity
 
     public ICollection<UserFollower> Followers { get; set; }
     public ICollection<UserFollower> Following { get; set; }
-    
+
 }

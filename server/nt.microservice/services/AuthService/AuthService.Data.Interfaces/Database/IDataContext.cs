@@ -1,8 +1,8 @@
-﻿using AuthService.Data.Repository;
+﻿using AuthService.Data.Interfaces.Repository;
 using System.Data;
 
-namespace AuthService.Data.Database;
-public interface IDataContext:IDisposable
+namespace AuthService.Data.Interfaces.Database;
+public interface IDataContext : IDisposable
 {
     IDbConnection Connection { get; }
     void BeginTransaction();
