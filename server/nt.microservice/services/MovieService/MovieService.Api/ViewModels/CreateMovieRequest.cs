@@ -10,9 +10,3 @@ public record CreateMovieRequest
     [TechnicalDebt(DebtType.MissingFeature, "Missing support for DateOnly in MongoDb, will use DateTime until then")]
     public required DateTime? ReleaseDate { get; init; }
 }
-
-
-public record CreateMovieResponse
-{
-
-}
