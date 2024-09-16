@@ -39,4 +39,8 @@ public class MovieController : BaseController
         }
     } 
 
+    public async IAsyncEnumerable<MovieSearchResult> SearchMovie(SearchMovieRequest request)
+    {
+        throw new NotImplementedException(); 
+    }
 }
