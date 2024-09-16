@@ -38,4 +38,5 @@ public class MovieController : BaseController
             return BadRequest(ex.Message);
         }
     } 
+
 }

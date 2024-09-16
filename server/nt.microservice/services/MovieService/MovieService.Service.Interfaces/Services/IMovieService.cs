@@ -5,4 +5,5 @@ namespace MovieService.Service.Interfaces.Services;
 public interface IMovieService
 {
     Task<MovieDto> CreateMovie(MovieDto movie);
+    IAsyncEnumerable<MovieDto> Search(string searchTerm);
 }
