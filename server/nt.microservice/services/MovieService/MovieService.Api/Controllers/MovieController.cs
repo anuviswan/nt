@@ -37,5 +37,16 @@ public class MovieController : BaseController
             Logger.LogError($"Error registering user : {ex.Message}");
             return BadRequest(ex.Message);
         }
-    } 
+    }
+
+    [HttpGet]
+    [Route("searchbyname")]
+    public async IAsyncEnumerable<MovieSearchResult> SearchMovieByName(string searchTerm)
+    {
+        var response = _movieService.Search(searchTerm).ConfigureAwait(false);
+        await foreach (var movie in response)
+        {
+            yield return Mapper.Map<MovieSearchResult>(movie);
+        }
+    }
 }

@@ -4,6 +4,7 @@ using MovieService.Data.Interfaces.Services;
 using MovieService.Service.Interfaces.Dtos;
 using MovieService.Service.Interfaces.Services;
 using Omu.ValueInjecter;
+using System.Runtime.InteropServices;
 
 namespace MovieService.Service.Services;
 
@@ -38,5 +39,17 @@ public class MovieService : ServiceBase, IMovieService
             throw;
         }
 
+    }
+
+    public async IAsyncEnumerable<MovieDto> Search(string searchTerm)
+    {
+        if(string.IsNullOrEmpty(searchTerm))
+            yield break;
+
+        var movieSearch = _movieCrudService.Search(searchTerm);
+        await foreach (var movie in movieSearch)
+        {
+            yield return Mapper.Map<MovieDto>(movie);
+        }
     }
 }
