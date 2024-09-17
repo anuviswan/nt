@@ -43,6 +43,9 @@ public class MovieService : ServiceBase, IMovieService
 
     public async IAsyncEnumerable<MovieDto> Search(string searchTerm)
     {
+        if(string.IsNullOrEmpty(searchTerm))
+            yield break;
+
         var movieSearch = _movieCrudService.Search(searchTerm);
         await foreach (var movie in movieSearch)
         {

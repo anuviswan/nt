@@ -20,7 +20,7 @@ public class MovieCrudService : IMovieCrudService
 
     public async IAsyncEnumerable<Movie> Search(string searchTerm)
     {
-        var cursor = await DB.Find<Movie>().Match(x => x.Title.Contains(searchTerm)).ExecuteCursorAsync();
+        var cursor = await DB.Find<Movie>().Match(x => x.Title.Contains(searchTerm,StringComparison.OrdinalIgnoreCase)).ExecuteCursorAsync();
 
         while(await cursor.MoveNextAsync())
         {
