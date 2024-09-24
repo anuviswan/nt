@@ -3,8 +3,8 @@ using nt.shared.dto.Attributes;
 
 namespace MovieService.Data.Interfaces.Entities;
 
-[Collection(Movie.CollectionName)]
-public class Movie : Entity
+[Collection(MovieEntity.CollectionName)]
+public class MovieEntity : Entity
 {
     internal const string CollectionName = "movies";
 
@@ -18,6 +18,14 @@ public class Movie : Entity
     [Field("releaseDate")]
     public DateTime? ReleaseDate { get; set; }
 
-    [Field("director")]
-    public string? Director { get; set; }
+
+    [Field("castandcrew")]
+    public Dictionary<string, List<PersonEntity>>? CastAndCrew { get; set; }
+
+}
+
+public record PersonEntity
+{
+    [Field("name")]
+    public string Name { get; set; } = null!;
 }

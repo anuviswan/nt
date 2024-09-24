@@ -1,5 +1,6 @@
 ﻿
 using System.Globalization;
+using Path = System.IO.Path;
 
 namespace MovieService.Api.Loggers;
 public class FileLogger : ILogger

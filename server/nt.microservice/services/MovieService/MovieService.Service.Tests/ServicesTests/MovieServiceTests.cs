@@ -14,7 +14,7 @@ public class MovieServiceTests : ServiceTestsBase
     {
         #region Arrange
         var movieCrudService = A.Fake<IMovieCrudService>();
-        A.CallTo(() => movieCrudService.CreateAsync(A<Movie>.Ignored)).ReturnsLazily((Movie entity) => Task.FromResult(entity));
+        A.CallTo(() => movieCrudService.CreateAsync(A<MovieEntity>.Ignored)).ReturnsLazily((MovieEntity entity) => Task.FromResult(entity));
         var nullLogger = CreateNullLogger<Services.MovieService>();
 
         #endregion

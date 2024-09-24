@@ -64,7 +64,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService.Service.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Data.Interfaces", "services\AuthService\AuthService.Data.Interfaces\AuthService.Data.Interfaces.csproj", "{797087BD-B42B-490A-BAA5-70D14F642E24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Data.Interfaces", "services\UserService\UserService.Data.Interfaces\UserService.Data.Interfaces.csproj", "{B971D56D-BAF9-472F-8318-1202456B0E73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Data.Interfaces", "services\UserService\UserService.Data.Interfaces\UserService.Data.Interfaces.csproj", "{B971D56D-BAF9-472F-8318-1202456B0E73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService.GraphQL", "services\MovieService\MovieService.GraphQL\MovieService.GraphQL.csproj", "{2BB2D782-AFC2-4D35-84F2-36B2B292008D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,6 +174,10 @@ Global
 		{B971D56D-BAF9-472F-8318-1202456B0E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B971D56D-BAF9-472F-8318-1202456B0E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B971D56D-BAF9-472F-8318-1202456B0E73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB2D782-AFC2-4D35-84F2-36B2B292008D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB2D782-AFC2-4D35-84F2-36B2B292008D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB2D782-AFC2-4D35-84F2-36B2B292008D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB2D782-AFC2-4D35-84F2-36B2B292008D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,6 +210,7 @@ Global
 		{16916481-BAE6-4072-9503-A6B949348353} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{797087BD-B42B-490A-BAA5-70D14F642E24} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
 		{B971D56D-BAF9-472F-8318-1202456B0E73} = {66E33582-B6D8-4BE4-9471-1626AF9801C5}
+		{2BB2D782-AFC2-4D35-84F2-36B2B292008D} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}

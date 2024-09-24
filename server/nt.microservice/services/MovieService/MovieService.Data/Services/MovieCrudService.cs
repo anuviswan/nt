@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Entities;
 using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
-using MongoDB.Driver.Linq;
-using MongoDB.Driver;
 
 namespace MovieService.Data.Services;
 public class MovieCrudService : IMovieCrudService
@@ -15,14 +14,15 @@ public class MovieCrudService : IMovieCrudService
         DB.Database(bookStoreDatabaseSettings.Value.DatabaseName);
     }
 
-    public async Task CreateAsync(Movie newBook) =>
+    public async Task CreateAsync(MovieEntity newBook) =>
         await newBook.SaveAsync();
 
-    public async IAsyncEnumerable<Movie> Search(string searchTerm)
+    public async IAsyncEnumerable<MovieEntity> Search(string searchTerm)
     {
-        var cursor = await DB.Find<Movie>().Match(x => x.Title.Contains(searchTerm,StringComparison.OrdinalIgnoreCase)).ExecuteCursorAsync();
+        var cursor = await DB.Find<MovieEntity>().Match(x => x.Regex(c => c.Title, new BsonRegularExpression(searchTerm, "i")))
+                                   .ExecuteCursorAsync();
 
-        while(await cursor.MoveNextAsync())
+        while (await cursor.MoveNextAsync())
         {
             foreach(var movie in cursor.Current)
             {

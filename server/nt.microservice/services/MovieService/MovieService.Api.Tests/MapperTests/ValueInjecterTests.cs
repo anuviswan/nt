@@ -19,7 +19,7 @@ public class ValueInjecterTests
         };
 
         // Act
-        var movieEntity = Mapper.Map<Movie>(movieRequest);
+        var movieEntity = Mapper.Map<MovieEntity>(movieRequest);
 
         // Assert
         Assert.AreEqual(movieRequest.Title, movieEntity.Title);
