@@ -51,6 +51,7 @@ public class DatabaseInitializer
             {
                 new MovieEntity
                 {
+                    ID = "556fa735-8d64-4dad-ac9f-b71348c1c683",
                     Title = "Yodha",
                     Language = "Malayalam",
                     ReleaseDate = new DateOnly(1992, 9, 3).ToDateTime(TimeOnly.MinValue),
@@ -69,6 +70,7 @@ public class DatabaseInitializer
 
                 new MovieEntity
                 {
+                    ID = "c0ed3691-e197-4ce4-9580-7a9d08fea416",
                     Title = "Manichitrathazu",
                     Language = "Malayalam",
                     ReleaseDate = new DateOnly(1993, 12, 25).ToDateTime(TimeOnly.MinValue),
@@ -87,6 +89,7 @@ public class DatabaseInitializer
 
                 new MovieEntity
                 {
+                    ID = "4c7efcd9-66ad-4b42-9b7d-5933d47f17e9",
                     Title = "Amaram",
                     Language = "Malayalam",
                     ReleaseDate = new DateOnly(1991, 2, 1).ToDateTime(TimeOnly.MinValue),
