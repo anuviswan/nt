@@ -12,8 +12,6 @@ public static class IServiceCollectionExtensions
 
     public static void RegisterGraphQl(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddGraphQLServer()
-                         .AddQueryType<Query>()
-                         .AddType<MovieType>(); 
+        GraphQL.Register(serviceCollection);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MovieService.Service.Interfaces.Dtos;
 
-public class MovieDto
+public record MovieDto
 {
     public string? Id { get; set; }
 
@@ -10,5 +10,12 @@ public class MovieDto
 
     public DateTime? ReleaseDate { get; set; }
 
-    public string? Director { get; set; }
+    public PersonDto? Director { get; set; }
+}
+
+
+public record PersonDto
+{
+    public string Name { get; set; }
+
 }

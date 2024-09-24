@@ -3,6 +3,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Entities;
 using MovieService.Data;
+using MovieService.Data.Interfaces.Entities;
+using MovieService.Service.Interfaces.Dtos;
 
 namespace MovieService.Api;
 
@@ -45,16 +47,18 @@ public class DatabaseInitializer
     {
         if (!await CheckIfCollectionExists(_databaseSettings.MovieCollectionName))
         {
-            var collection = _database.GetCollection<BsonDocument>(_databaseSettings.MovieCollectionName);
+            var collection = _database.GetCollection<MovieEntity>(_databaseSettings.MovieCollectionName);
 
             var documents = new[]
             {
-                new BsonDocument{
-                    {"title","Yodha"},
-                    {"language","Malayalam" },
-                    {"releaseDate", new DateOnly(1992, 1, 2).ToDateTime(TimeOnly.MinValue) }
+                new MovieEntity
+                {
+                    Title = "Yodha",
+                    Language = "Malayalam",
+                    ReleaseDate = new DateOnly(1992, 1, 2).ToDateTime(TimeOnly.MinValue),
+                    Director = new PersonEntity{ Name = "Sangeeth Sivan" }
                 }
-            };
+            }.AsEnumerable();
 
             await collection.InsertManyAsync(documents).ConfigureAwait(false);
         }

@@ -24,6 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices();
 builder.Services.RegisterGraphQl();
+ValueInjectorMapper.RegisterTypes();
 
 var app = builder.Build();
 

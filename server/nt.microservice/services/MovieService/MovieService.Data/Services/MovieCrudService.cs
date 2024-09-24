@@ -14,12 +14,12 @@ public class MovieCrudService : IMovieCrudService
         DB.Database(bookStoreDatabaseSettings.Value.DatabaseName);
     }
 
-    public async Task CreateAsync(Movie newBook) =>
+    public async Task CreateAsync(MovieEntity newBook) =>
         await newBook.SaveAsync();
 
-    public async IAsyncEnumerable<Movie> Search(string searchTerm)
+    public async IAsyncEnumerable<MovieEntity> Search(string searchTerm)
     {
-        var cursor = await DB.Find<Movie>().Match(x => x.Regex(c => c.Title, new BsonRegularExpression(searchTerm, "i")))
+        var cursor = await DB.Find<MovieEntity>().Match(x => x.Regex(c => c.Title, new BsonRegularExpression(searchTerm, "i")))
                                    .ExecuteCursorAsync();
 
         while (await cursor.MoveNextAsync())
