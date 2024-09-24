@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MovieService.Api.Settings;
+using Path = System.IO.Path;
 
 namespace MovieService.Api.Loggers;
 public class CustomLoggerProvider : ILoggerProvider

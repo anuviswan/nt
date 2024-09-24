@@ -23,7 +23,7 @@ builder.Services.Configure<LoggerConfiguration>(builder.Configuration.GetSection
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices();
-
+builder.Services.RegisterGraphQl();
 
 var app = builder.Build();
 
@@ -39,7 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapGraphQL();
 
 var serviceProvider = app.Services;
 var moduleInitializer = serviceProvider.GetService<ModuleInitializer>();

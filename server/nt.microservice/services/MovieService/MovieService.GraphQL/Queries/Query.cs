@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MovieService.Service.Interfaces.Dtos;
+using MovieService.Service.Interfaces.Services;
 
-namespace MovieService.GraphQL.Queries
+namespace MovieService.GraphQL.Queries;
+
+public class Query
 {
-    internal class Query
+    private readonly IMovieService _movieService;
+    public Query(IMovieService movieService)
     {
+        _movieService = movieService;
+    }
+
+    public IAsyncEnumerable<MovieDto> FindMovie(string searchTerm)
+    {
+        return _movieService.Search(searchTerm);
     }
 }

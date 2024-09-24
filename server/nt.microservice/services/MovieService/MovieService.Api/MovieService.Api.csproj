@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.12" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="ValueInjecter" Version="3.2.0" />
@@ -27,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MovieService.Data.Interfaces\MovieService.Data.Interfaces.csproj" />
     <ProjectReference Include="..\MovieService.Data\MovieService.Data.csproj" />
+    <ProjectReference Include="..\MovieService.GraphQL\MovieService.GraphQL.csproj" />
     <ProjectReference Include="..\MovieService.Service.Interfaces\MovieService.Service.Interfaces.csproj" />
     <ProjectReference Include="..\MovieService.Service\MovieService.Service.csproj" />
   </ItemGroup>
