@@ -18,10 +18,11 @@ public class MovieEntity : Entity
     [Field("releaseDate")]
     public DateTime? ReleaseDate { get; set; }
 
-    [Field("director")]
-    public PersonEntity? Director { get; set; }
-}
 
+    [Field("castandcrew")]
+    public Dictionary<string, List<PersonEntity>>? CastAndCrew { get; set; }
+
+}
 
 public record PersonEntity
 {

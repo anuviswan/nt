@@ -56,7 +56,10 @@ public class DatabaseInitializer
                     Title = "Yodha",
                     Language = "Malayalam",
                     ReleaseDate = new DateOnly(1992, 1, 2).ToDateTime(TimeOnly.MinValue),
-                    Director = new PersonEntity{ Name = "Sangeeth Sivan" }
+                    CastAndCrew = new Dictionary<string, List<PersonEntity>>
+                    {
+                        ["Director"] = new List<PersonEntity> { new PersonEntity { Name = "Sangeeth Sivan" } }
+                    }
                 }
             }.AsEnumerable();
 

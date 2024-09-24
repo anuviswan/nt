@@ -10,7 +10,7 @@ public record MovieDto
 
     public DateTime? ReleaseDate { get; set; }
 
-    public PersonDto? Director { get; set; }
+    public Dictionary<string,List<PersonDto>>? CastAndCrew { get; set; }
 }
 
 
