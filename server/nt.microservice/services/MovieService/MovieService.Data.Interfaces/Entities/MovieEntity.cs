@@ -19,13 +19,19 @@ public class MovieEntity : Entity
     public DateTime? ReleaseDate { get; set; }
 
 
-    [Field("castandcrew")]
-    public Dictionary<string, List<PersonEntity>>? CastAndCrew { get; set; }
+    [Field("crew")]
+    public Dictionary<string, List<PersonEntity>>? Crew { get; set; }
+
+    [Field("cast")]
+    public List<PersonEntity> Cast { get; set; }
 
 }
 
 public record PersonEntity
 {
+    public PersonEntity() { }
+    public PersonEntity(string name) => Name = name;
+
     [Field("name")]
     public string Name { get; set; } = null!;
 }

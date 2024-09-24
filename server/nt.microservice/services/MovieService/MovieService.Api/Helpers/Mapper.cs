@@ -19,12 +19,19 @@ public static class ValueInjectorMapper
             dto.InjectFrom(src);
 
             // Map the CastAndCrew dictionary
-            if (src.CastAndCrew != null && src.CastAndCrew.Any())
+            if (src.Crew?.Any() == true)
             {
-                dto.CastAndCrew = src.CastAndCrew.ToDictionary(
+                dto.Crew = src.Crew.ToDictionary(
                     kvp => kvp.Key,
                     kvp => kvp.Value.Select(personEntity => Mapper.Map<PersonDto>(personEntity)).ToList() // Map each PersonEntity to PersonDto
                 );
+            }
+
+            if(src.Cast?.Any() == true)
+            {
+                dto.Cast = src.Cast
+                              .Select(personEntity => Mapper.Map<PersonDto>(personEntity))
+                              .ToList();
             }
 
             return dto;

@@ -38,8 +38,6 @@ public class DatabaseInitializer
         _databaseSettings = databaseSettings.Value;
 
         DB.InitAsync(_databaseSettings.DatabaseName,MongoClientSettings.FromConnectionString(_databaseSettings.ConnectionString));
-
-        //var client = new MongoClient(_databaseSettings.ConnectionString);
         _database = DB.Database(_databaseSettings.DatabaseName);
     }
 
@@ -53,14 +51,62 @@ public class DatabaseInitializer
             {
                 new MovieEntity
                 {
+                    ID = "556fa735-8d64-4dad-ac9f-b71348c1c683",
                     Title = "Yodha",
                     Language = "Malayalam",
-                    ReleaseDate = new DateOnly(1992, 1, 2).ToDateTime(TimeOnly.MinValue),
-                    CastAndCrew = new Dictionary<string, List<PersonEntity>>
+                    ReleaseDate = new DateOnly(1992, 9, 3).ToDateTime(TimeOnly.MinValue),
+                    Crew = new Dictionary<string, List<PersonEntity>>
                     {
-                        ["Director"] = new List<PersonEntity> { new PersonEntity { Name = "Sangeeth Sivan" } }
+                        ["Director"] = [new ("Sangeeth Sivan")],
+                        ["Music Director"] = [new ("A R Rahman")],
+                    },
+                    Cast = new List<PersonEntity>
+                    {
+                        new ("Mohanlal"),
+                        new("Jagathy Sreekumar"),
+                        new("Madhu")
                     }
-                }
+                },
+
+                new MovieEntity
+                {
+                    ID = "c0ed3691-e197-4ce4-9580-7a9d08fea416",
+                    Title = "Manichitrathazu",
+                    Language = "Malayalam",
+                    ReleaseDate = new DateOnly(1993, 12, 25).ToDateTime(TimeOnly.MinValue),
+                    Crew = new Dictionary<string, List<PersonEntity>>
+                    {
+                        ["Director"] = [new("Fazil")],
+                        ["Story"] = [new("Madhu Muttam")]
+                    },
+                    Cast = new List<PersonEntity>
+                    {
+                        new("Mohanlal"),
+                        new("Suresh Gopi"),
+                        new("Shobana")
+                    }
+                },
+
+                new MovieEntity
+                {
+                    ID = "4c7efcd9-66ad-4b42-9b7d-5933d47f17e9",
+                    Title = "Amaram",
+                    Language = "Malayalam",
+                    ReleaseDate = new DateOnly(1991, 2, 1).ToDateTime(TimeOnly.MinValue),
+                    Crew = new Dictionary<string, List<PersonEntity>>
+                    {
+                        ["Director"] = [new ("Bharathan")],
+                        ["Story"] = [new ("A K Lohithadas")]
+                    },
+                    Cast = new List<PersonEntity>
+                    {
+                        new ("Mammootty"),
+                        new ("Ashokan"),
+                        new ("Maathu"),
+                        new ("Murali")
+                    }
+                },
+                
             }.AsEnumerable();
 
             await collection.InsertManyAsync(documents).ConfigureAwait(false);
