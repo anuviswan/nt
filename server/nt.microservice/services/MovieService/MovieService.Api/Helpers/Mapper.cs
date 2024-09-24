@@ -8,17 +8,22 @@ public static class ValueInjectorMapper
 {
     public static void RegisterTypes()
     {
-        Mapper.AddMap<PersonEntity, PersonDto>(src=> new PersonDto { Name = src.Name });
+        // Define the mapping for PersonEntity to PersonDto
+        Mapper.AddMap<PersonEntity, PersonDto>(src => new PersonDto { Name = src.Name });
 
+        // Define the mapping for MovieEntity to MovieDto
         Mapper.AddMap<MovieEntity, MovieDto>(src =>
         {
-            var dto = new MovieDto().InjectFrom(src) as MovieDto;
+            var dto = new MovieDto();
+            // Use InjectFrom to copy the base properties
+            dto.InjectFrom(src);
+
             // Map the CastAndCrew dictionary
-            if (src.CastAndCrew is {})
+            if (src.CastAndCrew != null && src.CastAndCrew.Any())
             {
                 dto.CastAndCrew = src.CastAndCrew.ToDictionary(
                     kvp => kvp.Key,
-                    kvp => new List<PersonDto> { Mapper.Map<PersonDto>(kvp.Value) }// Map each PersonEntity to PersonDto
+                    kvp => kvp.Value.Select(personEntity => Mapper.Map<PersonDto>(personEntity)).ToList() // Map each PersonEntity to PersonDto
                 );
             }
 
