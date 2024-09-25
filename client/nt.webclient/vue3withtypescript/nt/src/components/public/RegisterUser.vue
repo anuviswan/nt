@@ -55,7 +55,6 @@ import ValidationMessage from "@/components/generic/ValidationMessage.vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
 import { userApiService } from "@/apiService/UserApiService"
-import { RegisterUserRequest } from "@/apiService/userType";
 import { IRegisterUserRequest } from "@/types/ApiRequestResponseTypes";
 //   import {registerUser} from "@/api/user.js"
 

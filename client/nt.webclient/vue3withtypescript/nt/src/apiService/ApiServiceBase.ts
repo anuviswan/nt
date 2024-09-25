@@ -1,5 +1,5 @@
 import { IResponseBase } from "@/types/apirequestresponsetypes/User";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosRequestConfig } from "axios";
 import HttpClient from "./HttpClient";
 
 

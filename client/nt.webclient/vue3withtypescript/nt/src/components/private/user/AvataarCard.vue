@@ -65,12 +65,12 @@ const isValidBlob = (blob: Blob): boolean =>{
     }
 const browseImage = ():void=>{
     if(fileUploader?.value == null) return;
-    fileUploader!.value!.click();
+    fileUploader?.value?.click();
     return;
 }
 
 const handleImageChanged = (e:Event) :void => {
-    file.value = (e.target as HTMLInputElement)!.files?.[0];
+    file.value = (e.target as HTMLInputElement)?.files?.[0];
     if(file.value){
 
         console.log(file.value);

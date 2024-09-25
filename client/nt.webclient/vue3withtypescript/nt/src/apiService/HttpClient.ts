@@ -1,5 +1,5 @@
 import { IResponseBase } from "@/types/apirequestresponsetypes/User";
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse} from "axios";
+import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
 import {useUserStore} from "@/stores/userStore";
 
 
@@ -36,7 +36,7 @@ class HttpClient{
             const response =await this.axiosInstance.request<T>(config); 
             console.log(response.data)
             return response.data;
-        }catch(error : AxiosError | any){
+        }catch(error : unknown){
 
             if(axios.isAxiosError(error)){
                 return <T>{
@@ -57,7 +57,7 @@ class HttpClient{
             const response =await this.axiosInstance.request<T>(config); 
             console.log(response.data)
             return response.data;
-        }catch(error : AxiosError | any){
+        }catch(error : unknown){
 
             if(axios.isAxiosError(error)){
                 return null;
