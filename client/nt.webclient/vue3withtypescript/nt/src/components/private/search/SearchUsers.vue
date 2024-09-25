@@ -31,7 +31,7 @@ const searchResults = ref<User[]>([
     }
 ]);
 
-watch(()=> props.searchTerm, async (newValue,oldValue)=> {
+watch(()=> props.searchTerm, async (newValue)=> {
     console.log('Searching for ' + newValue);
 
     const response = await userApiService.searchUsers(newValue);
