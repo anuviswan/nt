@@ -14,7 +14,9 @@ class HttpClient{
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
             "Content-Type": "application/json", // this shows the expected content type
           };
-        this.axiosInstance = axios.create({baseURL: "http://localhost:8001/", headers:headers});
+
+          console.log('base URL' + process.env.VUE_APP_API_URL)
+        this.axiosInstance = axios.create({baseURL: process.env.VUE_APP_API_URL, headers:headers});
         
         this.axiosInstance.interceptors.request.use(function (config) 
         {
