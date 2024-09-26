@@ -15,8 +15,8 @@ class HttpClient{
             "Content-Type": "application/json", // this shows the expected content type
           };
 
-          console.log('base URL' + process.env.VUE_APP_API_URL)
-        this.axiosInstance = axios.create({baseURL: process.env.VUE_APP_API_URL, headers:headers});
+          console.log('base URL' + import.meta.env.VITE_APP_API_URL)
+        this.axiosInstance = axios.create({baseURL: import.meta.env.VITE_APP_API_URL, headers:headers});
         
         this.axiosInstance.interceptors.request.use(function (config) 
         {
