@@ -34,7 +34,8 @@ const currentUserName = ref(props.userName);
 const fileUploader = ref<HTMLInputElement|null>(null);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires    
-const defaultImage = require('@/assets/DefaultProfile.jpg')
+// const defaultImage = require('@/assets/DefaultProfile.jpg')
+import defaultImage from '@/assets/DefaultProfile.jpg';
 const imgSrc = ref<string|File>(defaultImage);
 const isDirty = ref<boolean>(false);
 const file = ref<File|null|undefined>(null);
