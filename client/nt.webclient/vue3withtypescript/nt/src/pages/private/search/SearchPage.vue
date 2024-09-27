@@ -14,6 +14,10 @@
           <div class="card-body">
             <SearchMovies :searchTerm="searchTerm" />
           </div>
+          <div class="card-header">Reviews</div>
+          <div class="card-body">
+            <SearchMovies :searchTerm="searchTerm" />
+          </div>
         </div>
       </div>
     </div>
