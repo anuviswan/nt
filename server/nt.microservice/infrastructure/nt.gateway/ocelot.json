@@ -170,7 +170,7 @@
     // Search Movies
     {
       "DownstreamPathTemplate": "/graphql",
-      "DownstreamSchema": "https",
+      "DownstreamSchema": "http",
       "RouteIsCaseSensitive": false,
       "DownstreamHostAndPorts": [
         {
@@ -179,7 +179,7 @@
         }
       ],
       "UpstreamPathTemplate": "/movies",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 10000,

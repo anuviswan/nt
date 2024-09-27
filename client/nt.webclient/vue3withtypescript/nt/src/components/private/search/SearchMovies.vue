@@ -18,6 +18,9 @@
       console.log('Searching for Movies with ' + newValue);
 
       const results = await movieApiService.SearchMovies(newValue);
+
+      console.log("recieved movie result " )
+      console.log(results)
     }
   );
 

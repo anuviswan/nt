@@ -1,4 +1,4 @@
-import { IResponseBase } from "@/types/apirequestresponsetypes/User";
+import { IResponseBase } from "@/types/apirequestresponsetypes/Response";
 import { AxiosRequestConfig } from "axios";
 import HttpClient from "./HttpClient";
 

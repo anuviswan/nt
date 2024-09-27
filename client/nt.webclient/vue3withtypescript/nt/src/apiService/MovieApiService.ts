@@ -1,7 +1,7 @@
 import { ApiServiceBase } from './ApiServiceBase';
 import { ISearchMoviesResponse } from '@/types/apirequestresponsetypes/Movie';
 import { gql } from '@apollo/client/core';
-import { useQuery } from '@vue/apollo-composable';
+import  apolloClient  from '@/apolloClient'; 
 class MovieApiService extends ApiServiceBase {
   public async SearchMovies(
     searchTerm: string
@@ -17,10 +17,12 @@ class MovieApiService extends ApiServiceBase {
     `;
 
     console.log('submitting gql query')
-    const { result, loading, error } = useQuery<ISearchMoviesResponse>(search_movie);
+    const response = await apolloClient.query<ISearchMoviesResponse>({
+      query: search_movie,
+      variables: { searchTerm },  // Pass the search term as a variable
+    });
     console.log('recieved result from movie graphql')
-    console.log(result);
-    return result;
+    return response.data;
   }
 }
 

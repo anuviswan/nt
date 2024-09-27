@@ -9,7 +9,7 @@ import {
 // Create a new Apollo Client instance
 const apolloClient: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://localhost:8001/movies', // Replace with your actual GraphQL server URL
+    uri: 'http://localhost:8001/movies', // Replace with your actual GraphQL server URL
   }),
   cache: new InMemoryCache(),
 });
