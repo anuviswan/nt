@@ -2,6 +2,7 @@
   import { ref, watch } from 'vue';
   import { Movie } from '@/types/MovieTypes';
   import MovieCard from '@/components/private/movie/MovieCard.vue';
+  import { movieApiService } from '@/apiService/MovieApiService';
 
   interface Props {
     searchTerm: string;
@@ -15,6 +16,8 @@
     () => props.searchTerm,
     async (newValue) => {
       console.log('Searching for Movies with ' + newValue);
+
+      const results = await movieApiService.SearchMovies(newValue);
     }
   );
 
