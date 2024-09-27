@@ -10,22 +10,27 @@
           <div class="card-body">
             <SearchUsers :searchTerm="searchTerm" />
           </div>
+          <div class="card-header">Movies</div>
+          <div class="card-body">
+            <SearchMovies :searchTerm="searchTerm" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import SearchUsers from "@/components/private/search/SearchUsers.vue";
+  import { computed } from 'vue';
+  import { useRoute } from 'vue-router';
+  import SearchUsers from '@/components/private/search/SearchUsers.vue';
+  import SearchMovies from '@/components/private/search/SearchMovies.vue';
 
-const route = useRoute();
+  const route = useRoute();
 
-const searchTerm = computed(() => {
-  const param = route.params.searchTerm;
-  return Array.isArray(param) ? param[0] : param;
-});
+  const searchTerm = computed(() => {
+    const param = route.params.searchTerm;
+    return Array.isArray(param) ? param[0] : param;
+  });
 </script>
 
 <style scoped></style>
