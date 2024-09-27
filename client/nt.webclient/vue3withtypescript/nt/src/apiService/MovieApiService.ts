@@ -16,9 +16,11 @@ class MovieApiService extends ApiServiceBase {
       }
     `;
 
-    const { result, loading, error } = useQuery(search_movie);
+    console.log('submitting gql query')
+    const { result, loading, error } = useQuery<ISearchMoviesResponse>(search_movie);
+    console.log('recieved result from movie graphql')
     console.log(result);
-    throw 'Not Implemented Exception';
+    return result;
   }
 }
 

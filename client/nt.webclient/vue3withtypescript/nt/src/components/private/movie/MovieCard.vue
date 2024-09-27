@@ -5,7 +5,7 @@
   }
   const props = defineProps<Props>();
 
-  console.log('movie props ' + props);
+  console.log('movie props ' + props.movie);
 </script>
 <template>
   <div class="card p-3 shadow">
