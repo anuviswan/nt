@@ -167,6 +167,30 @@
       }
     },
 
+    // Search Movies
+    {
+      "DownstreamPathTemplate": "/graphql",
+      "DownstreamSchema": "https",
+      "RouteIsCaseSensitive": false,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8401"
+        }
+      ],
+      "UpstreamPathTemplate": "/movies",
+      "UpstreamHttpMethod": [ "GET" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      }
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "GatewayAuthenticationKey",
+      //  "AllowedScopes": []
+      //}
+    },
+
     // for gateway swagger integration
 
     {

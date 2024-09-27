@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import { Movie } from '@/types/MovieTypes';
   import MovieCard from '@/components/private/movie/MovieCard.vue';
 
@@ -10,6 +10,13 @@
   const props = withDefaults(defineProps<Props>(), {
     searchTerm: '',
   });
+
+  watch(
+    () => props.searchTerm,
+    async (newValue) => {
+      console.log('Searching for Movies with ' + newValue);
+    }
+  );
 
   const searchResults = ref<Movie[]>([
     {
