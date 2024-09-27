@@ -7,8 +7,8 @@ class MovieApiService extends ApiServiceBase {
     searchTerm: string
   ): Promise<ISearchMoviesResponse> {
     const search_movie = gql`
-      query movie {
-        findMovie(searchTerm: "yo") {
+      query movie($searchTerm: String!) {
+        findMovie(searchTerm: $searchTerm) {
           language
           releaseDate
           title
