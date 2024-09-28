@@ -22,6 +22,7 @@ class MovieApiService extends ApiServiceBase {
       variables: { searchTerm },  // Pass the search term as a variable
     });
     console.log('recieved result from movie graphql')
+    console.log(response.data);
     return response.data;
   }
 }

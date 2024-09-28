@@ -12,18 +12,7 @@
     searchTerm: '',
   });
 
-  watch(
-    () => props.searchTerm,
-    async (newValue) => {
-      console.log('Searching for Movies with ' + newValue);
-
-      const results = await movieApiService.SearchMovies(newValue);
-
-      console.log("recieved movie result " )
-      console.log(results)
-    }
-  );
-
+  
   const searchResults = ref<Movie[]>([
     {
       title: 'Source Code',
@@ -33,6 +22,18 @@
       crew: {},
     },
   ]);
+
+  watch(
+    () => props.searchTerm,
+    async (newValue) => {
+      console.log('Searching for Movies with ' + newValue);
+
+      const results = await movieApiService.SearchMovies(newValue);
+      searchResults.value = results.findMovie;
+      console.log(searchResults.value)
+    }
+  );
+
 </script>
 <template>
   <div>
