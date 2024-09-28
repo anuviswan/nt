@@ -4,6 +4,6 @@ export interface IResponseBase {
   errors?: Array<string>;
 }
 
-export interface IGraphQlType{
+export interface IGraphQlResponseBase{
 
 }

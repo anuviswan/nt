@@ -1,4 +1,4 @@
-import { IResponseBase, IGraphQlType } from "@/types/apirequestresponsetypes/Response";
+import { IResponseBase, IGraphQlResponseBase } from "@/types/apirequestresponsetypes/Response";
 import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
 import {useUserStore} from "@/stores/userStore";
 import { DocumentNode, gql } from '@apollo/client/core';
@@ -72,7 +72,7 @@ class HttpClient{
         return <T>{};
     }
 
-    public async queryGraphQl<T extends IGraphQlType>(query:DocumentNode,variable:object):Promise<T>{
+    public async queryGraphQl<T extends IGraphQlResponseBase>(query:DocumentNode,variable:object):Promise<T>{
         const response = await apolloClient.query<T>({
             query: query,
             variables:  variable ,  // Pass the search term as a variable

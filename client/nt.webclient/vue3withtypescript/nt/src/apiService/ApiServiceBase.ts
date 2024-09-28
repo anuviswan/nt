@@ -1,4 +1,4 @@
-import { IGraphQlType, IResponseBase } from "@/types/apirequestresponsetypes/Response";
+import { IGraphQlResponseBase, IResponseBase } from "@/types/apirequestresponsetypes/Response";
 import { AxiosRequestConfig } from "axios";
 import HttpClient from "./HttpClient";
 import { DocumentNode } from '@apollo/client/core';
@@ -20,7 +20,7 @@ export abstract class ApiServiceBase
         return this.httpClient.getBlob(request);
     }
 
-    protected async queryGraphQl<T extends IGraphQlType>(query:DocumentNode,variable:object):Promise<T>{
+    protected async queryGraphQl<T extends IGraphQlResponseBase>(query:DocumentNode,variable:object):Promise<T>{
         return this.httpClient.queryGraphQl<T>(query,variable);
     }
 }
