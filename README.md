@@ -19,9 +19,9 @@ The same project is implemented using different frameworks. All the backend proj
 ### Frontend
 
   - [ReactJs ContextApi](https://github.com/anuviswan/nt/tree/master/nt.webclient/reactjs) 
-  -  [Vue 2](https://github.com/anuviswan/nt/tree/master/nt.webclient/vuejs/nt) 
-  -  [Vue 3  Composition Api](https://github.com/anuviswan/nt/tree/master/nt.webclient/vue3/nt)         
-  - [Vue 3 + Typescript](https://github.com/anuviswan/nt/tree/master/nt.webclient/typescriptvuejs/nt)
+  -  [Vue 2](https://github.com/anuviswan/nt/tree/master/client/nt.webclient/vuejs)
+  -  [Vue 3  Composition Api](https://github.com/anuviswan/nt/tree/master/client/nt.webclient/vue3)         
+  - [Vue 3 + Typescript](https://github.com/anuviswan/nt/tree/master/client/nt.webclient/vue3withtypescript/nt)
   - [WPF + C#](https://github.com/anuviswan/nt/tree/master/nt.desktop/wpf/nt.wpfclient) 
 
 The frontend projects are tracked using the [Project Dashboard](https://github.com/users/anuviswan/projects/2)
