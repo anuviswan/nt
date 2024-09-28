@@ -1,52 +1,50 @@
 <template>
-    <div>
-        <ul class="user-grid">
-          <li v-for="(user, index) in searchResults" :key="index" class="user-list">
-            <UserProfileCard :user="user" :isMiniCard='true' :isReadOnly='true'/>  
-          </li>
-        </ul>
-    </div>
+  <div>
+    <ul class="user-grid">
+      <li v-for="(user, index) in searchResults" :key="index" class="user-list">
+        <UserProfileCard :user="user" :isMiniCard="true" :isReadOnly="true" />
+      </li>
+    </ul>
+  </div>
 </template>
 <script setup lang="ts">
-
-import {defineProps, withDefaults,ref, watch} from 'vue'
-import {User} from '@/types/UserTypes'
+import { defineProps, withDefaults, ref, watch } from "vue";
+import { User } from "@/types/UserTypes";
 import UserProfileCard from "@/components/private/user/UserProfileCard.vue";
-import { userApiService } from '@/apiService/UserApiService';
+import { userApiService } from "@/apiService/UserApiService";
 
-interface Props{
-    searchTerm : string
+interface Props {
+  searchTerm: string;
 }
 
-const props = withDefaults(defineProps<Props>(),{
-    searchTerm : ''
+const props = withDefaults(defineProps<Props>(), {
+  searchTerm: "",
 });
 
-
 const searchResults = ref<User[]>([
-    {
-        userName:'jia.anu',
-        bio:'Hello, I am Jia',
-        displayName:'Jia Anu'
-    }
+  {
+    userName: "jia.anu",
+    bio: "Hello, I am Jia",
+    displayName: "Jia Anu",
+  },
 ]);
 
-watch(()=> props.searchTerm, async (newValue)=> {
-    console.log('Searching for ' + newValue);
+watch(
+  () => props.searchTerm,
+  async (newValue) => {
+    console.log("Searching for " + newValue);
 
     const response = await userApiService.searchUsers(newValue);
 
     console.log(response);
 
-    if(response.hasError){
-        // TODO : Error Handling
+    if (response.hasError) {
+      // TODO : Error Handling
+    } else {
+      searchResults.value = response.users;
     }
-    else{
-
-        searchResults.value = response.users;
-    }
-
-})
+  },
+);
 </script>
 <style scoped>
 .user-grid {
@@ -72,5 +70,4 @@ watch(()=> props.searchTerm, async (newValue)=> {
   list-style-type: none;
   padding: 0;
 }
-
 </style>

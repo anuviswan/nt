@@ -1,5 +1,5 @@
 <template>
-     <nav
+  <nav
     class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top py-0"
   >
     <a class="navbar-brand" href="#">November Talkies</a>
@@ -47,21 +47,28 @@
         </li>
       </ul>
 
-      <div class="d-flex ">
+      <div class="d-flex">
         <div class="input-group">
-        <input class="form-control me-2" type="search" 
-        v-model="searchTerm"
-        placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-        <button class="btn btn-outline-light" type="button" @click="onSearch">Search</button>
+          <input
+            class="form-control me-2"
+            type="search"
+            v-model="searchTerm"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-light"
+              type="button"
+              @click="onSearch"
+            >
+              Search
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-      
 
-    
       <ul class="navbar-nav">
-        
         <li class="nav-item dropdown active">
           <a
             class="nav-link dropdown-toggle"
@@ -79,11 +86,7 @@
             >
               View Profile
             </router-link>
-            <router-link
-              exact
-              v-bind:to="`/p/user/edit`"
-              class="dropdown-item"
-            >
+            <router-link exact v-bind:to="`/p/user/edit`" class="dropdown-item">
               Edit User
             </router-link>
             <router-link
@@ -104,8 +107,8 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue"
-import {useUserStore} from "@/stores/userStore"
+import { ref } from "vue";
+import { useUserStore } from "@/stores/userStore";
 import router from "@/router";
 import routesNames from "@/router/routeNames";
 
@@ -113,23 +116,24 @@ const store = useUserStore();
 const currentUser = ref({
   userName: store.UserName,
   displayName: store.DisplayName,
-  bio: store.Bio
+  bio: store.Bio,
 });
 
-const searchTerm = ref<string>('');
+const searchTerm = ref<string>("");
 
-const logout=():void=>{
+const logout = (): void => {
   console.log("logging out");
   store.Reset();
   router.push("/");
-}
+};
 
 const onSearch = (): void => {
-  router.push({ name:   routesNames.searchPage.name, params: { searchTerm: searchTerm.value } });
-  searchTerm.value = '';
-} 
+  router.push({
+    name: routesNames.searchPage.name,
+    params: { searchTerm: searchTerm.value },
+  });
+  searchTerm.value = "";
+};
 </script>
 
-<style scoped>
-</style>
-
+<style scoped></style>

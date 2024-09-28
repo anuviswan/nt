@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using MovieService.Api;
 using MovieService.Api.Helpers;
 using MovieService.Api.Settings;
@@ -6,7 +7,16 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+var corsPolicy = "_ntClientAppsOrigins";
+builder.Services.AddCors(option => {
+    option.AddPolicy(name: corsPolicy,
+        builder =>
+        {
+            builder.AllowAnyOrigin();
+            builder.AllowAnyMethod();
+            builder.AllowAnyHeader();
+        });
+});
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
