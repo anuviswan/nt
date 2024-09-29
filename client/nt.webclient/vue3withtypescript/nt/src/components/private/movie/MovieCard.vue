@@ -31,16 +31,17 @@
 
   <!-- Director Section Below Language -->
   <div class="row mt-3">
-    <div class="col">
-      <div class="row" v-if="findCrewMembers(movie,'Director')">
-        <div class="col">Director1</div>
-        <div class="col" v-for="(director,index) in findCrewMembers(movie,'Director')" :key="index">{{director.name}}</div>
-      </div>
-      <div class="row">
-        <CrewsCard :crew-members="['a','b','c']" crew-title="sasa"/>
+  <div class="col">
+
+
+    <!-- Include the CrewsCard -->
+    <div class="row" v-if="findCrewMembers(movie, 'Director')">
+      <div class="col">
+        <CrewsCard crew-title="Director" :crew-members="findCrewMembers(movie, 'Director')"/>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 </template>
