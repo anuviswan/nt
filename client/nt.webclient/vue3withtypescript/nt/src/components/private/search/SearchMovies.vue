@@ -19,7 +19,7 @@
       language: 'English',
       releaseDate: new Date('2024-12-05'),
       cast: [],
-      crew: {},
+      crew: [],
     },
   ]);
 

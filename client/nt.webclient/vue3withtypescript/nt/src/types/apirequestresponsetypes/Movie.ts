@@ -1,7 +1,7 @@
 import { Movie } from '@/types/MovieTypes';
-import {  IGraphQlType } from '@/types/apirequestresponsetypes/Response';
+import {  IGraphQlResponseBase } from '@/types/apirequestresponsetypes/Response';
 
-export interface ISearchMoviesResponse extends IGraphQlType {
+export interface ISearchMoviesResponse extends IGraphQlResponseBase {
   findMovie: Movie[]
   
 }

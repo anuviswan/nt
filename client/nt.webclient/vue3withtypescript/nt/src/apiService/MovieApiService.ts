@@ -11,7 +11,16 @@ class MovieApiService extends ApiServiceBase {
         findMovie(searchTerm: $searchTerm) {
           language
           releaseDate
-          title
+          title,
+          cast {
+                name
+              },
+          crew {
+            key
+            value {
+              name
+            }
+          }
         }
       }
     `;
