@@ -11,7 +11,11 @@ console.log(props)
 </script>
 <template>
     <div class="row">
-       <div class="col"> {{ crewTitle }}</div>
-        <div class="col" v-for="(person,index) in crewMembers" :key="index">{{person.name}}</div>
+       <div class="col"><b>{{ crewTitle }}</b></div>
+       <div class="col">
+        <div class="row" v-for="(person,index) in crewMembers" :key="index">
+            <div class="col" >{{person.name}}</div>
+        </div>
+    </div>
     </div>
 </template>

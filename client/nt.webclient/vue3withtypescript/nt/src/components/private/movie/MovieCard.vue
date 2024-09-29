@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { Movie, Person } from '@/types/MovieTypes';
-  import CrewsCard from './CrewsCard.vue';
+  import CrewCard from './CrewCard.vue';
+  import CastCard from './CastCard.vue';
+
   interface Props {
     movie: Movie;
   }
@@ -31,17 +33,35 @@
 
   <!-- Director Section Below Language -->
   <div class="row mt-3">
-  <div class="col">
-
-
-    <!-- Include the CrewsCard -->
-    <div class="row" v-if="findCrewMembers(movie, 'Director')">
-      <div class="col">
-        <CrewsCard crew-title="Director" :crew-members="findCrewMembers(movie, 'Director')"/>
+    <div class="col">
+      <div class="row" v-if="findCrewMembers(movie, 'Director')">
+        <div class="col">
+          <CrewCard crew-title="Director" :crew-members="findCrewMembers(movie, 'Director')"/>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="row" v-if="findCrewMembers(movie, 'Story')">
+        <div class="col">
+          <CrewCard crew-title="Story" :crew-members="findCrewMembers(movie, 'Story')"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <CastCard :cast="movie.cast"/>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 </template>
