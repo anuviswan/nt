@@ -1,6 +1,5 @@
 ﻿using MovieService.Service.Interfaces.Dtos;
 using MovieService.Service.Interfaces.Services;
-
 namespace MovieService.GraphQL.Queries;
 
 public class Query
@@ -11,7 +10,8 @@ public class Query
         _movieService = movieService;
     }
 
-    public IAsyncEnumerable<MovieDto> FindMovie(string searchTerm)
+    [UseFiltering]
+    public IEnumerable<MovieDto> FindMovie(string searchTerm)
     {
         return _movieService.Search(searchTerm);
     }
