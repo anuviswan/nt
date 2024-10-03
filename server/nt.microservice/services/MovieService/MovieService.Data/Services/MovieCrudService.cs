@@ -17,17 +17,23 @@ public class MovieCrudService : IMovieCrudService
     public async Task CreateAsync(MovieEntity newBook) =>
         await newBook.SaveAsync();
 
-    public async IAsyncEnumerable<MovieEntity> Search(string searchTerm)
+    public IQueryable<MovieEntity> Search(string searchTerm)
     {
-        var cursor = await DB.Find<MovieEntity>().Match(x => x.Regex(c => c.Title, new BsonRegularExpression(searchTerm, "i")))
-                                   .ExecuteCursorAsync();
-
-        while (await cursor.MoveNextAsync())
+        try
         {
-            foreach(var movie in cursor.Current)
-            {
-                yield return movie;
-            }
+            return DB.Queryable<MovieEntity>()
+                                    .Where(m => m.Title.ToLower().Contains(searchTerm.ToLower()));
+
+            // Use a regex for case-insensitive search
+
         }
+        catch (Exception e )
+        {
+
+            throw e;
+        }
+        //return await DB.Queryable<MovieEntity>().Where(x => x.Regex(c => c.Title, new BsonRegularExpression(searchTerm, "i")));
+        
+      
     }
 }
