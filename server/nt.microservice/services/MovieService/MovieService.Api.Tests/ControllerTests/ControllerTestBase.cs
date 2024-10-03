@@ -9,9 +9,11 @@ public class ControllerTestsBase
 {
     protected void MockModelState<TModel, TController>(TModel model, TController controller) where TController : ControllerBase
     {
-        var validationContext = new ValidationContext(model, null, null);
+        ArgumentNullException.ThrowIfNull(nameof(model));
+
+        var validationContext = new ValidationContext(model!, null, null);
         var validationResults = new List<ValidationResult>();
-        Validator.TryValidateObject(model, validationContext, validationResults, true);
+        Validator.TryValidateObject(model!, validationContext, validationResults, true);
 
         foreach (var validationResult in validationResults)
         {

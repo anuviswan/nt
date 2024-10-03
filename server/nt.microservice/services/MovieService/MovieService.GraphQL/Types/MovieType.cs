@@ -20,6 +20,9 @@ public class MovieType : ObjectType<MovieDto>
         descriptor.Field(x => x.Cast)
                   .Type<ListType<PersonType>>()
                   .Description("Cast of the movie");
+        descriptor.Field(x => x.Crew)
+                  .Type<AnyType>()
+                  .Description("Crew of the movie");
     }
 }
 

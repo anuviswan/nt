@@ -20,7 +20,7 @@ public class QueryType : ObjectType<Query>
 {
     protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
     {
-        descriptor.Field(x => x.FindMovie(default, default))
+        descriptor.Field(x => x.FindMovie(default!, default!))
                    .Type<MovieType>()
                    .Argument("searchTerm", x=> x.Type<StringType>())
                    .Description("Find Movie by partial name");
