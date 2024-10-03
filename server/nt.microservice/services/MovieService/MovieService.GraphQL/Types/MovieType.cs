@@ -19,6 +19,7 @@ public class MovieType : ObjectType<MovieDto>
                   .Description("Release date of movie");
         descriptor.Field(x => x.Cast)
                   .Type<ListType<PersonType>>()
+                  .UsePaging()
                   .Description("Cast of the movie");
         descriptor.Field(x => x.Crew)
                   .Type<AnyType>()
@@ -30,6 +31,8 @@ public class PersonType : ObjectType<PersonDto>
 {
     protected override void Configure(IObjectTypeDescriptor<PersonDto> descriptor)
     {
+        descriptor.Description("Defines a Person");
+
         descriptor.Field(x => x.Name)
             .Type<NonNullType<StringType>>()
             .Description("Name of the person");
