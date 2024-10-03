@@ -9,7 +9,7 @@ public static class ValueInjectorMapper
     public static void RegisterTypes()
     {
         // Define the mapping for PersonEntity to PersonDto
-        Mapper.AddMap<PersonEntity, PersonDto>(src => new PersonDto { Name = src.Name });
+        Mapper.AddMap<PersonEntity, PersonDto>(src => new PersonDto(src.Name));
 
         // Define the mapping for MovieEntity to MovieDto
         Mapper.AddMap<MovieEntity, MovieDto>(src =>

@@ -10,12 +10,8 @@ public record MovieDto
 
     public Dictionary<string,List<PersonDto>>? Crew { get; set; }
 
-    public List<PersonDto> Cast { get; set; }
+    public List<PersonDto>? Cast { get; set; }
 }
 
 
-public record PersonDto
-{
-    public string Name { get; set; }
-
-}
+public record PersonDto(string Name);

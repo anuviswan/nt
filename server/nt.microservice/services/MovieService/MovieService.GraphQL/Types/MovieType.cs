@@ -10,7 +10,6 @@ public class MovieType : ObjectType<MovieDto>
         descriptor.Description("Defines a movie");
 
         descriptor.Field(x=>x.Title)
-                  .Type<StringType>()
                   .Description("Title of Movie");
         descriptor.Field(x=>x.Language)
                   .Type<StringType>()
@@ -18,5 +17,18 @@ public class MovieType : ObjectType<MovieDto>
         descriptor.Field(x=>x.ReleaseDate)
                   .Type<DateTimeType>()
                   .Description("Release date of movie");
+        descriptor.Field(x => x.Cast)
+                  .Type<ListType<PersonType>>()
+                  .Description("Cast of the movie");
+    }
+}
+
+public class PersonType : ObjectType<PersonDto>
+{
+    protected override void Configure(IObjectTypeDescriptor<PersonDto> descriptor)
+    {
+        descriptor.Field(x => x.Name)
+            .Type<NonNullType<StringType>>()
+            .Description("Name of the person");
     }
 }
