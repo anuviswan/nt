@@ -8,8 +8,6 @@ namespace MovieService.GraphQL.Queries;
 
 public class Query
 {
-    
-    [UseFiltering]
     public IEnumerable<MovieDto> FindMovie([Service]IMovieService movieService, string searchTerm)
     {
         return movieService.Search(searchTerm);
@@ -21,7 +19,7 @@ public class QueryType : ObjectType<Query>
     protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
     {
         descriptor.Field(x => x.FindMovie(default!, default!))
-                   .Type<MovieType>()
+                   .Type<ListType<MovieType>>()
                    .Argument("searchTerm", x=> x.Type<StringType>())
                    .Description("Find Movie by partial name");
     }
