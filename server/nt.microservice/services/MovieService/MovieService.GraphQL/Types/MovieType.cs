@@ -10,6 +10,7 @@ public class MovieType : ObjectType<MovieDto>
         descriptor.Description("Defines a movie");
 
         descriptor.Field(x=>x.Title)
+                  .Type<StringType>()
                   .Description("Title of Movie");
         descriptor.Field(x=>x.Language)
                   .Type<StringType>()
@@ -19,11 +20,11 @@ public class MovieType : ObjectType<MovieDto>
                   .Description("Release date of movie");
         descriptor.Field(x => x.Cast)
                   .Type<ListType<PersonType>>()
-                  .UsePaging()
+                  .UsePaging<PersonType>()
                   .Description("Cast of the movie");
-        descriptor.Field(x => x.Crew)
-                  .Type<AnyType>()
-                  .Description("Crew of the movie");
+        //descriptor.Field(x => x.Crew)
+        //          .Type<AnyType>()
+        //          .Description("Crew of the movie");
     }
 }
 

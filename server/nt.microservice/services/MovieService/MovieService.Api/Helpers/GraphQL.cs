@@ -9,7 +9,6 @@ public static class GraphQL
     {
         serviceCollection.AddGraphQLServer()
                          .AddQueryType<QueryType>()
-                         .AddType<MovieType>()
                          .AddFiltering();
     }
 }
