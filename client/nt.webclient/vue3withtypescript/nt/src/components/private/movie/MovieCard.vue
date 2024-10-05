@@ -12,8 +12,6 @@
   function findCrewMembers(currentMovie:Movie,key:string):Person[]|undefined{
     if(currentMovie.crew)
   {
-    console.log(currentMovie)
-    console.log(currentMovie.crew)
     return currentMovie.crew.find(crewMember => crewMember.key === key)?.value;
   }
   else

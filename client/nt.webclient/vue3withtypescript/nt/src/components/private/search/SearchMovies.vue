@@ -29,7 +29,7 @@
       console.log('Searching for Movies with ' + newValue);
 
       const results = await movieApiService.SearchMovies(newValue);
-      searchResults.value = results.findMovie;
+      searchResults.value = results;
       console.log(searchResults.value)
     }
   );
