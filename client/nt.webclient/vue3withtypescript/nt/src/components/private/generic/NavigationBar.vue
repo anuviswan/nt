@@ -21,11 +21,7 @@
             >Home</router-link
           >
         </li>
-        <li class="nav-item">
-          <router-link class="nav-link" exact to="/p/UserSearch"
-            >Users</router-link
-          >
-        </li>
+
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -36,13 +32,13 @@
             Movies
           </a>
           <div class="dropdown-menu">
-            <router-link
+            <!-- <router-link
               class="dropdown-item"
               exact
               v-bind:to="`/p/movie/create`"
-            >
+            > -->
               Create
-            </router-link>
+            <!-- </router-link> -->
           </div>
         </li>
       </ul>

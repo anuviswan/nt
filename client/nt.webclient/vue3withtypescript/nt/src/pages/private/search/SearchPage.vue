@@ -8,11 +8,11 @@
         <div class="card">
           <div class="card-header">Users</div>
           <div class="card-body">
-            <SearchUsers :searchTerm="searchTerm" />
+            <SearchUsers v-if="searchTerm"  :searchTerm="searchTerm" />
           </div>
           <div class="card-header">Movies</div>
           <div class="card-body">
-            <SearchMovies :searchTerm="searchTerm" />
+            <SearchMovies v-if="searchTerm" :searchTerm="searchTerm" />
           </div>
           <div class="card-header">Reviews</div>
 
@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { computed } from 'vue';
+  import { computed,watch } from 'vue';
   import { useRoute } from 'vue-router';
   import SearchUsers from '@/components/private/search/SearchUsers.vue';
   import SearchMovies from '@/components/private/search/SearchMovies.vue';
@@ -30,9 +30,19 @@
   const route = useRoute();
 
   const searchTerm = computed(() => {
+    console.log('got search term ' + route.params.searchTerm)
     const param = route.params.searchTerm;
     return Array.isArray(param) ? param[0] : param;
   });
+
+  watch(
+  () => route.params.searchTerm,
+  (newVal) => {
+    console.log('searchTerm updated in parent:', newVal);
+    // Update searchTerm in a reactive way
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped></style>

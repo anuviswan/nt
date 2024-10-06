@@ -1,14 +1,20 @@
 <template>
   <div>
-    <ul class="user-grid">
-      <li v-for="(user, index) in searchResults" :key="index" class="user-list">
+
+    <div v-if="searchResults && searchResults.length > 0">    
+      <ul class="user-grid">
+        <li v-for="(user, index) in searchResults" :key="index" class="user-list">
         <UserProfileCard :user="user" :isMiniCard="true" :isReadOnly="true" />
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <i>No User found !</i>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { defineProps, withDefaults, ref, watch } from "vue";
+import { defineProps, ref, watch } from "vue";
 import { User } from "@/types/UserTypes";
 import UserProfileCard from "@/components/private/user/UserProfileCard.vue";
 import { userApiService } from "@/apiService/UserApiService";
@@ -17,9 +23,7 @@ interface Props {
   searchTerm: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  searchTerm: "",
-});
+const props = defineProps<Props>();
 
 const searchResults = ref<User[]>([
   {
@@ -32,7 +36,7 @@ const searchResults = ref<User[]>([
 watch(
   () => props.searchTerm,
   async (newValue) => {
-    console.log("Searching for " + newValue);
+    console.log("Searching Users with  " + newValue);
 
     const response = await userApiService.searchUsers(newValue);
 
@@ -44,6 +48,8 @@ watch(
       searchResults.value = response.users;
     }
   },
+  
+  { immediate: true } 
 );
 </script>
 <style scoped>

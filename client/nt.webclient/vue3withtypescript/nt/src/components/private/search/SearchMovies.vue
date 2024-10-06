@@ -8,9 +8,7 @@
     searchTerm: string;
   }
 
-  const props = withDefaults(defineProps<Props>(), {
-    searchTerm: '',
-  });
+  const props = defineProps<Props>();
 
   
   const searchResults = ref<Movie[]>([
@@ -32,20 +30,27 @@
       searchResults.value = results;
       console.log(searchResults.value)
     }
+    ,
+  { immediate: true } 
   );
 
 </script>
 <template>
   <div>
-    <ul class="user-grid">
-      <li
-        v-for="(movie, index) in searchResults"
-        :key="index"
-        class="user-list"
-      >
-        <MovieCard :movie="movie" />
-      </li>
-    </ul>
+    <div v-if="searchResults && searchResults.length > 0">
+      <ul class="user-grid">
+        <li
+          v-for="(movie, index) in searchResults"
+          :key="index"
+          class="user-list"
+        >
+          <MovieCard :movie="movie" />
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <i>No movies found !</i>
+    </div>
   </div>
 </template>
 <style scoped>
