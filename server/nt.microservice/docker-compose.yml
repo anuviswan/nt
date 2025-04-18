@@ -245,6 +245,7 @@ services:
       - "27017:27017"
     volumes:
          - nt.movieservice.db.volume:/data/db
+    # command: ["bash", "-c", "mongod --bind_ip_all & sleep 5 && bash /services/MovieService/MovieService.Data/Seed/init-mongo.sh"]
 
   # MovieService: Database Management Tool
   mongo-express:

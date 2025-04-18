@@ -1,0 +1,81 @@
+﻿[
+  {
+    "title": "Inception",
+    "language": "English",
+    "releaseDate": "2010-07-16T00:00:00Z",
+    "cast": [
+      { "name": "Leonardo DiCaprio" },
+      { "name": "Joseph Gordon-Levitt" },
+      { "name": "Elliot Page" }
+    ],
+    "crew": {
+      "director": [ { "name": "Christopher Nolan" } ],
+      "writer": [ { "name": "Christopher Nolan" } ]
+    }
+  },
+  {
+    "title": "Parasite",
+    "language": "Korean",
+    "releaseDate": "2019-05-30T00:00:00Z",
+    "cast": [
+      { "name": "Song Kang-ho" },
+      { "name": "Lee Sun-kyun" },
+      { "name": "Cho Yeo-jeong" }
+    ],
+    "crew": {
+      "director": [ { "name": "Bong Joon-ho" } ],
+      "writer": [ { "name": "Bong Joon-ho" } ]
+    }
+  },
+  {
+    "title": "The Matrix",
+    "language": "English",
+    "releaseDate": "1999-03-31T00:00:00Z",
+    "cast": [
+      { "name": "Keanu Reeves" },
+      { "name": "Laurence Fishburne" },
+      { "name": "Carrie-Anne Moss" }
+    ],
+    "crew": {
+      "director": [
+        { "name": "Lana Wachowski" },
+        { "name": "Lilly Wachowski" }
+      ],
+      "writer": [
+        { "name": "Lana Wachowski" },
+        { "name": "Lilly Wachowski" }
+      ]
+    }
+  },
+  {
+    "title": "Spirited Away",
+    "language": "Japanese",
+    "releaseDate": "2001-07-20T00:00:00Z",
+    "cast": [
+      { "name": "Rumi Hiiragi" },
+      { "name": "Miyu Irino" },
+      { "name": "Mari Natsuki" }
+    ],
+    "crew": {
+      "director": [ { "name": "Hayao Miyazaki" } ],
+      "writer": [ { "name": "Hayao Miyazaki" } ]
+    }
+  },
+  {
+    "title": "The Godfather",
+    "language": "English",
+    "releaseDate": "1972-03-24T00:00:00Z",
+    "cast": [
+      { "name": "Marlon Brando" },
+      { "name": "Al Pacino" },
+      { "name": "James Caan" }
+    ],
+    "crew": {
+      "director": [ { "name": "Francis Ford Coppola" } ],
+      "writer": [
+        { "name": "Mario Puzo" },
+        { "name": "Francis Ford Coppola" }
+      ]
+    }
+  }
+]
