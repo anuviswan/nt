@@ -8,7 +8,7 @@ namespace MovieService.GraphQL.Queries;
 
 public class Query
 {
-    public IEnumerable<MovieDto> FindMovie([Service]IMovieService movieService, string searchTerm)
+    public IAsyncEnumerable<MovieDto> FindMovie([Service]IMovieService movieService, string searchTerm)
     {
         return movieService.Search(searchTerm);
     }

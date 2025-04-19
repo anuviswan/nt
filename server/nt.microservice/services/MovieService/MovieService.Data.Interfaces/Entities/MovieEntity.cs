@@ -11,8 +11,8 @@ public class MovieEntity : Entity
     [Field("title")]
     public string Title { get; set; } = null!;
 
-    [Field("language")]
-    public string? Language { get; set; }
+    [Field("movie-language")]
+    public string? MovieLanguage { get; set; }
 
     [TechnicalDebt(DebtType.MissingFeature, "Missing support for DateOnly in MongoDb, will use DateTime until then")]
     [Field("releaseDate")]

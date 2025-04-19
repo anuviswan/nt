@@ -5,5 +5,5 @@ namespace MovieService.Data.Interfaces.Services;
 public interface IMovieCrudService
 {
     Task CreateAsync(MovieEntity newBook);
-    IQueryable<MovieEntity> Search(string searchTerm);
+    IAsyncEnumerable<MovieEntity> SearchAsync(string searchTerm);
 }
