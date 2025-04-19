@@ -19,7 +19,7 @@ public class CreateMovieTests : ControllerTestsBase
         A.CallTo(() => mockMovieService.CreateMovie(A<MovieDto>.Ignored)).ReturnsLazily( (MovieDto movie) => Task.FromResult(new MovieDto
         {
             Title = movie.Title,
-            Language = movie.Language,
+            MovieLanguage = movie.MovieLanguage,
             ReleaseDate = new DateTime(2016, 1, 1)
         }));
 

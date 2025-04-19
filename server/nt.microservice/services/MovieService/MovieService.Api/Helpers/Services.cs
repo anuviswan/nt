@@ -20,6 +20,7 @@ public static class Services
     private static void RegisterInitializersAndProviders(IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<DatabaseInitializer>();
+
         serviceCollection.AddSingleton<ModuleInitializer>();
         serviceCollection.AddSingleton<ILoggerProvider>(serviceProvider =>
         {

@@ -12,7 +12,7 @@ public class MovieType : ObjectType<MovieDto>
         descriptor.Field(x=>x.Title)
                   .Type<StringType>()
                   .Description("Title of Movie");
-        descriptor.Field(x=>x.Language)
+        descriptor.Field(x=>x.MovieLanguage)
                   .Type<StringType>()
                   .Description("Language of movie");
         descriptor.Field(x=>x.ReleaseDate)

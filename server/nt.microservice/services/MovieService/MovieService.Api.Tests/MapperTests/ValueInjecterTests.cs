@@ -23,7 +23,7 @@ public class ValueInjecterTests
 
         // Assert
         Assert.AreEqual(movieRequest.Title, movieEntity.Title);
-        Assert.AreEqual(movieRequest.Language, movieEntity.Language);
+        Assert.AreEqual(movieRequest.Language, movieEntity.MovieLanguage);
         Assert.AreEqual(movieRequest.ReleaseDate, movieEntity.ReleaseDate);
     }
 }

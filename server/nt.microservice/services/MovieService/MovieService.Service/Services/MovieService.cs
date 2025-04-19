@@ -41,16 +41,14 @@ public class MovieService : ServiceBase, IMovieService
 
     }
 
-    public IEnumerable<MovieDto> Search(string searchTerm)
+    public async IAsyncEnumerable<MovieDto> Search(string searchTerm)
     {
         if(string.IsNullOrEmpty(searchTerm))
             yield break;
 
-        var movieSearch = _movieCrudService.Search(searchTerm);
-
-        foreach (var movie in movieSearch)
+        await foreach (var movie in _movieCrudService.SearchAsync(searchTerm))
         {
-            yield return Mapper.Map<MovieDto>(movie); // Yield each mapped movie one by one
+            yield return Mapper.Map<MovieDto>(movie);
         }
     }
 }

@@ -26,7 +26,7 @@ public class MovieServiceTests : ServiceTestsBase
 
         #region Assert
         Assert.AreEqual(expectedResult.Title, result.Title);
-        Assert.AreEqual(expectedResult.Language, result.Language);
+        Assert.AreEqual(expectedResult.MovieLanguage, result.MovieLanguage);
         Assert.AreEqual(expectedResult.ReleaseDate, result.ReleaseDate);
         #endregion
     }
@@ -40,13 +40,13 @@ public class MovieServiceTests : ServiceTestsBase
                 new MovieDto
                 {
                     Title = "Inception",
-                    Language = "English",
+                    MovieLanguage = "English",
                     ReleaseDate = new DateTime(2010, 7, 16)
                 },
                 new MovieDto
                 {
                     Title = "Inception",
-                    Language = "English",
+                    MovieLanguage = "English",
                     ReleaseDate = new DateTime(2010, 7, 16)
                 }
              };

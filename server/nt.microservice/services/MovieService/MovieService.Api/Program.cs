@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using MovieService.Api;
 using MovieService.Api.Helpers;
 using MovieService.Api.Settings;
 using MovieService.Data;
+using System;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,8 +37,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices();
 builder.Services.RegisterGraphQl();
 ValueInjectorMapper.RegisterTypes();
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var moduleInitializer = scope.ServiceProvider.GetService<ModuleInitializer>();
+    if(moduleInitializer is not null)
+    { 
+        await moduleInitializer.Initialize(); 
+    }
+}
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -52,8 +64,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapGraphQL();
 
-var serviceProvider = app.Services;
-var moduleInitializer = serviceProvider.GetService<ModuleInitializer>();
-moduleInitializer?.Initialize().Wait();
+
 
 app.Run();

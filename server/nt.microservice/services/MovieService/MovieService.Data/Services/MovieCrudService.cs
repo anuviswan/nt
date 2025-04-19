@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDB.Entities;
 using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
@@ -17,23 +18,18 @@ public class MovieCrudService : IMovieCrudService
     public async Task CreateAsync(MovieEntity newBook) =>
         await newBook.SaveAsync();
 
-    public IQueryable<MovieEntity> Search(string searchTerm)
+    public async IAsyncEnumerable<MovieEntity> SearchAsync(string searchTerm)
     {
-        try
+        var cursor = await DB.Find<MovieEntity>()
+                             .Match(Search.Full, searchTerm)
+                             .ExecuteCursorAsync();
+
+        while (await cursor.MoveNextAsync())
         {
-            return DB.Queryable<MovieEntity>()
-                                    .Where(m => m.Title.ToLower().Contains(searchTerm.ToLower()));
-
-            // Use a regex for case-insensitive search
-
+            foreach (var movie in cursor.Current)
+            {
+                yield return movie;
+            }
         }
-        catch (Exception e )
-        {
-
-            throw e;
-        }
-        //return await DB.Queryable<MovieEntity>().Where(x => x.Regex(c => c.Title, new BsonRegularExpression(searchTerm, "i")));
-        
-      
     }
 }

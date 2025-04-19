@@ -39,14 +39,14 @@ public class MovieController : BaseController
         }
     }
 
-    //[HttpGet]
-    //[Route("searchbyname")]
-    //public async IAsyncEnumerable<MovieSearchResult> SearchMovieByName(string searchTerm)
-    //{
-    //    var response = _movieService.Search(searchTerm);
-    //    foreach (var movie in response)
-    //    {
-    //        yield return Mapper.Map<MovieSearchResult>(movie);
-    //    }
-    //}
+    [HttpGet]
+    [Route("searchbyname")]
+    public async IAsyncEnumerable<MovieSearchResult> SearchMovieByName(string searchTerm)
+    {
+        var response = _movieService.Search(searchTerm);
+        await foreach (var movie in response)
+        {
+            yield return Mapper.Map<MovieSearchResult>(movie);
+        }
+    }
 }

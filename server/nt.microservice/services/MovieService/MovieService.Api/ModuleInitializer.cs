@@ -43,17 +43,21 @@ public class DatabaseInitializer
 
     public async Task Initialize()
     {
-        if (!await CheckIfCollectionExists(_databaseSettings.MovieCollectionName))
-        {
-            var collection = _database.GetCollection<MovieEntity>(_databaseSettings.MovieCollectionName);
+        await IndexInitializer.Setup();
 
+        var collection = await GetCollection(_databaseSettings.MovieCollectionName);
+        bool exists = await collection.Find(FilterDefinition<MovieEntity>.Empty)
+                               .AnyAsync();
+
+        if (collection is not null && !exists)
+        {
             var documents = new[]
             {
                 new MovieEntity
                 {
                     ID = "556fa735-8d64-4dad-ac9f-b71348c1c683",
                     Title = "Yodha",
-                    Language = "Malayalam",
+                    MovieLanguage = "Malayalam",
                     ReleaseDate = new DateOnly(1992, 9, 3).ToDateTime(TimeOnly.MinValue),
                     Crew = new Dictionary<string, List<PersonEntity>>
                     {
@@ -72,7 +76,7 @@ public class DatabaseInitializer
                 {
                     ID = "c0ed3691-e197-4ce4-9580-7a9d08fea416",
                     Title = "Manichitrathazu",
-                    Language = "Malayalam",
+                    MovieLanguage = "Malayalam",
                     ReleaseDate = new DateOnly(1993, 12, 25).ToDateTime(TimeOnly.MinValue),
                     Crew = new Dictionary<string, List<PersonEntity>>
                     {
@@ -91,7 +95,7 @@ public class DatabaseInitializer
                 {
                     ID = "4c7efcd9-66ad-4b42-9b7d-5933d47f17e9",
                     Title = "Amaram",
-                    Language = "Malayalam",
+                    MovieLanguage = "Malayalam",
                     ReleaseDate = new DateOnly(1991, 2, 1).ToDateTime(TimeOnly.MinValue),
                     Crew = new Dictionary<string, List<PersonEntity>>
                     {
@@ -114,7 +118,7 @@ public class DatabaseInitializer
     }
 
 
-    private async Task<bool> CheckIfCollectionExists(string collectionName)
+    private async Task<IMongoCollection<MovieEntity>?> GetCollection(string collectionName)
     {
         var filter = new BsonDocument("name", collectionName);
         var collections = await _database.ListCollectionNamesAsync(new ListCollectionNamesOptions
@@ -122,7 +126,19 @@ public class DatabaseInitializer
             Filter = filter
         });
 
-        return await collections.AnyAsync();
+        return _database.GetCollection<MovieEntity>(_databaseSettings.MovieCollectionName);
     }
 }
+
+public static class IndexInitializer
+{
+    public static async Task Setup()
+    {
+        await DB.Index<MovieEntity>()
+                .Key(x => x.Title, KeyType.Text)
+                //.Key(x => x.Description, KeyType.Text) TODO For Future
+                .CreateAsync();
+    }
+}
+
 
