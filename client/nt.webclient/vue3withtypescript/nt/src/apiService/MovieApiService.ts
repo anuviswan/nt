@@ -9,28 +9,18 @@ class MovieApiService extends ApiServiceBase {
     searchTerm: string
   ): Promise<Movie[]> {
 
+    console.log('ready - create query')
     const search_movie: DocumentNode = gql`
     query findMovieQuery($searchTerm:String!) {
     findMovie(searchTerm: $searchTerm) {
-      language
+      movielanguage
       releaseDate
       title
-      cast(first:5) {
-        edges {node{
-          name
-        }}
-        
-      }
-      crew{
-          key
-          value{
-            name
-          }
-          }
-        }
     }
-  
+  }
     `
+
+    console.log('ready to search for movies')
     const response = await this.queryGraphQl<ISearchMoviesResponse>(search_movie,{ searchTerm})
     const movies = response.findMovie.map(movieResponse => (ConvertToMovieDto(movieResponse)));
     return movies;
