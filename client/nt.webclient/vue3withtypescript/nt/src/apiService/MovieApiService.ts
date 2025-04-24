@@ -16,6 +16,19 @@ class MovieApiService extends ApiServiceBase {
       movieLanguage
       releaseDate
       title
+      cast{
+      edges{
+        node{
+          name
+        }
+      }
+    }
+    crew{
+      key
+      value{
+        name
+      }
+    }
     }
   }
     `
