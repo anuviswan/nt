@@ -13,7 +13,7 @@ class MovieApiService extends ApiServiceBase {
     const search_movie: DocumentNode = gql`
     query findMovieQuery($searchTerm:String!) {
     findMovie(searchTerm: $searchTerm) {
-      movielanguage
+      movieLanguage
       releaseDate
       title
     }
@@ -30,11 +30,11 @@ class MovieApiService extends ApiServiceBase {
 function ConvertToMovieDto(movieResponse:MovieResponse):Movie{
   const movie = {
     ...movieResponse,
-    cast: movieResponse.cast.edges.map(edge=>({name:edge.node.name})),
-    crew: movieResponse.crew.map(kvp=>({
+    cast: movieResponse.cast?.edges?.map(edge=>({name:edge?.node?.name})) ?? [],
+    crew: movieResponse.crew?.map(kvp=>({
       key : kvp.key,
-      value: kvp.value.map((p)=>({ name: p.name}))
-    }))
+      value: kvp.value?.map((p)=>({ name: p.name}))
+    })) ?? []
   };
 
   return  movie;

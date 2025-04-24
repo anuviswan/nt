@@ -1,6 +1,6 @@
 export interface Movie {
   title: string;
-  language: string;
+  movieLanguage: string;
   releaseDate: Date;
   cast: Person[];
   crew: KeyValuePair<string,Person[]>[];

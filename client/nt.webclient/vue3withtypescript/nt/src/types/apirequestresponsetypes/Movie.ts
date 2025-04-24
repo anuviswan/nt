@@ -7,7 +7,7 @@ export interface ISearchMoviesResponse extends IGraphQlResponseBase {
 
 export interface MovieResponse {
   title: string;
-  language: string;
+  movieLanguage: string;
   releaseDate: Date;
   cast: CastResponse;
   crew: KeyValuePair<string,PersonResponse[]>[];
