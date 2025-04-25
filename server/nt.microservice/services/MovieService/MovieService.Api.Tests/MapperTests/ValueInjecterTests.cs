@@ -14,7 +14,7 @@ public class ValueInjecterTests
         var movieRequest = new CreateMovieRequest
         {
             Title = "Title",
-            Language = "en",
+            MovieLanguage = "en",
             ReleaseDate = new DateTime(2001, 1, 1)
         };
 
@@ -23,7 +23,7 @@ public class ValueInjecterTests
 
         // Assert
         Assert.AreEqual(movieRequest.Title, movieEntity.Title);
-        Assert.AreEqual(movieRequest.Language, movieEntity.MovieLanguage);
+        Assert.AreEqual(movieRequest.MovieLanguage, movieEntity.MovieLanguage);
         Assert.AreEqual(movieRequest.ReleaseDate, movieEntity.ReleaseDate);
     }
 }

@@ -9,28 +9,31 @@ class MovieApiService extends ApiServiceBase {
     searchTerm: string
   ): Promise<Movie[]> {
 
+    console.log('ready - create query')
     const search_movie: DocumentNode = gql`
     query findMovieQuery($searchTerm:String!) {
     findMovie(searchTerm: $searchTerm) {
-      language
+      movieLanguage
       releaseDate
       title
-      cast(first:5) {
-        edges {node{
+      cast{
+      edges{
+        node{
           name
-        }}
-        
-      }
-      crew{
-          key
-          value{
-            name
-          }
-          }
         }
+      }
     }
-  
+    crew{
+      key
+      value{
+        name
+      }
+    }
+    }
+  }
     `
+
+    console.log('ready to search for movies')
     const response = await this.queryGraphQl<ISearchMoviesResponse>(search_movie,{ searchTerm})
     const movies = response.findMovie.map(movieResponse => (ConvertToMovieDto(movieResponse)));
     return movies;
@@ -40,11 +43,11 @@ class MovieApiService extends ApiServiceBase {
 function ConvertToMovieDto(movieResponse:MovieResponse):Movie{
   const movie = {
     ...movieResponse,
-    cast: movieResponse.cast.edges.map(edge=>({name:edge.node.name})),
-    crew: movieResponse.crew.map(kvp=>({
+    cast: movieResponse.cast?.edges?.map(edge=>({name:edge?.node?.name})) ?? [],
+    crew: movieResponse.crew?.map(kvp=>({
       key : kvp.key,
-      value: kvp.value.map((p)=>({ name: p.name}))
-    }))
+      value: kvp.value?.map((p)=>({ name: p.name}))
+    })) ?? []
   };
 
   return  movie;

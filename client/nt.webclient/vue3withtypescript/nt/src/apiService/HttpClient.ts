@@ -73,13 +73,19 @@ class HttpClient{
     }
 
     public async queryGraphQl<T extends IGraphQlResponseBase>(query:DocumentNode,variable:object):Promise<T>{
-        const response = await apolloClient.query<T>({
-            query: query,
-            variables:  variable ,  // Pass the search term as a variable
-          });
 
-          console.log(response.data);
-          return response.data;
+        try {
+
+            console.log("GraphQL Query:", query.loc?.source.body); // Shows full query string
+console.log("Variables:", JSON.stringify(variable, null, 2));
+
+            const result = await apolloClient.query<T>({ query, variables: variable });
+            console.log(result.data);
+            return result.data;
+          } catch (err) {
+            console.error("GraphQL request failed:", err);
+            throw err;
+          }
     }
 }
 

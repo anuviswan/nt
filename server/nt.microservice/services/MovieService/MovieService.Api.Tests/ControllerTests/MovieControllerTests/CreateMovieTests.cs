@@ -46,7 +46,7 @@ public class CreateMovieTests : ControllerTestsBase
                 new CreateMovieRequest
                 {
                     Title = "Inception",
-                    Language = "English",
+                    MovieLanguage = "English",
                     ReleaseDate = new DateTime(2010, 7, 16)
                 },
                 new CreateMovieResponse
