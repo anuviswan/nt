@@ -25,3 +25,8 @@ Implementation details of different services are as follows.
 
  - Prometheus + Grafana
  - Portainer
+
+   **Architecture**
+   
+   ![NT System Design](https://github.com/anuviswan/nt/blob/master/server/nt.microservice/SystemDesign.jpg)
+   
