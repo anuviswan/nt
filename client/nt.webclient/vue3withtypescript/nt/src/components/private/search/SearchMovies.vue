@@ -38,7 +38,7 @@
 <template>
   <div>
     <div v-if="searchResults && searchResults.length > 0">
-      <ul class="user-grid">
+      <ul class="movie-flex">
         <li
           v-for="(movie, index) in searchResults"
           :key="index"
@@ -53,16 +53,20 @@
     </div>
   </div>
 </template>
+
 <style scoped>
-  .user-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 16px;
-    padding: 16px;
-    grid-auto-rows: min-content; /* Ensure rows take the space they need */
-  }
-  .user-list {
-    list-style-type: none;
-    padding: 0;
-  }
+.movie-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 16px;
+  justify-content: flex-start;
+}
+
+.user-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  flex: 0 1 250px; /* Each card can shrink or grow but has a base width */
+}
 </style>

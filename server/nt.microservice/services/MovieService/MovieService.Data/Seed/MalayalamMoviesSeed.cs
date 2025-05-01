@@ -4,958 +4,758 @@ namespace MovieService.Data.Seed;
 
 internal class MalayalamMoviesSeed
 {
-    public static IEnumerable<MovieEntity> Movies =>
-    [
-        new()
-        {
-            ID = "e2a834de-a569-4c59-88b8-b9e1445bb75d",
-            Title = "Yodha",
+    public static IEnumerable<MovieEntity> Movies => [
+        new() {
+            ID = "ab86612b-47f0-497c-b5a5-a2d06a5af163",
+            Title = "Movie 1",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1980, 1, 1).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1998, 1, 24).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 1")],
-                ["Story"] = [new("Writer 1")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nithya Menen"), new("Prithviraj Sukumaran"), new("Asif Ali")
             }
         },
-
-        new()
-        {
-            ID = "e334a509-2134-4fb6-bf11-ccb3c977ed0a",
-            Title = "Manichitrathazhu",
+        new() {
+            ID = "882c2168-347c-4e23-89fc-4f4f88aa940d",
+            Title = "Movie 2",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1981, 2, 2).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1989, 8, 15).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 2")],
-                ["Story"] = [new("Writer 2")]
+                ["Director"] = [new("Fazil")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Mamta Mohandas"), new("Mammootty"), new("Revathi")
             }
         },
-
-        new()
-        {
-            ID = "41a1ccb5-dd81-4996-b1dc-df067411a45c",
-            Title = "Amaram",
+        new() {
+            ID = "bfabe9b0-53be-43e1-af00-a08fddff6ebf",
+            Title = "Movie 3",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1982, 3, 3).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1982, 12, 26).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 3")],
-                ["Story"] = [new("Writer 3")]
+                ["Director"] = [new("Jeethu Joseph")],
+                ["Music Director"] = [new("Gopi Sundar")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Prithviraj Sukumaran"), new("Fahadh Faasil"), new("Mammootty")
             }
         },
-
-        new()
-        {
-            ID = "d3c6cdc1-032a-40a4-9b1b-0b83d7c9dc56",
-            Title = "Kireedam",
+        new() {
+            ID = "0f23a4e0-9d42-467a-8f9c-6a2c7743f9c3",
+            Title = "Movie 4",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1983, 4, 4).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2004, 12, 15).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 4")],
-                ["Story"] = [new("Writer 4")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("Rajesh Murugesan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nivin Pauly"), new("Parvathy Thiruvothu"), new("Meena")
             }
         },
-
-        new()
-        {
-            ID = "e02844bb-9639-4546-b142-8693ed2cbaea",
-            Title = "Drishyam",
+        new() {
+            ID = "66556ebb-8a03-4182-a3c3-ffedf7d7d482",
+            Title = "Movie 5",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1984, 5, 5).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2004, 2, 15).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 5")],
-                ["Story"] = [new("Writer 5")]
+                ["Director"] = [new("Lal Jose")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nithya Menen"), new("Jayasurya"), new("Aparna Balamurali")
             }
         },
-
-        new()
-        {
-            ID = "6061d09f-62f5-4a02-840c-3f826be6441b",
-            Title = "Premam",
+        new() {
+            ID = "3e76233b-a382-44d1-ae0e-5900d89fd551",
+            Title = "Movie 6",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1985, 6, 6).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2009, 11, 25).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 6")],
-                ["Story"] = [new("Writer 6")]
+                ["Director"] = [new("Jeethu Joseph")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Manju Warrier"), new("Aparna Balamurali"), new("Sai Pallavi")
             }
         },
-
-        new()
-        {
-            ID = "b603f88a-fa3a-4bf5-892c-acc1fec7ff1b",
-            Title = "Bangalore Days",
+        new() {
+            ID = "3c9085fe-744a-4eeb-902b-5664aec51cd4",
+            Title = "Movie 7",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1986, 7, 7).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2000, 11, 24).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 7")],
-                ["Story"] = [new("Writer 7")]
+                ["Director"] = [new("Jeethu Joseph")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Jayasurya"), new("Meena"), new("Mamta Mohandas")
             }
         },
-
-        new()
-        {
-            ID = "80e59f21-aad7-4494-8de5-0912a834eb9c",
-            Title = "Chithram",
+        new() {
+            ID = "51cd6175-bf70-4369-822b-8bee6fb3cbfd",
+            Title = "Movie 8",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1987, 8, 8).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1990, 3, 14).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 8")],
-                ["Story"] = [new("Writer 8")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nithya Menen"), new("Mohanlal"), new("Sai Pallavi")
             }
         },
-
-        new()
-        {
-            ID = "91c77e2c-b73d-45b9-83fe-74d8dd65dd40",
-            Title = "Nadodikkattu",
+        new() {
+            ID = "c72b2778-3a17-47e9-b72b-ef06f7aa1f0d",
+            Title = "Movie 9",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1988, 9, 9).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2013, 8, 16).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 9")],
-                ["Story"] = [new("Writer 9")]
+                ["Director"] = [new("Lijo Jose Pellissery")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Kunchacko Boban"), new("Dulquer Salmaan"), new("Sai Pallavi")
             }
         },
-
-        new()
-        {
-            ID = "1fe48b70-bad7-4e4e-8c59-ae73d2663347",
-            Title = "Spadikam",
+        new() {
+            ID = "cb6290a9-4841-4ddf-ac59-caa77aefd4d5",
+            Title = "Movie 10",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1989, 10, 10).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2002, 11, 17).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 10")],
-                ["Story"] = [new("Writer 10")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nithya Menen"), new("Indrajith Sukumaran"), new("Mamta Mohandas")
             }
         },
-
-        new()
-        {
-            ID = "941f91e6-3730-42b8-b79b-06df6e700edb",
-            Title = "Thanmathra",
+        new() {
+            ID = "588f316f-c83f-40e8-a52a-513231ffac6f",
+            Title = "Movie 11",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1990, 11, 11).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1993, 7, 1).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 11")],
-                ["Story"] = [new("Writer 11")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("M. Jayachandran")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Shobana"), new("Revathi"), new("Asif Ali")
             }
         },
-
-        new()
-        {
-            ID = "b7bc1c74-155d-4e3a-92f5-eb167bcb1cab",
-            Title = "Ustad Hotel",
+        new() {
+            ID = "6897737b-eac5-46ef-a9dd-3dcb31b31ddf",
+            Title = "Movie 12",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1991, 12, 12).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2017, 12, 8).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 12")],
-                ["Story"] = [new("Writer 12")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("Anil Johnson")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Dulquer Salmaan"), new("Mammootty"), new("Mamta Mohandas")
             }
         },
-
-        new()
-        {
-            ID = "73e24416-6b05-4d68-ba1a-c5eac9102fbe",
-            Title = "Classmates",
+        new() {
+            ID = "c30bf16b-0632-4bec-a328-db3884ae99d5",
+            Title = "Movie 13",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1992, 1, 13).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1985, 10, 3).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 13")],
-                ["Story"] = [new("Writer 13")]
+                ["Director"] = [new("Alphonse Puthren")],
+                ["Music Director"] = [new("Rajesh Murugesan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nithya Menen"), new("Dulquer Salmaan"), new("Indrajith Sukumaran")
             }
         },
-
-        new()
-        {
-            ID = "8d7ee962-2a9c-4e86-b195-b4e720a1e390",
-            Title = "Traffic",
+        new() {
+            ID = "405097f4-3c2a-4cb2-9134-1a8385b465f4",
+            Title = "Movie 14",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1993, 2, 14).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1989, 12, 26).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 14")],
-                ["Story"] = [new("Writer 14")]
+                ["Director"] = [new("Priyadarshan")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Kunchacko Boban"), new("Prithviraj Sukumaran"), new("Asif Ali")
             }
         },
-
-        new()
-        {
-            ID = "07ba2c80-8803-463e-9d16-428cf04e9699",
-            Title = "Mumbai Police",
+        new() {
+            ID = "8216c07f-cfa2-4eb0-8c39-495091032766",
+            Title = "Movie 15",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1994, 3, 15).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2019, 5, 25).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 15")],
-                ["Story"] = [new("Writer 15")]
+                ["Director"] = [new("Lal Jose")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Mammootty"), new("Revathi"), new("Meena")
             }
         },
-
-        new()
-        {
-            ID = "9acf289e-ecce-4c97-a6a4-d3ff3a117d60",
-            Title = "Kali",
+        new() {
+            ID = "31533ec1-1d7b-4e79-be25-242ee511b9d4",
+            Title = "Movie 16",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1995, 4, 16).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2023, 6, 10).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 16")],
-                ["Story"] = [new("Writer 16")]
+                ["Director"] = [new("Alphonse Puthren")],
+                ["Music Director"] = [new("Anil Johnson")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Kunchacko Boban"), new("Nithya Menen"), new("Parvathy Thiruvothu")
             }
         },
-
-        new()
-        {
-            ID = "34a293e4-f98f-4c29-a2e6-f4e0a52d85dc",
-            Title = "Ennu Ninte Moideen",
+        new() {
+            ID = "5bf70320-c38a-47b9-bbd0-231a658efc4d",
+            Title = "Movie 17",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1996, 5, 17).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2017, 11, 4).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 17")],
-                ["Story"] = [new("Writer 17")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Mammootty"), new("Parvathy Thiruvothu"), new("Nithya Menen")
             }
         },
-
-        new()
-        {
-            ID = "f9e3bb51-0698-4c8c-9716-53eb4e2f614c",
-            Title = "Charlie",
+        new() {
+            ID = "11a5e43b-24e0-4a60-8d8d-20aab582d513",
+            Title = "Movie 18",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1997, 6, 18).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1990, 3, 15).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 18")],
-                ["Story"] = [new("Writer 18")]
+                ["Director"] = [new("Lijo Jose Pellissery")],
+                ["Music Director"] = [new("M. Jayachandran")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Jayasurya"), new("Mammootty"), new("Nazriya Nazim")
             }
         },
-
-        new()
-        {
-            ID = "cf0e3561-a163-4f0a-b899-fcddba52e20f",
-            Title = "Maheshinte Prathikaaram",
+        new() {
+            ID = "36638118-aabf-4f47-8851-901564ed2155",
+            Title = "Movie 19",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1998, 7, 19).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1985, 1, 16).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 19")],
-                ["Story"] = [new("Writer 19")]
+                ["Director"] = [new("Fazil")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nivin Pauly"), new("Meena"), new("Indrajith Sukumaran")
             }
         },
-
-        new()
-        {
-            ID = "b517606f-fb29-4cf2-a9cf-d036ebe4f139",
-            Title = "Ee.Ma.Yau",
+        new() {
+            ID = "e0ae9299-3d10-4221-b6a7-4d42aceda407",
+            Title = "Movie 20",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1999, 8, 20).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1997, 1, 5).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 20")],
-                ["Story"] = [new("Writer 20")]
+                ["Director"] = [new("Lijo Jose Pellissery")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Aparna Balamurali"), new("Meena"), new("Sai Pallavi")
             }
         },
-
-        new()
-        {
-            ID = "61e6f2a3-ae74-4d9b-b5df-7f7516ed2cd8",
-            Title = "Jallikattu",
+        new() {
+            ID = "27411384-3835-4c32-a169-002b8f900313",
+            Title = "Movie 21",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2000, 9, 21).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1995, 5, 28).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 21")],
-                ["Story"] = [new("Writer 21")]
+                ["Director"] = [new("Lijo Jose Pellissery")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Dulquer Salmaan"), new("Prithviraj Sukumaran"), new("Sai Pallavi")
             }
         },
-
-        new()
-        {
-            ID = "ab8d4b76-bcdb-4dcf-93ef-bb303517999e",
-            Title = "Angamaly Diaries",
+        new() {
+            ID = "9770ca5c-0ec8-418d-a53e-70d5b14b480a",
+            Title = "Movie 22",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2001, 10, 22).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1980, 11, 22).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 22")],
-                ["Story"] = [new("Writer 22")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("Anil Johnson")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Meena"), new("Nazriya Nazim"), new("Shobana")
             }
         },
-
-        new()
-        {
-            ID = "f0bc7cac-0288-4d87-889a-d9bf46f7b25e",
-            Title = "Kumbalangi Nights",
+        new() {
+            ID = "8db87df1-bb6a-405b-8660-52d427bc7482",
+            Title = "Movie 23",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2002, 11, 23).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2016, 11, 17).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 23")],
-                ["Story"] = [new("Writer 23")]
+                ["Director"] = [new("Jeethu Joseph")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Revathi"), new("Sai Pallavi"), new("Jayasurya")
             }
         },
-
-        new()
-        {
-            ID = "42941c88-8961-47b2-a389-32a175626605",
-            Title = "Thondimuthalum Driksakshiyum",
+        new() {
+            ID = "4e9cf1a3-c4d9-44f9-8b3b-1bb00d808191",
+            Title = "Movie 24",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2003, 12, 24).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2009, 11, 8).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 24")],
-                ["Story"] = [new("Writer 24")]
+                ["Director"] = [new("Fazil")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Prithviraj Sukumaran"), new("Kunchacko Boban"), new("Parvathy Thiruvothu")
             }
         },
-
-        new()
-        {
-            ID = "8ef1709a-28fb-411d-85ff-af1ff706610c",
-            Title = "Take Off",
+        new() {
+            ID = "345c69f6-f15a-41af-b92c-6e1317a3d59a",
+            Title = "Movie 25",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2004, 1, 25).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2004, 1, 16).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 25")],
-                ["Story"] = [new("Writer 25")]
+                ["Director"] = [new("Lijo Jose Pellissery")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Prithviraj Sukumaran"), new("Aparna Balamurali"), new("Fahadh Faasil")
             }
         },
-
-        new()
-        {
-            ID = "ac956138-b7e0-4713-a4dd-33a7ad26dce6",
-            Title = "Oru Indian Pranayakatha",
+        new() {
+            ID = "a2c9d082-be56-44fe-a056-ed9e44876a26",
+            Title = "Movie 26",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2005, 2, 26).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1983, 8, 4).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 26")],
-                ["Story"] = [new("Writer 26")]
+                ["Director"] = [new("Alphonse Puthren")],
+                ["Music Director"] = [new("Rajesh Murugesan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Prithviraj Sukumaran"), new("Kunchacko Boban"), new("Nazriya Nazim")
             }
         },
-
-        new()
-        {
-            ID = "af0b141d-154d-45d7-b568-9d60b5753aa1",
-            Title = "Anjaam Pathiraa",
+        new() {
+            ID = "7314162a-7e0e-484f-a685-880a33e05240",
+            Title = "Movie 27",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2006, 3, 27).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1990, 8, 20).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 27")],
-                ["Story"] = [new("Writer 27")]
+                ["Director"] = [new("Sathyan Anthikad")],
+                ["Music Director"] = [new("Gopi Sundar")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Prithviraj Sukumaran"), new("Kunchacko Boban"), new("Nazriya Nazim")
             }
         },
-
-        new()
-        {
-            ID = "e05a3db7-1090-480b-b118-cdec1e33969e",
-            Title = "Joseph",
+        new() {
+            ID = "b2f0ddf2-ccc4-4611-8090-83f4ed6f571a",
+            Title = "Movie 28",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2007, 4, 28).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1985, 8, 18).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 28")],
-                ["Story"] = [new("Writer 28")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("Gopi Sundar")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Manju Warrier"), new("Revathi"), new("Mamta Mohandas")
             }
         },
-
-        new()
-        {
-            ID = "6d1d3074-4ded-4b62-b127-d57616bf5b5a",
-            Title = "1983",
+        new() {
+            ID = "9b9706bc-9617-45a1-9d89-2ba663d7612b",
+            Title = "Movie 29",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2008, 5, 1).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2001, 11, 22).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 29")],
-                ["Story"] = [new("Writer 29")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Sai Pallavi"), new("Mamta Mohandas"), new("Indrajith Sukumaran")
             }
         },
-
-        new()
-        {
-            ID = "f1b4ce5e-e794-4063-a7d1-88ddfa0c1fd0",
-            Title = "Salt N' Pepper",
+        new() {
+            ID = "ff68f07d-643c-4d5b-a246-dabf2929ec22",
+            Title = "Movie 30",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2009, 6, 2).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2016, 5, 26).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 30")],
-                ["Story"] = [new("Writer 30")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Mammootty"), new("Revathi"), new("Nazriya Nazim")
             }
         },
-
-        new()
-        {
-            ID = "cbc14099-92ca-4070-bf40-410db71cb442",
-            Title = "Rani Padmini",
+        new() {
+            ID = "27605915-a6fe-47e1-8de4-f9f45f65e1cc",
+            Title = "Movie 31",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2010, 7, 3).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1997, 6, 10).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 31")],
-                ["Story"] = [new("Writer 31")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Kunchacko Boban"), new("Nivin Pauly"), new("Parvathy Thiruvothu")
             }
         },
-
-        new()
-        {
-            ID = "bd2c60e8-6a95-4543-8ae0-286adefab358",
-            Title = "Njan Prakashan",
+        new() {
+            ID = "9b9b4f80-e875-4990-a510-94085d74d148",
+            Title = "Movie 32",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2011, 8, 4).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2008, 8, 22).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 32")],
-                ["Story"] = [new("Writer 32")]
+                ["Director"] = [new("Lal Jose")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nazriya Nazim"), new("Jayasurya"), new("Nivin Pauly")
             }
         },
-
-        new()
-        {
-            ID = "a72b2af5-175d-43dc-aa44-269ba7c064ca",
-            Title = "Moothon",
+        new() {
+            ID = "eb48f102-8523-4f3d-9266-625ce558e8fa",
+            Title = "Movie 33",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2012, 9, 5).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1988, 1, 15).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 33")],
-                ["Story"] = [new("Writer 33")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Sai Pallavi"), new("Indrajith Sukumaran"), new("Revathi")
             }
         },
-
-        new()
-        {
-            ID = "254ae319-4174-4c35-b86a-fe560c758e5c",
-            Title = "Vikramadithyan",
+        new() {
+            ID = "961326f8-d798-4357-8e02-b1f8d7253564",
+            Title = "Movie 34",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2013, 10, 6).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1987, 2, 28).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 34")],
-                ["Story"] = [new("Writer 34")]
+                ["Director"] = [new("Blessy")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Mammootty"), new("Revathi"), new("Fahadh Faasil")
             }
         },
-
-        new()
-        {
-            ID = "9c4675c8-4f37-4469-9173-d25cd36321ec",
-            Title = "Kayamkulam Kochunni",
+        new() {
+            ID = "af2b905e-10e8-481f-b05f-d7d1d43db407",
+            Title = "Movie 35",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2014, 11, 7).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1987, 8, 2).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 35")],
-                ["Story"] = [new("Writer 35")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("M. Jayachandran")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Manju Warrier"), new("Asif Ali"), new("Dulquer Salmaan")
             }
         },
-
-        new()
-        {
-            ID = "fa17d4e4-4467-4231-979c-93a9d44ef817",
-            Title = "Pavada",
+        new() {
+            ID = "2a62335c-b448-4c93-b088-f73cda91ccc1",
+            Title = "Movie 36",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2015, 12, 8).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1997, 1, 4).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 36")],
-                ["Story"] = [new("Writer 36")]
+                ["Director"] = [new("Lal Jose")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nazriya Nazim"), new("Jayasurya"), new("Manju Warrier")
             }
         },
-
-        new()
-        {
-            ID = "7d877cdf-f69f-4aa8-b42c-5cd2506f0130",
-            Title = "Action Hero Biju",
+        new() {
+            ID = "804393d3-b4b7-4326-8819-f07d5269951c",
+            Title = "Movie 37",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2016, 1, 9).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1986, 3, 25).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 37")],
-                ["Story"] = [new("Writer 37")]
+                ["Director"] = [new("Lal Jose")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Asif Ali"), new("Prithviraj Sukumaran"), new("Kunchacko Boban")
             }
         },
-
-        new()
-        {
-            ID = "3864f53d-ba39-43de-a8ee-06b5b7bf4bef",
-            Title = "Kammattippadam",
+        new() {
+            ID = "d93232b0-6258-4bed-9dc7-5ea7cd627be3",
+            Title = "Movie 38",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2017, 2, 10).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2012, 8, 17).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 38")],
-                ["Story"] = [new("Writer 38")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Fahadh Faasil"), new("Jayasurya"), new("Dulquer Salmaan")
             }
         },
-
-        new()
-        {
-            ID = "3e0c538e-bc39-4f39-bdb2-a6246dfdcba7",
-            Title = "Virus",
+        new() {
+            ID = "66ce0d24-de65-4189-9ffb-0410b5e0ef0d",
+            Title = "Movie 39",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2018, 3, 11).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2015, 10, 13).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 39")],
-                ["Story"] = [new("Writer 39")]
+                ["Director"] = [new("Sathyan Anthikad")],
+                ["Music Director"] = [new("M. Jayachandran")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Jayasurya"), new("Mohanlal"), new("Asif Ali")
             }
         },
-
-        new()
-        {
-            ID = "0c519eef-3c40-48b5-a052-a01e1a3619b7",
-            Title = "Uyare",
+        new() {
+            ID = "3c5dbe87-4644-4e4d-b034-d3157dbc981d",
+            Title = "Movie 40",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(2019, 4, 12).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1980, 12, 2).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 40")],
-                ["Story"] = [new("Writer 40")]
+                ["Director"] = [new("Sathyan Anthikad")],
+                ["Music Director"] = [new("Anil Johnson")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Jayasurya"), new("Nazriya Nazim"), new("Prithviraj Sukumaran")
             }
         },
-
-        new()
-        {
-            ID = "c34071f5-64b3-4842-8f92-4b15f000c399",
-            Title = "North 24 Kaatham",
+        new() {
+            ID = "50369d20-45d2-4d32-86a3-2fa44d5ca3a2",
+            Title = "Movie 41",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1980, 5, 13).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2011, 11, 26).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 41")],
-                ["Story"] = [new("Writer 41")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("Ilaiyaraaja")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Mohanlal"), new("Prithviraj Sukumaran"), new("Kunchacko Boban")
             }
         },
-
-        new()
-        {
-            ID = "304e9f55-6800-4a52-adf2-605cebdb0bad",
-            Title = "Ayyappanum Koshiyum",
+        new() {
+            ID = "cf904688-c327-4e0b-9b87-586e5048b935",
+            Title = "Movie 42",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1981, 6, 14).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1987, 12, 21).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 42")],
-                ["Story"] = [new("Writer 42")]
+                ["Director"] = [new("Lal Jose")],
+                ["Music Director"] = [new("Gopi Sundar")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Revathi"), new("Asif Ali"), new("Prithviraj Sukumaran")
             }
         },
-
-        new()
-        {
-            ID = "adafa66c-46a2-4321-8ad0-62d29f837fe0",
-            Title = "Pathemari",
+        new() {
+            ID = "5b4fb9bd-164a-4603-b89f-3d0bf3e2be5e",
+            Title = "Movie 43",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1982, 7, 15).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1981, 12, 28).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 43")],
-                ["Story"] = [new("Writer 43")]
+                ["Director"] = [new("Blessy")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Parvathy Thiruvothu"), new("Aparna Balamurali"), new("Sai Pallavi")
             }
         },
-
-        new()
-        {
-            ID = "d013b36f-b93e-4847-bbb1-08b56d3c4f1e",
-            Title = "Sudani from Nigeria",
+        new() {
+            ID = "0c7d09a7-eb87-45a6-81f3-af1ccfca9961",
+            Title = "Movie 44",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1983, 8, 16).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1990, 2, 13).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 44")],
-                ["Story"] = [new("Writer 44")]
+                ["Director"] = [new("Sathyan Anthikad")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Fahadh Faasil"), new("Nazriya Nazim"), new("Nivin Pauly")
             }
         },
-
-        new()
-        {
-            ID = "4c88ec15-c7f6-482c-86d2-06671a91380d",
-            Title = "Neram",
+        new() {
+            ID = "b7d4ef46-6ba6-4645-b01b-1d07293668c6",
+            Title = "Movie 45",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1984, 9, 17).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1993, 2, 27).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 45")],
-                ["Story"] = [new("Writer 45")]
+                ["Director"] = [new("Fazil")],
+                ["Music Director"] = [new("Ouseppachan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Sai Pallavi"), new("Nivin Pauly"), new("Aparna Balamurali")
             }
         },
-
-        new()
-        {
-            ID = "ac9979d3-04e1-4b94-9eb4-835f10d0e419",
-            Title = "Zachariayude Garbhinikal",
+        new() {
+            ID = "cffd2c4c-ff87-4302-86fa-6fc8676fbced",
+            Title = "Movie 46",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1985, 10, 18).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2013, 6, 6).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 46")],
-                ["Story"] = [new("Writer 46")]
+                ["Director"] = [new("Madhu C. Narayanan")],
+                ["Music Director"] = [new("M. Jayachandran")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nithya Menen"), new("Shobana"), new("Nazriya Nazim")
             }
         },
-
-        new()
-        {
-            ID = "774920ce-7eef-4c6b-a904-cadddc74e251",
-            Title = "Jacobinte Swargarajyam",
+        new() {
+            ID = "e6f2dd2b-6ed8-4717-b5b5-3051dd2917b4",
+            Title = "Movie 47",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1986, 11, 19).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2018, 12, 8).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 47")],
-                ["Story"] = [new("Writer 47")]
+                ["Director"] = [new("Priyadarshan")],
+                ["Music Director"] = [new("Rajesh Murugesan")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Nazriya Nazim"), new("Parvathy Thiruvothu"), new("Asif Ali")
             }
         },
-
-        new()
-        {
-            ID = "2bcd614a-d02b-408c-acf1-1786bb49c521",
-            Title = "Thira",
+        new() {
+            ID = "9a672d98-a423-4f44-acd7-e8c3cef44564",
+            Title = "Movie 48",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1987, 12, 20).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1986, 11, 17).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 48")],
-                ["Story"] = [new("Writer 48")]
+                ["Director"] = [new("Alphonse Puthren")],
+                ["Music Director"] = [new("Gopi Sundar")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Parvathy Thiruvothu"), new("Aparna Balamurali"), new("Manju Warrier")
             }
         },
-
-        new()
-        {
-            ID = "23366fe0-9785-40c3-972a-b3b918320fe4",
-            Title = "Koode",
+        new() {
+            ID = "81dfef2b-847f-4541-af62-20cdba68cb65",
+            Title = "Movie 49",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1988, 1, 21).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(1998, 11, 9).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 49")],
-                ["Story"] = [new("Writer 49")]
+                ["Director"] = [new("Sathyan Anthikad")],
+                ["Music Director"] = [new("Sushin Shyam")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Indrajith Sukumaran"), new("Dulquer Salmaan"), new("Meena")
             }
         },
-
-        new()
-        {
-            ID = "33020661-a8a8-4834-8f0c-a66320ba9e38",
-            Title = "Yodha",
+        new() {
+            ID = "75e65625-2d36-461a-9bcf-61098f651fd4",
+            Title = "Movie 50",
             MovieLanguage = "Malayalam",
-            ReleaseDate = new DateOnly(1989, 2, 22).ToDateTime(TimeOnly.MinValue),
+            ReleaseDate = new DateOnly(2013, 11, 21).ToDateTime(TimeOnly.MinValue),
             Crew = new Dictionary<string, List<PersonEntity>>
             {
-                ["Director"] = [new("Director 50")],
-                ["Story"] = [new("Writer 50")]
+                ["Director"] = [new("Anwar Rasheed")],
+                ["Music Director"] = [new("A. R. Rahman")]
             },
             Cast = new List<PersonEntity>
             {
-                new("Actor 1"),
-                new("Actor 2"),
-                new("Actor 3")
+                new("Manju Warrier"), new("Nivin Pauly"), new("Jayasurya")
             }
-        },
-    ];
+        }
+];
 
 
 }
