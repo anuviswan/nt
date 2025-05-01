@@ -78,7 +78,7 @@ namespace UserService.Data.Migrations
                     { 48L, "I am vishal gupta", "Vishal Gupta", "vishal.gupta" },
                     { 49L, "I am anjali agarwal", "Anjali Agarwal", "anjali.agarwal" },
                     { 50L, "I am pravin kumar", "Pravin Kumar", "pravin.kumar" }
-                };
+                });
 
         }
 
