@@ -4,6 +4,10 @@ This project demonstrate usage of Microservice architecture for implementing bac
 
 - API Gateway has been implemented with [Ocelot](https://ocelot.readthedocs.io/en/latest/) library.
 
+**Architecture**
+   
+   ![NT System Design](https://github.com/anuviswan/nt/blob/master/server/nt.microservice/SystemDesign.jpg)
+
 Implementation details of different services are as follows.
 
 |                   | Authentication  | User | Movies  | Reviews | Orchestrator                   |
@@ -26,7 +30,5 @@ Implementation details of different services are as follows.
  - Prometheus + Grafana
  - Portainer
 
-   **Architecture**
-   
-   ![NT System Design](https://github.com/anuviswan/nt/blob/master/server/nt.microservice/SystemDesign.jpg)
+
    
