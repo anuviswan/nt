@@ -5,6 +5,10 @@ on:
     branches: [master]
     paths:
         - 'server/nt.microservice/**'
+  workflow_dispatch:
+    branches: [master]
+    paths:
+        - 'server/nt.microservice/**'
 
 jobs:
 
