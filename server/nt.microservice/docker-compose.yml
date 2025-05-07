@@ -32,18 +32,18 @@ services:
       # - "9001:443"
    
   ###############################################################################################################
-  # Orchestrator
+  # Aggregator Services
   ###############################################################################################################
-  nt.orchestrator.service:
-    image: ${DOCKER_REGISTRY-}ntorchestrator
-    hostname: nt.orchestrator.service
-    container_name: nt.orchestrator.service
+  nt.useridentityaggregator.service:
+    image: ${DOCKER_REGISTRY-}useridentityaggregator
+    hostname: nt.useridentityaggregator.service
+    container_name: nt.useridentityaggregator.service
     build:
         context: .
-        dockerfile: infrastructure/nt.saga.orchestrator/Dockerfile
+        dockerfile: aggregatorservices/UserIdentityAggregatorService/UserIdentityAggregatorService.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://+:8080
     networks:
       nt.common.network:
     depends_on:
@@ -51,7 +51,7 @@ services:
       - "nt.userservice.service" 
     ports:
       # - "8000-8099:80"
-      - "8002:80" 
+      - "8002:8080" 
  
 
   ###############################################################################################################
