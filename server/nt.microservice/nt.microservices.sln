@@ -76,6 +76,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Data", "servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Service", "services\ReviewService\ReviewService.Service\ReviewService.Service.csproj", "{A8BBD04B-0E96-43EE-BA56-757420E6C3C5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AggregatorServices", "AggregatorServices", "{4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserIdentityAggregatorService.Api", "aggregatorservices\UserIdentityAggregatorService\UserIdentityAggregatorService.Api\UserIdentityAggregatorService.Api.csproj", "{26EA0D42-3E51-4256-976F-10726D97D223}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,6 +202,10 @@ Global
 		{A8BBD04B-0E96-43EE-BA56-757420E6C3C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8BBD04B-0E96-43EE-BA56-757420E6C3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8BBD04B-0E96-43EE-BA56-757420E6C3C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26EA0D42-3E51-4256-976F-10726D97D223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26EA0D42-3E51-4256-976F-10726D97D223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26EA0D42-3E51-4256-976F-10726D97D223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26EA0D42-3E51-4256-976F-10726D97D223}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -235,6 +243,7 @@ Global
 		{92320E97-97AA-4263-898F-B91C9CA6E5DD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{AD7899A2-7829-4ED0-A0A5-27E87D98807F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A8BBD04B-0E96-43EE-BA56-757420E6C3C5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{26EA0D42-3E51-4256-976F-10726D97D223} = {4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}
