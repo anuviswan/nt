@@ -80,6 +80,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AggregatorServices", "Aggre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserIdentityAggregatorService.Api", "aggregatorservices\UserIdentityAggregatorService\UserIdentityAggregatorService.Api\UserIdentityAggregatorService.Api.csproj", "{26EA0D42-3E51-4256-976F-10726D97D223}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserIdentityAggregatorService.Api.Test", "aggregatorservices\UserIdentityAggregatorService\UserIdentityAggregatorService.Api.Test\UserIdentityAggregatorService.Api.Test.csproj", "{82F5B905-3237-47D0-A7A1-B685B1626F61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -206,6 +208,10 @@ Global
 		{26EA0D42-3E51-4256-976F-10726D97D223}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26EA0D42-3E51-4256-976F-10726D97D223}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26EA0D42-3E51-4256-976F-10726D97D223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,6 +250,7 @@ Global
 		{AD7899A2-7829-4ED0-A0A5-27E87D98807F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A8BBD04B-0E96-43EE-BA56-757420E6C3C5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{26EA0D42-3E51-4256-976F-10726D97D223} = {4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}
+		{82F5B905-3237-47D0-A7A1-B685B1626F61} = {4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}
