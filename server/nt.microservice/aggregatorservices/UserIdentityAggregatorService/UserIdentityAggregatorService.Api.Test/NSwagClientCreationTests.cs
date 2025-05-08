@@ -1,9 +1,10 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Schema;
 using NSwag;
 using NSwag.CodeGeneration.CSharp;
-using nt.saga.orchestrator.test.Configurations;
+using UserIdentityAggregatorService.Api.Test.Configurations;
 
-namespace nt.saga.orchestrator.test;
+namespace UserIdentityAggregatorService.Api.Test;
 
 [TestClass]
 public class NSwagClientCreationTests
@@ -34,14 +35,14 @@ public class NSwagClientCreationTests
     }
 
     [TestMethod]
-    [Ignore] 
+    [Ignore]
     public async Task CreateApiService_For_UserService()
     {
         await GenerateCSharpClient(_userServiceSettings).ConfigureAwait(false);
     }
 
     [TestMethod]
-    [Ignore] 
+    [Ignore]
     public async Task CreateApiService_For_AuthService()
     {
         await GenerateCSharpClient(_authServiceSettings).ConfigureAwait(false);
@@ -63,7 +64,7 @@ public class NSwagClientCreationTests
             },
         };
 
-        var codeGenerator = new CSharpClientGenerator(openAiDocument,settings);
+        var codeGenerator = new CSharpClientGenerator(openAiDocument, settings);
         var sourceCode = codeGenerator.GenerateFile();
 
         await File.WriteAllTextAsync(Path.Combine(_outputFolder, apiSettings.FileName), sourceCode).ConfigureAwait(false);

@@ -1,6 +1,6 @@
-﻿namespace nt.saga.orchestrator.test.Configurations;
+﻿namespace UserIdentityAggregatorService.Api.Test.Configurations;
 
-internal record ApiSetting 
+internal record ApiSetting
 {
     public required string Key { get; set; }
     public required string Uri { get; set; }

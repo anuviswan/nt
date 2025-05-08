@@ -1,4 +1,4 @@
-namespace nt.saga.orchestrator
+namespace UserIdentityAggregatorService.Api
 {
     public class WeatherForecast
     {

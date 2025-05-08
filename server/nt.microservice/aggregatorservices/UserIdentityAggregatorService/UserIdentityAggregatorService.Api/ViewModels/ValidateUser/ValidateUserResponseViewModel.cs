@@ -1,6 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace UserIdentityAggregatorService.Api.ViewModels.ValidateUser;
 
-namespace nt.saga.orchestrator.ViewModels.ValidateUser;
 
 public record ValidateUserResponseViewModel
 {
