@@ -21,7 +21,7 @@ public class NSwagClientCreationTests
         configurationBuilder.AddJsonFile("appsettings.json");
         var config = configurationBuilder.Build();
 
-        _outputFolder = config["OutputDirectory"];
+        _outputFolder = config["OutputDirectory"] ?? "OutputDirectory";
         if (Directory.Exists(_outputFolder))
         {
             Directory.CreateDirectory(_outputFolder);
@@ -67,7 +67,8 @@ public class NSwagClientCreationTests
         var codeGenerator = new CSharpClientGenerator(openAiDocument, settings);
         var sourceCode = codeGenerator.GenerateFile();
 
-        await File.WriteAllTextAsync(Path.Combine(_outputFolder, apiSettings.FileName), sourceCode).ConfigureAwait(false);
+
+        await File.WriteAllTextAsync(Path.Combine(_outputFolder, apiSettings?.FileName ?? string.Empty), sourceCode).ConfigureAwait(false);
 
     }
 

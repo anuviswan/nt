@@ -23,7 +23,7 @@ public class MovieEntity : Entity
     public Dictionary<string, List<PersonEntity>>? Crew { get; set; }
 
     [Field("cast")]
-    public List<PersonEntity> Cast { get; set; }
+    public List<PersonEntity> Cast { get; set; } = [];
 
 }
 

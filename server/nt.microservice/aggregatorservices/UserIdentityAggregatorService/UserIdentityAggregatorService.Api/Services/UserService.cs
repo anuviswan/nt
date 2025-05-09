@@ -23,7 +23,7 @@ namespace UserIdentityAggregatorService.Api.Services.UserService;
 public partial class UserService
 {
 #pragma warning disable 8618
-    private string _baseUrl;
+    private string _baseUrl = string.Empty;
 #pragma warning restore 8618
 
     private System.Net.Http.HttpClient _httpClient;

@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
-using Npgsql.Logging;
 using Prometheus;
 using System.Text;
 
@@ -110,8 +109,11 @@ internal class Program
             });
 
         builder.Services.AddAuthorization();
-        NpgsqlLogManager.Provider = new ConsoleLoggingProvider(NpgsqlLogLevel.Trace, true, true);
-
+        builder.Services.AddLogging(logging =>
+        {
+            logging.ClearProviders();
+            logging.AddConsole();
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
