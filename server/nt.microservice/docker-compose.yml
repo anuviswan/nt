@@ -118,6 +118,23 @@ services:
     ports:
       - '5432:5432'
 
+
+
+  nt.authservice.sidecar:
+    build:
+      context: .
+      dockerfile: services/AuthService/AuthService.LoadBalancer.ServiceDiscoverySideCar/Dockerfile
+    container_name: nt.authservice.sidecar
+    depends_on:
+      - nt.authservice.loadbalancer
+      - nt.common.servicediscovery
+    networks:
+      nt.common.network:
+      nt.authservice.network:
+    environment:
+      - DOTNET_ENVIRONMENT=Production 
+
+
   # AuthService: PgAdmin to manage Postgres Database
   nt.common.pgadmin:
     image: dpage/pgadmin4:latest

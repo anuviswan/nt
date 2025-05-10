@@ -83,6 +83,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoadBalancer", "LoadBalance
 		services\AuthService\AuthService.LoadBalancer\nginx\nginx.conf = services\AuthService\AuthService.LoadBalancer\nginx\nginx.conf
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.LoadBalancer.ServiceDiscoverySideCar", "services\AuthService\AuthService.LoadBalancer.ServiceDiscoverySideCar\AuthService.LoadBalancer.ServiceDiscoverySideCar.csproj", "{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,10 @@ Global
 		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82F5B905-3237-47D0-A7A1-B685B1626F61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -243,6 +249,7 @@ Global
 		{26EA0D42-3E51-4256-976F-10726D97D223} = {4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}
 		{82F5B905-3237-47D0-A7A1-B685B1626F61} = {4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}
 		{CD481246-8F4D-4C5B-913F-8EAB339FA526} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
+		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3} = {CD481246-8F4D-4C5B-913F-8EAB339FA526}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}

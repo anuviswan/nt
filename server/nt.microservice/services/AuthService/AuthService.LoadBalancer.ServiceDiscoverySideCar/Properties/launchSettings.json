@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AuthService.LoadBalancer.ServiceDiscoverySideCar": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
