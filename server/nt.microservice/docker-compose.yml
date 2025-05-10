@@ -354,6 +354,13 @@ services:
   #  ports:
   #    - 8081:8081
 
+  nt.common.servicediscovery:
+    image: hashicorp/consul
+    container_name: nt.common.servicediscovery
+    ports:
+      - "9500:8500"    # HTTP UI/API
+      - "9600:8600/udp" # DNS
+    command: agent -dev -client=0.0.0.0
 
 
 volumes:
