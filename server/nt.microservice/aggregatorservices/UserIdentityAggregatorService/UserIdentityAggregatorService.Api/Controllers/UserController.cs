@@ -36,10 +36,10 @@ public class UserController : ControllerBase
             var authenticateResponse = await _authService.ValidateAsync(new AuthorizeRequestViewModel
             {
                 UserName = request.userName,
-                PassKey = request.passKey
+                Password = request.passKey
             });
 
-            if (!authenticateResponse.IsAuthenticated)
+            if (authenticateResponse is null || authenticateResponse is { IsAuthenticated: false})
                 return Unauthorized();
 
             var userDetails = await _userService.SearchUserByUserNameAsync(new SearchUserByUserNameRequestViewModel { UserName = request.userName });
@@ -53,10 +53,6 @@ public class UserController : ControllerBase
                 Bio = userDetails.User.Bio,
                 DisplayName = userDetails.User.DisplayName,
             });
-        }
-        catch (Services.AuthService.ApiException apiex) when (apiex.StatusCode == 401)
-        {
-            return Unauthorized();
         }
         catch (Exception ex)
         {

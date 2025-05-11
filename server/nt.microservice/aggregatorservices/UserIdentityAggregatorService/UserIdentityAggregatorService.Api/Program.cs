@@ -1,6 +1,8 @@
 
 using UserIdentityAggregatorService.Api.Services.AuthService;
 using UserIdentityAggregatorService.Api.Services.UserService;
+using UserIdentityAggregatorService.Api.Settings;
+using Microsoft.Extensions.ServiceDiscovery.Dns;
 
 namespace UserIdentityAggregatorService.Api
 {
@@ -9,6 +11,10 @@ namespace UserIdentityAggregatorService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var serviceDiscovery = builder.Configuration.GetSection(nameof(ServiceDiscovery)).Get<ServiceDiscovery>();
+            builder.Services.AddServiceDiscovery();
+
 
             // Add services to the container.
 
