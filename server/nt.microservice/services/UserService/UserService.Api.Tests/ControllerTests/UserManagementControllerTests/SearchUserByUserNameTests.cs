@@ -9,7 +9,7 @@ public class SearchUserByUserNameTests : ControllerTestBase
     #region 200 Test
     [Theory]
     [MemberData(nameof(SearchUserByUserName_ValidData_ShouldSucceed_TestData))]
-    public async Task SearchUserByUserName_ValidData_ShouldSucceed(SearchUserByUserNameRequestViewModel request, SearchUserByUserNameResponseViewModel expectedResult)
+    public async Task SearchUserByUserName_ValidData_ShouldSucceed(string request, SearchUserByUserNameResponseViewModel expectedResult)
     {
         #region Arrange
         var mockMediator = new Mock<IMediator>();
@@ -69,7 +69,7 @@ public class SearchUserByUserNameTests : ControllerTestBase
     {
         new object[]
         {
-            new SearchUserByUserNameRequestViewModel { UserName = "SampleUser"},
+            "SampleUser",
             new SearchUserByUserNameResponseViewModel
             {
                 User = new UserProfileViewModel
@@ -90,7 +90,7 @@ public class SearchUserByUserNameTests : ControllerTestBase
     #region 400 Test
     [Theory]
     [MemberData(nameof(SearchUserByUserName_InvalidData_ShouldFail_TestData))]
-    public async Task SearchUserByUserName_InvalidData_ShouldFail(SearchUserByUserNameRequestViewModel request,  SerializableError expectedError)
+    public async Task SearchUserByUserName_InvalidData_ShouldFail(string request,  SerializableError expectedError)
     {
         #region Arrange
         var mockMediator = new Mock<IMediator>();
@@ -127,10 +127,10 @@ public class SearchUserByUserNameTests : ControllerTestBase
     {
         new object[]
         {
-            new SearchUserByUserNameRequestViewModel { UserName = string.Empty },
+            string.Empty,
             new SerializableError
             {
-                [nameof(SearchUserByUserNameRequestViewModel.UserName)]= new[] {"UserName is mandatory."},
+                ["userName"]= new[] {"UserName is mandatory."},
             }
         }
     };

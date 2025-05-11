@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using UserService.Api.ViewModels.UserManagement;
 using UserService.Service.Query;
 
@@ -21,7 +22,7 @@ public class UserManagementController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("SearchUserByDisplayName")]
-    public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName(string searchTerm)
+    public async Task<ActionResult<IEnumerable<SearchUserByDisplayNameResponseViewModel>>> SearchUserByDisplayName([FromQuery]string searchTerm)
     {
         try
         {
@@ -46,8 +47,8 @@ public class UserManagementController : BaseController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [Route("SearchUserByUserName")]
-    public async Task<ActionResult<SearchUserByUserNameResponseViewModel>> SearchUserByUserName(SearchUserByUserNameRequestViewModel searchTerms)
+    [Route("SearchUserByUserName/{userName}")]
+    public async Task<ActionResult<SearchUserByUserNameResponseViewModel>> SearchUserByUserName([FromRoute][Required][MinLength(1)] string userName)
     {
         try
         {
@@ -56,7 +57,13 @@ public class UserManagementController : BaseController
                 return BadRequest(ModelState);
             }
 
-            var response = await Mediator.Send(Mapper.Map<SearchUserByUserNameQuery>(searchTerms)).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                ModelState.AddModelError(nameof(userName), "UserName is mandatory.");
+                return BadRequest(ModelState);
+            }
+
+            var response = await Mediator.Send(Mapper.Map<SearchUserByUserNameQuery>(userName)).ConfigureAwait(false);
 
             return Ok(Mapper.Map<SearchUserByUserNameResponseViewModel>(response));
 

@@ -9,9 +9,12 @@ using UserService.Api.ConsumerServices;
 using Serilog.Formatting.Compact;
 using Prometheus;
 using UserService.Service.Services;
+using Consul;
 
 var builder = WebApplication.CreateBuilder(args);
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
+var consulConfig = builder.Configuration.GetSection(nameof(ConsulConfig)).Get<ConsulConfig>();
+ArgumentNullException.ThrowIfNull(consulConfig, nameof(consulConfig));
 var corsPolicy = "_ntClientAppsOrigins";
 
 builder.Services.AddCors(option => {
@@ -85,6 +88,29 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
         };
     });
+
+
+var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
+var registration = new AgentServiceRegistration
+{
+    ID = consulConfig.ServiceId,
+    Name = consulConfig.ServiceName,
+    Address = consulConfig.ServiceAddress,
+    Port = consulConfig.ServicePort,
+    Check = new AgentServiceCheck
+    {
+        HTTP = $"http://{consulConfig.ServiceAddress}{consulConfig.HealthCheckUrl}",
+        Interval = TimeSpan.FromSeconds(10),
+        Timeout = TimeSpan.FromSeconds(5),
+        DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),
+    }
+};
+
+
+
+// Register service with Consul
+await consulClient.Agent.ServiceRegister(registration);
+Console.WriteLine($"AuthService Load Balancer with Nginx registred successfully");
 
 var app = builder.Build();
 
