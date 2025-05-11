@@ -36,13 +36,13 @@ public class UserController : ControllerBase
             var authenticateResponse = await _authService.ValidateAsync(new AuthorizeRequestViewModel
             {
                 UserName = request.userName,
-                Password = request.passKey
+                PassKey = request.passKey
             });
 
             if (authenticateResponse is null || authenticateResponse is { IsAuthenticated: false})
                 return Unauthorized();
 
-            var userDetails = await _userService.SearchUserByUserNameAsync(new SearchUserByUserNameRequestViewModel { UserName = request.userName });
+            var userDetails = await _userService.SearchUserByUserNameAsync(request.userName);
 
             return Ok(new ValidateUserResponseViewModel
             {

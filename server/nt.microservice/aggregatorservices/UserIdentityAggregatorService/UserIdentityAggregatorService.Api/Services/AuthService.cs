@@ -38,7 +38,7 @@ public record AuthorizeRequestViewModel
 {
     public string UserName { get; set; } = null!;
 
-    public string Password { get; set; } = null!;
+    public string PassKey { get; set; } = null!;
 }
 
 public class AuthenticateResponseViewModel
@@ -52,7 +52,7 @@ public class AuthenticateResponseViewModel
     public DateTime LoginTime { get; set; }
 
 
-    public string? UserName { get; set; }
+    public string UserName { get; set; } = null!;
 
     public string? DisplayName { get; set; }
 
