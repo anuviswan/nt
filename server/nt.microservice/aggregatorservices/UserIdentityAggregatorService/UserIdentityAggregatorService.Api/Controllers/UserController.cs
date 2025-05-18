@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserIdentityAggregatorService.Api.Services.AuthService;
-using UserIdentityAggregatorService.Api.Services.UserService;
+using UserIdentityAggregatorService.Api.Services;
 using UserIdentityAggregatorService.Api.ViewModels.ValidateUser;
 
 namespace UserIdentityAggregatorService.Api.Controllers;
@@ -9,11 +8,11 @@ namespace UserIdentityAggregatorService.Api.Controllers;
 [Route("api/user")]
 public class UserController : ControllerBase
 {
-    private readonly AuthService _authService;
-    private readonly UserService _userService;
+    private readonly IAuthService _authService;
+    private readonly IUserService _userService;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(UserService userService, AuthService authService, ILogger<UserController> logger)
+    public UserController(IUserService userService, IAuthService authService, ILogger<UserController> logger)
     {
         _userService = userService;
         _authService = authService;

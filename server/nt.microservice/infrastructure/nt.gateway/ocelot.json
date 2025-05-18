@@ -58,7 +58,7 @@
 
       ],
       "UpstreamPathTemplate": "/api/user/validateuser",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 1000,
@@ -76,7 +76,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8100"
+          "Port": 8100
         }
       ],
       "UpstreamPathTemplate": "/api/User/ChangePassword",
@@ -126,7 +126,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8301"
+          "Port": 8301
         }
       ],
       "UpstreamPathTemplate": "/user/api/Users/uploadprofileimage",
@@ -175,7 +175,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8401"
+          "Port": 8401
         }
       ],
       "UpstreamPathTemplate": "/movies",

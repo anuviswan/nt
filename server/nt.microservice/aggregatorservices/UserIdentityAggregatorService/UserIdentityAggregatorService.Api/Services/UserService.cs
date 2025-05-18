@@ -1,22 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Options;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using UserIdentityAggregatorService.Api.Services.AuthService;
+using UserIdentityAggregatorService.Api.Settings;
 
-namespace UserIdentityAggregatorService.Api.Services.UserService;
-
-public class UserService
+namespace UserIdentityAggregatorService.Api.Services;
+public class UserService : ServiceBase, IUserService
 {
-    private readonly HttpClient _httpClient;
     private readonly ILogger<UserService> _logger;
-    public UserService(HttpClient httpClient, ILogger<UserService> logger)
+    public UserService(IHttpClientFactory httpClientFactory,
+        ConsulServiceResolver consulResolver, ILogger<UserService> logger,
+        IOptions<ServiceDiscoveryOptions> serviceDiscovery) : base(httpClientFactory, logger, consulResolver, serviceDiscovery, nameof(UserService))
     {
-        _httpClient = httpClient;
         _logger = logger;
     }
     public async Task<SearchUserByUserNameResponseViewModel?> SearchUserByUserNameAsync(string userName)
     {
-        var response = await _httpClient.GetAsync($"api/UserManagement/SearchUserByUserName/{userName}");
+        var client = await GetClientAsync();
+        var response = await client.GetAsync($"api/UserManagement/SearchUserByUserName/{userName}");
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
