@@ -1,13 +1,15 @@
-﻿using System.Text.Json.Serialization;
+﻿
+using Microsoft.Extensions.Options;
+using UserIdentityAggregatorService.Api.Settings;
 
-namespace UserIdentityAggregatorService.Api.Services.AuthService;
-public class AuthService
+namespace UserIdentityAggregatorService.Api.Services;
+public class AuthService : ServiceBase, IAuthService
 {
-    private readonly HttpClient _httpClient;
     private readonly ILogger<AuthService> _logger;
-    public AuthService(HttpClient httpClient, ILogger<AuthService> logger)
+    public AuthService(IHttpClientFactory httpClientFactory,
+        ConsulServiceResolver consulResolver, ILogger<AuthService> logger,
+        IOptions<ServiceDiscoveryOptions> serviceDiscovery) : base(httpClientFactory, logger, consulResolver, serviceDiscovery, nameof(AuthService))
     {
-        _httpClient = httpClient;
         _logger = logger;
     }
 
@@ -16,7 +18,8 @@ public class AuthService
         var response = new AuthenticateResponseViewModel();
         try
         {
-            var result = await _httpClient.PostAsJsonAsync("api/Authenticate/Validate", request).ConfigureAwait(false);
+            var client = await GetClientAsync();
+            var result = await client.PostAsJsonAsync("api/Authenticate/Validate", request).ConfigureAwait(false);
             if (result.IsSuccessStatusCode)
             {
                 response = await result.Content.ReadFromJsonAsync<AuthenticateResponseViewModel>().ConfigureAwait(false);
