@@ -12,6 +12,8 @@ using UserService.Service.Services;
 using Consul;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
 var consulConfig = builder.Configuration.GetSection(nameof(ConsulConfig)).Get<ConsulConfig>();
 ArgumentNullException.ThrowIfNull(consulConfig, nameof(consulConfig));
@@ -113,6 +115,8 @@ await consulClient.Agent.ServiceRegister(registration);
 Console.WriteLine($"AuthService Load Balancer with Nginx registred successfully");
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

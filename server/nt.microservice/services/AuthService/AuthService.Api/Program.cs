@@ -27,6 +27,8 @@ internal class Program
         logger.Debug("init main");
 
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.AddServiceDefaults();
         var rabbitMqSettings = builder.Configuration
                                       .GetSection(nameof(RabbitMqSettings))
                                       .Get<RabbitMqSettings>();
@@ -115,6 +117,7 @@ internal class Program
             logging.AddConsole();
         });
         var app = builder.Build();
+        app.MapDefaultEndpoints();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

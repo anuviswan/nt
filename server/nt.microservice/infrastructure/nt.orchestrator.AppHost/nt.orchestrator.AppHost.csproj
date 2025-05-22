@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\aggregatorservices\UserIdentityAggregatorService\UserIdentityAggregatorService.Api\UserIdentityAggregatorService.Api.csproj" />
+    <ProjectReference Include="..\..\services\AuthService\AuthService.Api\AuthService.Api.csproj" />
+    <ProjectReference Include="..\..\services\MovieService\MovieService.Api\MovieService.Api.csproj" />
+    <ProjectReference Include="..\..\services\ReviewService\ReviewService.Api\ReviewService.Api.csproj" />
+    <ProjectReference Include="..\..\services\UserService\UserService.Api\UserService.Api.csproj" />
     <ProjectReference Include="..\nt.gateway\nt.gateway.csproj" />
   </ItemGroup>
 

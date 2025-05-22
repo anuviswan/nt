@@ -9,6 +9,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.AddServiceDefaults();
         var corsPolicy = "_ntClientAppsOrigins";
 
         builder.Services.AddCors(option => {
@@ -33,6 +34,8 @@ public class Program
         builder.Services.AddScoped<IAuthService, AuthService>();
         //builder.Services.AddSingleton<IHttpClientFactory>(sp => new DevelopmentHttpClientFactory(sp));
         var app = builder.Build();
+        //builder.Services.AddSingleton<IHttpClientFactory>(sp => new DevelopmentHttpClientFactory(sp));
+        app.MapDefaultEndpoints();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
