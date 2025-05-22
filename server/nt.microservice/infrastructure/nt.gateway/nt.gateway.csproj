@@ -30,4 +30,8 @@
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\nt.orchestrator.ServiceDefaults\nt.orchestrator.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>
