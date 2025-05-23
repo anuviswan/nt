@@ -1,15 +1,17 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Serilog;
-using System.Text;
-using UserService.Api.Controllers;
-using MassTransit;
-using UserService.Api.Settings;
-using UserService.Api.ConsumerServices;
-using Serilog.Formatting.Compact;
-using Prometheus;
-using UserService.Service.Services;
 using Consul;
+using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.IdentityModel.Tokens;
+using Prometheus;
+using Serilog;
+using Serilog.Formatting.Compact;
+using System.Text;
+using UserService.Api.ConsumerServices;
+using UserService.Api.Controllers;
+using UserService.Api.Settings;
+using UserService.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,17 +20,6 @@ var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)
 
 var consulConfig = builder.Configuration.GetSection(nameof(ConsulConfig)).Get<ConsulConfig>();
 ArgumentNullException.ThrowIfNull(consulConfig, nameof(consulConfig));
-
-if ( Environment.GetEnvironmentVariable("RUNNING_WITH")?.ToUpper() == "ASPIRE")
-{
-    Console.WriteLine("Running with Aspire");
-    consulConfig.ConsulAddress = Environment.GetEnvironmentVariable("CONSUL_URL") ?? consulConfig.ConsulAddress;
-}
-else
-{
-    Console.WriteLine("Running with Docker");
-}
-
 
 var corsPolicy = "_ntClientAppsOrigins";
 
@@ -104,29 +95,63 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
-var registration = new AgentServiceRegistration
-{
-    ID = consulConfig.ServiceId,
-    Name = consulConfig.ServiceName,
-    Address = consulConfig.ServiceAddress,
-    Port = consulConfig.ServicePort,
-    Check = new AgentServiceCheck
-    {
-        HTTP = $"http://{consulConfig.ServiceAddress}{consulConfig.HealthCheckUrl}",
-        Interval = TimeSpan.FromSeconds(10),
-        Timeout = TimeSpan.FromSeconds(5),
-        DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),
-    }
-};
 
-
-
-// Register service with Consul
-await consulClient.Agent.ServiceRegister(registration);
-Console.WriteLine($"AuthService Load Balancer with Nginx registred successfully");
 
 var app = builder.Build();
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    if (Environment.GetEnvironmentVariable("RUNNING_WITH")?.ToUpper() == "ASPIRE")
+    {
+        Console.WriteLine("Running with Aspire");
+        consulConfig.ConsulAddress = Environment.GetEnvironmentVariable("CONSUL_URL") ?? consulConfig.ConsulAddress;
+
+        var server = app.Services.GetRequiredService<IServer>();
+        var addresses = server.Features.Get<IServerAddressesFeature>()?.Addresses;
+        //var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(';')
+        //               .FirstOrDefault(u => u.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
+        
+        var httpAddress = addresses?.FirstOrDefault(a => a.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
+        
+        if (httpAddress is not null)
+        {
+            var port = new Uri(httpAddress).Port;
+            consulConfig.ServiceAddress = $"host.docker.internal:{port}";
+        }
+        else
+        {
+            Console.WriteLine("No server addresses found.");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Running with Docker");
+    }
+
+    var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
+    var registration = new AgentServiceRegistration
+    {
+        ID = consulConfig.ServiceId,
+        Name = consulConfig.ServiceName,
+        Address = consulConfig.ServiceAddress,
+        Port = consulConfig.ServicePort,
+        Check = new AgentServiceCheck
+        {
+            HTTP = $"http://{consulConfig.ServiceAddress}{consulConfig.HealthCheckUrl}",
+            Interval = TimeSpan.FromSeconds(10),
+            Timeout = TimeSpan.FromSeconds(5),
+            DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),
+        }
+    };
+
+
+    // Register service with Consul
+    consulClient.Agent.ServiceRegister(registration).Wait();
+    Console.WriteLine($"AuthService Load Balancer with Nginx registred successfully");
+
+
+});
+
+
 
 app.MapDefaultEndpoints();
 
