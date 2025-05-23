@@ -12,13 +12,15 @@ var consul = builder.AddContainer("consul", "hashicorp/consul:latest")
     .WithEndpoint(port:9500, targetPort:8500)
     .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
 
-var authDb = builder.AddPostgres("postgres")
+var username = builder.AddParameter("postgres","postgres", secret: true);
+var password = builder.AddParameter("Admin123", "Admin123", secret: true);
+
+var authDb = builder.AddPostgres("postgresdb", username, password)
     .WithContainerName("nt.authservice.db")
     .WithImage("postgres:14.1-alpine")
-    .WithEnvironment("POSTGRES_USER", "postgres")
-    .WithEnvironment("POSTGRES_PASSWORD", "Admin123")
-    .WithEnvironment("POSTGRES_DB", "ntuserauth")
-    .WithVolume("nt.authservice.db.volume", "/var/lib/postgresql/data");
+    .WithPgAdmin()
+    .WithDataVolume()
+    .AddDatabase("ntuserauth");
 
 builder.AddProject<Projects.AuthService_Api>("nt-authservice-service")
         .WithReference(authDb)
