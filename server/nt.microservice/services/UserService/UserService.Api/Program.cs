@@ -91,7 +91,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
 var registration = new AgentServiceRegistration
 {
