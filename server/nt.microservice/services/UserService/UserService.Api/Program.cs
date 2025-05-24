@@ -107,9 +107,6 @@ app.Lifetime.ApplicationStarted.Register(() =>
 
         var server = app.Services.GetRequiredService<IServer>();
         var addresses = server.Features.Get<IServerAddressesFeature>()?.Addresses;
-        //var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")?.Split(';')
-        //               .FirstOrDefault(u => u.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
-        
         var httpAddress = addresses?.FirstOrDefault(a => a.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
         
         if (httpAddress is not null)

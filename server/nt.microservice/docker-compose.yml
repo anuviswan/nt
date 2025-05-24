@@ -179,6 +179,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - RUNNING_WITH=docker 
     networks:
       nt.common.network:
       nt.userservice.network:

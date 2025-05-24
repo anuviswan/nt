@@ -51,7 +51,7 @@ internal class Program
         builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
         builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-        var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
+        var connectionString =  builder.Configuration.GetConnectionString("UserSqlDb");
         builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString??string.Empty));
 
         builder.Services.AddMassTransit(mt =>
