@@ -85,6 +85,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoadBalancer", "LoadBalance
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.LoadBalancer.ServiceDiscoverySideCar", "services\AuthService\AuthService.LoadBalancer.ServiceDiscoverySideCar\AuthService.LoadBalancer.ServiceDiscoverySideCar.csproj", "{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.orchestrator.AppHost", "infrastructure\nt.orchestrator.AppHost\nt.orchestrator.AppHost.csproj", "{012871D3-1FE7-427E-8E4D-39D13D4BB5E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.orchestrator.ServiceDefaults", "infrastructure\nt.orchestrator.ServiceDefaults\nt.orchestrator.ServiceDefaults.csproj", "{3FB9191F-36AC-660F-FE93-D875892CF14C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +215,14 @@ Global
 		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{012871D3-1FE7-427E-8E4D-39D13D4BB5E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{012871D3-1FE7-427E-8E4D-39D13D4BB5E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{012871D3-1FE7-427E-8E4D-39D13D4BB5E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{012871D3-1FE7-427E-8E4D-39D13D4BB5E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FB9191F-36AC-660F-FE93-D875892CF14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FB9191F-36AC-660F-FE93-D875892CF14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FB9191F-36AC-660F-FE93-D875892CF14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FB9191F-36AC-660F-FE93-D875892CF14C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

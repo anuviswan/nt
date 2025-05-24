@@ -11,6 +11,8 @@ using System.Net.Security;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 var corsPolicy = "_ntClientAppsOrigins";
 
 //Add services to the container.
@@ -65,6 +67,8 @@ builder.Services.AddOcelot(builder.Configuration)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration, (o)=> o.GenerateDocsForGatewayItSelf = true);
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 
 

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>2f098d4d-ca66-40b0-ac97-c8be7c9de2ee</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\aggregatorservices\UserIdentityAggregatorService\UserIdentityAggregatorService.Api\UserIdentityAggregatorService.Api.csproj" />
+    <ProjectReference Include="..\..\services\AuthService\AuthService.Api\AuthService.Api.csproj" />
+    <ProjectReference Include="..\..\services\MovieService\MovieService.Api\MovieService.Api.csproj" />
+    <ProjectReference Include="..\..\services\ReviewService\ReviewService.Api\ReviewService.Api.csproj" />
+    <ProjectReference Include="..\..\services\UserService\UserService.Api\UserService.Api.csproj" />
+    <ProjectReference Include="..\nt.gateway\nt.gateway.csproj" />
+  </ItemGroup>
+
+</Project>

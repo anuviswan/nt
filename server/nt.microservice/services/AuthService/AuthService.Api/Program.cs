@@ -27,6 +27,8 @@ internal class Program
         logger.Debug("init main");
 
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.AddServiceDefaults();
         var rabbitMqSettings = builder.Configuration
                                       .GetSection(nameof(RabbitMqSettings))
                                       .Get<RabbitMqSettings>();
@@ -49,7 +51,7 @@ internal class Program
         builder.Services.AddMediatR(typeof(ValidateUserQuery).Assembly);
         builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-        var connectionString = builder.Configuration.GetConnectionString("UserSqlDb");
+        var connectionString =  builder.Configuration.GetConnectionString("UserSqlDb");
         builder.Services.AddTransient<IUnitOfWorkFactory>(con => new PgUnitOfWorkFactory(connectionString??string.Empty));
 
         builder.Services.AddMassTransit(mt =>
@@ -115,6 +117,7 @@ internal class Program
             logging.AddConsole();
         });
         var app = builder.Build();
+        app.MapDefaultEndpoints();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

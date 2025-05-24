@@ -1,0 +1,39 @@
+{
+  "solution": {
+    "path": "nt.microservices.sln",
+    "projects": [
+      "aggregatorservices\\UserIdentityAggregatorService\\UserIdentityAggregatorService.Api.Test\\UserIdentityAggregatorService.Api.Test.csproj",
+      "aggregatorservices\\UserIdentityAggregatorService\\UserIdentityAggregatorService.Api\\UserIdentityAggregatorService.Api.csproj",
+      "docker-compose.dcproj",
+      "infrastructure\\nt.gateway\\nt.gateway.csproj",
+      "infrastructure\\nt.helper\\nt.helper.csproj",
+      "infrastructure\\nt.orchestrator.AppHost\\nt.orchestrator.AppHost.csproj",
+      "infrastructure\\nt.orchestrator.ServiceDefaults\\nt.orchestrator.ServiceDefaults.csproj",
+      "infrastructure\\nt.shared.dto\\nt.shared.dto.csproj",
+      "services\\AuthService\\AuthService.Api.Tests\\AuthService.Api.Tests.csproj",
+      "services\\AuthService\\AuthService.Api\\AuthService.Api.csproj",
+      "services\\AuthService\\AuthService.Data.Interfaces\\AuthService.Data.Interfaces.csproj",
+      "services\\AuthService\\AuthService.Data\\AuthService.Data.csproj",
+      "services\\AuthService\\AuthService.LoadBalancer.ServiceDiscoverySideCar\\AuthService.LoadBalancer.ServiceDiscoverySideCar.csproj",
+      "services\\AuthService\\AuthService.Service.Tests\\AuthService.Service.Tests.csproj",
+      "services\\AuthService\\AuthService.Service\\AuthService.Service.csproj",
+      "services\\MovieService\\MovieService.Api.Tests\\MovieService.Api.Tests.csproj",
+      "services\\MovieService\\MovieService.Api\\MovieService.Api.csproj",
+      "services\\MovieService\\MovieService.Data.Interfaces\\MovieService.Data.Interfaces.csproj",
+      "services\\MovieService\\MovieService.Data\\MovieService.Data.csproj",
+      "services\\MovieService\\MovieService.GraphQL\\MovieService.GraphQL.csproj",
+      "services\\MovieService\\MovieService.Service.Interfaces\\MovieService.Service.Interfaces.csproj",
+      "services\\MovieService\\MovieService.Service.Tests\\MovieService.Service.Tests.csproj",
+      "services\\MovieService\\MovieService.Service\\MovieService.Service.csproj",
+      "services\\ReviewService\\ReviewService.Api\\ReviewService.Api.csproj",
+      "services\\ReviewService\\ReviewService.Data\\ReviewService.Data.csproj",
+      "services\\ReviewService\\ReviewService.Service\\ReviewService.Service.csproj",
+      "services\\UserService\\UserService.Api.Tests\\UserService.Api.Tests.csproj",
+      "services\\UserService\\UserService.Api\\UserService.Api.csproj",
+      "services\\UserService\\UserService.Data.Interfaces\\UserService.Data.Interfaces.csproj",
+      "services\\UserService\\UserService.Data\\UserService.Data.csproj",
+      "services\\UserService\\UserService.Service.Tests\\UserService.Service.Tests.csproj",
+      "services\\UserService\\UserService.Service\\UserService.Service.csproj"
+    ]
+  }
+}

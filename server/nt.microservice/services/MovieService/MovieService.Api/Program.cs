@@ -9,6 +9,8 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 var corsPolicy = "_ntClientAppsOrigins";
 builder.Services.AddCors(option => {
     option.AddPolicy(name: corsPolicy,
@@ -38,6 +40,8 @@ builder.Services.RegisterServices();
 builder.Services.RegisterGraphQl();
 ValueInjectorMapper.RegisterTypes();
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 using (var scope = app.Services.CreateScope())
 {

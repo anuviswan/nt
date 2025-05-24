@@ -26,8 +26,13 @@
     <PackageReference Include="MMLib.SwaggerForOcelot" Version="6.3.2" />
     <PackageReference Include="Ocelot" Version="18.0.0" />
     <PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
+    <PackageReference Include="Polly" Version="8.5.2" />
     <PackageReference Include="prometheus-net" Version="8.0.0" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\nt.orchestrator.ServiceDefaults\nt.orchestrator.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>
