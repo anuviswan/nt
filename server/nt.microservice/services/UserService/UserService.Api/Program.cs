@@ -19,6 +19,7 @@ builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
 
 var consulConfig = builder.Configuration.GetSection(nameof(ConsulConfig)).Get<ConsulConfig>();
+
 ArgumentNullException.ThrowIfNull(consulConfig, nameof(consulConfig));
 
 var corsPolicy = "_ntClientAppsOrigins";

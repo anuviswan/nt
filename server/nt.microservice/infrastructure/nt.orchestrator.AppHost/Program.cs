@@ -5,15 +5,21 @@ builder.AddUserIdentityAggregatorService();
 
 var consul = builder.AddContainer("consul", "hashicorp/consul:latest")
     .WithContainerName("nt.common.servicediscovery")
-    .WithEndpoint(port:9500, targetPort:8500)
+    .WithHttpEndpoint(port:9500, targetPort:8500)
     .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
 
-builder.AddAuthService()
+
+builder.AddAuthService(consul)
        .WaitFor(consul);
 
 //builder.AddMovieService();
 builder.AddUserService()
        .WaitFor(consul);
+
+//builder.AddReviewService();
+
+
+
 
 //builder.AddReviewService();
 

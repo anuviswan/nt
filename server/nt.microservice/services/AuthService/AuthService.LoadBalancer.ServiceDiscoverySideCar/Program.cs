@@ -5,12 +5,12 @@
 
 using Consul;
 using Microsoft.Extensions.Configuration;
-using System.ComponentModel.DataAnnotations;
 
 Console.WriteLine("Starting Load Balancer Side car for registering with Consul");
 Console.WriteLine("Reading Configuration");
 var configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddEnvironmentVariables()
                         .Build();
 
 var consulConfig = configuration.GetSection(nameof(ConsulConfig))

@@ -137,6 +137,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        //app.MapDefaultEndpoints();
         app.Run();
     }
 }
