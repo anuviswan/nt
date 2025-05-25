@@ -218,7 +218,7 @@ services:
         nt.userservice.network:
     environment:
        ACCEPT_EULA: Y
-       MSSQL_SA_PASSWORD: Admin123 
+       MSSQL_SA_PASSWORD    : Admin123 
     ports:
         - 1433:1433  
 
