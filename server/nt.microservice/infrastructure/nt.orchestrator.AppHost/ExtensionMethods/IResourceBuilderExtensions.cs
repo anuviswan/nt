@@ -97,7 +97,8 @@ public static class IResourceBuilderExtensions
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
             .WithHttpEndpoint(port:10000,targetPort:10000, isProxied: true);
 
-        var sqlDb = source.AddSqlServer("nt-userservice-db")
+        var passwordParameter = source.AddParameter("sqlServerPassword", "Admin123");
+        var sqlDb = source.AddSqlServer("nt-userservice-db",passwordParameter)
                 .WithEnvironment("ACCEPT_EULA", "Y")
                 .WithEnvironment("MSSQL_SA_PASSWORD", "Admin123")
                 .WithHttpEndpoint(port: 1433, targetPort: 1433, isProxied: true);
