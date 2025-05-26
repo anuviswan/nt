@@ -1,3 +1,5 @@
+using Aspire.Hosting;
+
 public static class IResourceBuilderExtensions
 {
     public static IResourceBuilder<ProjectResource> AddGateway(this IDistributedApplicationBuilder source)
@@ -89,9 +91,23 @@ public static class IResourceBuilderExtensions
 
     public static IResourceBuilder<ProjectResource> AddUserService(this IDistributedApplicationBuilder source)
     {
+
+        var blobStorage = source.AddContainer("nt-userservice-blobstorage", "mcr.microsoft.com/azure-storage/azurite")
+        //    .WithVolume(@"./localstorage/data:/data")
+            .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
+            .WithHttpEndpoint(port:10000,targetPort:10000, isProxied: true);
+
+        var passwordParameter = source.AddParameter("sqlServerPassword", "Admin123");
+        var sqlDb = source.AddSqlServer("nt-userservice-db",passwordParameter)
+                .WithEnvironment("ACCEPT_EULA", "Y")
+                .WithEnvironment("MSSQL_SA_PASSWORD", "Admin123")
+                .WithHttpEndpoint(port: 1433, targetPort: 1433, isProxied: true);
+
         return source.AddProject<Projects.UserService_Api>("nt-userservice-service")
                 .WithEnvironment("CONSUL_URL", "http://localhost:9500")
-                .WithEnvironment("RUNNING_WITH", "aspire");
+                .WithEnvironment("RUNNING_WITH", "aspire")
+                .WaitFor(blobStorage)
+                .WaitFor(sqlDb);
     }
 
     public static IResourceBuilder<ProjectResource> AddReviewService(this IDistributedApplicationBuilder source)
