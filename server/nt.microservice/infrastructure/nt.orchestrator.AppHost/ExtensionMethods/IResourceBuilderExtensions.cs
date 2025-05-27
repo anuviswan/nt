@@ -11,7 +11,7 @@ public static class IResourceBuilderExtensions
         return source.AddProject<Projects.UserIdentityAggregatorService_Api>("nt-useridentityaggregator-service");
     }
 
-    public static IResourceBuilder<ProjectResource> AddAuthService(this IDistributedApplicationBuilder source, IResourceBuilder<ContainerResource> consul)
+    public static IResourceBuilder<ProjectResource> AddAuthService(this IDistributedApplicationBuilder source, IResourceBuilder<ContainerResource> consul, IResourceBuilder<RabbitMQServerResource> rabbitMq)
     {
         var consulUrl = consul.GetEndpoint("http");
         var username = source.AddParameter("postgresUser", "postgres", secret: true);
@@ -80,6 +80,7 @@ public static class IResourceBuilderExtensions
                                  .WithEnvironment("ConsulConfig__consulAddress", consulUrl)
                                  .WithEnvironment("ConsulConfig__deregisterAfterMinutes", "5")
                                  .WaitFor(consul)
+                                 .WaitFor(rabbitMq)
                                  .WaitFor(loadbalancer);
         return server1;
     }
@@ -89,7 +90,7 @@ public static class IResourceBuilderExtensions
         return source.AddProject<Projects.MovieService_Api>("nt-movieservice-service");
     }
 
-    public static IResourceBuilder<ProjectResource> AddUserService(this IDistributedApplicationBuilder source)
+    public static IResourceBuilder<ProjectResource> AddUserService(this IDistributedApplicationBuilder source, IResourceBuilder<RabbitMQServerResource> rabbitMq)
     {
 
         var blobStorage = source.AddContainer("nt-userservice-blobstorage", "mcr.microsoft.com/azure-storage/azurite")
