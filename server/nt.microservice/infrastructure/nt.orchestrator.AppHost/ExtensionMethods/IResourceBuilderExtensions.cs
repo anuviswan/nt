@@ -1,4 +1,5 @@
 using Aspire.Hosting;
+using Microsoft.AspNetCore.Components.Endpoints;
 
 public static class IResourceBuilderExtensions
 {
@@ -87,7 +88,23 @@ public static class IResourceBuilderExtensions
 
     public static IResourceBuilder<ProjectResource> AddMovieService(this IDistributedApplicationBuilder source)
     {
-        return source.AddProject<Projects.MovieService_Api>("nt-movieservice-service");
+        var username = source.AddParameter("mongoDbUser", "root", secret: true);
+        var password = source.AddParameter("mongoDbPassword", "mypass", secret: true);
+
+        var mongoDb = source.AddMongoDB("nt-movieservice-db",userName:username, password:password )
+            .WithEnvironment("MONGO_INITDB_ROOT_USERNAME", "root")
+            .WithEnvironment("MONGO_INITDB_ROOT_PASSWORD", "mypass")
+            //.WithEndpoint(port: 27017, targetPort: 27017, isProxied: true)
+            .WithDataVolume()
+            .WithMongoExpress();
+
+
+
+        return source.AddProject<Projects.MovieService_Api>("nt-movieservice-service")
+           // .WithEnvironment("MovieDatabase__ConnectionString",$"mongodb://root:mypass@host.docker.internal:{mongoDb.GetEndpoint("tcp").Port.ToString()}/?authSource=admin")
+            .WithEnvironment("MovieDatabase__DatabaseName", "ntmoviestore")
+            .WithEnvironment("MovieDatabase__MovieCollectionName", "movies")
+            .WaitFor(mongoDb);
     }
 
     public static IResourceBuilder<ProjectResource> AddUserService(this IDistributedApplicationBuilder source, IResourceBuilder<RabbitMQServerResource> rabbitMq)
