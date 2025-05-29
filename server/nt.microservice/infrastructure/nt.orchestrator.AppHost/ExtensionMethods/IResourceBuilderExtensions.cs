@@ -5,7 +5,7 @@ public static class IResourceBuilderExtensions
 {
     public static IResourceBuilder<ProjectResource> AddGateway(this IDistributedApplicationBuilder source)
     {
-        return source.AddProject<Projects.nt_gateway>("nt-gateway-service");
+        return source.AddProject<Projects.nt_gateway>("nt-gateway-service",launchProfileName:"Aspire");
     }
     public static IResourceBuilder<ProjectResource> AddUserIdentityAggregatorService(this IDistributedApplicationBuilder source)
     {
