@@ -38,6 +38,8 @@ public class DatabaseInitializer
 
         _databaseSettings = databaseSettings.Value;
 
+        _databaseSettings.ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__nt-movieservice-db") ?? _databaseSettings.ConnectionString;
+
         DB.InitAsync(_databaseSettings.DatabaseName,MongoClientSettings.FromConnectionString(_databaseSettings.ConnectionString));
         _database = DB.Database(_databaseSettings.DatabaseName);
     }
