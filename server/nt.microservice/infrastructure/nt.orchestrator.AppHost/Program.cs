@@ -30,10 +30,11 @@ var rabbitmq = builder.AddRabbitMQ("nt-common-rabbitmq", rabbitMqusername, rabbi
 builder.AddAuthService(consul, rabbitmq)
        .WaitFor(consul);
 
-//builder.AddMovieService();
+
 builder.AddUserService(rabbitmq)
        .WaitFor(consul);
 
+builder.AddMovieService();
 //builder.AddReviewService();
 
 

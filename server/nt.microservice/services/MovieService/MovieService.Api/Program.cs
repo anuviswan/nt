@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using MovieService.Api;
 using MovieService.Api.Helpers;
 using MovieService.Api.Settings;
@@ -32,6 +33,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MovieDatabase"));
 builder.Services.Configure<LoggerConfiguration>(builder.Configuration.GetSection(nameof(LoggerConfiguration)));
+
+//builder.AddMongoDBClient("nt.movieservice.db");
+
+//var mongoClient = builder.Services.BuildServiceProvider().GetRequiredService<IMongoClient>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -71,3 +77,13 @@ app.MapGraphQL();
 
 
 app.Run();
+
+public class ExampleService(IMongoClient client)
+{
+    public void DoSomething()
+    {
+        // Example method to demonstrate service usage
+        var database = client.GetDatabase("MovieServiceDb");
+        // Perform operations with the database
+    }
+}
