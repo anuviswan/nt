@@ -3,14 +3,6 @@ using Microsoft.AspNetCore.Components.Endpoints;
 
 public static class IResourceBuilderExtensions
 {
-    public static IResourceBuilder<ProjectResource> AddGateway(this IDistributedApplicationBuilder source)
-    {
-        return source.AddProject<Projects.nt_gateway>("nt-gateway-service",launchProfileName:"Aspire");
-    }
-    public static IResourceBuilder<ProjectResource> AddUserIdentityAggregatorService(this IDistributedApplicationBuilder source)
-    {
-        return source.AddProject<Projects.UserIdentityAggregatorService_Api>("nt-useridentityaggregator-service");
-    }
 
     public static IResourceBuilder<ProjectResource> AddAuthService(this IDistributedApplicationBuilder source, IResourceBuilder<ContainerResource> consul, IResourceBuilder<RabbitMQServerResource> rabbitMq)
     {
