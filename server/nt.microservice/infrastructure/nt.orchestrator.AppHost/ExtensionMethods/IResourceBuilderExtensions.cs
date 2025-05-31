@@ -15,7 +15,8 @@ public static class IResourceBuilderExtensions
             .WithImage("postgres:14.1-alpine")
             .WithPgAdmin()
             .WithDataVolume()
-            .WithInitBindMount(@"D:\Source\nt\server\nt.microservice\services\Db\scripts");
+            .WithInitBindMount(@"D:\Source\nt\server\nt.microservice\services\Db\scripts")
+            .AddDatabase("ntuserauth");
 
         var server1 = source.AddProject<Projects.AuthService_Api>("nt-authservice-service1")
             .WithEnvironment("RUNNING_WITH", "aspire")

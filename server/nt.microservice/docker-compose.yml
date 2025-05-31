@@ -78,6 +78,7 @@ services:
       nt.authservice.network:
     depends_on:
       - nt.authservice.db
+      - nt.common.rabbitmq 
       #- "nt.authservice.log.db"
     expose: 
       - "80"
