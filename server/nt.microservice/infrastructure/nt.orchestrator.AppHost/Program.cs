@@ -1,3 +1,5 @@
+using Aspire.Hosting;
+
 var root = @"D:\Source\nt\server\nt.microservice";
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -8,6 +10,12 @@ var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consu
                     .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
 
 var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.Infrastructure.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
+                               .WithEnvironment("ServiceDiscoveryOptions__ResolverName","localhost")
+                               .WithEnvironment("ServiceDiscoveryOptions__ResolverPort", Constants.Infrastructure.Consul.HttpPort.ToString())
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__0__Key", "UserService")
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__0__Name", "nt.userservice.service")
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__1__Key", "AuthService")
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__1__Name", "nt.authservice.loadbalancer")
                                .WaitFor(consulServiceDiscovery);
 
 builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)

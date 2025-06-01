@@ -8,7 +8,7 @@ public static class MigrationsExtensions
     {
         using var scope = app.ApplicationServices.CreateScope();
         var migrator = scope.ServiceProvider.GetService<IMigrationRunner>();
-        migrator?.ListMigrations();
+        //migrator?.ListMigrations();
         migrator?.MigrateUp();
         return app;
     }

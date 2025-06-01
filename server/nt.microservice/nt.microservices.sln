@@ -95,6 +95,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerCompose", "DockerComp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{3FF7A3B3-E21A-4F0A-8578-F994E1173FAE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TransportService", "TransportService", "{590C4193-BEA6-40DD-B0CC-CAA34BC4B0D7}"
+	ProjectSection(SolutionItems) = preProject
+		services\TransportServices\docker-compose.yml = services\TransportServices\docker-compose.yml
+		services\TransportServices\rabbitmq-defs.json = services\TransportServices\rabbitmq-defs.json
+		services\TransportServices\rabbitmq-enabled-plugins = services\TransportServices\rabbitmq-enabled-plugins
+		services\TransportServices\rabbitmq.config = services\TransportServices\rabbitmq.config
+		services\TransportServices\rabbitmq_.config = services\TransportServices\rabbitmq_.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DbConfig", "DbConfig", "{6D503541-44DF-426A-B06E-15647F18E355}"
+	ProjectSection(SolutionItems) = preProject
+		services\Db\scripts\install-extensions-aspire.sql = services\Db\scripts\install-extensions-aspire.sql
+		services\Db\scripts\install-extensions.sql = services\Db\scripts\install-extensions.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -273,6 +288,8 @@ Global
 		{3FB9191F-36AC-660F-FE93-D875892CF14C} = {3FF7A3B3-E21A-4F0A-8578-F994E1173FAE}
 		{EC1D8212-8BDD-454F-AC59-5509271E8DE9} = {B8DD571C-22A9-432E-901E-C5A0AA439F63}
 		{3FF7A3B3-E21A-4F0A-8578-F994E1173FAE} = {B8DD571C-22A9-432E-901E-C5A0AA439F63}
+		{590C4193-BEA6-40DD-B0CC-CAA34BC4B0D7} = {E3B3D04C-DA8E-473C-B53E-9DDBB8E3A9B4}
+		{6D503541-44DF-426A-B06E-15647F18E355} = {E3B3D04C-DA8E-473C-B53E-9DDBB8E3A9B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}
