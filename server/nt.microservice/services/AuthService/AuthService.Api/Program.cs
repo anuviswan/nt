@@ -64,7 +64,7 @@ internal class Program
 
                                     mt.UsingRabbitMq((cntxt, cfg) =>
                                     {
-                                        cfg.Host("localhost", "/", c =>
+                                        cfg.Host(rabbitMqSettings.Uri, "/", c =>
                                         {
                                             c.Username(rabbitMqSettings.UserName);
                                             c.Password(rabbitMqSettings.Password);

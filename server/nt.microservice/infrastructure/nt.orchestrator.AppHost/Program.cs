@@ -45,7 +45,15 @@ builder.AddAuthService(consulServiceDiscovery, rabbitmq)
 
 
 builder.AddUserService(rabbitmq)
+    .WithEnvironment("ConsulConfig__serviceName", "nt.userservice.service")
+    .WithEnvironment("ConsulConfig__serviceId", "userservice-1")
+    .WithEnvironment("ConsulConfig__serviceAddress", $"localhost")
+    .WithEnvironment("ConsulConfig__servicePort", "8301")
+    .WithEnvironment("ConsulConfig__healthCheckUrl", "http://host.docker.internal:8301/api/healthcheck/health")
+    .WithEnvironment("ConsulConfig__consulAddress", consulServiceDiscovery.GetEndpoint("http"))
+    .WithEnvironment("ConsulConfig__deregisterAfterMinutes", "5")
        .WaitFor(consulServiceDiscovery);
+    
 
 builder.AddMovieService();
 //builder.AddReviewService();

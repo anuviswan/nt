@@ -1,5 +1,6 @@
 using Aspire.Hosting;
 using Microsoft.AspNetCore.Components.Endpoints;
+using static nt.helper.Constants.Infrastructure;
 
 public static class IResourceBuilderExtensions
 {
@@ -22,6 +23,9 @@ public static class IResourceBuilderExtensions
             .WithReference(postgres)
             .WaitFor(postgres)
             .WithHttpEndpoint(8101, name: "http1")
+                        .WithEnvironment("RabbitMqSettings__uri", "localhost")
+            .WithEnvironment("RabbitMqSettings__username", "ntuser")
+            .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
             .WaitFor(rabbitMq);
 
@@ -30,6 +34,9 @@ public static class IResourceBuilderExtensions
             .WithReference(postgres)
             .WaitFor(postgres)
             .WithHttpEndpoint(8102, name:"http2")
+                        .WithEnvironment("RabbitMqSettings__uri", "localhost")
+            .WithEnvironment("RabbitMqSettings__username", "ntuser")
+            .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
             .WaitFor(rabbitMq);
 
@@ -38,6 +45,9 @@ public static class IResourceBuilderExtensions
             .WithReference(postgres)
             .WaitFor(postgres)
             .WithHttpEndpoint(8103, name: "http3")
+                        .WithEnvironment("RabbitMqSettings__uri", "localhost")
+            .WithEnvironment("RabbitMqSettings__username", "ntuser")
+            .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
             .WaitFor(rabbitMq);
 
@@ -46,6 +56,9 @@ public static class IResourceBuilderExtensions
             .WithReference(postgres)
             .WaitFor(postgres)
             .WithHttpEndpoint(8104, name: "http4")
+                        .WithEnvironment("RabbitMqSettings__uri", "localhost")
+            .WithEnvironment("RabbitMqSettings__username", "ntuser")
+            .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
             .WaitFor(rabbitMq);
 
@@ -54,6 +67,9 @@ public static class IResourceBuilderExtensions
             .WithReference(postgres)
             .WaitFor(postgres)
             .WithHttpEndpoint(8105, name: "http5")
+            .WithEnvironment("RabbitMqSettings__uri","localhost")
+            .WithEnvironment("RabbitMqSettings__username","ntuser")
+            .WithEnvironment("RabbitMqSettings__password","pass")
             .WaitFor(consul)
             .WaitFor(rabbitMq);
 
@@ -120,7 +136,7 @@ public static class IResourceBuilderExtensions
 
     public static IResourceBuilder<ProjectResource> AddUserService(this IDistributedApplicationBuilder source, IResourceBuilder<RabbitMQServerResource> rabbitMq)
     {
-
+        
         var blobStorage = source.AddContainer("nt-userservice-blobstorage", "mcr.microsoft.com/azure-storage/azurite")
         //    .WithVolume(@"./localstorage/data:/data")
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
@@ -133,8 +149,11 @@ public static class IResourceBuilderExtensions
                 .WithHttpEndpoint(port: 1433, targetPort: 1433, isProxied: true);
 
         return source.AddProject<Projects.UserService_Api>("nt-userservice-service")
-                .WithEnvironment("CONSUL_URL", "http://localhost:9500")
                 .WithEnvironment("RUNNING_WITH", "aspire")
+                            .WithEnvironment("RabbitMqSettings__host", "localhost")
+            .WithEnvironment("RabbitMqSettings__username", "ntuser")
+            .WithEnvironment("RabbitMqSettings__password", "pass")
+                .WithHttpEndpoint(8301,name:"http")
                 .WaitFor(blobStorage)
                 .WaitFor(sqlDb);
     }
