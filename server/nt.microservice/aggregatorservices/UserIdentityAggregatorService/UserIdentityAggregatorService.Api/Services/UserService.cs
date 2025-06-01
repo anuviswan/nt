@@ -16,6 +16,7 @@ public class UserService : ServiceBase, IUserService
     public async Task<SearchUserByUserNameResponseViewModel?> SearchUserByUserNameAsync(string userName)
     {
         var client = await GetClientAsync();
+        Console.WriteLine($"Retrieving user {client.BaseAddress}");
         var response = await client.GetAsync($"api/UserManagement/SearchUserByUserName/{userName}");
         if (response.IsSuccessStatusCode)
         {

@@ -89,6 +89,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.orchestrator.AppHost", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nt.orchestrator.ServiceDefaults", "infrastructure\nt.orchestrator.ServiceDefaults\nt.orchestrator.ServiceDefaults.csproj", "{3FB9191F-36AC-660F-FE93-D875892CF14C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orchestration", "Orchestration", "{B8DD571C-22A9-432E-901E-C5A0AA439F63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerCompose", "DockerCompose", "{EC1D8212-8BDD-454F-AC59-5509271E8DE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{3FF7A3B3-E21A-4F0A-8578-F994E1173FAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TransportService", "TransportService", "{590C4193-BEA6-40DD-B0CC-CAA34BC4B0D7}"
+	ProjectSection(SolutionItems) = preProject
+		services\TransportServices\docker-compose.yml = services\TransportServices\docker-compose.yml
+		services\TransportServices\rabbitmq-defs.json = services\TransportServices\rabbitmq-defs.json
+		services\TransportServices\rabbitmq-enabled-plugins = services\TransportServices\rabbitmq-enabled-plugins
+		services\TransportServices\rabbitmq.config = services\TransportServices\rabbitmq.config
+		services\TransportServices\rabbitmq_.config = services\TransportServices\rabbitmq_.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DbConfig", "DbConfig", "{6D503541-44DF-426A-B06E-15647F18E355}"
+	ProjectSection(SolutionItems) = preProject
+		services\Db\scripts\install-extensions-aspire.sql = services\Db\scripts\install-extensions-aspire.sql
+		services\Db\scripts\install-extensions.sql = services\Db\scripts\install-extensions.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +265,7 @@ Global
 		{A59BD915-B88C-491C-B540-FB3002874BA0} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{55A2CA11-5B8D-4AAF-8AF3-A7FD961D4928} = {77B2AEAA-A853-42BF-835B-1725CA0F4F68}
 		{B11FA7F0-A483-4BA8-955E-CA64189F17AA} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
+		{88FAC380-9F80-441F-A86D-765D39B0F9A9} = {EC1D8212-8BDD-454F-AC59-5509271E8DE9}
 		{47D8D6C3-B720-4F92-853A-7D3D01E0127F} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 		{C528B5E3-1DD3-4D3D-ABFB-C69CDAEF6607} = {7034D6C6-EE6A-4512-BC80-A7DF562741E9}
 		{11EB8D38-997E-468D-B48F-E8468A2D92F4} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
@@ -262,6 +284,12 @@ Global
 		{82F5B905-3237-47D0-A7A1-B685B1626F61} = {4F5BAA00-8E5A-4D0A-BE6B-11FAFCDADEEF}
 		{CD481246-8F4D-4C5B-913F-8EAB339FA526} = {379A563F-E8CE-4BF6-9267-455ABAD65681}
 		{8EB2851A-3FE5-4994-AC37-AC0E7312EFC3} = {CD481246-8F4D-4C5B-913F-8EAB339FA526}
+		{012871D3-1FE7-427E-8E4D-39D13D4BB5E3} = {3FF7A3B3-E21A-4F0A-8578-F994E1173FAE}
+		{3FB9191F-36AC-660F-FE93-D875892CF14C} = {3FF7A3B3-E21A-4F0A-8578-F994E1173FAE}
+		{EC1D8212-8BDD-454F-AC59-5509271E8DE9} = {B8DD571C-22A9-432E-901E-C5A0AA439F63}
+		{3FF7A3B3-E21A-4F0A-8578-F994E1173FAE} = {B8DD571C-22A9-432E-901E-C5A0AA439F63}
+		{590C4193-BEA6-40DD-B0CC-CAA34BC4B0D7} = {E3B3D04C-DA8E-473C-B53E-9DDBB8E3A9B4}
+		{6D503541-44DF-426A-B06E-15647F18E355} = {E3B3D04C-DA8E-473C-B53E-9DDBB8E3A9B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}

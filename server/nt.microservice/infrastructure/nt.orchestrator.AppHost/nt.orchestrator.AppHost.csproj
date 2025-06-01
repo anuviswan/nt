@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\services\ReviewService\ReviewService.Api\ReviewService.Api.csproj" />
     <ProjectReference Include="..\..\services\UserService\UserService.Api\UserService.Api.csproj" />
     <ProjectReference Include="..\nt.gateway\nt.gateway.csproj" />
+    <ProjectReference Include="..\nt.helper\nt.helper.csproj" IsAspireProjectResource="false"/>
   </ItemGroup>
 
 </Project>

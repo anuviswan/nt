@@ -29,7 +29,7 @@ var registration = new AgentServiceRegistration
     Port = consulConfig.ServicePort,
     Check = new AgentServiceCheck
     {
-        HTTP = $"http://{consulConfig.ServiceAddress}{consulConfig.HealthCheckUrl}",
+        HTTP = consulConfig.HealthCheckUrl,
         Interval = TimeSpan.FromSeconds(10),
         Timeout = TimeSpan.FromSeconds(5),
         DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),

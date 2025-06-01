@@ -1,22 +1,35 @@
 using Aspire.Hosting;
-using Aspire.Hosting.ApplicationModel;
 
 var root = @"D:\Source\nt\server\nt.microservice";
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddGateway();
-builder.AddUserIdentityAggregatorService();
 
-var consul = builder.AddContainer("consul", "hashicorp/consul:latest")
-    .WithContainerName("nt.common.servicediscovery")
-    .WithHttpEndpoint(port:9500, targetPort:8500)
-    .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
+var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consul.ServiceName, "hashicorp/consul:latest")
+                    .WithContainerName(Constants.Infrastructure.Consul.ContainerName)
+                    .WithHttpEndpoint(port: Constants.Infrastructure.Consul.HttpPort, targetPort: Constants.Infrastructure.Consul.Port)
+                    .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
+
+var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.Infrastructure.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
+                               .WithEnvironment("ServiceDiscoveryOptions__ResolverName","localhost")
+                               .WithEnvironment("ServiceDiscoveryOptions__ResolverPort", Constants.Infrastructure.Consul.HttpPort.ToString())
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__0__Key", "UserService")
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__0__Name", "nt.userservice.service")
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__1__Key", "AuthService")
+                               .WithEnvironment("ServiceDiscoveryOptions__Services__1__Name", "nt.authservice.loadbalancer")
+                               .WaitFor(consulServiceDiscovery);
+
+builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
+       .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
+       .WithEnvironment(Constants.Global.EnvironmentVariables.HostVariable, Constants.Global.EnvironmentVariables.HostValue);
 
 
-var rabbitMqusername = builder.AddParameter("rabbitMqusername", "ntuser", secret: true);
-var rabbitMqpassword = builder.AddParameter("rabbitMqpassword", "pass", secret: true);
 
-var rabbitmq = builder.AddRabbitMQ("nt-common-rabbitmq", rabbitMqusername, rabbitMqpassword)
+// TODO: User Proper secret handling for RabbitMQ credentials
+var rabbitMqusername = builder.AddParameter(Constants.Infrastructure.RabbitMq.UserNameKey, "ntuser", secret: true);
+var rabbitMqpassword = builder.AddParameter(Constants.Infrastructure.RabbitMq.PasswordKey, "pass", secret: true);
+
+var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName, rabbitMqusername, rabbitMqpassword)
+    .WithContainerName(Constants.Infrastructure.RabbitMq.ContainerName)
     .WithBindMount(source: @$"{root}/services/transportservices/rabbitmq-enabled-plugins",
                    target: @"/etc/rabbitmq/enabled_plugins")
     .WithBindMount(source: @$"{root}/services/transportservices/rabbitmq.config",
@@ -27,12 +40,20 @@ var rabbitmq = builder.AddRabbitMQ("nt-common-rabbitmq", rabbitMqusername, rabbi
     .WithHttpEndpoint(15672,targetPort:15672, name: "http2");
 
 
-builder.AddAuthService(consul, rabbitmq)
-       .WaitFor(consul);
+builder.AddAuthService(consulServiceDiscovery, rabbitmq)
+       .WaitFor(consulServiceDiscovery);
 
 
 builder.AddUserService(rabbitmq)
-       .WaitFor(consul);
+    .WithEnvironment("ConsulConfig__serviceName", "nt.userservice.service")
+    .WithEnvironment("ConsulConfig__serviceId", "userservice-1")
+    .WithEnvironment("ConsulConfig__serviceAddress", $"localhost")
+    .WithEnvironment("ConsulConfig__servicePort", "8301")
+    .WithEnvironment("ConsulConfig__healthCheckUrl", "http://host.docker.internal:8301/api/healthcheck/health")
+    .WithEnvironment("ConsulConfig__consulAddress", consulServiceDiscovery.GetEndpoint("http"))
+    .WithEnvironment("ConsulConfig__deregisterAfterMinutes", "5")
+       .WaitFor(consulServiceDiscovery);
+    
 
 builder.AddMovieService();
 //builder.AddReviewService();

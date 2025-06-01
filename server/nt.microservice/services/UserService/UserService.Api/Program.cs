@@ -14,6 +14,9 @@ using UserService.Api.Settings;
 using UserService.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration
+.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+.AddEnvironmentVariables(); // <- This ensures env vars are considered
 
 builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
@@ -99,32 +102,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 var app = builder.Build();
-app.Lifetime.ApplicationStarted.Register(() =>
-{
-    if (Environment.GetEnvironmentVariable("RUNNING_WITH")?.ToUpper() == "ASPIRE")
-    {
-        Console.WriteLine("Running with Aspire");
-        consulConfig.ConsulAddress = Environment.GetEnvironmentVariable("CONSUL_URL") ?? consulConfig.ConsulAddress;
-
-        var server = app.Services.GetRequiredService<IServer>();
-        var addresses = server.Features.Get<IServerAddressesFeature>()?.Addresses;
-        var httpAddress = addresses?.FirstOrDefault(a => a.StartsWith("http://", StringComparison.OrdinalIgnoreCase));
-        
-        if (httpAddress is not null)
-        {
-            var port = new Uri(httpAddress).Port;
-            consulConfig.ServiceAddress = $"host.docker.internal:{port}";
-        }
-        else
-        {
-            Console.WriteLine("No server addresses found.");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Running with Docker");
-    }
-
+app.Lifetime.ApplicationStarted.Register(() => {
     var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
     var registration = new AgentServiceRegistration
     {
@@ -134,22 +112,17 @@ app.Lifetime.ApplicationStarted.Register(() =>
         Port = consulConfig.ServicePort,
         Check = new AgentServiceCheck
         {
-            HTTP = $"http://{consulConfig.ServiceAddress}{consulConfig.HealthCheckUrl}",
+            HTTP = consulConfig.HealthCheckUrl,
             Interval = TimeSpan.FromSeconds(10),
             Timeout = TimeSpan.FromSeconds(5),
             DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),
         }
     };
 
-
     // Register service with Consul
     consulClient.Agent.ServiceRegister(registration).Wait();
-    Console.WriteLine($"AuthService Load Balancer with Nginx registred successfully");
-
-
+    Console.WriteLine($"User Service registered with Consul registred successfully");
 });
-
-
 
 app.MapDefaultEndpoints();
 

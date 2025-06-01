@@ -63,7 +63,8 @@ builder.Services.AddAuthentication(
 //builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
-       .AddPollyWithInternalServerErrorHandling();
+       .AddPollyWithInternalServerErrorHandling()
+       .AddDelegatingHandler(typeof(DynamicHostReplacementHandler),true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration, (o)=> o.GenerateDocsForGatewayItSelf = true);
 var app = builder.Build();
