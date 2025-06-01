@@ -19,6 +19,7 @@ public class AuthService : ServiceBase, IAuthService
         try
         {
             var client = await GetClientAsync();
+            Console.WriteLine($"Validating user {client.BaseAddress}");
             var result = await client.PostAsJsonAsync("api/Authenticate/Validate", request).ConfigureAwait(false);
             if (result.IsSuccessStatusCode)
             {

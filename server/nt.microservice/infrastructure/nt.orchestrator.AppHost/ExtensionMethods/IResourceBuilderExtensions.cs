@@ -150,7 +150,7 @@ public static class IResourceBuilderExtensions
 
         return source.AddProject<Projects.UserService_Api>("nt-userservice-service")
                 .WithEnvironment("RUNNING_WITH", "aspire")
-                            .WithEnvironment("RabbitMqSettings__host", "localhost")
+                .WithEnvironment("RabbitMqSettings__host", "localhost")
             .WithEnvironment("RabbitMqSettings__username", "ntuser")
             .WithEnvironment("RabbitMqSettings__password", "pass")
                 .WithHttpEndpoint(8301,name:"http")

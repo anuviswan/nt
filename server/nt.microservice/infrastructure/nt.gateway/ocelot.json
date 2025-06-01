@@ -101,7 +101,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8301"
+          "Port": 8301
         }
       ],
       "UpstreamPathTemplate": "/api/User/searchuser",
