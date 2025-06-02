@@ -155,6 +155,7 @@ public static class IResourceBuilderExtensions
             .WithEnvironment("RabbitMqSettings__password", "pass")
                 .WithHttpEndpoint(8301,name:"http")
                 .WaitFor(blobStorage)
+                .WithReference(sqlDb)
                 .WaitFor(sqlDb);
     }
 

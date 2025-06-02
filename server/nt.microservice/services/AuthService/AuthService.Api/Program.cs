@@ -134,7 +134,7 @@ internal class Program
         app.UseMetricServer();
         app.UseHttpMetrics();
 
-        app.Migrate();
+        //app.Migrate();
         //app.UseHttpsRedirection();
 
         app.UseAuthentication();

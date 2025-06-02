@@ -10,14 +10,9 @@ public class UserserviceDbContext : DbContext
     public UserserviceDbContext(DbContextOptions<UserserviceDbContext> options) : base(options)
     {
         //Database.EnsureDeleted();
-        Database.EnsureCreated();
+        //Database.EnsureCreated();
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer("Server = host.docker.internal; Database = NtUserDb; User Id = sa; Password = Admin123;");
-    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

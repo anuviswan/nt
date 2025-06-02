@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Prometheus;
 using Serilog;
@@ -20,9 +21,7 @@ builder.Configuration
 
 builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
-
 var consulConfig = builder.Configuration.GetSection(nameof(ConsulConfig)).Get<ConsulConfig>();
-
 ArgumentNullException.ThrowIfNull(consulConfig, nameof(consulConfig));
 
 var corsPolicy = "_ntClientAppsOrigins";
@@ -53,7 +52,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<UserserviceDbContext>();
+var connectionString = builder.Configuration.GetConnectionString("nt-userservice-db");
+
+if(connectionString is null)
+{
+    throw new ArgumentNullException("Connection string 'nt-userservice-db' is not configured in appsettings.json or environment variables.");
+}
+builder.Services.AddDbContext<UserserviceDbContext>(o=>o.UseSqlServer(connectionString!));
+
 
 builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));
@@ -101,7 +107,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 
+
 var app = builder.Build();
+
+
 app.Lifetime.ApplicationStarted.Register(() => {
     var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
     var registration = new AgentServiceRegistration
@@ -123,6 +132,18 @@ app.Lifetime.ApplicationStarted.Register(() => {
     consulClient.Agent.ServiceRegister(registration).Wait();
     Console.WriteLine($"User Service registered with Consul registred successfully");
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<UserserviceDbContext>();
+    dbContext.Database.EnsureCreated(); // Ensure database is created (for code-first)
+    var pendingMigrations = dbContext.Database.GetPendingMigrations();
+    if (pendingMigrations.Any())
+    {
+        dbContext.Database.Migrate();
+    }
+}
+
 
 app.MapDefaultEndpoints();
 
