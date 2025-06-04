@@ -136,7 +136,7 @@ app.Lifetime.ApplicationStarted.Register(() => {
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<UserserviceDbContext>();
-    dbContext.Database.EnsureCreated(); // Ensure database is created (for code-first)
+    // dbContext.Database.EnsureCreated(); // Ensure database is created (for code-first)
     var pendingMigrations = dbContext.Database.GetPendingMigrations();
     if (pendingMigrations.Any())
     {
