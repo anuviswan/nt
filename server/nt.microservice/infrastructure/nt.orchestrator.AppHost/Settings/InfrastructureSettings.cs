@@ -6,8 +6,18 @@ public record InfrastructureSettings
     public Consul Consul { get; set; } = null!;
     public RabbitMq RabbitMq { get; set; } = null!;
 
+    public Postgres Postgres { get; set; } = null!;
+
+    public MongoDb MongoDb { get; set; } = null!;
+
+    public BlobStorage BlobStorage { get; set; } = null!;
+
 }
 
-public record Consul(string Container,int HttpPort, int TargetPort);
+public record Consul(string DockerImage,int HostPort, int TargetPort);
 public record RabbitMq(string UserName,string Password,int HttpPort,int HttpsPort);
+public record Postgres(string DockerImage,string UserName,string Password);
+public record MongoDb(string UserName, string Password);
+public record BlobStorage(string DockerImage, int HostPort, int TargetPort);
+
 

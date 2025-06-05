@@ -11,9 +11,9 @@ var root = infrastructureSettings.ApplicationRoot;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consul.ServiceName, infrastructureSettings.Consul.Container)
+var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consul.ServiceName, infrastructureSettings.Consul.DockerImage)
             .WithContainerName(Constants.Infrastructure.Consul.ContainerName)
-            .WithHttpEndpoint(port: infrastructureSettings.Consul.HttpPort, targetPort: infrastructureSettings.Consul.TargetPort)
+            .WithHttpEndpoint(port: infrastructureSettings.Consul.HostPort, targetPort: infrastructureSettings.Consul.TargetPort)
             .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
 
 
@@ -32,37 +32,35 @@ var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); 
 
 
-var postgresUsername = builder.AddParameter(Constants.AuthService.Database.UserNameKey, "postgres", secret: true);
-var postgresPassword = builder.AddParameter(Constants.AuthService.Database.PasswordKey, "Admin123", secret: true);
+var postgresUsername = builder.AddParameter(Constants.AuthService.Database.UserNameKey, infrastructureSettings.Postgres.UserName, secret: true);
+var postgresPassword = builder.AddParameter(Constants.AuthService.Database.PasswordKey, infrastructureSettings.Postgres.Password, secret: true);
 
 var postgres = builder.AddPostgres(Constants.AuthService.Database.InstanceName, postgresUsername, postgresPassword)
             .WithContainerName(Constants.AuthService.Database.ContainerName)
-            .WithImage("postgres:14.1-alpine")
+            .WithImage(infrastructureSettings.Postgres.DockerImage)
             .WithPgAdmin()
             .WithDataVolume()
             .WithInitBindMount($@"{root}\services\Db\scripts\Aspire");
 
-var mongoDbUsername = builder.AddParameter(Constants.MovieService.Database.UserNameKey, "root", secret: true);
-var mongoDbPassword = builder.AddParameter(Constants.MovieService.Database.PasswordKey, "mypass", secret: true);
+var mongoDbUsername = builder.AddParameter(Constants.MovieService.Database.UserNameKey, infrastructureSettings.MongoDb.UserName, secret: true);
+var mongoDbPassword = builder.AddParameter(Constants.MovieService.Database.PasswordKey, infrastructureSettings.MongoDb.Password, secret: true);
 
 var mongoDb = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 27017, userName: mongoDbUsername, password: mongoDbPassword)
-            .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbUserNameKey, "root")
-            .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbPasswordKey, "mypass")
+            .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbUserNameKey, infrastructureSettings.MongoDb.UserName)
+            .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbPasswordKey, infrastructureSettings.MongoDb.Password)
             //.WithEndpoint(port: 27017, targetPort: 27017, isProxied: true)
             .WithContainerName(Constants.MovieService.Database.ContainerName)
             .WithDataVolume()
             .WithMongoExpress();
 
-
-
-
-
-
-
-var blobStorage = builder.AddContainer("nt-userservice-blobstorage", "mcr.microsoft.com/azure-storage/azurite")
+var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastructureSettings.BlobStorage.DockerImage)
             //    .WithVolume(@"./localstorage/data:/data")
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
-            .WithHttpEndpoint(port: 10000, targetPort: 10000, isProxied: true);
+            .WithHttpEndpoint(port: infrastructureSettings.BlobStorage.HostPort, targetPort: infrastructureSettings.BlobStorage.TargetPort, isProxied: true);
+
+
+
+
 
 
 var sqlServerPassword = builder.AddParameter("sqlServerPassword", "Admin123");
