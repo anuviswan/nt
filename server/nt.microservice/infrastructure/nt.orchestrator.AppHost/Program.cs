@@ -1,3 +1,4 @@
+using Aspire.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using nt.orchestrator.AppHost.Settings;
@@ -5,8 +6,11 @@ using nt.orchestrator.AppHost.Settings;
 var hostBuilder = Host.CreateApplicationBuilder(args);
 var config = hostBuilder.Configuration;
 var infrastructureSettings = config.GetSection(nameof(InfrastructureSettings)).Get<InfrastructureSettings>();
+var serviceSettings = config.GetSection(nameof(ServicesSettings)).Get<ServicesSettings>();
 
 ArgumentNullException.ThrowIfNull(infrastructureSettings, nameof(infrastructureSettings));
+ArgumentNullException.ThrowIfNull(serviceSettings, nameof(serviceSettings));
+
 var root = infrastructureSettings.ApplicationRoot;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -59,31 +63,41 @@ var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastruct
             .WithHttpEndpoint(port: infrastructureSettings.BlobStorage.HostPort, targetPort: infrastructureSettings.BlobStorage.TargetPort, isProxied: true);
 
 
-
-
-
-
-var sqlServerPassword = builder.AddParameter("sqlServerPassword", "Admin123");
-var sqlDb = builder.AddSqlServer("nt-userservice-db", sqlServerPassword)
+var sqlServerPassword = builder.AddParameter(Constants.UserService.Database.PasswordKey, infrastructureSettings.SqlServer.Password);
+var sqlDb = builder.AddSqlServer(Constants.UserService.Database.InstanceName, sqlServerPassword)
             .WithEnvironment("ACCEPT_EULA", "Y")
-            .WithEnvironment("MSSQL_SA_PASSWORD", "Admin123")
-            .WithHttpEndpoint(port: 1433, targetPort: 1433, isProxied: true);
+            .WithEnvironment("MSSQL_SA_PASSWORD", infrastructureSettings.SqlServer.Password)
+            .WithHttpEndpoint(port: infrastructureSettings.SqlServer.HostPort, targetPort: infrastructureSettings.SqlServer.TargetPort, isProxied: true);
+
 
 var authServiceInstances = new List<IResourceBuilder<ProjectResource>>();
-for (int port = 8101; port <= 8105; port++)
+foreach(var port in serviceSettings.AuthService.InstancePorts)
 {
-    authServiceInstances.Add(builder.AddProject<Projects.AuthService_Api>($"nt-authservice-service{port}")
-            .WithEnvironment("RUNNING_WITH", "aspire")
+    authServiceInstances.Add(builder.AddProject<Projects.AuthService_Api>($"{Constants.AuthService.ServiceName}{port}")
+            .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
             .WithReference(postgres)
             .WaitFor(postgres)
             .WithHttpEndpoint(port, name: $"http{port}")
-                        .WithEnvironment("RabbitMqSettings__uri", "localhost")
-            .WithEnvironment("RabbitMqSettings__username", "ntuser")
-            .WithEnvironment("RabbitMqSettings__password", "pass")
+            .WithEnvironment(Constants.AuthService.Environment.RabbitMqHost, infrastructureSettings.RabbitMq.Host)
+            .WithEnvironment(Constants.AuthService.Environment.RabbitMqUserName, infrastructureSettings.RabbitMq.UserName)
+            .WithEnvironment(Constants.AuthService.Environment.RabbitMqPassword, infrastructureSettings.RabbitMq.Password)
             .WaitFor(consulServiceDiscovery)
             .WaitFor(rabbitmq)
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var authServiceLoadBalancer = builder.AddContainer("nt-authservice-loadbalancer", "nginx:latest")
             .WithHttpEndpoint(port: 8100, targetPort: 80)
@@ -105,7 +119,7 @@ var authServiceSideCar = builder.AddProject<Projects.AuthService_LoadBalancer_Se
 
 var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.Infrastructure.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
             .WithEnvironment("ServiceDiscoveryOptions__ResolverName", "localhost")
-            .WithEnvironment("ServiceDiscoveryOptions__ResolverPort", Constants.Infrastructure.Consul.HttpPort.ToString())
+            .WithEnvironment("ServiceDiscoveryOptions__ResolverPort", infrastructureSettings.Consul.HostPort.ToString())
             .WithEnvironment("ServiceDiscoveryOptions__Services__0__Key", "UserService")
             .WithEnvironment("ServiceDiscoveryOptions__Services__0__Name", "nt.userservice.service")
             .WithEnvironment("ServiceDiscoveryOptions__Services__1__Key", "AuthService")

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace nt.helper;
+﻿namespace nt.helper;
 
 public static class Constants
 {
@@ -63,6 +56,26 @@ public static class Constants
             public const string InstanceName = "UserSqlDb";
             public const string ContainerName = "nt.authservice.db";
             public const string UserNameKey = $"{ServiceName}-UserName";
+            public const string PasswordKey = $"{ServiceName}-Password";
+        }
+
+        public static class Environment
+        {
+            public const string RabbitMqHost = "RabbitMqSettings__uri";
+            public const string RabbitMqUserName = "RabbitMqSettings__username";
+            public const string RabbitMqPassword = "RabbitMqSettings__password";
+        }
+    }
+
+
+    public static class UserService
+    {
+        public const string ServiceName = "nt-userservice-service";
+
+        public class Database
+        {
+            public const string InstanceName = "nt-userservice-db";
+            public const string ContainerName = "nt.userservice.db";
             public const string PasswordKey = $"{ServiceName}-Password";
         }
     }
