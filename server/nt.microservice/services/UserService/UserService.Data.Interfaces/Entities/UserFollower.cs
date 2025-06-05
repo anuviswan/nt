@@ -18,3 +18,4 @@ public class UserFollower : IEntity
     public virtual UserMetaInformation Followee { get; set; } = null!;
 
 }
+
