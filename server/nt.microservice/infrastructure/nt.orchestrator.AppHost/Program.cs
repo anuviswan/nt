@@ -17,8 +17,8 @@ var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName
                            target: @"/etc/rabbitmq/rabbitmq.conf")
             .WithBindMount(source: @$"{root}/services/transportservices/rabbitmq-defs.json",
                            target: @"/etc/rabbitmq/definitions.json")
-            .WithHttpEndpoint(5672,targetPort:5672, name:"http1")
-            .WithHttpEndpoint(15672,targetPort:15672, name: "http2")
+            .WithHttpEndpoint(Constants.Infrastructure.RabbitMq.HttpPort,targetPort: Constants.Infrastructure.RabbitMq.HttpPort, name:"http1")
+            .WithHttpEndpoint(Constants.Infrastructure.RabbitMq.HttpsPort, targetPort: Constants.Infrastructure.RabbitMq.HttpsPort, name: "http2")
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); 
 
 

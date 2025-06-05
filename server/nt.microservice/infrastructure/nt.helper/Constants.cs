@@ -52,8 +52,8 @@ public static class Constants
             public const string ContainerName = "nt.common.rabbitmq";
             public const string UserNameKey = $"{ServiceName}-UserName";
             public const string PasswordKey = $"{ServiceName}-Password";
-            public const int Port = 5672;
-            public const int HttpPort = 15672;
+            public const int HttpPort = 5672;
+            public const int HttpsPort = 15672;
         }
     }
     
