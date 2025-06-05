@@ -37,11 +37,13 @@ var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName
     .WithBindMount(source: @$"{root}/services/transportservices/rabbitmq-defs.json",
                    target: @"/etc/rabbitmq/definitions.json")
     .WithHttpEndpoint(5672,targetPort:5672, name:"http1")
-    .WithHttpEndpoint(15672,targetPort:15672, name: "http2");
+    .WithHttpEndpoint(15672,targetPort:15672, name: "http2")
+    .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); ;
 
 
 builder.AddAuthService(consulServiceDiscovery, rabbitmq)
-       .WaitFor(consulServiceDiscovery);
+       .WaitFor(consulServiceDiscovery)
+       .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})")); ;
 
 
 builder.AddUserService(rabbitmq)
@@ -52,8 +54,9 @@ builder.AddUserService(rabbitmq)
     .WithEnvironment("ConsulConfig__healthCheckUrl", "http://host.docker.internal:8301/api/healthcheck/health")
     .WithEnvironment("ConsulConfig__consulAddress", consulServiceDiscovery.GetEndpoint("http"))
     .WithEnvironment("ConsulConfig__deregisterAfterMinutes", "5")
-       .WaitFor(consulServiceDiscovery);
-    
+    .WaitFor(consulServiceDiscovery)
+    .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})")); 
+
 
 builder.AddMovieService();
 //builder.AddReviewService();

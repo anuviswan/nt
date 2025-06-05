@@ -27,7 +27,8 @@ public static class IResourceBuilderExtensions
             .WithEnvironment("RabbitMqSettings__username", "ntuser")
             .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
-            .WaitFor(rabbitMq);
+            .WaitFor(rabbitMq)
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")); 
 
         var server2 = source.AddProject<Projects.AuthService_Api>("nt-authservice-service2")
             .WithEnvironment("RUNNING_WITH", "aspire")
@@ -38,7 +39,8 @@ public static class IResourceBuilderExtensions
             .WithEnvironment("RabbitMqSettings__username", "ntuser")
             .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
-            .WaitFor(rabbitMq);
+            .WaitFor(rabbitMq)
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")); 
 
         var server3 = source.AddProject<Projects.AuthService_Api>("nt-authservice-service3")
             .WithEnvironment("RUNNING_WITH", "aspire")
@@ -49,7 +51,8 @@ public static class IResourceBuilderExtensions
             .WithEnvironment("RabbitMqSettings__username", "ntuser")
             .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
-            .WaitFor(rabbitMq);
+            .WaitFor(rabbitMq)
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")); 
 
         var server4 = source.AddProject<Projects.AuthService_Api>("nt-authservice-service4")
             .WithEnvironment("RUNNING_WITH", "aspire")
@@ -60,7 +63,8 @@ public static class IResourceBuilderExtensions
             .WithEnvironment("RabbitMqSettings__username", "ntuser")
             .WithEnvironment("RabbitMqSettings__password", "pass")
             .WaitFor(consul)
-            .WaitFor(rabbitMq);
+            .WaitFor(rabbitMq)
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")); 
 
         var server5 = source.AddProject<Projects.AuthService_Api>("nt-authservice-service5")
             .WithEnvironment("RUNNING_WITH", "aspire")
@@ -71,7 +75,8 @@ public static class IResourceBuilderExtensions
             .WithEnvironment("RabbitMqSettings__username","ntuser")
             .WithEnvironment("RabbitMqSettings__password","pass")
             .WaitFor(consul)
-            .WaitFor(rabbitMq);
+            .WaitFor(rabbitMq)
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")); 
 
         // Run nginx
         var loadbalancer = source.AddContainer("nt-authservice-loadbalancer", "nginx:latest")
@@ -161,6 +166,7 @@ public static class IResourceBuilderExtensions
 
     public static IResourceBuilder<ProjectResource> AddReviewService(this IDistributedApplicationBuilder source)
     {
-        return source.AddProject<Projects.ReviewService_Api>("nt-reviewservice-service");
+        return source.AddProject<Projects.ReviewService_Api>("nt-reviewservice-service")
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})")); 
     }
 }
