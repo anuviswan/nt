@@ -19,37 +19,35 @@ var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName
                            target: @"/etc/rabbitmq/definitions.json")
             .WithHttpEndpoint(5672,targetPort:5672, name:"http1")
             .WithHttpEndpoint(15672,targetPort:15672, name: "http2")
-            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); ;
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); 
 
 
+var postgresUsername = builder.AddParameter(Constants.AuthService.Database.UserNameKey, "postgres", secret: true);
+var postgresPassword = builder.AddParameter(Constants.AuthService.Database.PasswordKey, "Admin123", secret: true);
 
-
-
-
-
-
-
-
-var postgresUsername = builder.AddParameter("postgresUser", "postgres", secret: true);
-var postgresPassword = builder.AddParameter("postgressPassword", "Admin123", secret: true);
-
-var postgres = builder.AddPostgres("UserSqlDb", postgresUsername, postgresPassword)
-            .WithContainerName("nt.authservice.db")
+var postgres = builder.AddPostgres(Constants.AuthService.Database.InstanceName, postgresUsername, postgresPassword)
+            .WithContainerName(Constants.AuthService.Database.ContainerName)
             .WithImage("postgres:14.1-alpine")
             .WithPgAdmin()
             .WithDataVolume()
-            .WithInitBindMount(@"D:\Source\nt\server\nt.microservice\services\Db\scripts\Aspire");
+            .WithInitBindMount($@"{root}\services\Db\scripts\Aspire");
 
-var mongoDbUsername = builder.AddParameter("mongoDbUser", "root", secret: true);
-var mongoDbPassword = builder.AddParameter("mongoDbPassword", "mypass", secret: true);
+var mongoDbUsername = builder.AddParameter(Constants.MovieService.Database.UserNameKey, "root", secret: true);
+var mongoDbPassword = builder.AddParameter(Constants.MovieService.Database.PasswordKey, "mypass", secret: true);
 
-var mongoDb = builder.AddMongoDB("nt-movieservice-db", 27017, userName: mongoDbUsername, password: mongoDbPassword)
-            .WithEnvironment("MONGO_INITDB_ROOT_USERNAME", "root")
-            .WithEnvironment("MONGO_INITDB_ROOT_PASSWORD", "mypass")
+var mongoDb = builder.AddMongoDB(Constants.MovieService.ServiceName, 27017, userName: mongoDbUsername, password: mongoDbPassword)
+            .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbUserNameKey, "root")
+            .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbPasswordKey, "mypass")
             //.WithEndpoint(port: 27017, targetPort: 27017, isProxied: true)
-            .WithContainerName("nt.movieservice.db")
+            .WithContainerName(Constants.MovieService.Database.ContainerName)
             .WithDataVolume()
             .WithMongoExpress();
+
+
+
+
+
+
 
 var blobStorage = builder.AddContainer("nt-userservice-blobstorage", "mcr.microsoft.com/azure-storage/azurite")
             //    .WithVolume(@"./localstorage/data:/data")
