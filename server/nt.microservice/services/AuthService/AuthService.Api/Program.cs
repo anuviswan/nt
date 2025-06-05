@@ -89,6 +89,7 @@ internal class Program
             .ScanIn(typeof(AuthService.Data.Migrations.InitialSeed202302072003).Assembly).For.Migrations());
 
 
+
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(option =>
             {
@@ -121,6 +122,13 @@ internal class Program
             logging.AddConsole();
         });
         var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+            runner.MigrateUp(); // You can also use runner.MigrateDown(version)
+        }
+
         app.MapDefaultEndpoints();
 
         // Configure the HTTP request pipeline.
