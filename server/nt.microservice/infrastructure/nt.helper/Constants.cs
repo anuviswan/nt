@@ -37,8 +37,6 @@ public static class Constants
         {
             public const string ServiceName = "nt-common-servicediscovery";
             public const string ContainerName = "nt.common.servicediscovery";
-            public const int Port = 8500;
-            public const int HttpPort = 9500;
         }
 
         public static class AggregatorUserIdentityService

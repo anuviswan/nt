@@ -1,14 +1,24 @@
-var root = @"D:\Source\nt\server\nt.microservice";
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using nt.orchestrator.AppHost.Settings;
+
+var hostBuilder = Host.CreateApplicationBuilder(args);
+var config = hostBuilder.Configuration;
+var infrastructureSettings = config.GetSection(nameof(InfrastructureSettings)).Get<InfrastructureSettings>();
+
+ArgumentNullException.ThrowIfNull(infrastructureSettings, nameof(infrastructureSettings));
+var root = infrastructureSettings.ApplicationRoot;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consul.ServiceName, "hashicorp/consul:latest")
+var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consul.ServiceName, infrastructureSettings.Consul.Container)
             .WithContainerName(Constants.Infrastructure.Consul.ContainerName)
-            .WithHttpEndpoint(port: Constants.Infrastructure.Consul.HttpPort, targetPort: Constants.Infrastructure.Consul.Port)
+            .WithHttpEndpoint(port: infrastructureSettings.Consul.HttpPort, targetPort: infrastructureSettings.Consul.TargetPort)
             .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
 
-// TODO: User Proper secret handling for RabbitMQ credentials
-var rabbitMqusername = builder.AddParameter(Constants.Infrastructure.RabbitMq.UserNameKey, "ntuser", secret: true);
-var rabbitMqpassword = builder.AddParameter(Constants.Infrastructure.RabbitMq.PasswordKey, "pass", secret: true);
+
+var rabbitMqusername = builder.AddParameter(Constants.Infrastructure.RabbitMq.UserNameKey, infrastructureSettings.RabbitMq.UserName, secret: true);
+var rabbitMqpassword = builder.AddParameter(Constants.Infrastructure.RabbitMq.PasswordKey, infrastructureSettings.RabbitMq.Password, secret: true);
 var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName, rabbitMqusername, rabbitMqpassword)
             .WithContainerName(Constants.Infrastructure.RabbitMq.ContainerName)
             .WithBindMount(source: @$"{root}/services/transportservices/rabbitmq-enabled-plugins",
@@ -17,8 +27,8 @@ var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName
                            target: @"/etc/rabbitmq/rabbitmq.conf")
             .WithBindMount(source: @$"{root}/services/transportservices/rabbitmq-defs.json",
                            target: @"/etc/rabbitmq/definitions.json")
-            .WithHttpEndpoint(Constants.Infrastructure.RabbitMq.HttpPort,targetPort: Constants.Infrastructure.RabbitMq.HttpPort, name:"http1")
-            .WithHttpEndpoint(Constants.Infrastructure.RabbitMq.HttpsPort, targetPort: Constants.Infrastructure.RabbitMq.HttpsPort, name: "http2")
+            .WithHttpEndpoint(infrastructureSettings.RabbitMq.HttpPort,targetPort: infrastructureSettings.RabbitMq.HttpPort, name:"http1")
+            .WithHttpEndpoint(infrastructureSettings.RabbitMq.HttpsPort, targetPort: infrastructureSettings.RabbitMq.HttpsPort, name: "http2")
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); 
 
 
@@ -35,7 +45,7 @@ var postgres = builder.AddPostgres(Constants.AuthService.Database.InstanceName, 
 var mongoDbUsername = builder.AddParameter(Constants.MovieService.Database.UserNameKey, "root", secret: true);
 var mongoDbPassword = builder.AddParameter(Constants.MovieService.Database.PasswordKey, "mypass", secret: true);
 
-var mongoDb = builder.AddMongoDB(Constants.MovieService.ServiceName, 27017, userName: mongoDbUsername, password: mongoDbPassword)
+var mongoDb = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 27017, userName: mongoDbUsername, password: mongoDbPassword)
             .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbUserNameKey, "root")
             .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbPasswordKey, "mypass")
             //.WithEndpoint(port: 27017, targetPort: 27017, isProxied: true)
