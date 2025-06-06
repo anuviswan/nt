@@ -18,6 +18,8 @@ public record MongoDb(string UserName, string Password);
 public record BlobStorage(string DockerImage, int HostPort, int TargetPort);
 public record SqlServer(string Password,int HostPort, int TargetPort);
 
+public record LoadBalancer(string DockerImage, int HostPort, int TargetPort);
+
 
 public record ServicesSettings
 {
@@ -27,6 +29,24 @@ public record ServicesSettings
 public record AuthService
 {
     public int[] InstancePorts { get; set; } = null!;
+
+    public LoadBalancer LoadBalancer { get; set; } = null!;
+    
+    public SideCar ConsulSideCar { get; set; } = null!;
+    public record SideCar
+    {
+        public string ServiceName { get; set; } = null!;
+        public string ServiceId { get; set; } = null!;
+        public string ServiceAddress { get; set; } = null!;
+        public int ServicePort { get; set; }
+        public string HealthCheckUrl { get; set; } = null!;
+        public int DeregisterAfterMinutes { get; set; } = 5; // Default to 5 minutes
+    }    
 }
+
+
+
+
+
 
 

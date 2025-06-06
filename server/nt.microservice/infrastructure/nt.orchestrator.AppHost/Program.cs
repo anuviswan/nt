@@ -86,35 +86,26 @@ foreach(var port in serviceSettings.AuthService.InstancePorts)
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-var authServiceLoadBalancer = builder.AddContainer("nt-authservice-loadbalancer", "nginx:latest")
-            .WithHttpEndpoint(port: 8100, targetPort: 80)
-            .WithBindMount(@"D:\Source\nt\server\nt.microservice\services\AuthService\AuthService.LoadBalancer\nginx\nginx.conf", "/etc/nginx/nginx.conf", isReadOnly: true)
+var authServiceLoadBalancer = builder.AddContainer(Constants.AuthService.LoadBalancer.InstanceName, serviceSettings.AuthService.LoadBalancer.DockerImage)
+            .WithHttpEndpoint(port: serviceSettings.AuthService.LoadBalancer.HostPort, targetPort: serviceSettings.AuthService.LoadBalancer.TargetPort)
+            .WithBindMount($@"{root}\services\AuthService\AuthService.LoadBalancer\nginx\nginx.conf", "/etc/nginx/nginx.conf", isReadOnly: true)
             .WaitForAll(authServiceInstances);
 
-var authServiceSideCar = builder.AddProject<Projects.AuthService_LoadBalancer_ServiceDiscoverySideCar>("AuthService-LoadBalancer-Sidecar")
-            .WithEnvironment("ConsulConfig__serviceName", "nt.authservice.loadbalancer")
-            .WithEnvironment("ConsulConfig__serviceId", "authservice-1")
-            .WithEnvironment("ConsulConfig__serviceAddress", $"localhost")
-            .WithEnvironment("ConsulConfig__servicePort", "8100")
-            .WithEnvironment("ConsulConfig__healthCheckUrl", "http://host.docker.internal:8100/health")
-            .WithEnvironment("ConsulConfig__consulAddress", consulServiceDiscovery.GetEndpoint("http"))
-            .WithEnvironment("ConsulConfig__deregisterAfterMinutes", "5")
+var authServiceSideCar = builder.AddProject<Projects.AuthService_LoadBalancer_ServiceDiscoverySideCar>(Constants.AuthService.Sidecar.InstanceName)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.AuthService.ConsulSideCar.ServiceName)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.AuthService.ConsulSideCar.ServiceId)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceAddress, serviceSettings.AuthService.ConsulSideCar.ServiceAddress)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, serviceSettings.AuthService.ConsulSideCar.ServicePort.ToString())
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, serviceSettings.AuthService.ConsulSideCar.HealthCheckUrl)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ConsulAddress, consulServiceDiscovery.GetEndpoint("http"))
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.AuthService.ConsulSideCar.DeregisterAfterMinutes.ToString())
             .WaitFor(consulServiceDiscovery)
             .WaitFor(rabbitmq)
             .WaitFor(authServiceLoadBalancer);
+
+
+
+
 
 
 var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.Infrastructure.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)

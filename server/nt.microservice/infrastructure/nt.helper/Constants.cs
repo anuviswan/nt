@@ -30,6 +30,18 @@ public static class Constants
         {
             public const string ServiceName = "nt-common-servicediscovery";
             public const string ContainerName = "nt.common.servicediscovery";
+
+            public static class Environement
+            {
+                public const string ServiceName = "ConsulConfig__serviceName";
+                public const string ServiceId = "ConsulConfig__serviceId";
+                public const string ServiceAddress = "ConsulConfig__serviceAddress";
+                public const string ServicePort = "ConsulConfig__servicePort";
+                public const string ServiceHealthCheckUrl = "ConsulConfig__healthCheckUrl";
+                public const string ConsulAddress = "ConsulConfig__consulAddress";
+                public const string DeregisterAfter = "ConsulConfig__deregisterAfterMinutes";
+
+            }
         }
 
         public static class AggregatorUserIdentityService
@@ -64,6 +76,16 @@ public static class Constants
             public const string RabbitMqHost = "RabbitMqSettings__uri";
             public const string RabbitMqUserName = "RabbitMqSettings__username";
             public const string RabbitMqPassword = "RabbitMqSettings__password";
+        }
+
+        public static class LoadBalancer
+        {
+            public const string InstanceName = "nt-authservice-loadbalancer";
+        }
+
+        public static class Sidecar
+        {
+            public const string InstanceName = "nt-authservice-loadbalancer-sidecar";
         }
     }
 
