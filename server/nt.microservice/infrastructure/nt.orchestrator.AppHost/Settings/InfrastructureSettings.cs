@@ -24,6 +24,24 @@ public record LoadBalancer(string DockerImage, int HostPort, int TargetPort);
 public record ServicesSettings
 {
     public AuthService AuthService { get; set; } = null!;
+    public Gateway Gateway { get; set; } = null!;
+
+    public AggregateAuthUserService AggregateAuthUserService { get; set; } = null!;
+}
+
+public record Gateway(string Host);
+
+public record AggregateAuthUserService
+{
+    public ServiceDiscovery ServiceDiscoveryOptions { get; set; } = null!;
+    public record ServiceDiscovery
+    {
+        public List<Service> Services { get; set; } = [];
+        public string ResolverName { get; set; } = null!;
+        public string ResolverPort { get; set; } = null!;
+    }
+
+    public record Service(string Key, string Name);
 }
 
 public record AuthService

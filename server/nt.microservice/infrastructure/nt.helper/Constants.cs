@@ -9,7 +9,6 @@ public static class Constants
             public const string RunningWithVariable = "RUNNING_WITH";
             public const string RunningWithValue = "ASPIRE";
             public const string HostVariable = "Host";
-            public const string HostValue = "localhost";
         }
 
         public static class Common
@@ -44,10 +43,7 @@ public static class Constants
             }
         }
 
-        public static class AggregatorUserIdentityService
-        {
-            public const string ServiceName = "nt-useridentityaggregator-service";
-        }
+
 
         public static class RabbitMq
         {
@@ -59,7 +55,18 @@ public static class Constants
             public const int HttpsPort = 15672;
         }
     }
-    
+
+    public static class AggregatorUserIdentityService
+    {
+        public const string ServiceName = "nt-useridentityaggregator-service";
+        public const string ServiceDiscoveryResolverName = "ServiceDiscoveryOptions__ResolverName";
+        public const string ServiceDiscoveryResolverPort = "ServiceDiscoveryOptions__ResolverPort";
+        public const string ServiceDiscoveryUserServiceKey = "ServiceDiscoveryOptions__Services__0__Key";
+        public const string ServiceDiscoveryUserServiceName = "ServiceDiscoveryOptions__Services__0__Name";
+        public const string ServiceDiscoveryAuthServiceKey = "ServiceDiscoveryOptions__Services__1__Key";
+        public const string ServiceDiscoveryAuthServiceName = "ServiceDiscoveryOptions__Services__1__Name";
+    }
+
     public static class AuthService 
     {
         public const string ServiceName = "nt-authservice-service";
