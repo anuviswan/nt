@@ -27,7 +27,7 @@
     <ProjectReference Include="..\..\services\ReviewService\ReviewService.Api\ReviewService.Api.csproj" />
     <ProjectReference Include="..\..\services\UserService\UserService.Api\UserService.Api.csproj" />
     <ProjectReference Include="..\nt.gateway\nt.gateway.csproj" />
-    <ProjectReference Include="..\nt.helper\nt.helper.csproj" IsAspireProjectResource="false"/>
+    <ProjectReference Include="..\nt.helper\nt.helper.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>
