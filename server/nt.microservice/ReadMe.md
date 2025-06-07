@@ -1,8 +1,41 @@
 # Nt.Microservice
 
-This project demonstrate usage of Microservice architecture for implementing backend for Nt application. Key points in the implementation include
+This application is built using a microservices architecture to ensure modularity, scalability, and maintainability across service boundaries. Each service is independently deployable and communicates primarily over REST APIs, with asynchronous messaging used where strong decoupling is required.
 
-- API Gateway has been implemented with [Ocelot](https://ocelot.readthedocs.io/en/latest/) library.
+Key points in the implementation include
+
+## 🔐 Authentication Layer – Auth Service
+- Implements token-based authentication and user credential validation.
+- Utilizes Dapper as a lightweight micro-ORM for fine-grained SQL control.
+- Backed by a PostgreSQL datastore optimized for transactional consistency.
+- Publishes domain events to RabbitMQ for decoupled service orchestration.
+
+## 🧍‍♂️ User Management – User Service
+- Manages user metadata and profile data.
+- Employs Entity Framework on SQL Server for relational persistence.
+- Subscribes to AuthService events via RabbitMQ, enabling eventual consistency and decoupled workflows.
+
+## 🔗 Identity Composition – UserIdentity Aggregator
+- A cross-service orchestration layer abstracting Auth and User services.
+- Serves as a Backend For Frontend (BFF), exposing a canonical identity model.
+- Centralizes validation logic and shields clients from domain fragmentation.
+- Uses Consul Service discovery for discovery of individual services
+
+### Movie Service
+- Implements movie catalog and metadata management.
+- Built using MongoDb.Entities ODM over MongoDB for flexible schema design and nested document queries.
+
+### Review Service
+- Currently a placeholder microservice.
+- Positioned to evolve into an event-sourced or CQRS-enabled bounded context.
+
+## 🔄 Inter-Service Communication Model
+
+| Pattern      | Technology | Use Case                      |
+|--------------|------------|-------------------------------|
+| Synchronous  | REST (HTTP)| Request-response APIs         |
+| Asynchronous | RabbitMQ   | Decoupled event-based messaging |
+
 
 **System Architecture**
    
