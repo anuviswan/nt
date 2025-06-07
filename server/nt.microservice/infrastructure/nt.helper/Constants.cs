@@ -107,6 +107,13 @@ public static class Constants
             public const string ContainerName = "nt.userservice.db";
             public const string PasswordKey = $"{ServiceName}-Password";
         }
+
+        public static class Environment
+        {
+            public const string RabbitMqHost = "RabbitMqSettings__host";
+            public const string RabbitMqUserName = "RabbitMqSettings__username";
+            public const string RabbitMqPassword = "RabbitMqSettings__password";
+        }
     }
 
     public static class MovieService
@@ -125,6 +132,8 @@ public static class Constants
         {
             public const string DbUserNameKey = "MONGO_INITDB_ROOT_USERNAME";
             public const string DbPasswordKey = "MONGO_INITDB_ROOT_PASSWORD";
+            public const string DbName = "MovieDatabase__DatabaseName";
+            public const string DbCollection = "MovieDatabase__MovieCollectionName";
         }
     }
 }

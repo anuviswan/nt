@@ -27,6 +27,10 @@ public record ServicesSettings
     public Gateway Gateway { get; set; } = null!;
 
     public AggregateAuthUserService AggregateAuthUserService { get; set; } = null!;
+
+    public UserService UserService { get; set; } = null!;
+
+    public MovieService MovieService { get; set; } = null!;
 }
 
 public record Gateway(string Host);
@@ -62,6 +66,21 @@ public record AuthService
     }    
 }
 
+public record UserService
+{
+    public ServiceDiscoveryConfig ServiceDiscovery{ get; set; } = null!;
+    public record ServiceDiscoveryConfig
+    {
+        public string ServiceName { get; set; } = null!;
+        public string ServiceId { get; set; } = null!;
+        public string ServiceAddress { get; set; } = null!;
+        public int ServicePort { get; set; }
+        public string HealthCheckUrl { get; set; } = null!;
+        public int DeregisterAfterMinutes { get; set; } = 5; // Default to 5 minutes
+    }
+}
+
+public record MovieService(string DbName,string MovieCollectionName);
 
 
 

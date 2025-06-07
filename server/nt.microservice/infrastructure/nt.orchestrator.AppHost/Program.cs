@@ -104,41 +104,18 @@ var authServiceSideCar = builder.AddProject<Projects.AuthService_LoadBalancer_Se
             .WaitFor(authServiceLoadBalancer);
 
 
-var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
-           .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
-           .WithEnvironment(Constants.Global.EnvironmentVariables.HostVariable, serviceSettings.Gateway.Host);
-//TODO: Wait for all
-
-var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Global.Common.LaunchProfile)
-            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryResolverName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.ResolverName)
-            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryResolverPort, infrastructureSettings.Consul.HostPort.ToString())
-            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryUserServiceKey, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x=>x.Name == "UserService").Key)
-            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryUserServiceName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Name == "UserService").Name)
-            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryAuthServiceKey, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Name == "AuthService").Key)
-            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryAuthServiceName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Name == "AuthService").Name)
-            .WaitFor(consulServiceDiscovery)
-            .WaitFor(authServiceLoadBalancer)
-            .WaitFor(authServiceSideCar);
-
-
-
-
-
-
-
-
-var userService = builder.AddProject<Projects.UserService_Api>("nt-userservice-service")
-            .WithEnvironment("RUNNING_WITH", "aspire")
-            .WithEnvironment("RabbitMqSettings__host", "localhost")
-            .WithEnvironment("RabbitMqSettings__username", "ntuser")
-            .WithEnvironment("RabbitMqSettings__password", "pass")
-            .WithEnvironment("ConsulConfig__serviceName", "nt.userservice.service")
-            .WithEnvironment("ConsulConfig__serviceId", "userservice-1")
-            .WithEnvironment("ConsulConfig__serviceAddress", $"localhost")
-            .WithEnvironment("ConsulConfig__servicePort", "8301")
-            .WithEnvironment("ConsulConfig__healthCheckUrl", "http://host.docker.internal:8301/api/healthcheck/health")
-            .WithEnvironment("ConsulConfig__consulAddress", consulServiceDiscovery.GetEndpoint("http"))
-            .WithEnvironment("ConsulConfig__deregisterAfterMinutes", "5")
+var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserService.ServiceName)
+            .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
+            .WithEnvironment(Constants.UserService.Environment.RabbitMqHost, infrastructureSettings.RabbitMq.Host)
+            .WithEnvironment(Constants.UserService.Environment.RabbitMqUserName, infrastructureSettings.RabbitMq.UserName)
+            .WithEnvironment(Constants.UserService.Environment.RabbitMqPassword, infrastructureSettings.RabbitMq.Password)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.UserService.ServiceDiscovery.ServiceName)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.UserService.ServiceDiscovery.ServiceId)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceAddress, serviceSettings.UserService.ServiceDiscovery.ServiceAddress)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, serviceSettings.UserService.ServiceDiscovery.ServicePort.ToString())
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, serviceSettings.UserService.ServiceDiscovery.HealthCheckUrl)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ConsulAddress, consulServiceDiscovery.GetEndpoint("http"))
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.UserService.ServiceDiscovery.DeregisterAfterMinutes.ToString())
             .WithHttpEndpoint(8301, name: "http")
             .WaitFor(blobStorage)
             .WithReference(sqlDb)
@@ -146,15 +123,37 @@ var userService = builder.AddProject<Projects.UserService_Api>("nt-userservice-s
             .WaitFor(consulServiceDiscovery)
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
 
+var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Global.Common.LaunchProfile)
+            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryResolverName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.ResolverName)
+            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryResolverPort, infrastructureSettings.Consul.HostPort.ToString())
+            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryUserServiceKey, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Key == "UserService").Key)
+            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryUserServiceName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Key == "UserService").Name)
+            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryAuthServiceKey, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Key == "AuthService").Key)
+            .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryAuthServiceName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Key == "AuthService").Name)
+            .WaitFor(consulServiceDiscovery)
+            .WaitFor(authServiceLoadBalancer)
+            .WaitFor(authServiceSideCar)
+            .WaitFor(userService);
 
-var movieService = builder.AddProject<Projects.MovieService_Api>("nt-movieservice-service")
-        .WithEnvironment("MovieDatabase__DatabaseName", "ntmoviestore")
-        .WithEnvironment("MovieDatabase__MovieCollectionName", "movies")
+
+var movieService = builder.AddProject<Projects.MovieService_Api>(Constants.MovieService.ServiceName)
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbName, serviceSettings.MovieService.DbName)
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbCollection, serviceSettings.MovieService.MovieCollectionName)
         .WithReference(mongoDb)
         .WaitFor(mongoDb);
 
 var reviewService = builder.AddProject<Projects.ReviewService_Api>("nt-reviewservice-service")
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
+
+
+var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
+           .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
+           .WithEnvironment(Constants.Global.EnvironmentVariables.HostVariable, serviceSettings.Gateway.Host)
+           .WaitForAll(authServiceInstances)
+           .WaitFor(userService)
+           .WaitFor(aggregatorService)
+           .WaitFor(movieService)
+           .WaitFor(reviewService);
 
 
 builder.Build().Run();
