@@ -42,7 +42,7 @@ var postgresPassword = builder.AddParameter(Constants.AuthService.Database.Passw
 var postgres = builder.AddPostgres(Constants.AuthService.Database.InstanceName, postgresUsername, postgresPassword)
             .WithContainerName(Constants.AuthService.Database.ContainerName)
             .WithImage(infrastructureSettings.Postgres.DockerImage)
-            .WithPgAdmin()
+            .WithPgAdmin(p=>p.WithHostPort(5000))
             .WithDataVolume()
             .WithInitBindMount($@"{root}\services\Db\scripts\Aspire");
 
@@ -58,7 +58,7 @@ var mongoDb = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 2
             .WithMongoExpress();
 
 var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastructureSettings.BlobStorage.DockerImage)
-            //    .WithVolume(@"./localstorage/data:/data")
+            .WithVolume("//d/Source/nt/server/nt.microservice/services/UserService/BlobStorage:/data")
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
             .WithHttpEndpoint(port: infrastructureSettings.BlobStorage.HostPort, targetPort: infrastructureSettings.BlobStorage.TargetPort, isProxied: true);
 
@@ -124,6 +124,7 @@ var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserSer
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
 
 var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Global.Common.LaunchProfile)
+            .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
             .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryResolverName, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.ResolverName)
             .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryResolverPort, infrastructureSettings.Consul.HostPort.ToString())
             .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceDiscoveryUserServiceKey, serviceSettings.AggregateAuthUserService.ServiceDiscoveryOptions.Services.Single(x => x.Key == "UserService").Key)
@@ -137,12 +138,14 @@ var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorServic
 
 
 var movieService = builder.AddProject<Projects.MovieService_Api>(Constants.MovieService.ServiceName)
+        .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbName, serviceSettings.MovieService.DbName)
         .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbCollection, serviceSettings.MovieService.MovieCollectionName)
         .WithReference(mongoDb)
         .WaitFor(mongoDb);
 
 var reviewService = builder.AddProject<Projects.ReviewService_Api>("nt-reviewservice-service")
+        .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
 
 

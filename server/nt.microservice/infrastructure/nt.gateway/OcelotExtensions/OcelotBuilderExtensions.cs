@@ -15,11 +15,11 @@ namespace nt.gateway.OcelotExtensions
         public static IOcelotBuilder AddPollyWithInternalServerErrorHandling(this IOcelotBuilder builder)
         {
             var errorMapping = new Dictionary<Type, Func<Exception, Error>>
-    {
-        {typeof(TaskCanceledException), e => new RequestTimedOutError(e)},
-        {typeof(TimeoutRejectedException), e => new RequestTimedOutError(e)},
-        {typeof(BrokenCircuitException), e => new RequestTimedOutError(e)}
-    };
+            {
+                {typeof(TaskCanceledException), e => new RequestTimedOutError(e)},
+                {typeof(TimeoutRejectedException), e => new RequestTimedOutError(e)},
+                {typeof(BrokenCircuitException), e => new RequestTimedOutError(e)}
+            };
 
             builder.Services.AddSingleton(errorMapping);
 

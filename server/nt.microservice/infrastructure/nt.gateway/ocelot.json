@@ -17,7 +17,7 @@
       "UpstreamPathTemplate": "/api/user/createuser",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
@@ -38,7 +38,7 @@
       "UpstreamPathTemplate": "/user/api/Users/Update",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
@@ -60,7 +60,7 @@
       "UpstreamPathTemplate": "/api/user/validateuser",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 1000,
         "TimeoutValue": 10000
       }
@@ -82,7 +82,7 @@
       "UpstreamPathTemplate": "/api/User/ChangePassword",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -107,7 +107,7 @@
       "UpstreamPathTemplate": "/api/User/searchuser",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -132,7 +132,7 @@
       "UpstreamPathTemplate": "/user/api/Users/uploadprofileimage",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -157,7 +157,7 @@
       "UpstreamPathTemplate": "/user/api/Users/getprofileimage",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -181,7 +181,7 @@
       "UpstreamPathTemplate": "/movies",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
@@ -209,8 +209,8 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "authentication",
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
         "TimeoutValue": 10000
       }
     },
@@ -231,8 +231,8 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "orchestrator",
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
         "TimeoutValue": 10000
       }
     },
@@ -254,8 +254,8 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "user",
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
         "TimeoutValue": 10000
       }
     }
