@@ -32,13 +32,14 @@ public static class Constants
 
             public static class Environement
             {
-                public const string ServiceName = "ConsulConfig__serviceName";
-                public const string ServiceId = "ConsulConfig__serviceId";
-                public const string ServiceAddress = "ConsulConfig__serviceAddress";
-                public const string ServicePort = "ConsulConfig__servicePort";
-                public const string ServiceHealthCheckUrl = "ConsulConfig__healthCheckUrl";
-                public const string ConsulAddress = "ConsulConfig__consulAddress";
-                public const string DeregisterAfter = "ConsulConfig__deregisterAfterMinutes";
+                public const string Key = "ServiceDiscoveryConfiguration";
+                public const string ServiceName = $"{Key}__serviceName";
+                public const string ServiceId = $"{Key}__serviceId";
+                public const string ServiceAddress = $"{Key}__serviceAddress";
+                public const string ServicePort = $"{Key}__servicePort";
+                public const string ServiceHealthCheckUrl = $"{Key}__healthCheckUrl";
+                public const string ServiceDiscoveryAddress = $"{Key}__serviceDiscoveryAddress";
+                public const string DeregisterAfter = $"{Key}__deregisterAfterMinutes";
 
             }
         }

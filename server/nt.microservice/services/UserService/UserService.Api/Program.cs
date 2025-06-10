@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using nt.shared.dto.Configurations;
 using Prometheus;
 using Serilog;
 using Serilog.Formatting.Compact;
@@ -21,8 +22,8 @@ builder.Configuration
 
 builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
-var consulConfig = builder.Configuration.GetSection(nameof(ConsulConfig)).Get<ConsulConfig>();
-ArgumentNullException.ThrowIfNull(consulConfig, nameof(consulConfig));
+var serviceDiscoveryConfiguration = builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)).Get<ServiceDiscoveryConfiguration>();
+ArgumentNullException.ThrowIfNull(serviceDiscoveryConfiguration, nameof(serviceDiscoveryConfiguration));
 
 var corsPolicy = "_ntClientAppsOrigins";
 
@@ -112,19 +113,19 @@ var app = builder.Build();
 
 
 app.Lifetime.ApplicationStarted.Register(() => {
-    var consulClient = new ConsulClient(x => x.Address = new Uri(consulConfig.ConsulAddress));
+    var consulClient = new ConsulClient(x => x.Address = new Uri(serviceDiscoveryConfiguration.ServiceDiscoveryAddress));
     var registration = new AgentServiceRegistration
     {
-        ID = consulConfig.ServiceId,
-        Name = consulConfig.ServiceName,
-        Address = consulConfig.ServiceAddress,
-        Port = consulConfig.ServicePort,
+        ID = serviceDiscoveryConfiguration.ServiceId,
+        Name = serviceDiscoveryConfiguration.ServiceName,
+        Address = serviceDiscoveryConfiguration.ServiceAddress,
+        Port = serviceDiscoveryConfiguration.ServicePort,
         Check = new AgentServiceCheck
         {
-            HTTP = consulConfig.HealthCheckUrl,
+            HTTP = serviceDiscoveryConfiguration.HealthCheckUrl,
             Interval = TimeSpan.FromSeconds(10),
             Timeout = TimeSpan.FromSeconds(5),
-            DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),
+            DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(serviceDiscoveryConfiguration.DeregisterAfterMinutes),
         }
     };
 
