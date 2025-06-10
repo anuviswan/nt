@@ -5,6 +5,7 @@ using MovieService.Api;
 using MovieService.Api.Helpers;
 using MovieService.Api.Settings;
 using MovieService.Data;
+using nt.shared.dto.Configurations;
 using System;
 using System.Text.Json.Serialization;
 
@@ -22,6 +23,10 @@ builder.Services.AddCors(option => {
             builder.AllowAnyHeader();
         });
 });
+
+var serviceDiscoveryConfiguration = builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)).Get<ServiceDiscoveryConfiguration>();
+ArgumentNullException.ThrowIfNull(serviceDiscoveryConfiguration, nameof(serviceDiscoveryConfiguration));
+
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
