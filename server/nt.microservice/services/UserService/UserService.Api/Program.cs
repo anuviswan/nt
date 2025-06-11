@@ -1,15 +1,18 @@
 using Consul;
+using Grpc.Net.Client.Configuration;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using nt.shared.dto.Configurations;
 using Prometheus;
 using Serilog;
 using Serilog.Formatting.Compact;
 using System.Text;
+using UserService.Api.BackgroundServices;
 using UserService.Api.ConsumerServices;
 using UserService.Api.Controllers;
 using UserService.Api.Settings;
@@ -22,8 +25,7 @@ builder.Configuration
 
 builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
-var serviceDiscoveryConfiguration = builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)).Get<ServiceDiscoveryConfiguration>();
-ArgumentNullException.ThrowIfNull(serviceDiscoveryConfiguration, nameof(serviceDiscoveryConfiguration));
+builder.Services.Configure<ServiceDiscoveryConfiguration>(builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)));
 
 var corsPolicy = "_ntClientAppsOrigins";
 
@@ -106,33 +108,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddSingleton<IConsulClient,ConsulClient>(sp =>
+{
+    var config = sp.GetRequiredService<IOptions<ServiceDiscoveryConfiguration>>().Value;
+    var consulConfig = new ConsulClientConfiguration
+    {
+        Address = new Uri(config.ServiceDiscoveryAddress)
+    };
+    return new ConsulClient(consulConfig);
+});
 
-
+builder.Services.AddHostedService<ServiceRegistration>();
 
 var app = builder.Build();
-
-
-app.Lifetime.ApplicationStarted.Register(() => {
-    var consulClient = new ConsulClient(x => x.Address = new Uri(serviceDiscoveryConfiguration.ServiceDiscoveryAddress));
-    var registration = new AgentServiceRegistration
-    {
-        ID = serviceDiscoveryConfiguration.ServiceId,
-        Name = serviceDiscoveryConfiguration.ServiceName,
-        Address = serviceDiscoveryConfiguration.ServiceHost,
-        Port = serviceDiscoveryConfiguration.ServicePort,
-        Check = new AgentServiceCheck
-        {
-            HTTP = serviceDiscoveryConfiguration.HealthCheckUrl,
-            Interval = TimeSpan.FromSeconds(10),
-            Timeout = TimeSpan.FromSeconds(5),
-            DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(serviceDiscoveryConfiguration.DeregisterAfterMinutes),
-        }
-    };
-
-    // Register service with Consul
-    consulClient.Agent.ServiceRegister(registration).Wait();
-    Console.WriteLine($"User Service registered with Consul registred successfully with health check url {registration.Check.HTTP}");
-});
 
 using (var scope = app.Services.CreateScope())
 {
