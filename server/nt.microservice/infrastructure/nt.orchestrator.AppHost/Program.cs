@@ -94,7 +94,7 @@ var authServiceLoadBalancer = builder.AddContainer(Constants.AuthService.LoadBal
 var authServiceSideCar = builder.AddProject<Projects.AuthService_LoadBalancer_ServiceDiscoverySideCar>(Constants.AuthService.Sidecar.InstanceName)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.AuthService.ConsulSideCar.ServiceName)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.AuthService.ConsulSideCar.ServiceId)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceAddress, serviceSettings.AuthService.ConsulSideCar.ServiceAddress)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.AuthService.ConsulSideCar.ServiceAddress)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, serviceSettings.AuthService.ConsulSideCar.ServicePort.ToString())
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, serviceSettings.AuthService.ConsulSideCar.HealthCheckUrl)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceDiscoveryAddress, consulServiceDiscovery.GetEndpoint("http"))
@@ -111,17 +111,21 @@ var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserSer
             .WithEnvironment(Constants.UserService.Environment.RabbitMqPassword, infrastructureSettings.RabbitMq.Password)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.UserService.ServiceDiscovery.ServiceName)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.UserService.ServiceDiscovery.ServiceId)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceAddress, serviceSettings.UserService.ServiceDiscovery.ServiceAddress)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, serviceSettings.UserService.ServiceDiscovery.ServicePort.ToString())
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, serviceSettings.UserService.ServiceDiscovery.HealthCheckUrl)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.UserService.ServiceDiscovery.ServiceAddress)
+            
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceDiscoveryAddress, consulServiceDiscovery.GetEndpoint("http"))
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.UserService.ServiceDiscovery.DeregisterAfterMinutes.ToString())
-            .WithHttpEndpoint(8301, name: "http")
+            .WithHttpEndpoint(name:"http")
             .WaitFor(blobStorage)
             .WithReference(sqlDb)
             .WaitFor(sqlDb)
             .WaitFor(consulServiceDiscovery)
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
+
+
+userService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, ()=>userService.GetEndpoint("http").Port.ToString())
+           .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, 
+                            ()=> $"http://host.docker.internal:{userService.GetEndpoint("http").Port}{serviceSettings.UserService.ServiceDiscovery.HealthCheckUrl}");
 
 var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.AggregatorUserIdentityService.ServiceName, launchProfileName: Constants.Global.Common.LaunchProfile)
             .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)

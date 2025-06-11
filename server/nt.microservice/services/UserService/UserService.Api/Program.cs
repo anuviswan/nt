@@ -118,7 +118,7 @@ app.Lifetime.ApplicationStarted.Register(() => {
     {
         ID = serviceDiscoveryConfiguration.ServiceId,
         Name = serviceDiscoveryConfiguration.ServiceName,
-        Address = serviceDiscoveryConfiguration.ServiceAddress,
+        Address = serviceDiscoveryConfiguration.ServiceHost,
         Port = serviceDiscoveryConfiguration.ServicePort,
         Check = new AgentServiceCheck
         {
@@ -131,7 +131,7 @@ app.Lifetime.ApplicationStarted.Register(() => {
 
     // Register service with Consul
     consulClient.Agent.ServiceRegister(registration).Wait();
-    Console.WriteLine($"User Service registered with Consul registred successfully");
+    Console.WriteLine($"User Service registered with Consul registred successfully with health check url {registration.Check.HTTP}");
 });
 
 using (var scope = app.Services.CreateScope())

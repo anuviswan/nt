@@ -26,7 +26,7 @@ var registration = new AgentServiceRegistration
 {
     ID = serviceDiscoveryConfig.ServiceId,
     Name = serviceDiscoveryConfig.ServiceName,
-    Address = serviceDiscoveryConfig.ServiceAddress,
+    Address = serviceDiscoveryConfig.ServiceHost,
     Port = serviceDiscoveryConfig.ServicePort,
     Check = new AgentServiceCheck
     {

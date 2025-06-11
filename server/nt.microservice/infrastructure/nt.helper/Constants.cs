@@ -35,7 +35,7 @@ public static class Constants
                 public const string Key = "ServiceDiscoveryConfiguration";
                 public const string ServiceName = $"{Key}__serviceName";
                 public const string ServiceId = $"{Key}__serviceId";
-                public const string ServiceAddress = $"{Key}__serviceAddress";
+                public const string ServiceHost = $"{Key}__serviceHost";
                 public const string ServicePort = $"{Key}__servicePort";
                 public const string ServiceHealthCheckUrl = $"{Key}__healthCheckUrl";
                 public const string ServiceDiscoveryAddress = $"{Key}__serviceDiscoveryAddress";

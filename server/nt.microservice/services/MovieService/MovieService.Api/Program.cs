@@ -52,7 +52,10 @@ builder.Services.RegisterGraphQl();
 ValueInjectorMapper.RegisterTypes();
 var app = builder.Build();
 
+
 app.MapDefaultEndpoints();
+
+
 
 using (var scope = app.Services.CreateScope())
 {
