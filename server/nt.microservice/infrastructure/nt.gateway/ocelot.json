@@ -46,6 +46,7 @@
 
     // Authenticate
     {
+      "ServiceName": "nt.useridentityaggregator.service",
       "DownstreamPathTemplate": "/api/user/Validate",
       "DownstreamSchema": "http",
       "DownstreamHttpMethod": "POST",
@@ -288,5 +289,11 @@
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:8001"
     //"BaseUrl": "http://localhost:5017"
+  },
+  "ServiceDiscoveryProvider": {
+    "Scheme": "http",
+    "Host": "localhost",
+    "Port": 9500,
+    "Type": "Consul"
   }
 }

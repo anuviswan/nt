@@ -1,36 +1,37 @@
-﻿using nt.gateway.Ocelot;
-using Ocelot.Configuration;
-using Ocelot.DependencyInjection;
-using Ocelot.Errors;
-using Ocelot.Logging;
-using Ocelot.Provider.Polly;
-using Ocelot.Requester;
-using Polly.CircuitBreaker;
-using Polly.Timeout;
+﻿//using nt.gateway.Ocelot;
+//using Ocelot.Configuration;
+//using Ocelot.DependencyInjection;
+//using Ocelot.Errors;
+//using Ocelot.Errors.QoS;
+//using Ocelot.Logging;
+//using Ocelot.Provider.Polly;
+//using Ocelot.Requester;
+//using Polly.CircuitBreaker;
+//using Polly.Timeout;
 
-namespace nt.gateway.OcelotExtensions
-{
-    public static class OcelotBuilderExtensions
-    {
-        public static IOcelotBuilder AddPollyWithInternalServerErrorHandling(this IOcelotBuilder builder)
-        {
-            var errorMapping = new Dictionary<Type, Func<Exception, Error>>
-            {
-                {typeof(TaskCanceledException), e => new RequestTimedOutError(e)},
-                {typeof(TimeoutRejectedException), e => new RequestTimedOutError(e)},
-                {typeof(BrokenCircuitException), e => new RequestTimedOutError(e)}
-            };
+//namespace nt.gateway.OcelotExtensions
+//{
+//    public static class OcelotBuilderExtensions
+//    {
+//        public static IOcelotBuilder AddPollyWithInternalServerErrorHandling(this IOcelotBuilder builder)
+//        {
+//            var errorMapping = new Dictionary<Type, Func<Exception, Error>>
+//            {
+//                {typeof(TaskCanceledException), e => new RequestTimedOutError(e)},
+//                {typeof(TimeoutRejectedException), e => new RequestTimedOutError(e)},
+//                {typeof(BrokenCircuitException), e => new RequestTimedOutError(e)}
+//            };
 
-            builder.Services.AddSingleton(errorMapping);
+//            builder.Services.AddSingleton(errorMapping);
 
-            DelegatingHandler QosDelegatingHandlerDelegate(DownstreamRoute route, IOcelotLoggerFactory logger)
-            {
-                return new PollyWithInternalServerErrorCircuitBreakingDelegatingHandler(route, logger);
-            }
+//            DelegatingHandler QosDelegatingHandlerDelegate(DownstreamRoute route, IOcelotLoggerFactory logger)
+//            {
+//                return new PollyWithInternalServerErrorCircuitBreakingDelegatingHandler(route, logger);
+//            }
 
-            builder.Services.AddSingleton((QosDelegatingHandlerDelegate)QosDelegatingHandlerDelegate);
+//            builder.Services.AddSingleton((QosDelegatingHandlerDelegate)QosDelegatingHandlerDelegate);
 
-            return builder;
-        }
-    }
-}
+//            return builder;
+//        }
+//    }
+//}

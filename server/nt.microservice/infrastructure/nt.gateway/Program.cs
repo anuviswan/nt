@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using nt.gateway.OcelotExtensions;
 using nt.gateway.Settings;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
+using Ocelot.Provider.Polly;
 using Prometheus;
-using System.Net;
-using System.Net.Security;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,10 +59,11 @@ builder.Services.AddAuthentication(
         CertificateAuthenticationDefaults.AuthenticationScheme)
     .AddCertificate();
 
-//builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
-       .AddPollyWithInternalServerErrorHandling()
+       .AddConsul()
+       .AddPolly()
+       //.AddPollyWithInternalServerErrorHandling()
        .AddDelegatingHandler(typeof(DynamicHostReplacementHandler),true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration, (o)=> o.GenerateDocsForGatewayItSelf = true);
