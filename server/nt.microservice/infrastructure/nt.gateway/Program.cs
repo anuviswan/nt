@@ -64,7 +64,7 @@ builder.Services.AddOcelot(builder.Configuration)
        .AddConsul()
        .AddPolly()
        //.AddPollyWithInternalServerErrorHandling()
-       .AddDelegatingHandler(typeof(DynamicHostReplacementHandler),true);
+       .AddDelegatingHandler<LoggingHandler>(true).AddDelegatingHandler<DynamicHostReplacementHandler>(true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration, (o)=> o.GenerateDocsForGatewayItSelf = true);
 var app = builder.Build();
@@ -82,12 +82,12 @@ if (!app.Environment.IsDevelopment())
 
 }
 
-app.MapGet("/dummy", () =>
+app.Use(async (context, next) =>
 {
+    Console.WriteLine($"Incoming request: {context.Request.Method} {context.Request.Path}");
+    await next();
+});
 
-    return "sdfsdf";
-})
-.WithName("dummy");
 
 app.UseCors(corsPolicy);
 //app.UseHttpsRedirection();
@@ -102,10 +102,20 @@ app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerForOcelotUI(opt =>
+    //app.UseSwaggerForOcelotUI(opt =>
+    //{
+    //    opt.PathToSwaggerGenerator = "/swagger/docs";
+    //}).UseOcelot().Wait();
+
+    try
     {
-        opt.PathToSwaggerGenerator = "/swagger/docs";
-    }).UseOcelot().Wait();
+        app.UseOcelot().Wait();
+        app.Logger.LogInformation("Ocelot loaded successfully");
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "Failed to load Ocelot configuration");
+    }
 
     app.UseSwagger();
 }
