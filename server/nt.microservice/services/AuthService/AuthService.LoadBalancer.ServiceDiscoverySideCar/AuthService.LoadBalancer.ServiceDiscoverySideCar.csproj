@@ -28,4 +28,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\infrastructure\nt.shared.dto\nt.shared.dto.csproj" />
+  </ItemGroup>
+
 </Project>

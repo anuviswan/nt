@@ -2,7 +2,7 @@
   "Routes": [
 
 
-    // Register User
+
     {
       "DownstreamPathTemplate": "/api/Users/Register",
       "DownstreamSchema": "http",
@@ -17,13 +17,12 @@
       "UpstreamPathTemplate": "/api/user/createuser",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
     },
 
-    // Update User
     {
       "DownstreamPathTemplate": "/api/Users/Update",
       "DownstreamSchema": "http",
@@ -38,25 +37,19 @@
       "UpstreamPathTemplate": "/user/api/Users/Update",
       "UpstreamHttpMethod": [ "Post" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
     },
 
-    // Authenticate
     {
       "DownstreamPathTemplate": "/api/user/Validate",
       "DownstreamSchema": "http",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          "Port": 8002
-        }
-
-      ],
+      "ServiceName": "nt.useridentityaggregator.service",
+      "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/api/user/validateuser",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
@@ -67,7 +60,6 @@
 
     },
 
-    // Change Password
     {
       "DownstreamPathTemplate": "/api/authenticate/ChangePassword",
       "DownstreamSchema": "https",
@@ -82,7 +74,7 @@
       "UpstreamPathTemplate": "/api/User/ChangePassword",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -92,7 +84,6 @@
       }
     },
 
-    // Search User by Display Name
     {
       "DownstreamPathTemplate": "/api/usermanagement/searchuserbydisplayname",
       "DownstreamSchema": "https",
@@ -107,7 +98,7 @@
       "UpstreamPathTemplate": "/api/User/searchuser",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -117,7 +108,6 @@
       }
     },
 
-    // Upload Profile Image
     {
       "DownstreamPathTemplate": "/api/users/uploadprofileimage",
       "DownstreamSchema": "https",
@@ -132,7 +122,7 @@
       "UpstreamPathTemplate": "/user/api/Users/uploadprofileimage",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -142,7 +132,6 @@
       }
     },
 
-    // Get Profile Image
     {
       "DownstreamPathTemplate": "/api/users/getprofileimage",
       "DownstreamSchema": "https",
@@ -151,13 +140,13 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8301"
+          "Port": 8301
         }
       ],
       "UpstreamPathTemplate": "/user/api/Users/getprofileimage",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       },
@@ -167,7 +156,6 @@
       }
     },
 
-    // Search Movies
     {
       "DownstreamPathTemplate": "/graphql",
       "DownstreamSchema": "http",
@@ -181,17 +169,13 @@
       "UpstreamPathTemplate": "/movies",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
+        "ExceptionsAllowedBeforeBreaking": 10,
         "DurationOfBreak": 10000,
         "TimeoutValue": 3000
       }
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "GatewayAuthenticationKey",
-      //  "AllowedScopes": []
-      //}
+
     },
 
-    // for gateway swagger integration
 
     {
       "DownstreamPathTemplate": "/{everything}",
@@ -209,8 +193,8 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "authentication",
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
         "TimeoutValue": 10000
       }
     },
@@ -231,8 +215,8 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "orchestrator",
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
         "TimeoutValue": 10000
       }
     },
@@ -254,39 +238,22 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "user",
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
         "TimeoutValue": 10000
       }
     }
   ],
 
-  "SwaggerEndPoints": [
-    {
-      "Key": "authentication",
-      "Config": [
-        {
-          "Name": "Authentication API",
-          "Version": "v1",
-          "Url": "http://host.docker.internal:8100/swagger/v1/swagger.json"
-        }
-      ]
-    },
 
-    {
-      "Key": "user",
-      "Config": [
-        {
-          "Name": "User API",
-          "Version": "v1",
-          "Url": "http://host.docker.internal:8301/swagger/v1/swagger.json"
-        }
-      ]
-    }
-  ],
 
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:8001"
-    //"BaseUrl": "http://localhost:5017"
+    "BaseUrl": "http://localhost:8001",
+    "ServiceDiscoveryProvider": {
+      "Scheme": "http",
+      "Host": "localhost",
+      "Port": 9500,
+      "Type": "Consul"
+    }
   }
 }

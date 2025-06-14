@@ -5,6 +5,7 @@
 
 using Consul;
 using Microsoft.Extensions.Configuration;
+using nt.shared.dto.Configurations; // Add this using for ServiceDiscoveryConfiguration
 
 Console.WriteLine("Starting Load Balancer Side car for registering with Consul");
 Console.WriteLine("Reading Configuration");
@@ -13,43 +14,29 @@ var configuration = new ConfigurationBuilder()
                         .AddEnvironmentVariables()
                         .Build();
 
-var consulConfig = configuration.GetSection(nameof(ConsulConfig))
-                                .Get<ConsulConfig>();
+var serviceDiscoveryConfig = configuration.GetSection(nameof(ServiceDiscoveryConfiguration))
+                                .Get<ServiceDiscoveryConfiguration>();
 
 Console.WriteLine("Attempting to register with Consul");
 
-ArgumentNullException.ThrowIfNull(consulConfig,nameof(consulConfig));
+ArgumentNullException.ThrowIfNull(serviceDiscoveryConfig, nameof(serviceDiscoveryConfig));
 
-var consulClient = new ConsulClient(x=>x.Address = new Uri(consulConfig.ConsulAddress));
+var consulClient = new ConsulClient(x => x.Address = new Uri(serviceDiscoveryConfig.ServiceDiscoveryAddress));
 var registration = new AgentServiceRegistration
 {
-    ID = consulConfig.ServiceId,
-    Name = consulConfig.ServiceName,
-    Address = consulConfig.ServiceAddress,
-    Port = consulConfig.ServicePort,
+    ID = serviceDiscoveryConfig.ServiceId,
+    Name = serviceDiscoveryConfig.ServiceName,
+    Address = serviceDiscoveryConfig.ServiceHost,
+    Port = serviceDiscoveryConfig.ServicePort,
     Check = new AgentServiceCheck
     {
-        HTTP = consulConfig.HealthCheckUrl,
+        HTTP = serviceDiscoveryConfig.HealthCheckUrl,
         Interval = TimeSpan.FromSeconds(10),
         Timeout = TimeSpan.FromSeconds(5),
-        DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(consulConfig.DeregisterAfterMinutes),
+        DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(serviceDiscoveryConfig.DeregisterAfterMinutes),
     }
 };
-
-
 
 // Register service with Consul
 await consulClient.Agent.ServiceRegister(registration);
 Console.WriteLine($"AuthService Load Balancer with Nginx registred successfully");
-
-
-public record ConsulConfig
-{
-    public string ConsulAddress { get; set; } = null!;
-    public string ServiceName { get; set; } = null!;
-    public string ServiceId { get; set; } = null!;
-    public string ServiceAddress { get; set; } = null!;
-    public int ServicePort { get; set; } 
-    public string HealthCheckUrl { get; set; } = null!;
-    public int DeregisterAfterMinutes { get; set; }
-}

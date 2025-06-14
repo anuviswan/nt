@@ -1,4 +1,8 @@
 
+using Consul;
+using Microsoft.Extensions.Options;
+using nt.shared.dto.Configurations;
+using UserIdentityAggregatorService.Api.BackgroundServices;
 using UserIdentityAggregatorService.Api.Services;
 using UserIdentityAggregatorService.Api.Settings;
 
@@ -28,6 +32,19 @@ public class Program
         builder.Services.AddOpenApi();
 
         builder.Services.Configure<ServiceDiscoveryOptions>(builder.Configuration.GetSection(nameof(ServiceDiscoveryOptions)));
+        builder.Services.Configure<ServiceDiscoveryConfiguration>(builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)));
+
+        builder.Services.AddSingleton<IConsulClient, ConsulClient>(sp =>
+        {
+            var config = sp.GetRequiredService<IOptions<ServiceDiscoveryConfiguration>>().Value;
+            var consulConfig = new ConsulClientConfiguration
+            {
+                Address = new Uri(config.ServiceDiscoveryAddress)
+            };
+            return new ConsulClient(consulConfig);
+        });
+        builder.Services.AddHostedService<ServiceRegistration>();
+
         builder.Services.AddHttpClient();
         builder.Services.AddScoped<ConsulServiceResolver>();
         builder.Services.AddScoped<IUserService, UserService>();

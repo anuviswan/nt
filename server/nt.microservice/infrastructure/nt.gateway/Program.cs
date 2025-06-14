@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using nt.gateway.OcelotExtensions;
 using nt.gateway.Settings;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
+using Ocelot.Provider.Polly;
 using Prometheus;
-using System.Net;
-using System.Net.Security;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,11 +59,12 @@ builder.Services.AddAuthentication(
         CertificateAuthenticationDefaults.AuthenticationScheme)
     .AddCertificate();
 
-//builder.Services.AddOcelot(builder.Configuration);
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddOcelot(builder.Configuration)
-       .AddPollyWithInternalServerErrorHandling()
-       .AddDelegatingHandler(typeof(DynamicHostReplacementHandler),true);
+       .AddConsul()
+       .AddPolly()
+       //.AddPollyWithInternalServerErrorHandling()
+       .AddDelegatingHandler<LoggingHandler>(true).AddDelegatingHandler<DynamicHostReplacementHandler>(true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerForOcelot(builder.Configuration, (o)=> o.GenerateDocsForGatewayItSelf = true);
 var app = builder.Build();
@@ -82,12 +82,12 @@ if (!app.Environment.IsDevelopment())
 
 }
 
-app.MapGet("/dummy", () =>
+app.Use(async (context, next) =>
 {
+    Console.WriteLine($"Incoming request: {context.Request.Method} {context.Request.Path}");
+    await next();
+});
 
-    return "sdfsdf";
-})
-.WithName("dummy");
 
 app.UseCors(corsPolicy);
 //app.UseHttpsRedirection();
@@ -102,10 +102,20 @@ app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerForOcelotUI(opt =>
+    //app.UseSwaggerForOcelotUI(opt =>
+    //{
+    //    opt.PathToSwaggerGenerator = "/swagger/docs";
+    //}).UseOcelot().Wait();
+
+    try
     {
-        opt.PathToSwaggerGenerator = "/swagger/docs";
-    }).UseOcelot().Wait();
+        app.UseOcelot().Wait();
+        app.Logger.LogInformation("Ocelot loaded successfully");
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "Failed to load Ocelot configuration");
+    }
 
     app.UseSwagger();
 }
