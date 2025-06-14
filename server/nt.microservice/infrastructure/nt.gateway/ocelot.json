@@ -2,7 +2,7 @@
   "Routes": [
 
 
-    
+
     {
       "DownstreamPathTemplate": "/api/Users/Register",
       "DownstreamSchema": "http",
@@ -44,21 +44,21 @@
     },
 
     {
-      "UpstreamPathTemplate": "/api/User/ValidateUser",
-      "UpstreamHttpMethod": [ "POST" ],
       "DownstreamPathTemplate": "/api/user/Validate",
       "DownstreamSchema": "http",
-      "DownstreamHttpMethod": [ "POST" ],
+      "DownstreamHttpMethod": "POST",
+      "RouteIsCaseSensitive": false,
       "ServiceName": "nt.useridentityaggregator.service",
       "UseServiceDiscovery": true,
-      "RouteIsCaseSensitive": false,
+      "UpstreamPathTemplate": "/api/user/validateuser",
+      "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 10,
+        "ExceptionsAllowedBeforeBreaking": 2,
         "DurationOfBreak": 1000,
         "TimeoutValue": 10000
       }
-    },
 
+    },
 
     {
       "DownstreamPathTemplate": "/api/authenticate/ChangePassword",
