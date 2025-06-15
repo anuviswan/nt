@@ -14,26 +14,26 @@ var configuration = new ConfigurationBuilder()
                         .AddEnvironmentVariables()
                         .Build();
 
-var serviceDiscoveryConfig = configuration.GetSection(nameof(ServiceDiscoveryConfiguration))
-                                .Get<ServiceDiscoveryConfiguration>();
+var serviceRegistrationConfig = configuration.GetSection(nameof(ServiceRegistrationConfig))
+                                .Get<ServiceRegistrationConfig>();
 
 Console.WriteLine("Attempting to register with Consul");
 
-ArgumentNullException.ThrowIfNull(serviceDiscoveryConfig, nameof(serviceDiscoveryConfig));
+ArgumentNullException.ThrowIfNull(serviceRegistrationConfig, nameof(serviceRegistrationConfig));
 
-var consulClient = new ConsulClient(x => x.Address = new Uri(serviceDiscoveryConfig.ServiceDiscoveryAddress));
+var consulClient = new ConsulClient(x => x.Address = new Uri(serviceRegistrationConfig.RegistryUri));
 var registration = new AgentServiceRegistration
 {
-    ID = serviceDiscoveryConfig.ServiceId,
-    Name = serviceDiscoveryConfig.ServiceName,
-    Address = serviceDiscoveryConfig.ServiceHost,
-    Port = serviceDiscoveryConfig.ServicePort,
+    ID = serviceRegistrationConfig.ServiceId,
+    Name = serviceRegistrationConfig.ServiceName,
+    Address = serviceRegistrationConfig.ServiceHost,
+    Port = serviceRegistrationConfig.ServicePort,
     Check = new AgentServiceCheck
     {
-        HTTP = serviceDiscoveryConfig.HealthCheckUrl,
+        HTTP = serviceRegistrationConfig.HealthCheckUrl,
         Interval = TimeSpan.FromSeconds(10),
         Timeout = TimeSpan.FromSeconds(5),
-        DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(serviceDiscoveryConfig.DeregisterAfterMinutes),
+        DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(serviceRegistrationConfig.DeregisterAfterMinutes),
     }
 };
 

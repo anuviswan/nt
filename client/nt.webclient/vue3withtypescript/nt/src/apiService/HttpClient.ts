@@ -58,7 +58,12 @@ class HttpClient{
     {
         try{
             const response =await this.axiosInstance.request<T>(config); 
-            console.log(response.data)
+            
+            if(response.status == 204){
+                // No Content
+                return null;
+            }
+
             return response.data;
         }catch(error : unknown){
 

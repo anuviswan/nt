@@ -1,7 +1,10 @@
+using Consul;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MovieService.Api;
+using MovieService.Api.BackgroundServices;
 using MovieService.Api.Helpers;
 using MovieService.Api.Settings;
 using MovieService.Data;
@@ -24,9 +27,7 @@ builder.Services.AddCors(option => {
         });
 });
 
-var serviceDiscoveryConfiguration = builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)).Get<ServiceDiscoveryConfiguration>();
-ArgumentNullException.ThrowIfNull(serviceDiscoveryConfiguration, nameof(serviceDiscoveryConfiguration));
-
+builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -50,6 +51,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.RegisterServices();
 builder.Services.RegisterGraphQl();
 ValueInjectorMapper.RegisterTypes();
+
+builder.Services.AddSingleton<IConsulClient, ConsulClient>(sp =>
+{
+    var config = sp.GetRequiredService<IOptions<ServiceRegistrationConfig>>().Value;
+    var consulConfig = new ConsulClientConfiguration
+    {
+        Address = new Uri(config.RegistryUri)
+    };
+    return new ConsulClient(consulConfig);
+});
+
+builder.Services.AddHostedService<ServiceRegistration>();
+
 var app = builder.Build();
 
 

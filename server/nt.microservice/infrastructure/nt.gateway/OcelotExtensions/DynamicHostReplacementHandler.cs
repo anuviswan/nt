@@ -11,8 +11,6 @@ public class DynamicHostReplacementHandler : DelegatingHandler
         // Do post-processing of the response...
         return response;
     }
-
-
 }
 public class LoggingHandler : DelegatingHandler
 {

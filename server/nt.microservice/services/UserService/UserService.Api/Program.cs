@@ -25,7 +25,8 @@ builder.Configuration
 
 builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
-builder.Services.Configure<ServiceDiscoveryConfiguration>(builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)));
+builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
+builder.Services.Configure<BlobConfig>(builder.Configuration.GetSection(nameof(BlobConfig)));
 
 var corsPolicy = "_ntClientAppsOrigins";
 
@@ -68,8 +69,11 @@ builder.Services.AddMediatR(typeof(CreateUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IGenericRepository<,>),typeof(GenericRepository<,>));
 builder.Services.AddAutoMapper(typeof(UserController),typeof(CreateUserCommand));
 builder.Services.AddTransient<IUserMetaInformationRepository,UserMetaInformationRepository>();
-
-builder.Services.AddSingleton<IBlobHandlerService, BlobHandlerService>();
+builder.Services.AddSingleton<IBlobHandlerService, BlobHandlerService>(sp =>
+{
+    var config = sp.GetRequiredService<IOptions<BlobConfig>>().Value;
+    return new BlobHandlerService(config.ConnectionString);
+});
 builder.Services.AddMassTransit(mt =>
                         {
                             mt.AddConsumersFromNamespaceContaining(typeof(CreateUserInitiatedSucceededConsumer));
@@ -110,10 +114,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddSingleton<IConsulClient,ConsulClient>(sp =>
 {
-    var config = sp.GetRequiredService<IOptions<ServiceDiscoveryConfiguration>>().Value;
+    var config = sp.GetRequiredService<IOptions<ServiceRegistrationConfig>>().Value;
     var consulConfig = new ConsulClientConfiguration
     {
-        Address = new Uri(config.ServiceDiscoveryAddress)
+        Address = new Uri(config.RegistryUri)
     };
     return new ConsulClient(consulConfig);
 });

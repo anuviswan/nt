@@ -32,15 +32,14 @@ public static class Constants
 
             public static class Environement
             {
-                public const string Key = "ServiceDiscoveryConfiguration";
+                public const string Key = "ServiceRegistrationConfig";
                 public const string ServiceName = $"{Key}__serviceName";
                 public const string ServiceId = $"{Key}__serviceId";
                 public const string ServiceHost = $"{Key}__serviceHost";
                 public const string ServicePort = $"{Key}__servicePort";
                 public const string ServiceHealthCheckUrl = $"{Key}__healthCheckUrl";
-                public const string ServiceDiscoveryAddress = $"{Key}__serviceDiscoveryAddress";
+                public const string RegistryUri = $"{Key}__registryUri";
                 public const string DeregisterAfter = $"{Key}__deregisterAfterMinutes";
-
             }
         }
 
@@ -60,12 +59,11 @@ public static class Constants
     public static class AggregatorUserIdentityService
     {
         public const string ServiceName = "nt-useridentityaggregator-service";
-        public const string ServiceDiscoveryResolverName = "ServiceDiscoveryOptions__ResolverName";
-        public const string ServiceDiscoveryResolverPort = "ServiceDiscoveryOptions__ResolverPort";
-        public const string ServiceDiscoveryUserServiceKey = "ServiceDiscoveryOptions__Services__0__Key";
-        public const string ServiceDiscoveryUserServiceName = "ServiceDiscoveryOptions__Services__0__Name";
-        public const string ServiceDiscoveryAuthServiceKey = "ServiceDiscoveryOptions__Services__1__Key";
-        public const string ServiceDiscoveryAuthServiceName = "ServiceDiscoveryOptions__Services__1__Name";
+        public const string ServiceMapping_RegistryUri = "ServiceMappingConfig__RegistryUri";
+        public const string ServiceMappingUserServiceKey = "ServiceMappingConfig__Services__0__Key";
+        public const string ServiceMappingUserServiceName = "ServiceMappingConfig__Services__0__Name";
+        public const string ServiceMappingAuthServiceKey = "ServiceMappingConfig__Services__1__Key";
+        public const string ServiceMappingAuthServiceName = "ServiceMappingConfig__Services__1__Name";
     }
 
     public static class AuthService 

@@ -1,6 +1,6 @@
 ﻿using Consul;
 using Microsoft.Extensions.Options;
-using UserIdentityAggregatorService.Api.Settings;
+using nt.shared.dto.Configurations;
 
 namespace UserIdentityAggregatorService.Api.Services;
 
@@ -8,10 +8,9 @@ public class ConsulServiceResolver : IDisposable
 {
     private readonly ConsulClient _client;
     private bool _disposed = false;
-    public ConsulServiceResolver(IOptions<ServiceDiscoveryOptions> serviceDiscoveryOptions)
+    public ConsulServiceResolver(IOptions<ServiceMappingConfig> serviceMappingConfig)
     {
-        var serviceDiscovery = serviceDiscoveryOptions.Value;
-        _client = new ConsulClient(cfg => cfg.Address = new Uri($"http://{serviceDiscovery.ResolverName}:{serviceDiscovery.ResolverPort}"));
+        _client = new ConsulClient(cfg => cfg.Address = new Uri(serviceMappingConfig.Value.RegistryUri));
     }
 
     /// <summary>

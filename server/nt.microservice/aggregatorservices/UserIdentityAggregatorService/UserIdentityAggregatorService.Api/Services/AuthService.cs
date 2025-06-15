@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Options;
+using nt.shared.dto.Configurations;
 using UserIdentityAggregatorService.Api.Settings;
 
 namespace UserIdentityAggregatorService.Api.Services;
@@ -8,7 +9,7 @@ public class AuthService : ServiceBase, IAuthService
     private readonly ILogger<AuthService> _logger;
     public AuthService(IHttpClientFactory httpClientFactory,
         ConsulServiceResolver consulResolver, ILogger<AuthService> logger,
-        IOptions<ServiceDiscoveryOptions> serviceDiscovery) : base(httpClientFactory, logger, consulResolver, serviceDiscovery, nameof(AuthService))
+        IOptions<ServiceMappingConfig> serviceMapping) : base(httpClientFactory, logger, consulResolver, serviceMapping, nameof(AuthService))
     {
         _logger = logger;
     }

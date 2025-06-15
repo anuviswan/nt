@@ -52,8 +52,7 @@ class UserApiService extends ApiServiceBase {
             },
             responseType: 'blob'
         })
-
-        console.log("response = "+ response)
+       
         return response;
     }
 
