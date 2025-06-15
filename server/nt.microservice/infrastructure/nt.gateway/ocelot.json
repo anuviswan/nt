@@ -93,12 +93,8 @@
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "GET",
       "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          "Port": 8301
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "nt.userservice.service",
       "UpstreamPathTemplate": "/api/User/searchuser",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
@@ -159,12 +155,8 @@
       "DownstreamPathTemplate": "/graphql",
       "DownstreamSchema": "http",
       "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          "Port": 8401
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "nt.movieservice.service",
       "UpstreamPathTemplate": "/movies",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
