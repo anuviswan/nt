@@ -17,7 +17,7 @@ public record Consul(string DockerImage,int HostPort, int TargetPort);
 public record RabbitMq(string Host, string UserName,string Password,int HttpPort,int HttpsPort);
 public record Postgres(string DockerImage,string UserName,string Password);
 public record MongoDb(string UserName, string Password);
-public record BlobStorage(string DockerImage, int HostPort, int TargetPort);
+public record BlobStorage(string DockerImage, int HostPort, int TargetPort, BlobConfig blobConfig);
 public record SqlServer(string Password,int HostPort, int TargetPort);
 
 public record LoadBalancer(string DockerImage, int HostPort, int TargetPort);
@@ -67,6 +67,11 @@ public record UserService
 {
     public ServiceRegistrationConfig ServiceRegistrationConfig { get; set; } = null!;
 
+}
+
+public record BlobConfig
+{
+    public string ConnectionString { get; set; } = null!;
 }
 
 public record MovieService(string DbName,string MovieCollectionName)

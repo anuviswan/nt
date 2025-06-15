@@ -60,6 +60,7 @@ var mongoDb = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 2
 var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastructureSettings.BlobStorage.DockerImage)
             .WithVolume("//d/Source/nt/server/nt.microservice/services/UserService/BlobStorage:/data")
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
+            
             .WithHttpEndpoint(port: infrastructureSettings.BlobStorage.HostPort, targetPort: infrastructureSettings.BlobStorage.TargetPort, isProxied: true);
 
 
@@ -114,6 +115,7 @@ var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserSer
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.UserService.ServiceRegistrationConfig.ServiceHost)
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
             .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.UserService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
+            .WithEnvironment("BlobConfig__ConnectionString", infrastructureSettings.BlobStorage.blobConfig.ConnectionString)
             .WithHttpEndpoint(name:"http")
             .WaitFor(blobStorage)
             .WithReference(sqlDb)

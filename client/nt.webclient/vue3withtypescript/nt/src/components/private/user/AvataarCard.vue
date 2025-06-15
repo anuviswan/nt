@@ -65,17 +65,20 @@ const getProfileImage = async (): Promise<void> => {
     userName: props.userName,
   });
 
-  if (!isValidBlob(response)) {
+  if ( !isValidBlob(response)) {
     imgSrc.value = defaultImage;
     return;
   }
-  console.log("imageFIle" + response);
+  else{
+    console.log("imageFIle" + response);
   //const imageFile = await response;
-  var path = URL.createObjectURL(response);
+  var path = URL.createObjectURL(response!);
   imgSrc.value = path;
+  }
+  
 };
 
-const isValidBlob = (blob: Blob): boolean => {
+const isValidBlob = (blob: Blob|null): boolean => {
   return blob instanceof Blob && blob.size > 0;
 };
 const browseImage = (): void => {

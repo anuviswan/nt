@@ -148,7 +148,7 @@ public class UserController : BaseController
 
             var result = await Mediator.Send(new GetProfileImageQuery() { UserName = userName})
                                        .ConfigureAwait(false);
-            return File(result,"image/jpeg");
+            return result is null ? NoContent() : File(result,"image/jpeg");
         }
         catch (Exception e)
         {
