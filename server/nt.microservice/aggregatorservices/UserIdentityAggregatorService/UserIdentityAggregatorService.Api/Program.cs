@@ -31,15 +31,15 @@ public class Program
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 
-        builder.Services.Configure<ServiceDiscoveryOptions>(builder.Configuration.GetSection(nameof(ServiceDiscoveryOptions)));
-        builder.Services.Configure<ServiceDiscoveryConfiguration>(builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)));
+        builder.Services.Configure<ServiceMappingConfig>(builder.Configuration.GetSection(nameof(ServiceMappingConfig)));
+        builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
 
         builder.Services.AddSingleton<IConsulClient, ConsulClient>(sp =>
         {
-            var config = sp.GetRequiredService<IOptions<ServiceDiscoveryConfiguration>>().Value;
+            var config = sp.GetRequiredService<IOptions<ServiceRegistrationConfig>>().Value;
             var consulConfig = new ConsulClientConfiguration
             {
-                Address = new Uri(config.ServiceDiscoveryAddress)
+                Address = new Uri(config.RegistryUri)
             };
             return new ConsulClient(consulConfig);
         });

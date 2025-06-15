@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using nt.shared.dto.Configurations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using UserIdentityAggregatorService.Api.Settings;
 
 namespace UserIdentityAggregatorService.Api.Services;
 public class UserService : ServiceBase, IUserService
@@ -9,7 +9,7 @@ public class UserService : ServiceBase, IUserService
     private readonly ILogger<UserService> _logger;
     public UserService(IHttpClientFactory httpClientFactory,
         ConsulServiceResolver consulResolver, ILogger<UserService> logger,
-        IOptions<ServiceDiscoveryOptions> serviceDiscovery) : base(httpClientFactory, logger, consulResolver, serviceDiscovery, nameof(UserService))
+        IOptions<ServiceMappingConfig> serviceMappingConfig) : base(httpClientFactory, logger, consulResolver, serviceMappingConfig, nameof(UserService))
     {
         _logger = logger;
     }

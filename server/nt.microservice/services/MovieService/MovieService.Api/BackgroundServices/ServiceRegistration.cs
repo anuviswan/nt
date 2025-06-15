@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using nt.shared.dto.Configurations;
 
-namespace UserIdentityAggregatorService.Api.BackgroundServices;
+namespace MovieService.Api.BackgroundServices;
 
 public class ServiceRegistration : BackgroundService
 {
@@ -39,7 +39,7 @@ public class ServiceRegistration : BackgroundService
 
         // Register service with Consul
         await _consulClient.Agent.ServiceRegister(registration).ConfigureAwait(false);
-        _logger.LogInformation($"Aggregate Service registered with Consul successfully with health check url {registration.Check.HTTP}");
+        _logger.LogInformation($"User Service registered with Consul successfully with health check url {registration.Check.HTTP}");
 
 
         _lifetime.ApplicationStopping.Register(async () =>
@@ -49,4 +49,3 @@ public class ServiceRegistration : BackgroundService
         });
     }
 }
-

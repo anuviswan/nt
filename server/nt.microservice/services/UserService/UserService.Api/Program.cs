@@ -25,7 +25,7 @@ builder.Configuration
 
 builder.AddServiceDefaults();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
-builder.Services.Configure<ServiceDiscoveryConfiguration>(builder.Configuration.GetSection(nameof(ServiceDiscoveryConfiguration)));
+builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
 
 var corsPolicy = "_ntClientAppsOrigins";
 
@@ -110,10 +110,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddSingleton<IConsulClient,ConsulClient>(sp =>
 {
-    var config = sp.GetRequiredService<IOptions<ServiceDiscoveryConfiguration>>().Value;
+    var config = sp.GetRequiredService<IOptions<ServiceRegistrationConfig>>().Value;
     var consulConfig = new ConsulClientConfiguration
     {
-        Address = new Uri(config.ServiceDiscoveryAddress)
+        Address = new Uri(config.RegistryUri)
     };
     return new ConsulClient(consulConfig);
 });

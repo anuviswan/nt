@@ -2,7 +2,7 @@
   "Routes": [
 
 
-
+    // Register User
     {
       "DownstreamPathTemplate": "/api/Users/Register",
       "DownstreamSchema": "http",
@@ -23,6 +23,7 @@
       }
     },
 
+    // Update User
     {
       "DownstreamPathTemplate": "/api/Users/Update",
       "DownstreamSchema": "http",
@@ -43,6 +44,7 @@
       }
     },
 
+    // Authenticate User
     {
       "DownstreamPathTemplate": "/api/user/Validate",
       "DownstreamSchema": "http",
@@ -60,6 +62,7 @@
 
     },
 
+    // Change Password
     {
       "DownstreamPathTemplate": "/api/authenticate/ChangePassword",
       "DownstreamSchema": "https",
@@ -84,6 +87,7 @@
       }
     },
 
+    // Search User by Display Name
     {
       "DownstreamPathTemplate": "/api/usermanagement/searchuserbydisplayname",
       "DownstreamSchema": "https",
@@ -108,17 +112,14 @@
       }
     },
 
+    // Upload Profile Image
     {
       "DownstreamPathTemplate": "/api/users/uploadprofileimage",
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "POST",
       "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          "Port": 8301
-        }
-      ],
+      "ServiceName": "nt.userservice.service",
+      "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/user/api/Users/uploadprofileimage",
       "UpstreamHttpMethod": [ "POST" ],
       "QoSOptions": {
@@ -132,17 +133,14 @@
       }
     },
 
+    // Get Profile Image
     {
       "DownstreamPathTemplate": "/api/users/getprofileimage",
       "DownstreamSchema": "https",
       "DownstreamHttpMethod": "GET",
       "RouteIsCaseSensitive": false,
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          "Port": 8301
-        }
-      ],
+      "ServiceName": "nt.userservice.service",
+      "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/user/api/Users/getprofileimage",
       "UpstreamHttpMethod": [ "GET" ],
       "QoSOptions": {
@@ -156,6 +154,7 @@
       }
     },
 
+    // Movie GraphQl
     {
       "DownstreamPathTemplate": "/graphql",
       "DownstreamSchema": "http",

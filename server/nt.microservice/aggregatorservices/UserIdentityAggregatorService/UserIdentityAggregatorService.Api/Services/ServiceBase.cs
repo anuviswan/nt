@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using UserIdentityAggregatorService.Api.Settings;
+using nt.shared.dto.Configurations;
 
 namespace UserIdentityAggregatorService.Api.Services;
 
@@ -7,10 +7,11 @@ public abstract class ServiceBase
 {
     protected readonly Task<HttpClient> _httpClientTask;
     protected readonly ConsulServiceResolver _consulResolver;
-    protected ServiceBase(IHttpClientFactory httpClientFactory, ILogger<ServiceBase> logger, ConsulServiceResolver consulResolver, IOptions<ServiceDiscoveryOptions> serviceDiscoveryOptions, string serviceName)
+    protected ServiceBase(IHttpClientFactory httpClientFactory, ILogger<ServiceBase> logger, ConsulServiceResolver consulResolver, 
+        IOptions<ServiceMappingConfig> serviceMappingConfig, string serviceName)
     {
         _consulResolver = consulResolver;
-        var registeredService = serviceDiscoveryOptions.Value.Services.FirstOrDefault(s => s.Key == serviceName)?.Name;
+        var registeredService = serviceMappingConfig.Value.Services.FirstOrDefault(s => s.Key == serviceName)?.Name;
         if (registeredService == null)
         {
             logger.LogError("Service {ServiceName} not found in service discovery options", serviceName);

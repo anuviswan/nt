@@ -8,11 +8,11 @@ namespace UserService.Api.BackgroundServices;
 public class ServiceRegistration : BackgroundService
 {
     private readonly IConsulClient _consulClient;
-    private readonly ServiceDiscoveryConfiguration _serviceDiscoveryConfiguration;
+    private readonly ServiceRegistrationConfig _serviceDiscoveryConfiguration;
     private readonly ILogger<ServiceRegistration> _logger;
     private readonly IHostApplicationLifetime _lifetime;
     public ServiceRegistration(IConsulClient consultClient,
-        IOptions<ServiceDiscoveryConfiguration> serviceDiscoveryConfigurations,
+        IOptions<ServiceRegistrationConfig> serviceDiscoveryConfigurations,
         ILogger<ServiceRegistration> logger,
         IHostApplicationLifetime lifetime)
     {
