@@ -18,7 +18,8 @@ var builder = DistributedApplication.CreateBuilder(args);
 var consulServiceDiscovery = builder.AddContainer(Constants.Infrastructure.Consul.ServiceName, infrastructureSettings.Consul.DockerImage)
             .WithContainerName(Constants.Infrastructure.Consul.ContainerName)
             .WithHttpEndpoint(port: infrastructureSettings.Consul.HostPort, targetPort: infrastructureSettings.Consul.TargetPort)
-            .WithArgs("agent", "-dev", "-client=0.0.0.0"); // dev mode
+            .WithArgs("agent", "-dev", "-client=0.0.0.0") // dev mode
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Dashboard ({u.Endpoint?.Port})")); 
 
 
 var rabbitMqusername = builder.AddParameter(Constants.Infrastructure.RabbitMq.UserNameKey, infrastructureSettings.RabbitMq.UserName, secret: true);
@@ -33,7 +34,7 @@ var rabbitmq = builder.AddRabbitMQ(Constants.Infrastructure.RabbitMq.ServiceName
                            target: @"/etc/rabbitmq/definitions.json")
             .WithHttpEndpoint(infrastructureSettings.RabbitMq.HttpPort,targetPort: infrastructureSettings.RabbitMq.HttpPort, name:"http1")
             .WithHttpEndpoint(infrastructureSettings.RabbitMq.HttpsPort, targetPort: infrastructureSettings.RabbitMq.HttpsPort, name: "http2")
-            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Manage ({u.Endpoint?.EndpointName})")); 
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Dashboard ({u.Endpoint?.Port})")); 
 
 
 var postgresUsername = builder.AddParameter(Constants.AuthService.Database.UserNameKey, infrastructureSettings.Postgres.UserName, secret: true);
@@ -60,7 +61,6 @@ var mongoDb = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 2
 var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastructureSettings.BlobStorage.DockerImage)
             .WithVolume("//d/Source/nt/server/nt.microservice/services/UserService/BlobStorage:/data")
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
-            
             .WithHttpEndpoint(port: infrastructureSettings.BlobStorage.HostPort, targetPort: infrastructureSettings.BlobStorage.TargetPort, isProxied: true);
 
 
@@ -84,7 +84,7 @@ foreach(var port in serviceSettings.AuthService.InstancePorts)
             .WithEnvironment(Constants.AuthService.Environment.RabbitMqPassword, infrastructureSettings.RabbitMq.Password)
             .WaitFor(consulServiceDiscovery)
             .WaitFor(rabbitmq)
-            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API")));
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")));
 }
 
 var authServiceLoadBalancer = builder.AddContainer(Constants.AuthService.LoadBalancer.InstanceName, serviceSettings.AuthService.LoadBalancer.DockerImage)
@@ -121,7 +121,7 @@ var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserSer
             .WithReference(sqlDb)
             .WaitFor(sqlDb)
             .WaitFor(consulServiceDiscovery)
-            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})"));
 
 
 userService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, ()=>userService.GetEndpoint("http").Port.ToString())
@@ -144,7 +144,8 @@ var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorServic
             .WaitFor(consulServiceDiscovery)
             .WaitFor(authServiceLoadBalancer)
             .WaitFor(authServiceSideCar)
-            .WaitFor(userService);
+            .WaitFor(userService)
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")); ;
 
 aggregatorService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, () => aggregatorService.GetEndpoint("http").Port.ToString())
            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl,
@@ -160,7 +161,9 @@ var movieService = builder.AddProject<Projects.MovieService_Api>(Constants.Movie
         .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
         .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.MovieService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
         .WithReference(mongoDb)
-        .WaitFor(mongoDb);
+        .WaitFor(mongoDb)
+        .WaitFor(consulServiceDiscovery)
+        .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")); ;
 
 movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, () => movieService.GetEndpoint("http").Port.ToString())
            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl,
@@ -178,7 +181,8 @@ var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceN
            .WaitFor(userService)
            .WaitFor(aggregatorService)
            .WaitFor(movieService)
-           .WaitFor(reviewService);
+           .WaitFor(reviewService)
+           .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")); ;
 
 
 builder.Build().Run();
