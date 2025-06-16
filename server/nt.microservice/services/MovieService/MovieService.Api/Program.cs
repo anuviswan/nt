@@ -1,6 +1,4 @@
 using Consul;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MovieService.Api;
@@ -9,7 +7,6 @@ using MovieService.Api.Helpers;
 using MovieService.Api.Settings;
 using MovieService.Data;
 using nt.shared.dto.Configurations;
-using System;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +23,10 @@ builder.Services.AddCors(option => {
             builder.AllowAnyHeader();
         });
 });
+
+builder.Configuration
+.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+.AddEnvironmentVariables(); // <- This ensures env vars are considered
 
 builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
 // Add services to the container.
@@ -89,7 +90,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors(corsPolicy);
 app.UseAuthorization();
 
