@@ -169,7 +169,7 @@ movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.Servic
            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl,
                             () => $"http://host.docker.internal:{movieService.GetEndpoint("http").Port}{serviceSettings.MovieService.ServiceRegistrationConfig.HealthCheckUrl}");
 
-var reviewService = builder.AddProject<Projects.ReviewService_Api>("nt-reviewservice-service")
+var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("nt-reviewservice-service")
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
 
