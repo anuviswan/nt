@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Application.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Application.Services", "services\ReviewService\ReviewService.Application.Services\ReviewService.Application.Services.csproj", "{8F7EF054-6DA9-41B6-803C-ED35CC4DDEAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewService.Application.Orchestration", "services\ReviewService\ReviewService.Application.Orchestration\ReviewService.Application.Orchestration.csproj", "{DFB176BA-1C6E-48E6-A59F-72F4BB46EC71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -247,6 +249,10 @@ Global
 		{8F7EF054-6DA9-41B6-803C-ED35CC4DDEAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F7EF054-6DA9-41B6-803C-ED35CC4DDEAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F7EF054-6DA9-41B6-803C-ED35CC4DDEAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB176BA-1C6E-48E6-A59F-72F4BB46EC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB176BA-1C6E-48E6-A59F-72F4BB46EC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB176BA-1C6E-48E6-A59F-72F4BB46EC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB176BA-1C6E-48E6-A59F-72F4BB46EC71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -294,6 +300,7 @@ Global
 		{A63F5CC3-F4D7-4E38-9D7C-CC590C7DED94} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D368FDE3-2749-480E-8D7F-51E72C8DDB82} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{8F7EF054-6DA9-41B6-803C-ED35CC4DDEAE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{DFB176BA-1C6E-48E6-A59F-72F4BB46EC71} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03643F26-3807-492E-A60F-952C4D34C6E9}

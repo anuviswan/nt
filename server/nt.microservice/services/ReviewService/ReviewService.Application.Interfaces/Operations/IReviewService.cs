@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReviewService.Application.Interfaces.Operations
+namespace ReviewService.Application.Interfaces.Operations;
+
+public interface IReviewService
 {
-    internal class IReviewService
-    {
-    }
+    public Task GetReview(string movieId);
 }
