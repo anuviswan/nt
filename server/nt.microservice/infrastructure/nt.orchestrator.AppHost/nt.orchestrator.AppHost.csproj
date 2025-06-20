@@ -24,7 +24,7 @@
     <ProjectReference Include="..\..\services\AuthService\AuthService.Api\AuthService.Api.csproj" />
     <ProjectReference Include="..\..\services\AuthService\AuthService.LoadBalancer.ServiceDiscoverySideCar\AuthService.LoadBalancer.ServiceDiscoverySideCar.csproj" />
     <ProjectReference Include="..\..\services\MovieService\MovieService.Api\MovieService.Api.csproj" />
-    <ProjectReference Include="..\..\services\ReviewService\ReviewService.Api\ReviewService.Api.csproj" />
+    <ProjectReference Include="..\..\services\ReviewService\ReviewService.Presentation.Api\ReviewService.Presenation.Api.csproj" />
     <ProjectReference Include="..\..\services\UserService\UserService.Api\UserService.Api.csproj" />
     <ProjectReference Include="..\nt.gateway\nt.gateway.csproj" />
     <ProjectReference Include="..\nt.helper\nt.helper.csproj" IsAspireProjectResource="false" />
