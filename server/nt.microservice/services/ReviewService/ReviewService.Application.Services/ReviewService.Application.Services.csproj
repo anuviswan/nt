@@ -10,4 +10,8 @@
     <Folder Include="Operations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReviewService.Application.DTO\ReviewService.Application.DTO.csproj" />
+  </ItemGroup>
+
 </Project>
