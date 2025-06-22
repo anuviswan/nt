@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ReviewService.Application.DTO.Reviews;
 
 namespace ReviewService.Application.Interfaces.Operations;
 
 public interface IReviewService
 {
-    public Task GetReview(string movieId);
+    public Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId);
 }
