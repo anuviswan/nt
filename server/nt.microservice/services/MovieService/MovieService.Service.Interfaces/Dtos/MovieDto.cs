@@ -4,6 +4,8 @@ public record MovieDto
 {
     public string Title { get; set; } = null!;
 
+    public string Synopsis { get; set; } = string.Empty;
+
     public string? MovieLanguage { get; set; }
 
     public DateTime? ReleaseDate { get; set; }

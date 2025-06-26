@@ -1,7 +1,6 @@
 ﻿using HotChocolate;
 using MovieService.GraphQL.Types;
 using MovieService.Service.Interfaces.Services;
-using Omu.ValueInjecter;
 
 namespace MovieService.GraphQL.Queries;
 
@@ -12,20 +11,19 @@ public class MovieQuery([Service]IMovieService movieService)
     {
         var movieResult = movieService.Search(searchTerm);
 
-        await foreach (var movie in movieResult)
+        await foreach (var dto in movieResult)
         {
-            yield return Mapper.Map<MovieType>(movieResult);
+            yield return new MovieType
+            {
+                Title = dto.Title,
+                MovieLanguage = dto.MovieLanguage ?? "Unknown",
+                ReleaseDate = dto.ReleaseDate ?? DateTime.MinValue,
+                Synopsis = "Synopsis not provided", // Assuming no synopsis in DTO
+                Cast = dto.Cast?.Select(x=>new PersonType {  Name = x.Name}).ToList() ?? new List<PersonType>()
+            };
         }
     }
 }
 
-//public class QueryType : ObjectType<Query>
-//{
-//    protected override void Configure(IObjectTypeDescriptor<Query> descriptor)
-//    {
-//        descriptor.Field(x => x.FindMovie(default!))
-//                   .Type<ListType<MovieType>>()
-//                   .Argument("searchTerm", x=> x.Type<StringType>())
-//                   .Description("Find Movie by partial name");
-//    }
-//}
+
+
