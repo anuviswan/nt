@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="HotChocolate" Version="13.9.12" />
     <PackageReference Include="HotChocolate.Data" Version="13.9.13" />
+    <PackageReference Include="ValueInjecter" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>
