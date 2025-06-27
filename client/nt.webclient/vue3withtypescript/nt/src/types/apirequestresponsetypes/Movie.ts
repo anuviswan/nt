@@ -9,15 +9,12 @@ export interface MovieResponse {
   title: string;
   movieLanguage: string;
   releaseDate: Date;
-  cast: CastResponse;
+  cast: PersonResponse[];
   crew: KeyValuePair<string,PersonResponse[]>[];
 }
 
 export interface CastResponse{
-  edges : PersonEdgeResponse[]
-}
-export interface PersonEdgeResponse{
-  node: PersonResponse
+  Person : PersonResponse[]
 }
 
 export interface KeyValuePair<TKey,TValue> {
