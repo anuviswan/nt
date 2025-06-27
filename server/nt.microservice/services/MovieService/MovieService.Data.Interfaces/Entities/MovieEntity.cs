@@ -11,6 +11,9 @@ public class MovieEntity : Entity
     [Field("title")]
     public string Title { get; set; } = null!;
 
+    [Field("synopsis")]
+    public string Synopsis { get; set; } = string.Empty;
+
     [Field("movie-language")]
     public string? MovieLanguage { get; set; }
 

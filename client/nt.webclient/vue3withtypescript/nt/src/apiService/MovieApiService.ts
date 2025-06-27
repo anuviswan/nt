@@ -2,7 +2,6 @@ import { ApiServiceBase } from './ApiServiceBase';
 import { ISearchMoviesResponse,MovieResponse } from '@/types/apirequestresponsetypes/Movie';
 import { Movie } from "@/types/MovieTypes"
 import { DocumentNode, gql } from '@apollo/client/core';
-import { plainToClass } from 'class-transformer';
 
 class MovieApiService extends ApiServiceBase {
   public async SearchMovies(
@@ -17,18 +16,8 @@ class MovieApiService extends ApiServiceBase {
       releaseDate
       title
       cast{
-      edges{
-        node{
-          name
-        }
-      }
-    }
-    crew{
-      key
-      value{
         name
       }
-    }
     }
   }
     `
