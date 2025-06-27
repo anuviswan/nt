@@ -20,6 +20,7 @@ internal class MalayalamMoviesSeed
         {
             new("Dulquer Salmaan"), new("Thilakan"), new("Nithya Menen")
         }
+        
     },
 
     new() {

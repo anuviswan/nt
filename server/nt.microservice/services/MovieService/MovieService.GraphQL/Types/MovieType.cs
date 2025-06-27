@@ -1,41 +1,39 @@
-﻿using HotChocolate.Types;
-using MovieService.Service.Interfaces.Dtos;
+﻿using HotChocolate;
 
 namespace MovieService.GraphQL.Types;
 
-public class MovieType : ObjectType<MovieDto>
+public class MovieType 
 {
-    protected override void Configure(IObjectTypeDescriptor<MovieDto> descriptor)
-    {
-        descriptor.Description("Defines a movie");
+    [GraphQLName("title")]
+    [GraphQLDescription("Title of movie.")]
+    public string Title { get; set; } = null!;
 
-        descriptor.Field(x=>x.Title)
-                  .Type<StringType>()
-                  .Description("Title of Movie");
-        descriptor.Field(x=>x.MovieLanguage)
-                  .Type<StringType>()
-                  .Description("Language of movie");
-        descriptor.Field(x=>x.ReleaseDate)
-                  .Type<DateTimeType>()
-                  .Description("Release date of movie");
-        descriptor.Field(x => x.Cast)
-                  .Type<ListType<PersonType>>()
-                  .UsePaging<PersonType>()
-                  .Description("Cast of the movie");
-        //descriptor.Field(x => x.Crew)
-        //          .Type<AnyType>()
-        //          .Description("Crew of the movie");
-    }
+    [GraphQLName("description")]
+    [GraphQLDescription("Synopsis of the movie")]
+    public string Synopsis { get; set; } = null!;
+
+    [GraphQLName("movieLanguage")]
+    [GraphQLDescription("Language")]
+    public string MovieLanguage { get; set; } = null!;
+
+
+    [GraphQLName("releaseDate")]
+    [GraphQLDescription("Release Date")]
+    public DateTime ReleaseDate { get; set; }
+
+
+    [GraphQLName("cast")]
+    [GraphQLDescription("Cast of the movie")]
+    public List<PersonType> Cast { get; set; } = [];
+
+    [GraphQLName("crew")]
+    [GraphQLDescription("Crew of the movie")]
+    public Dictionary<string, List<PersonType>>? Crew { get; set; } = [];
 }
 
-public class PersonType : ObjectType<PersonDto>
+public class PersonType 
 {
-    protected override void Configure(IObjectTypeDescriptor<PersonDto> descriptor)
-    {
-        descriptor.Description("Defines a Person");
-
-        descriptor.Field(x => x.Name)
-            .Type<NonNullType<StringType>>()
-            .Description("Name of the person");
-    }
+    [GraphQLName("name")]
+    [GraphQLDescription("Name")]
+    public string Name { get; set; } = null!;
 }

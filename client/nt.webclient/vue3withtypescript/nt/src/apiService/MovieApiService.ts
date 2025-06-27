@@ -2,7 +2,6 @@ import { ApiServiceBase } from './ApiServiceBase';
 import { ISearchMoviesResponse,MovieResponse } from '@/types/apirequestresponsetypes/Movie';
 import { Movie } from "@/types/MovieTypes"
 import { DocumentNode, gql } from '@apollo/client/core';
-import { plainToClass } from 'class-transformer';
 
 class MovieApiService extends ApiServiceBase {
   public async SearchMovies(
@@ -17,18 +16,14 @@ class MovieApiService extends ApiServiceBase {
       releaseDate
       title
       cast{
-      edges{
-        node{
-          name
-        }
-      }
-    }
-    crew{
-      key
-      value{
         name
-      }
-    }
+      },
+      crew{
+          key,
+          value{
+            name
+          }
+        }
     }
   }
     `
@@ -43,7 +38,9 @@ class MovieApiService extends ApiServiceBase {
 function ConvertToMovieDto(movieResponse:MovieResponse):Movie{
   const movie = {
     ...movieResponse,
-    cast: movieResponse.cast?.edges?.map(edge=>({name:edge?.node?.name})) ?? [],
+    cast: movieResponse.cast?.map(m=> ({
+      name : m.name
+    })),
     crew: movieResponse.crew?.map(kvp=>({
       key : kvp.key,
       value: kvp.value?.map((p)=>({ name: p.name}))
