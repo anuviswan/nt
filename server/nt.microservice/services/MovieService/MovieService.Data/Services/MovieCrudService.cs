@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Entities;
 using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
@@ -24,6 +22,23 @@ public class MovieCrudService : IMovieCrudService
                              .Match(Search.Full, searchTerm)
                              .ExecuteCursorAsync();
 
+        while (await cursor.MoveNextAsync())
+        {
+            foreach (var movie in cursor.Current)
+            {
+                yield return movie;
+            }
+        }
+    }
+
+    public async IAsyncEnumerable<MovieEntity> GetRecentMovies(int count = 10)
+    {
+        if (count <= 0)
+            yield break;
+        var cursor = await DB.Find<MovieEntity>()
+                             .Sort(x=>x.Descending(x => x.ReleaseDate))
+                             .Limit(count)
+                             .ExecuteCursorAsync();
         while (await cursor.MoveNextAsync())
         {
             foreach (var movie in cursor.Current)

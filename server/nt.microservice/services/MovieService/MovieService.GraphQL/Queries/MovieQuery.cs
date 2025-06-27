@@ -26,6 +26,26 @@ public class MovieQuery([Service]IMovieService movieService)
             };
         }
     }
+
+    [GraphQLDescription("Find recently released movies")]
+    public async IAsyncEnumerable<MovieType> GetRecentMovies([GraphQLName("count")]int count = 10)
+    {
+        var movieResult = movieService.GetRecentMovies(count);
+        await foreach (var dto in movieResult)
+        {
+            yield return new MovieType
+            {
+                Title = dto.Title,
+                MovieLanguage = dto.MovieLanguage ?? "Unknown",
+                ReleaseDate = dto.ReleaseDate ?? DateTime.MinValue,
+                Synopsis = "Synopsis not provided", // Assuming no synopsis in DTO
+                Cast = dto.Cast?.Select(x=>new PersonType {  Name = x.Name}).ToList() ?? [],
+                Crew = dto.Crew?.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Select(p => new PersonType { Name = p.Name }).ToList()) ?? []
+            };
+        }
+    }
 }
 
 

@@ -5,6 +5,7 @@ using MovieService.Service.Interfaces.Dtos;
 using MovieService.Service.Interfaces.Services;
 using Omu.ValueInjecter;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieService.Service.Services;
 
@@ -37,6 +38,18 @@ public class MovieService : ServiceBase, IMovieService
         {
             Logger.LogError(ex, "Unable to CreateMovie");
             throw;
+        }
+
+    }
+
+    public async IAsyncEnumerable<MovieDto> GetRecentMovies(int count = 10)
+    {
+        if (count <= 0)
+            yield break; 
+
+        await foreach(var movie in _movieCrudService.GetRecentMovies(count))
+        {
+            yield return Mapper.Map<MovieDto>(movie);
         }
 
     }
