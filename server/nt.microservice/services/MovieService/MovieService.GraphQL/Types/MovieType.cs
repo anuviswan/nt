@@ -1,10 +1,8 @@
 ﻿using HotChocolate;
-using HotChocolate.Types;
-using MovieService.Service.Interfaces.Dtos;
 
 namespace MovieService.GraphQL.Types;
 
-public class MovieType //: ObjectType<MovieDto>
+public class MovieType 
 {
     [GraphQLName("title")]
     [GraphQLDescription("Title of movie.")]
@@ -26,10 +24,14 @@ public class MovieType //: ObjectType<MovieDto>
 
     [GraphQLName("cast")]
     [GraphQLDescription("Cast of the movie")]
-    public List<PersonType> Cast { get; set; } = new List<PersonType>();
+    public List<PersonType> Cast { get; set; } = [];
+
+    [GraphQLName("crew")]
+    [GraphQLDescription("Crew of the movie")]
+    public Dictionary<string, List<PersonType>>? Crew { get; set; } = [];
 }
 
-public class PersonType //: ObjectType<PersonDto>
+public class PersonType 
 {
     [GraphQLName("name")]
     [GraphQLDescription("Name")]

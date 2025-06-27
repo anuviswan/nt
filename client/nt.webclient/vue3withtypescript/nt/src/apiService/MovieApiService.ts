@@ -17,7 +17,13 @@ class MovieApiService extends ApiServiceBase {
       title
       cast{
         name
-      }
+      },
+      crew{
+          key,
+          value{
+            name
+          }
+        }
     }
   }
     `

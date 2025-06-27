@@ -19,7 +19,10 @@ public class MovieQuery([Service]IMovieService movieService)
                 MovieLanguage = dto.MovieLanguage ?? "Unknown",
                 ReleaseDate = dto.ReleaseDate ?? DateTime.MinValue,
                 Synopsis = "Synopsis not provided", // Assuming no synopsis in DTO
-                Cast = dto.Cast?.Select(x=>new PersonType {  Name = x.Name}).ToList() ?? new List<PersonType>()
+                Cast = dto.Cast?.Select(x=>new PersonType {  Name = x.Name}).ToList() ?? [],
+                Crew = dto.Crew?.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Select(p => new PersonType { Name = p.Name }).ToList()) ?? []
             };
         }
     }
