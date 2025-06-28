@@ -1,5 +1,5 @@
 import { ApiServiceBase } from './ApiServiceBase';
-import { ISearchMoviesResponse,MovieResponse } from '@/types/apirequestresponsetypes/Movie';
+import { IRecentMoviesResponse, ISearchMoviesResponse,MovieResponse } from '@/types/apirequestresponsetypes/Movie';
 import { Movie } from "@/types/MovieTypes"
 import { DocumentNode, gql } from '@apollo/client/core';
 
@@ -8,7 +8,6 @@ class MovieApiService extends ApiServiceBase {
     searchTerm: string
   ): Promise<Movie[]> {
 
-    console.log('ready - create query')
     const search_movie: DocumentNode = gql`
     query findMovieQuery($searchTerm:String!) {
     findMovie(searchTerm: $searchTerm) {
@@ -26,11 +25,31 @@ class MovieApiService extends ApiServiceBase {
         }
     }
   }
-    `
+    `;
 
     console.log('ready to search for movies')
     const response = await this.queryGraphQl<ISearchMoviesResponse>(search_movie,{ searchTerm})
     const movies = response.findMovie.map(movieResponse => (ConvertToMovieDto(movieResponse)));
+    return movies;
+  }
+
+  public async GetRecentMovies(count:number):Promise<Movie[]>{
+
+    const recent_movie: DocumentNode = gql`
+      query recentMovieQuery($count:Int){
+        recentMovies(count: $count){
+          title,
+          movieLanguage,
+          releaseDate
+          cast{
+            name
+          }
+        }
+      }
+    `;
+
+    const response = await this.queryGraphQl<IRecentMoviesResponse>(recent_movie,{count});
+    const movies = response.recentMovies.map(movieResponse => (ConvertToMovieDto(movieResponse)));
     return movies;
   }
 }
