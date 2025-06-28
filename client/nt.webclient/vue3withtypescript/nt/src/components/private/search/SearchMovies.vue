@@ -14,7 +14,7 @@
   const searchResults = ref<Movie[]>([
     {
       title: 'Source Code',
-      language: 'English',
+      movieLanguage: 'English',
       releaseDate: new Date('2024-12-05'),
       cast: [],
       crew: [],
