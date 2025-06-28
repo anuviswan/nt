@@ -5,6 +5,10 @@ export interface ISearchMoviesResponse extends IGraphQlResponseBase {
   
 }
 
+export interface IRecentMoviesResponse extends IGraphQlResponseBase{
+  recentMovies : MovieResponse[]
+}
+
 export interface MovieResponse {
   title: string;
   movieLanguage: string;
