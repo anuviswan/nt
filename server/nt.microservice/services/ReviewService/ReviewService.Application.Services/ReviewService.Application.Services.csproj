@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReviewService.Application.DTO\ReviewService.Application.DTO.csproj" />
+    <ProjectReference Include="..\ReviewService.Application.Interfaces\ReviewService.Application.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
