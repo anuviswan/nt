@@ -5,12 +5,12 @@ namespace ReviewService.Application.Services.Operations;
 
 public class ReviewService : IReviewService
 {
-    public Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId)
+    public Task<IEnumerable<ReviewDto>> GetReviewsByMovieIdAsync(Guid movieId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Guid> CreateReviewAsync(Review reviewDto)
+    public Task<Guid> CreateReviewAsync(ReviewDto reviewDto)
     {
         throw new NotImplementedException();
     }

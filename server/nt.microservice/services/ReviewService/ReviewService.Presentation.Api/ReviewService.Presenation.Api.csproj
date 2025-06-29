@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
   </ItemGroup>
@@ -18,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\infrastructure\nt.orchestrator.ServiceDefaults\nt.orchestrator.ServiceDefaults.csproj" />
     <ProjectReference Include="..\ReviewService.Application.Interfaces\ReviewService.Application.Interfaces.csproj" />
+    <ProjectReference Include="..\ReviewService.Application.Orchestration\ReviewService.Application.Orchestration.csproj" />
   </ItemGroup>
 
 </Project>

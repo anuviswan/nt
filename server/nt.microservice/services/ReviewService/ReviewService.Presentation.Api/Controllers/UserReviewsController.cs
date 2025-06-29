@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Interfaces.Operations;
 using ReviewService.Presenation.Api.Models;
 using AutoMapper;
+using MediatR;
+using ReviewService.Application.Orchestration.Commands;
 
 namespace ReviewService.Api.Controllers;
 
@@ -10,14 +12,14 @@ namespace ReviewService.Api.Controllers;
 public class UserReviewsController : ControllerBase
 {
     private readonly ILogger<UserReviewsController> _logger;
-    private readonly IReviewService _reviewService;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
-    public UserReviewsController(IReviewService reviewService, IMapper mapper, ILogger<UserReviewsController> logger)
+    public UserReviewsController(IMediator mediator, IMapper mapper, ILogger<UserReviewsController> logger)
     {
         _logger = logger;
-        _reviewService = reviewService;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     [HttpGet]
@@ -38,8 +40,16 @@ public class UserReviewsController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            var reviewId = await _reviewService.CreateReviewAsync(_mapper.Map<ReviewService.Application.DTO.Reviews.Review>(request)).ConfigureAwait(false);
+            var reviewId = await _mediator.Send(new CreateReviewCommand
+            {
+                Review = _mapper.Map<ReviewService.Application.DTO.Reviews.ReviewDto>(request)
+            }).ConfigureAwait(false);
 
+            if (reviewId == Guid.Empty)
+            {
+                _logger.LogError("Failed to create review. Review ID is empty.");
+                return BadRequest("Failed to create review.");
+            }
             return Ok(new CreateReviewResponse
             {
                 Id = reviewId
