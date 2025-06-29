@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using ReviewService.Application.Interfaces.Operations;
-using ReviewService.Presenation.Api.Models;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Orchestration.Commands;
+using ReviewService.Presenation.Api.Models;
 
 namespace ReviewService.Api.Controllers;
 
@@ -42,7 +41,7 @@ public class UserReviewsController : ControllerBase
 
             var reviewId = await _mediator.Send(new CreateReviewCommand
             {
-                Review = _mapper.Map<ReviewService.Application.DTO.Reviews.ReviewDto>(request)
+                Review = _mapper.Map<Application.DTO.Reviews.ReviewDto>(request)
             }).ConfigureAwait(false);
 
             if (reviewId == Guid.Empty)
