@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using ReviewService.Presenation.Api.ViewModels;
+using ReviewService.Application.Interfaces.Operations;
+using ReviewService.Presenation.Api.Models;
 
 namespace ReviewService.Api.Controllers;
 
@@ -9,7 +10,7 @@ public class UserReviewsController : ControllerBase
 {
     private readonly ILogger<UserReviewsController> _logger;
 
-    public UserReviewsController(ILogger<UserReviewsController> logger)
+    public UserReviewsController(IReviewService reviewService, ILogger<UserReviewsController> logger)
     {
         _logger = logger;
     }
@@ -19,4 +20,11 @@ public class UserReviewsController : ControllerBase
     {
         return default!;
     }
+
+    [HttpPost]
+    public ActionResult<CreateReviewResponse> CreateReview(CreateReviewRequest request)
+    {
+        return default!; 
+    }
+
 }

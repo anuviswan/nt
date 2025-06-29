@@ -4,5 +4,6 @@ namespace ReviewService.Application.Interfaces.Operations;
 
 public interface IReviewService
 {
-    public Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId);
+    Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId);
+    Task<Guid> CreateReviewAsync(Review reviewDto);
 }
