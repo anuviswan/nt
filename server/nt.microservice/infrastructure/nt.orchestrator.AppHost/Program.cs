@@ -70,6 +70,14 @@ var sqlDb = builder.AddSqlServer(Constants.UserService.Database.InstanceName, sq
             .WithEnvironment("MSSQL_SA_PASSWORD", infrastructureSettings.SqlServer.Password)
             .WithHttpEndpoint(port: infrastructureSettings.SqlServer.HostPort, targetPort: infrastructureSettings.SqlServer.TargetPort, isProxied: true);
 
+var cosmosDb = builder.AddAzureCosmosDB("nt-reviewservice-db")
+            .RunAsEmulator(emulator =>
+            {
+                emulator.WithLifetime(ContainerLifetime.Persistent);
+                emulator.WithDataVolume();
+            })
+            .AddCosmosDatabase("ntreviews");
+
 
 var authServiceInstances = new List<IResourceBuilder<ProjectResource>>();
 foreach(var port in serviceSettings.AuthService.InstancePorts)
