@@ -27,7 +27,7 @@ public class ReviewService : IReviewService
     {
         try
         {
-            var review = await _reviewRepository.AddAsync(_mapper.Map<ReviewDto, Review>(reviewDto));
+            var review = await _reviewRepository.AddAsync(_mapper.Map<ReviewDto, Review>(reviewDto)).ConfigureAwait(false);
             return review.Id;
         }
         catch (Exception ex)
