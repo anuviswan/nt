@@ -73,10 +73,19 @@ var sqlDb = builder.AddSqlServer(Constants.UserService.Database.InstanceName, sq
 var cosmosDb = builder.AddAzureCosmosDB("nt-reviewservice-db")
             .RunAsEmulator(emulator =>
             {
+                emulator.WithGatewayPort(7777);
                 emulator.WithLifetime(ContainerLifetime.Persistent);
                 emulator.WithDataVolume();
             })
-            .AddCosmosDatabase("ntreviews");
+            .AddCosmosDatabase("ntreviews")
+            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})"));
+
+
+var couchbase = builder.AddContainer("couchbase-server", "couchbase:community")
+    .WithEnvironment("CB_USERNAME", "Administrator")
+    .WithEnvironment("CB_PASSWORD", "password")
+    .WithEndpoint(port: 8091, targetPort:8091, scheme:"http")
+    .WithEndpoint(port: 8093, targetPort:8093);
 
 
 var authServiceInstances = new List<IResourceBuilder<ProjectResource>>();
