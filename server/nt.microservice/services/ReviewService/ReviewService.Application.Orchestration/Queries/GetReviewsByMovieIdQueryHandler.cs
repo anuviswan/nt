@@ -4,7 +4,7 @@ using ReviewService.Application.Interfaces.Operations;
 
 namespace ReviewService.Application.Orchestration.Queries;
 
-public class GetReviewsByMovieIdQueryHandler : IRequestHandler<GetReviewsByMovieIdQuery, IEnumerable<Review>>
+public class GetReviewsByMovieIdQueryHandler : IRequestHandler<GetReviewsByMovieIdQuery, IEnumerable<ReviewDto>>
 {
     private readonly IReviewService _reviewService;
     public GetReviewsByMovieIdQueryHandler(IReviewService reviewService)
@@ -12,7 +12,7 @@ public class GetReviewsByMovieIdQueryHandler : IRequestHandler<GetReviewsByMovie
         _reviewService = reviewService;
     }
 
-    public Task<IEnumerable<Review>> Handle(GetReviewsByMovieIdQuery request, CancellationToken cancellationToken)
+    public Task<IEnumerable<ReviewDto>> Handle(GetReviewsByMovieIdQuery request, CancellationToken cancellationToken)
     {
         return _reviewService.GetReviewsByMovieIdAsync(request.MovieId);
     }

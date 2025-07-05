@@ -70,6 +70,12 @@ var sqlDb = builder.AddSqlServer(Constants.UserService.Database.InstanceName, sq
             .WithEnvironment("MSSQL_SA_PASSWORD", infrastructureSettings.SqlServer.Password)
             .WithHttpEndpoint(port: infrastructureSettings.SqlServer.HostPort, targetPort: infrastructureSettings.SqlServer.TargetPort, isProxied: true);
 
+var couchbase = builder.AddContainer("nt-reviewservice-db", "couchbase:community")
+    .WithEnvironment("CB_USERNAME", "Administrator")
+    .WithEnvironment("CB_PASSWORD", "password")
+    .WithEndpoint(port: 8091, targetPort:8091, scheme:"http")
+    .WithEndpoint(port: 8093, targetPort:8093);
+
 
 var authServiceInstances = new List<IResourceBuilder<ProjectResource>>();
 foreach(var port in serviceSettings.AuthService.InstancePorts)
@@ -171,7 +177,8 @@ movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.Servic
 
 var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("nt-reviewservice-service")
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
-        .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
+        .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
+        .WaitFor(couchbase);
 
 
 var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)

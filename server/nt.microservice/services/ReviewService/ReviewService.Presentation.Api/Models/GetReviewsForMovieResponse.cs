@@ -1,9 +1,5 @@
-﻿namespace ReviewService.Presenation.Api.ViewModels;
+﻿namespace ReviewService.Presenation.Api.Models;
 
-public record GetReviewsForMovieRequest
-{
-    public Guid MovieId { get; set; }
-}
 
 public record GetReviewsForMovieResponse
 {
