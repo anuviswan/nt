@@ -70,18 +70,7 @@ var sqlDb = builder.AddSqlServer(Constants.UserService.Database.InstanceName, sq
             .WithEnvironment("MSSQL_SA_PASSWORD", infrastructureSettings.SqlServer.Password)
             .WithHttpEndpoint(port: infrastructureSettings.SqlServer.HostPort, targetPort: infrastructureSettings.SqlServer.TargetPort, isProxied: true);
 
-var cosmosDb = builder.AddAzureCosmosDB("nt-reviewservice-db")
-            .RunAsEmulator(emulator =>
-            {
-                emulator.WithGatewayPort(7777);
-                emulator.WithLifetime(ContainerLifetime.Persistent);
-                emulator.WithDataVolume();
-            })
-            .AddCosmosDatabase("ntreviews")
-            .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})"));
-
-
-var couchbase = builder.AddContainer("couchbase-server", "couchbase:community")
+var couchbase = builder.AddContainer("nt-reviewservice-db", "couchbase:community")
     .WithEnvironment("CB_USERNAME", "Administrator")
     .WithEnvironment("CB_PASSWORD", "password")
     .WithEndpoint(port: 8091, targetPort:8091, scheme:"http")
@@ -189,8 +178,7 @@ movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.Servic
 var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("nt-reviewservice-service")
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
-        .WithReference(cosmosDb)
-        .WaitFor(cosmosDb);
+        .WaitFor(couchbase);
 
 
 var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
