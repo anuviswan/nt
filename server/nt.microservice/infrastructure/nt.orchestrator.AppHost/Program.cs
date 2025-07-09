@@ -74,7 +74,8 @@ var couchbase = builder.AddContainer("nt-reviewservice-db", "couchbase:community
     .WithEnvironment("CB_USERNAME", "Administrator")
     .WithEnvironment("CB_PASSWORD", "password")
     .WithEndpoint(port: 8091, targetPort:8091, scheme:"http")
-    .WithEndpoint(port: 8093, targetPort:8093);
+    .WithEndpoint(port: 8093, targetPort:8093)
+    .WithHttpHealthCheck("/pools");
 
 
 var authServiceInstances = new List<IResourceBuilder<ProjectResource>>();

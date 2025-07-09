@@ -23,6 +23,7 @@ public class Program
                                  .GetAwaiter().GetResult();
             return cluster;
         });
+        builder.Services.AddHostedService<ClusterBootstrapService>();
         builder.Services.AddHostedService<EnsureBucketService>();
 
         // Add services to the container.
