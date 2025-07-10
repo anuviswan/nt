@@ -34,6 +34,13 @@ public class ClusterBootstrapService : IHostedService
             await SetupServices();
             await ConfigureClusterMemory();
             await SetupAdminCredentials();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+           "Basic",
+           Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"))
+       );
+
+            await RenameNode();
             _logger.LogInformation("Couchbase cluster bootstrap complete.");
         }
         catch (Exception ex)
@@ -68,12 +75,16 @@ public class ClusterBootstrapService : IHostedService
             { "index_path", "/opt/couchbase/var/lib/couchbase" }
         });
 
+      
+    }
+
+    private async Task RenameNode()
+    {
         await PostForm($"{CouchbaseHost}/node/controller/rename", new Dictionary<string, string>
         {
             { "hostname", "nt-reviewservice-db" } // Or: "nt-reviewservice-db" if using that container name in Aspire
         });
     }
-
     private async Task SetupAdminCredentials()
     {
         await PostForm($"{CouchbaseHost}/settings/web", new Dictionary<string, string>
@@ -83,15 +94,18 @@ public class ClusterBootstrapService : IHostedService
         });
     }
 
-    private async Task PostForm(string url, Dictionary<string, string> formData)
+    private async Task PostForm(string url, Dictionary<string, string> formData, bool addAuth = true)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, url)
         {
             Content = new FormUrlEncodedContent(formData)
         };
 
-        var byteArray = Encoding.ASCII.GetBytes($"{Username}:{Password}");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+        if (addAuth && _httpClient.DefaultRequestHeaders.Authorization == null)
+        {
+            var byteArray = Encoding.ASCII.GetBytes($"{Username}:{Password}");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+        }
 
         var response = await _httpClient.SendAsync(request);
 
