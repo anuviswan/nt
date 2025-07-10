@@ -36,9 +36,8 @@ public class ClusterBootstrapService : IHostedService
             await SetupAdminCredentials();
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-           "Basic",
-           Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"))
-       );
+                                           "Basic",
+                                           Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}")));
 
             await RenameNode();
             _logger.LogInformation("Couchbase cluster bootstrap complete.");
@@ -69,28 +68,29 @@ public class ClusterBootstrapService : IHostedService
             { "ftsMemoryQuota", "256" }
         });
 
-        await PostForm($"{CouchbaseHost}/nodes/self/controller/settings", new Dictionary<string, string>
-        {
-            { "path", "/opt/couchbase/var/lib/couchbase" },
-            { "index_path", "/opt/couchbase/var/lib/couchbase" }
-        });
+        //await PostForm($"{CouchbaseHost}/nodes/self/controller/settings", new Dictionary<string, string>
+        //{
+        //    { "path", "/opt/couchbase/var/lib/couchbase" },
+        //    { "index_path", "/opt/couchbase/var/lib/couchbase" }
+        //});
 
       
     }
 
     private async Task RenameNode()
     {
-        await PostForm($"{CouchbaseHost}/node/controller/rename", new Dictionary<string, string>
-        {
-            { "hostname", "nt-reviewservice-db" } // Or: "nt-reviewservice-db" if using that container name in Aspire
-        });
+        //await PostForm($"{CouchbaseHost}/node/controller/rename", new Dictionary<string, string>
+        //{
+        //    { "hostname", "nt-reviewservice-db" } // Or: "nt-reviewservice-db" if using that container name in Aspire
+        //});
     }
     private async Task SetupAdminCredentials()
     {
         await PostForm($"{CouchbaseHost}/settings/web", new Dictionary<string, string>
         {
             { "username", Username },
-            { "password", Password }
+            { "password", Password },
+            { "port", "8091" }
         });
     }
 

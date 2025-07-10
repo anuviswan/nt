@@ -1,27 +1,29 @@
 using Couchbase;
 using Couchbase.Management.Buckets;
 using Microsoft.Extensions.Options;
+using ReviewService.Api;
 using ReviewService.Presenation.Api.Options;
 
 namespace ReviewService.Presenation.Api.HostedServices;
 
 public class EnsureBucketService : IHostedService
 {
-    private readonly ICluster _cluster;
+    private readonly IClusterProvider _provider;
     private readonly CouchbaseSettings _options;
     private readonly ILogger<EnsureBucketService> _logger;
 
-    public EnsureBucketService(ICluster cluster, IOptions<CouchbaseSettings> options, ILogger<EnsureBucketService> logger)
+    public EnsureBucketService(IClusterProvider clusterProvider, IOptions<CouchbaseSettings> options, ILogger<EnsureBucketService> logger)
     {
-        _cluster = cluster;
+        _provider = clusterProvider;
         _options = options.Value;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        var cluster = await _provider.GetClusterAsync();
         int retries = 10;
-        var bucketManager = _cluster.Buckets;
+        var bucketManager = cluster.Buckets;
         while (retries-- > 0)
         {
             try
@@ -50,7 +52,7 @@ public class EnsureBucketService : IHostedService
             catch (ServiceNotAvailableException)
             {
                 _logger.LogWarning("Couchbase service not available, retrying in 2 seconds...");
-                await Task.Delay(2000);
+                await Task.Delay(3000);
             }
         }
     }
