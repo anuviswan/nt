@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "nt.authservice.service": "StartDebugging",
+        "nt.authservice.sidecar": "StartDebugging",
+        "nt.gateway.service": "StartDebugging",
+        "nt.movieservice.service": "StartDebugging",
+        "nt.useridentityaggregator.service": "StartDebugging",
+        "nt.userservice.service": "StartDebugging",
+        "reviewservice.presenation.api": "StartDebugging"
+      }
+    }
+  }
+}

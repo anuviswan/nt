@@ -288,6 +288,27 @@ services:
     depends_on:
       - nt.movieservice.db
 
+
+  ###############################################################################################################
+  # Review Service : Responsible for Reviews
+  ###############################################################################################################
+
+  reviewservice.presenation.api:
+    image: ${DOCKER_REGISTRY-}reviewservicepresenationapi
+    build:
+      context: .
+      dockerfile: services/ReviewService/ReviewService.Presentation.Api/Dockerfile
+
+  nt-reviewservice-db:
+    image: couchbase:community
+    container_name: nt-reviewservice-db
+    environment:
+      - CB_USERNAME=Administrator
+      - CB_PASSWORD=password
+    ports:
+      - "8091:8091"   # Couchbase Web UI (Dashboard)
+      - "8093:8093"   # Query Service (N1QL)
+
   ###############################################################################################################
   # Infrastructure Services
   ###############################################################################################################
@@ -386,6 +407,8 @@ services:
         nt.common.network:
 
 
+
+
 volumes:
   nt.authservice.db.volume:
     name: "nt.authservice.db.volume"
@@ -405,4 +428,5 @@ networks:
    driver: bridge
   nt.common.network:
    driver: bridge
+
 
