@@ -1,4 +1,5 @@
 using Couchbase;
+using Couchbase.Diagnostics;
 using Couchbase.Management.Buckets;
 using Microsoft.Extensions.Options;
 using ReviewService.Api;
@@ -23,6 +24,18 @@ public class EnsureBucketService : IHostedService
     {
         var cluster = await _provider.GetClusterAsync();
         int retries = 10;
+        // Wait until cluster is ready before any operations
+        try
+        {
+            _logger.LogInformation("Waiting for Couchbase cluster to be ready...");
+            await cluster.WaitUntilReadyAsync(TimeSpan.FromSeconds(60));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Cluster not ready. Aborting bucket check.");
+            throw;
+        }
+
         var bucketManager = cluster.Buckets;
         while (retries-- > 0)
         {
@@ -33,15 +46,23 @@ public class EnsureBucketService : IHostedService
                 var allBuckets = await bucketManager.GetAllBucketsAsync();
                 if (!allBuckets.ContainsKey(_options.BucketName))
                 {
-                    var settings = new BucketSettings
+                    try
                     {
-                        Name = _options.BucketName,
-                        BucketType = BucketType.Couchbase,
-                        RamQuotaMB = 100,
-                        FlushEnabled = true
-                    };
-                    await bucketManager.CreateBucketAsync(settings);
-                    break;
+                        var settings = new BucketSettings
+                        {
+                            Name = _options.BucketName,
+                            BucketType = BucketType.Couchbase,
+                            RamQuotaMB = 100,
+                            FlushEnabled = true
+                        };
+                        await bucketManager.CreateBucketAsync(settings);
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to create bucket '{BucketName}'. Retrying...", _options.BucketName);
+                    }
+
                 }
                 else
                 {
@@ -49,9 +70,9 @@ public class EnsureBucketService : IHostedService
                     break;
                 }
             }
-            catch (ServiceNotAvailableException)
+            catch (ServiceNotAvailableException e)
             {
-                _logger.LogWarning("Couchbase service not available, retrying in 2 seconds...");
+                _logger.LogError(e,"Couchbase service not available, retrying in 3 seconds...");
                 await Task.Delay(3000);
             }
         }

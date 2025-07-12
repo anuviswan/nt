@@ -2,6 +2,7 @@
 using ReviewService.Presenation.Api.Options;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 
 namespace ReviewService.Presenation.Api.HostedServices;
 public class ClusterBootstrapService : IHostedService
@@ -31,9 +32,12 @@ public class ClusterBootstrapService : IHostedService
 
         try
         {
-            await SetupServices();
-            await ConfigureClusterMemory();
-            await SetupAdminCredentials();
+            if (!await IsNodeFullyInitialized())
+            {
+                await SetupServices();
+                await ConfigureClusterMemory();
+                await SetupAdminCredentials();
+            }
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                                            "Basic",
@@ -48,13 +52,23 @@ public class ClusterBootstrapService : IHostedService
         }
     }
 
+    private async Task<bool> IsNodeFullyInitialized()
+    {
+        var response = await _httpClient.GetAsync($"{CouchbaseHost}/pools/default");
+        var json = await response.Content.ReadAsStringAsync();
+        var doc = JsonDocument.Parse(json);
+        var node = doc.RootElement.GetProperty("nodes")[0];
+        var services = node.GetProperty("services").EnumerateArray().Select(e => e.GetString()).ToList();
+        return services.Contains("mgmt") && services.Contains("n1ql") && services.Contains("index");
+    }
+
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
     private async Task SetupServices()
     {
         await PostForm($"{CouchbaseHost}/node/controller/setupServices", new Dictionary<string, string>
         {
-            { "services", "kv,n1ql,index" }
+            { "services", "kv,n1ql,index,mgmt" }
         });
     }
 
@@ -112,7 +126,9 @@ public class ClusterBootstrapService : IHostedService
         if (!response.IsSuccessStatusCode)
         {
             var body = await response.Content.ReadAsStringAsync();
-            _logger.LogWarning("Request to {Url} failed: {StatusCode} - {Body}", url, response.StatusCode, body);
+            _logger.LogError("POST to {Url} failed with status {StatusCode}: {Body}", url, response.StatusCode, body);
+            response.EnsureSuccessStatusCode(); // will throw
+        
         }
         else
         {
