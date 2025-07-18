@@ -5,7 +5,6 @@ using MongoDB.Entities;
 using MovieService.Data;
 using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Seed;
-using MovieService.Service.Interfaces.Dtos;
 
 namespace MovieService.Api;
 

@@ -1,4 +1,5 @@
 using ReviewService.Presenation.Api;
+using ReviewService.Presenation.Api.Helpers;
 using ReviewService.Presenation.Api.Options;
 
 namespace ReviewService.Api;
@@ -16,6 +17,7 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
+        builder.Services.RegisterServices();
 
         var app = builder.Build();
 
