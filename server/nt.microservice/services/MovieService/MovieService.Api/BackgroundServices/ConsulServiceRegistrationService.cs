@@ -4,15 +4,15 @@ using nt.shared.dto.Configurations;
 
 namespace MovieService.Api.BackgroundServices;
 
-public class ServiceRegistration : BackgroundService
+public class ConsulServiceRegistrationService : BackgroundService
 {
     private readonly IConsulClient _consulClient;
     private readonly ServiceRegistrationConfig _serviceDiscoveryConfiguration;
-    private readonly ILogger<ServiceRegistration> _logger;
+    private readonly ILogger<ConsulServiceRegistrationService> _logger;
     private readonly IHostApplicationLifetime _lifetime;
-    public ServiceRegistration(IConsulClient consultClient,
+    public ConsulServiceRegistrationService(IConsulClient consultClient,
         IOptions<ServiceRegistrationConfig> serviceDiscoveryConfigurations,
-        ILogger<ServiceRegistration> logger,
+        ILogger<ConsulServiceRegistrationService> logger,
         IHostApplicationLifetime lifetime)
     {
         _consulClient = consultClient ?? throw new ArgumentNullException(nameof(consultClient));

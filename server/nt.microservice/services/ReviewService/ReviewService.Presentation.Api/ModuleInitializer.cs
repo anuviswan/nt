@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Entities;
 using ReviewService.Infrastructure.Repository.Documents;
 using ReviewService.Infrastructure.Repository.Seed;
+using ReviewService.Presenation.Api.Options;
 
 namespace ReviewService.Presenation.Api;
 
@@ -27,14 +28,14 @@ public class ModuleInitializer
 
 public class DatabaseInitializer
 {
-    private readonly DatabaseSettings _databaseSettings;
+    private readonly DatabaseOptions _databaseSettings;
     private readonly IMongoDatabase _database;
-    public DatabaseInitializer(IOptions<DatabaseSettings> databaseSettings)
+    public DatabaseInitializer(IOptions<DatabaseOptions> databaseSettings)
     {
 
         _databaseSettings = databaseSettings.Value;
 
-        _databaseSettings.ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__nt-movieservice-db") ?? _databaseSettings.ConnectionString;
+        _databaseSettings.ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__nt-reviewservice-db") ?? _databaseSettings.ConnectionString;
 
         DB.InitAsync(_databaseSettings.DatabaseName, MongoClientSettings.FromConnectionString(_databaseSettings.ConnectionString));
         _database = DB.Database(_databaseSettings.DatabaseName);
@@ -77,13 +78,4 @@ public static class IndexInitializer
                 //.Key(x => x.Description, KeyType.Text) TODO For Future
                 .CreateAsync();
     }
-}
-
-public class DatabaseSettings
-{
-    public string ConnectionString { get; set; } = null!;
-
-    public string DatabaseName { get; set; } = null!;
-
-    public string ReviewCollectionName { get; set; } = null!;
 }

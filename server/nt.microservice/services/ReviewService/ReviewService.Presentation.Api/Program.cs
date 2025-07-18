@@ -1,13 +1,16 @@
+using ReviewService.Presenation.Api;
+using ReviewService.Presenation.Api.Options;
+
 namespace ReviewService.Api;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
+        builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection(nameof(DatabaseOptions)));
 
-        
 
         // Add services to the container.
         builder.Services.AddControllers();
@@ -17,6 +20,16 @@ public class Program
         var app = builder.Build();
 
         app.MapDefaultEndpoints();
+
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var moduleInitializer = scope.ServiceProvider.GetService<ModuleInitializer>();
+            if (moduleInitializer is not null)
+            {
+                await moduleInitializer.Initialize();
+            }
+        }
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

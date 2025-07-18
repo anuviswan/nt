@@ -46,11 +46,11 @@ public class UserController : ControllerBase
             return Ok(new ValidateUserResponseViewModel
             {
                 IsAuthenticated = true,
-                Token = authenticateResponse.Token,
+                Token = authenticateResponse.Token?? string.Empty,
                 LoginTime = authenticateResponse.LoginTime,
                 UserName = authenticateResponse.UserName,
-                Bio = userDetails.User.Bio,
-                DisplayName = userDetails.User.DisplayName,
+                Bio = userDetails?.User.Bio ?? string.Empty,
+                DisplayName = userDetails?.User.DisplayName,
             });
         }
         catch (Exception ex)

@@ -63,7 +63,7 @@ builder.Services.AddSingleton<IConsulClient, ConsulClient>(sp =>
     return new ConsulClient(consulConfig);
 });
 
-builder.Services.AddHostedService<ServiceRegistration>();
+builder.Services.AddHostedService<ConsulServiceRegistrationService>();
 
 var app = builder.Build();
 

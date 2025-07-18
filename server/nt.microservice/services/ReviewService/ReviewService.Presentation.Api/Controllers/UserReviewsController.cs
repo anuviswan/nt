@@ -56,7 +56,7 @@ public class UserReviewsController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(@"An error occurred while creating the review.", e);
+            _logger.LogError(e, "An error occurred while creating the review.");
             return BadRequest(e);
         }
     }
