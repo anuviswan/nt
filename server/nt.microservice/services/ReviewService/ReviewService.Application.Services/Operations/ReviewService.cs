@@ -36,4 +36,22 @@ public class ReviewService : IReviewService
             throw;
         }
     }
+
+    public Task<IEnumerable<ReviewDto>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
+    {
+        try
+        {
+            // Fetch User Details
+
+            // Fetch reviews from the repository
+
+            // Fetch Movie details from the repository'
+            throw new NotImplementedException();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
 }

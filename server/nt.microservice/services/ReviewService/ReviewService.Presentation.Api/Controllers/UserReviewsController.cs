@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ReviewService.Application.Orchestration.Commands;
+using ReviewService.Application.Orchestration.Queries;
 using ReviewService.Presenation.Api.Models;
 
 namespace ReviewService.Api.Controllers;
@@ -27,6 +28,43 @@ public class UserReviewsController : ControllerBase
     {
         return default!;
     }
+
+
+    public async Task<GetRecentReviewsForUsersResponse> GetRecentReviewsForUsers(GetRecentReviewsForUsersRequest request)
+    {
+        try
+        {
+            if (request.UserIds == null || !request.UserIds.Any())
+            {
+                _logger.LogWarning("No user IDs provided for fetching recent reviews.");
+                return new GetRecentReviewsForUsersResponse();
+            }
+            var reviews = await _mediator.Send(new GetRecentReviewsForUsersQuery
+            {
+                UserIds = request.UserIds,
+                Count = request.Count
+            }).ConfigureAwait(false);
+            return new GetRecentReviewsForUsersResponse
+            {
+                Reviews = reviews.Select(r => new GetRcentReviewsForUserReviewItem
+                {
+                    ReviewId = r.Id,
+                    MovieId = r.MovieId,
+                    MovieTitle = r.MovieTitle,
+                    Content = r.Content,
+                    Rating = r.Rating,
+                    UserName = r.UserName,
+                    UserDisplayName = r.UserDisplayName
+                }).ToList()
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "An error occurred while fetching recent reviews for users.");
+            throw; // Consider handling this more gracefully in production code.
+        }
+    }
+
 
     [HttpPost]
     [Route("CreateReview")]
