@@ -50,11 +50,9 @@ public class UserReviewsController : ControllerBase
                 {
                     ReviewId = r.Id,
                     MovieId = r.MovieId,
-                    MovieTitle = r.MovieTitle,
                     Content = r.Content,
                     Rating = r.Rating,
                     UserName = r.UserName,
-                    UserDisplayName = r.UserDisplayName
                 }).ToList()
             };
         }

@@ -37,16 +37,12 @@ public class ReviewService : IReviewService
         }
     }
 
-    public Task<IEnumerable<ReviewDto>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
+    public async Task<IEnumerable<ReviewDto>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
     {
         try
         {
-            // Fetch User Details
-
-            // Fetch reviews from the repository
-
-            // Fetch Movie details from the repository'
-            throw new NotImplementedException();
+           var results = await _reviewRepository.GetRecentReviewsForUsersAsync(userIds, count);
+           return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(results);
         }
         catch (Exception)
         {

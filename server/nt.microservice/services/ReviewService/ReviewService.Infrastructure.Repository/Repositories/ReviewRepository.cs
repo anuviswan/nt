@@ -1,10 +1,15 @@
-﻿using ReviewService.Domain.Entities;
+﻿using MongoDB.Driver;
+using ReviewService.Domain.Entities;
 using ReviewService.Domain.Repositories;
 
 namespace ReviewService.Infrastructure.Repository.Repositories;
 
 public class ReviewRepository : GenericRepository<Review>, IReviewRepository
 {
+    public ReviewRepository(IMongoDatabase mongoDatabase):base(mongoDatabase, "Reviews")
+    {
+            
+    }
     public Task<IEnumerable<Review>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
     {
         throw new NotImplementedException();
@@ -15,7 +20,7 @@ public class ReviewRepository : GenericRepository<Review>, IReviewRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId)
+    public async Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId)
     {
         throw new NotImplementedException();
     }
