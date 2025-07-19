@@ -179,6 +179,7 @@ movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.Servic
 var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("nt-reviewservice-service")
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
+        .WithReference(mongoDbReview)
         .WaitFor(mongoDbReview);
 
 
