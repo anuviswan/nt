@@ -7,9 +7,7 @@ public class ReviewDocument:Entity
 {
     internal const string CollectionName = "reviews";
 
-    [Field("reviewId")]
-    public Guid ReviewId { get; set; } = Guid.NewGuid();
-
+    
     [Field("movieId")]
     public Guid MovieId { get; set; }
 
