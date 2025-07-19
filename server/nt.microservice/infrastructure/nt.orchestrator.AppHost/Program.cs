@@ -50,11 +50,19 @@ var postgres = builder.AddPostgres(Constants.AuthService.Database.InstanceName, 
 var mongoDbUsername = builder.AddParameter(Constants.MovieService.Database.UserNameKey, infrastructureSettings.MongoDb.UserName, secret: true);
 var mongoDbPassword = builder.AddParameter(Constants.MovieService.Database.PasswordKey, infrastructureSettings.MongoDb.Password, secret: true);
 
-var mongoDb = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 27017, userName: mongoDbUsername, password: mongoDbPassword)
+var mongoDbMovie = builder.AddMongoDB(Constants.MovieService.Database.InstanceName, 27017, userName: mongoDbUsername, password: mongoDbPassword)
             .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbUserNameKey, infrastructureSettings.MongoDb.UserName)
             .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbPasswordKey, infrastructureSettings.MongoDb.Password)
             //.WithEndpoint(port: 27017, targetPort: 27017, isProxied: true)
             .WithContainerName(Constants.MovieService.Database.ContainerName)
+            .WithDataVolume()
+            .WithMongoExpress();
+
+var mongoDbReview = builder.AddMongoDB(Constants.ReviewService.Database.InstanceName, 27018, userName: mongoDbUsername, password: mongoDbPassword)
+            .WithEnvironment(Constants.ReviewService.EnvironmentVariable.DbUserNameKey, infrastructureSettings.MongoDb.UserName)
+            .WithEnvironment(Constants.ReviewService.EnvironmentVariable.DbPasswordKey, infrastructureSettings.MongoDb.Password)
+            //.WithEndpoint(port: 27017, targetPort: 27017, isProxied: true)
+            .WithContainerName(Constants.ReviewService.Database.ContainerName)
             .WithDataVolume()
             .WithMongoExpress();
 
@@ -69,14 +77,6 @@ var sqlDb = builder.AddSqlServer(Constants.UserService.Database.InstanceName, sq
             .WithEnvironment("ACCEPT_EULA", "Y")
             .WithEnvironment("MSSQL_SA_PASSWORD", infrastructureSettings.SqlServer.Password)
             .WithHttpEndpoint(port: infrastructureSettings.SqlServer.HostPort, targetPort: infrastructureSettings.SqlServer.TargetPort, isProxied: true);
-
-var couchbase = builder.AddContainer("nt-reviewservice-db", "couchbase:community")
-    .WithEnvironment("CB_USERNAME", "Administrator")
-    .WithEnvironment("CB_PASSWORD", "password")
-    .WithEndpoint(port: 8091, targetPort:8091, scheme:"http")
-    .WithEndpoint(port: 8093, targetPort:8093)
-    .WithHttpHealthCheck("/pools");
-
 
 var authServiceInstances = new List<IResourceBuilder<ProjectResource>>();
 foreach(var port in serviceSettings.AuthService.InstancePorts)
@@ -167,8 +167,8 @@ var movieService = builder.AddProject<Projects.MovieService_Api>(Constants.Movie
         .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceHost)
         .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
         .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.MovieService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
-        .WithReference(mongoDb)
-        .WaitFor(mongoDb)
+        .WithReference(mongoDbMovie)
+        .WaitFor(mongoDbMovie)
         .WaitFor(consulServiceDiscovery)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")); ;
 
@@ -179,7 +179,8 @@ movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.Servic
 var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("nt-reviewservice-service")
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
-        .WaitFor(couchbase);
+        .WithReference(mongoDbReview)
+        .WaitFor(mongoDbReview);
 
 
 var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)

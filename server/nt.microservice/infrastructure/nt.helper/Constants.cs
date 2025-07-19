@@ -135,4 +135,25 @@ public static class Constants
             public const string DbCollection = "MovieDatabase__MovieCollectionName";
         }
     }
+
+    public static class ReviewService
+    {
+        public const string ServiceName = "nt-reviewservice-service";
+
+        public static class Database
+        {
+            public const string InstanceName = "nt-reviewservice-db";
+            public const string ContainerName = "nt.reviewservice.db";
+            public const string UserNameKey = $"{ServiceName}-UserName";
+            public const string PasswordKey = $"{ServiceName}-Password";
+        }
+
+        public static class EnvironmentVariable
+        {
+            public const string DbUserNameKey = "MONGO_INITDB_ROOT_USERNAME";
+            public const string DbPasswordKey = "MONGO_INITDB_ROOT_PASSWORD";
+            public const string DbName = "ReviewDatabase__DatabaseName";
+            public const string DbCollection = "ReviewDatabase__ReviewCollectionName";
+        }
+    }
 }

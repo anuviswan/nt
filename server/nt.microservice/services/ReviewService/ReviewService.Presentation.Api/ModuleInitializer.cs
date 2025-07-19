@@ -2,14 +2,12 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Entities;
-using MovieService.Data;
-using MovieService.Data.Interfaces.Entities;
-using MovieService.Data.Seed;
+using ReviewService.Infrastructure.Repository.Documents;
+using ReviewService.Infrastructure.Repository.Seed;
+using ReviewService.Presenation.Api.Options;
 
-namespace MovieService.Api;
+namespace ReviewService.Presenation.Api;
 
-// We do not use the .Net Module initializers as we do not have control over 
-// when exactly it would be run. 
 public class ModuleInitializer
 {
     private readonly DatabaseInitializer _dbInitializer;
@@ -30,16 +28,16 @@ public class ModuleInitializer
 
 public class DatabaseInitializer
 {
-    private readonly DatabaseSettings _databaseSettings;
+    private readonly DatabaseOptions _databaseSettings;
     private readonly IMongoDatabase _database;
-    public DatabaseInitializer(IOptions<DatabaseSettings> databaseSettings)
+    public DatabaseInitializer(IOptions<DatabaseOptions> databaseSettings)
     {
 
         _databaseSettings = databaseSettings.Value;
 
-        _databaseSettings.ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__nt-movieservice-db") ?? _databaseSettings.ConnectionString;
+        _databaseSettings.ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__nt-reviewservice-db") ?? _databaseSettings.ConnectionString;
 
-        DB.InitAsync(_databaseSettings.DatabaseName,MongoClientSettings.FromConnectionString(_databaseSettings.ConnectionString));
+        DB.InitAsync(_databaseSettings.DatabaseName, MongoClientSettings.FromConnectionString(_databaseSettings.ConnectionString));
         _database = DB.Database(_databaseSettings.DatabaseName);
     }
 
@@ -47,19 +45,19 @@ public class DatabaseInitializer
     {
         await IndexInitializer.Setup();
 
-        var collection = await GetCollection(_databaseSettings.MovieCollectionName);
-        bool exists = await collection.Find(FilterDefinition<MovieEntity>.Empty)
+        var collection = await GetCollection(_databaseSettings.ReviewCollectionName);
+        bool exists = await collection.Find(FilterDefinition<ReviewDocument>.Empty)
                                .AnyAsync();
 
         if (collection is not null && !exists)
         {
-            var documents = Seed.Movies;
+            var documents = Seed.MalayalamReviews;
             await collection.InsertManyAsync(documents).ConfigureAwait(false);
         }
     }
 
 
-    private async Task<IMongoCollection<MovieEntity>?> GetCollection(string collectionName)
+    private async Task<IMongoCollection<ReviewDocument>?> GetCollection(string collectionName)
     {
         var filter = new BsonDocument("name", collectionName);
         var collections = await _database.ListCollectionNamesAsync(new ListCollectionNamesOptions
@@ -67,7 +65,7 @@ public class DatabaseInitializer
             Filter = filter
         });
 
-        return _database.GetCollection<MovieEntity>(_databaseSettings.MovieCollectionName);
+        return _database.GetCollection<ReviewDocument>(_databaseSettings.ReviewCollectionName);
     }
 }
 
@@ -75,11 +73,9 @@ public static class IndexInitializer
 {
     public static async Task Setup()
     {
-        await DB.Index<MovieEntity>()
+        await DB.Index<ReviewDocument>()
                 .Key(x => x.Title, KeyType.Text)
                 //.Key(x => x.Description, KeyType.Text) TODO For Future
                 .CreateAsync();
     }
 }
-
-
