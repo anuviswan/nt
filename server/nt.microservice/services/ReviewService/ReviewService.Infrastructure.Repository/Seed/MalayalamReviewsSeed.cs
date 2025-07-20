@@ -11,7 +11,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("6191e634-14c8-45d1-898f-191060cdbec1"),
         Rating = 5,
         Title = "Ustad Hotel Feels",
-        UserName = "moviebuff_91"
+        Author = "moviebuff_91"
     },
     new() {
         Content = "Dulquer and Thilakan make this movie a beautiful emotional ride. Music was perfect.",
@@ -19,7 +19,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("6191e634-14c8-45d1-898f-191060cdbec1"),
         Rating = 4,
         Title = "Beautiful Blend",
-        UserName = "cinemalover"
+        Author = "cinemalover"
     },
     new() {
         Content = "Joji is an intense, slow burn thriller. Brilliant acting by Fahadh as always.",
@@ -27,7 +27,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bea50cb7-41b6-4a35-b77f-358e8c43f850"),
         Rating = 4,
         Title = "Dark and Gripping",
-        UserName = "screenaddict"
+        Author = "screenaddict"
     },
     new() {
         Content = "Minimal dialogues, maximum impact. Joji is a masterclass in modern Malayalam cinema.",
@@ -35,7 +35,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bea50cb7-41b6-4a35-b77f-358e8c43f850"),
         Rating = 5,
         Title = "Minimalist Brilliance",
-        UserName = "cinecritic"
+        Author = "cinecritic"
     },
     new() {
         Content = "A hilarious ride with unexpected twists. Oru Vadakkan Selfie is pure fun.",
@@ -43,7 +43,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bd4b80a0-1516-4b71-887b-714c52459f23"),
         Rating = 4,
         Title = "Comedy Hit",
-        UserName = "ajay.m"
+        Author = "ajay.m"
     },
     new() {
         Content = "Selfie gone wrong but in the best way possible. Loved the storytelling and humor.",
@@ -51,7 +51,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bd4b80a0-1516-4b71-887b-714c52459f23"),
         Rating = 5,
         Title = "Smart Comedy",
-        UserName = "techjunkie"
+        Author = "techjunkie"
     },
     new() {
         Content = "Malik is powerful. A political saga with gripping performances. Fahadh nailed it!",
@@ -59,7 +59,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("0003be11-f19a-4b9c-a1b2-b7e195b53d3e"),
         Rating = 5,
         Title = "Political Power",
-        UserName = "seriouscinema"
+        Author = "seriouscinema"
     },
     new() {
         Content = "One of the best performances by Fahadh. Malik stays with you long after it ends.",
@@ -67,7 +67,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("0003be11-f19a-4b9c-a1b2-b7e195b53d3e"),
         Rating = 5,
         Title = "Brilliant Execution",
-        UserName = "rajfilm"
+        Author = "rajfilm"
     },
     new() {
         Content = "Premam is nostalgic, fun, and full of charm. Every phase of love was shown beautifully.",
@@ -75,7 +75,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("af3e9bed-3e04-4f06-856d-3c572605bf4d"),
         Rating = 5,
         Title = "Love Story Goals",
-        UserName = "dreamy_eyes"
+        Author = "dreamy_eyes"
     },
     new() {
         Content = "Great music, wonderful performances. Premam is a modern Malayalam classic.",
@@ -83,7 +83,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("af3e9bed-3e04-4f06-856d-3c572605bf4d"),
         Rating = 5,
         Title = "Evergreen",
-        UserName = "anu_reviews"
+        Author = "anu_reviews"
     },
     new() {
         Content = "Jana Gana Mana is thought-provoking. Raises valid questions about justice and media.",
@@ -91,7 +91,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("47435a1d-6b24-4cfc-b3a6-0be543322187"),
         Rating = 4,
         Title = "Relevant and Bold",
-        UserName = "truthseeker"
+        Author = "truthseeker"
     },
     new() {
         Content = "Powerful script and solid performances. Worth watching more than once.",
@@ -99,7 +99,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("47435a1d-6b24-4cfc-b3a6-0be543322187"),
         Rating = 5,
         Title = "Must Watch",
-        UserName = "prithvi_rules"
+        Author = "prithvi_rules"
     },
     new() {
         Content = "Ustad Hotel remains a comfort movie. It warms the soul and stirs the appetite.",
@@ -107,7 +107,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("6191e634-14c8-45d1-898f-191060cdbec1"),
         Rating = 5,
         Title = "Feel-Good Watch",
-        UserName = "greenchili"
+        Author = "greenchili"
     },
     new() {
         Content = "Malik's political layers and gripping visuals make it a standout Malayalam film.",
@@ -115,7 +115,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("0003be11-f19a-4b9c-a1b2-b7e195b53d3e"),
         Rating = 4,
         Title = "Strong Narrative",
-        UserName = "malayalicritic"
+        Author = "malayalicritic"
     },
     new() {
         Content = "Premam redefined romance in Malayalam cinema. A perfect blend of nostalgia and music.",
@@ -123,7 +123,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("af3e9bed-3e04-4f06-856d-3c572605bf4d"),
         Rating = 5,
         Title = "Romantic Classic",
-        UserName = "cinepulse"
+        Author = "cinepulse"
     },
     new() {
         Content = "Joji’s silence speaks louder than words. A chilling adaptation of Macbeth.",
@@ -131,7 +131,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bea50cb7-41b6-4a35-b77f-358e8c43f850"),
         Rating = 4,
         Title = "Psychological Drama",
-        UserName = "joji_fan"
+        Author = "joji_fan"
     },
     new() {
         Content = "Loved every bit of Oru Vadakkan Selfie. Light-hearted and perfect for a rewatch!",
@@ -139,7 +139,7 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bd4b80a0-1516-4b71-887b-714c52459f23"),
         Rating = 4,
         Title = "Laugh Riot",
-        UserName = "minnal_m"
+        Author = "minnal_m"
     },
     new() {
         Content = "Jana Gana Mana deserves more attention. Thought-provoking and very well directed.",
@@ -147,14 +147,15 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("47435a1d-6b24-4cfc-b3a6-0be543322187"),
         Rating = 5,
         Title = "Social Eye-Opener",
-        UserName = "vocalviewer"
+        Author = "vocalviewer"
     },
     new() {
         Content = "Premam’s characters grow on you. Sai Pallavi was just magical!",
         ID = Guid.NewGuid().ToString(),
         MovieId = Guid.Parse("af3e9bed-3e04-4f06-856d-3c572605bf4d"),
         Rating = 5,
-        Title = "Romance and Charm"
+        Title = "Romance and Charm",
+        Author = "sai_pallavi_fan"
     }
     ];
 }

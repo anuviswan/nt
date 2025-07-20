@@ -1,51 +1,49 @@
-﻿using MongoDB.Driver;
-using ReviewService.Domain.Entities;
+﻿using AutoMapper;
+using MongoDB.Driver;
+using MongoDB.Entities;
 using ReviewService.Domain.Repositories;
-using System.Data;
 
 namespace ReviewService.Infrastructure.Repository.Repositories;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity, new()
+public class GenericRepository<TDocument,TDomain>(IMongoDatabase database, IMapper mapper, string collectionName) : IGenericRepository<TDomain> 
+    where TDomain : class, Domain.Entities.IEntity, new()
+    where TDocument : Entity
 {
-    private readonly IMongoDatabase _database;
-    private readonly IMongoCollection<TEntity> _collection;
-    public GenericRepository(IMongoDatabase database, string collectionNaem)
+    protected readonly IMapper Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    protected IMongoDatabase Database => database ?? throw new ArgumentNullException(nameof(database));
+    protected IMongoCollection<TDocument> Collection => database.GetCollection<TDocument>(collectionName ?? throw new ArgumentNullException(nameof(collectionName)));
+    public async Task<IEnumerable<TDomain>> GetAll()
     {
-        _database = database ?? throw new ArgumentNullException(nameof(database));
-        _collection = _database.GetCollection<TEntity>(collectionNaem ?? throw new ArgumentNullException(nameof(collectionNaem)));
+        var result = await Collection.Find(Builders<TDocument>.Filter.Empty).ToCursorAsync().ConfigureAwait(false);
+        return  Mapper.Map<IEnumerable<TDomain>>(result.ToEnumerable()) ?? throw new InvalidOperationException("No entities found in the collection.");
     }
 
-    public IMongoCollection<TEntity> Collection => _collection;
-    public async Task<IEnumerable<TEntity>> GetAll()
+    public async Task<TDomain> GetByIdAsync(Guid id)
     {
-        return await _collection.Find(Builders<TEntity>.Filter.Empty).ToListAsync();
-
+        var filter = Builders<TDocument>.Filter.Eq(e => e.ID, id.ToString());
+        var entity = await Collection.Find(filter).FirstOrDefaultAsync().ConfigureAwait(false);
+        return Mapper.Map<TDomain>(entity) ?? throw new KeyNotFoundException($"Entity with ID {id} not found.");
     }
 
-    public async Task<TEntity> GetByIdAsync(Guid id)
+    public async Task<TDomain> AddAsync(TDomain entity)
     {
-        var filter = Builders<TEntity>.Filter.Eq(e => e.Id, id);
-        var entity = await _collection.Find(filter).FirstOrDefaultAsync();
-        return entity ?? throw new KeyNotFoundException($"Entity with ID {id} not found.");
-    }
-
-    public async Task<TEntity> AddAsync(TEntity entity)
-    {
-        await _collection.InsertOneAsync(entity).ConfigureAwait(false);
+        var entityDocument = Mapper.Map<TDocument>(entity) ?? throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");    
+        await Collection.InsertOneAsync(entityDocument).ConfigureAwait(false);
         return entity;
     }
 
-    public async Task<TEntity> UpdateAsync(TEntity entity)
+    public async Task<TDomain> UpdateAsync(TDomain entity)
     {
-        var filter = Builders<TEntity>.Filter.Eq(e => e.Id, entity.Id);
-        await _collection.ReplaceOneAsync(filter,entity).ConfigureAwait(false);
+        var entityDocument = Mapper.Map<TDocument>(entity) ?? throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
+        var filter = Builders<TDocument>.Filter.Eq(e => e.ID, entity.Id.ToString());
+        await Collection.ReplaceOneAsync(filter,entityDocument).ConfigureAwait(false);
         return entity;
     }
 
-    public async Task<TEntity> DeleteAsync(TEntity entity)
+    public async Task<TDomain> DeleteAsync(TDomain entity)
     {
-        var filter = Builders<TEntity>.Filter.Eq(e => e.Id, entity.Id);
-        await _collection.DeleteOneAsync(filter).ConfigureAwait(false);
+        var filter = Builders<TDocument>.Filter.Eq(e => e.ID, entity.Id.ToString());
+        await Collection.DeleteOneAsync(filter).ConfigureAwait(false);
         return entity;
     }
 }
