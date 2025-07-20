@@ -36,4 +36,18 @@ public class ReviewService : IReviewService
             throw;
         }
     }
+
+    public async Task<IEnumerable<ReviewDto>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
+    {
+        try
+        {
+           var results = await _reviewRepository.GetRecentReviewsForUsersAsync(userIds, count);
+           return _mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(results);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
 }

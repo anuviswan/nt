@@ -46,7 +46,7 @@ public class CreateUserInitiatedConsumer : IConsumer<CreateUserInitiated>
     }
 }
 
-public class CreateUserInitiatedConsumerDefinition: ConsumerDefinition<CreateUserInitiatedConsumer>
+public class CreateUserInitiatedConsumerDefinition : ConsumerDefinition<CreateUserInitiatedConsumer>
 {
     public CreateUserInitiatedConsumerDefinition()
     {

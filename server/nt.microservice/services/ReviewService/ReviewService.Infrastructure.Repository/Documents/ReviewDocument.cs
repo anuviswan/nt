@@ -20,7 +20,10 @@ public class ReviewDocument:Entity
     [Field("rating")]
     public int Rating { get; set; }
 
-    [Field("userName")]
-    public string UserName { get; set; } = string.Empty;
-    
+    [Field("author")]
+    public string Author { get; set; } = string.Empty;
+
+    [Field("createdOn")]
+    public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+
 }
