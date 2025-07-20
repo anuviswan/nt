@@ -15,6 +15,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         _collection = _database.GetCollection<TEntity>(collectionNaem ?? throw new ArgumentNullException(nameof(collectionNaem)));
     }
 
+    public IMongoCollection<TEntity> Collection => _collection;
     public async Task<IEnumerable<TEntity>> GetAll()
     {
         return await _collection.Find(Builders<TEntity>.Filter.Empty).ToListAsync();

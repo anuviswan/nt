@@ -9,4 +9,5 @@ public class Review : IEntity
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     public IEnumerable<string> UpvotedBy { get; set; } = [];
     public IEnumerable<string> DownvotedBy { get; set; } = [];
+    public int Rating { get; set; } = 0;
 }

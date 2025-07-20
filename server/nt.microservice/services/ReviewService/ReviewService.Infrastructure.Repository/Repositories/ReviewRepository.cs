@@ -10,28 +10,51 @@ public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {
             
     }
-    public Task<IEnumerable<Review>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
+    public async Task<IEnumerable<Review>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 10)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Review>.Filter.In(r => r.Author, userIds.Select(u => u.ToString()));
+        return (await Collection
+            .Find(filter)
+            .SortByDescending(r => r.CreatedOn)
+            .Limit(count).ToCursorAsync().ConfigureAwait(false)).ToEnumerable();
     }
 
-    public Task<IEnumerable<Review>> GetReviewsByDateRangeAsync(DateTime startDate, DateTime endDate)
+    public async Task<IEnumerable<Review>> GetReviewsByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Review>.Filter.And(
+            Builders<Review>.Filter.Gte(r => r.CreatedOn, startDate),
+            Builders<Review>.Filter.Lte(r => r.CreatedOn, endDate)
+        );
+
+        return (await Collection
+            .Find(filter)
+            .ToCursorAsync()
+            .ConfigureAwait(false)).ToEnumerable();
     }
 
     public async Task<IEnumerable<Review>> GetReviewsByMovieIdAsync(Guid movieId)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Review>.Filter.Eq(r => r.MovieId, movieId.ToString());
+        return (await Collection
+            .Find(filter)
+            .ToCursorAsync().ConfigureAwait(false)).ToEnumerable();
     }
 
-    public Task<IEnumerable<Review>> GetReviewsByRatingAsync(int rating)
+    public async Task<IEnumerable<Review>> GetReviewsByRatingAsync(int rating)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Review>.Filter.Eq(r => r.Rating, rating);
+        return (await Collection
+            .Find(filter)
+            .ToCursorAsync()
+            .ConfigureAwait(false)).ToEnumerable();
     }
 
-    public Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId)
+    public async Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Review>.Filter.Eq(r => r.Author, userId.ToString());
+        return (await Collection
+            .Find(filter)
+            .ToCursorAsync()
+            .ConfigureAwait(false)).ToEnumerable();
     }
 }
