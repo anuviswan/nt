@@ -66,6 +66,12 @@ var mongoDbReview = builder.AddMongoDB(Constants.ReviewService.Database.Instance
             .WithDataVolume()
             .WithMongoExpress();
 
+var redisReview = builder.AddRedis(Constants.ReviewService.Cache.InstanceName, 6379)
+            //.WithEnvironment(Constants.ReviewService.EnvironmentVariable.RedisHostKey, "host.docker.internal")
+            //.WithEnvironment(Constants.ReviewService.EnvironmentVariable.RedisPortKey, "6379")
+            .WithContainerName(Constants.ReviewService.Cache.ContainerName)
+            .WithHttpEndpoint(port: 8081, targetPort: 8081, isProxied: true);
+
 var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastructureSettings.BlobStorage.DockerImage)
             .WithVolume("//d/Source/nt/server/nt.microservice/services/UserService/BlobStorage:/data")
             .WithArgs("azurite-blob", "--blobHost", "0.0.0.0", "-l", "/data")
@@ -180,7 +186,8 @@ var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
         .WithReference(mongoDbReview)
-        .WaitFor(mongoDbReview);
+        .WaitFor(mongoDbReview)
+        .WaitFor(redisReview);
 
 
 var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)

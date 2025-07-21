@@ -140,6 +140,15 @@ public static class Constants
     {
         public const string ServiceName = "nt-reviewservice-service";
 
+
+        public static class Cache
+        {
+            public const string InstanceName = "nt-reviewservice-cache";
+            public const string ContainerName = "nt.reviewservice.cache";
+            public const string UserNameKey = $"{ServiceName}-UserName";
+            public const string PasswordKey = $"{ServiceName}-Password";
+        }
+
         public static class Database
         {
             public const string InstanceName = "nt-reviewservice-db";
