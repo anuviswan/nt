@@ -70,7 +70,9 @@ var redisReview = builder.AddRedis(Constants.ReviewService.Cache.InstanceName, 6
             //.WithEnvironment(Constants.ReviewService.EnvironmentVariable.RedisHostKey, "host.docker.internal")
             //.WithEnvironment(Constants.ReviewService.EnvironmentVariable.RedisPortKey, "6379")
             .WithContainerName(Constants.ReviewService.Cache.ContainerName)
-            .WithHttpEndpoint(port: 8081, targetPort: 8081, isProxied: true);
+            .WithHttpEndpoint(port: 8081, targetPort: 8081, isProxied: true)
+            .WithRedisInsight()
+            .WithRedisCommander();
 
 var blobStorage = builder.AddContainer("nt-userservice-blobstorage", infrastructureSettings.BlobStorage.DockerImage)
             .WithVolume("//d/Source/nt/server/nt.microservice/services/UserService/BlobStorage:/data")
