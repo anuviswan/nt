@@ -8,13 +8,13 @@ public class CachingService(IConnectionMultiplexer connectionMultiplexer) : ICac
 {
     public IConnectionMultiplexer ConnectionMultiplexer => connectionMultiplexer;
     public IDatabase Database => ConnectionMultiplexer.GetDatabase();
-    public void Set<T>(string key, T value, TimeSpan expirationTime) where T : class
+    public async Task SetAsync<T>(string key, T value, TimeSpan expirationTime) where T : class
     {
-        Database.StringSet(key, JsonSerializer.Serialize(value), expirationTime);
+        await Database.StringSetAsync(key, JsonSerializer.Serialize(value), expirationTime);
     }
-    public T? Get<T>(string key) where T : class
+    public async Task<T?> GetAsync<T>(string key) where T : class
     {
-        var value = Database.StringGet(key);
+        var value = await Database.StringGetAsync(key);
         return value.IsNullOrEmpty ? null : JsonSerializer.Deserialize<T>(value!);
     }
 }
