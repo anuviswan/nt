@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Options;
 using ReviewService.Presenation.Api;
 using ReviewService.Presenation.Api.Helpers;
 using ReviewService.Presenation.Api.Options;
+using StackExchange.Redis;
 
 namespace ReviewService.Api;
 
@@ -11,14 +13,22 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
         builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection(nameof(DatabaseOptions)));
-
+        builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection(nameof(CacheOptions)));
 
         // Add services to the container.
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
         builder.Services.RegisterServices();
-
+        builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+        {
+            var cacheOptions = sp.GetRequiredService<IOptions<CacheOptions>>().Value;
+            if (cacheOptions.ConnectionString is null)
+            {
+                throw new InvalidOperationException("Redis connection string is not configured.");
+            }
+            return ConnectionMultiplexer.Connect(cacheOptions.ConnectionString);
+        });
         var app = builder.Build();
 
         app.MapDefaultEndpoints();
