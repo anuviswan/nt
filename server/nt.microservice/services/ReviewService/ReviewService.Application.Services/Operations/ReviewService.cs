@@ -66,9 +66,9 @@ public class ReviewService : IReviewService
             results.AddRange(_mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(fromDbResults));
             return results; 
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            _logger.LogError(ex, "An error occurred while creating a review.");
             throw;
         }
     }
