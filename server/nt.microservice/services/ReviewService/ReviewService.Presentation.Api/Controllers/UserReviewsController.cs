@@ -52,7 +52,7 @@ public class UserReviewsController : ControllerBase
                     MovieId = r.MovieId,
                     Content = r.Content,
                     Rating = r.Rating,
-                    UserName = r.UserName,
+                    UserName = r.Author,
                 }).ToList()
             };
         }

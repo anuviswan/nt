@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ReviewService.Application.DTO.Reviews;
 using ReviewService.Application.Interfaces.Operations;
 using ReviewService.Application.Interfaces.Services;
+using ReviewService.Application.Services.Extensions;
 using ReviewService.Domain.Entities;
 using ReviewService.Domain.Repositories;
 
@@ -13,13 +14,13 @@ public class ReviewService : IReviewService
     private readonly IReviewRepository _reviewRepository;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
-    private readonly ICachingService _cachingService;
-    public ReviewService(IReviewRepository reviewRepository,ICachingService cachingService, IMapper mapper, ILogger<ReviewService> logger)
+    private readonly IReviewCachingService _reviewCachingService;
+    public ReviewService(IReviewRepository reviewRepository,IReviewCachingService cachingService, IMapper mapper, ILogger<ReviewService> logger)
     {
         _reviewRepository = reviewRepository ?? throw new ArgumentNullException(nameof(reviewRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _cachingService = cachingService ?? throw new ArgumentNullException(nameof(cachingService));
+        _reviewCachingService = cachingService ?? throw new ArgumentNullException(nameof(cachingService));
     }
     public Task<IEnumerable<ReviewDto>> GetReviewsByMovieIdAsync(Guid movieId)
     {
@@ -50,7 +51,7 @@ public class ReviewService : IReviewService
             foreach(var id in userIds)
             {
                 var cacheKey = $"user:{id}:recentReviews";
-                var cachedReviews = await _cachingService.GetAsync<IEnumerable<ReviewDto>>(cacheKey).ConfigureAwait(false);
+                var cachedReviews = await _reviewCachingService.ReadUserRecentReviews(id.ToString(),3).ConfigureAwait(false);
 
                 if (cachedReviews != null && cachedReviews.Any())
                 {
@@ -70,11 +71,12 @@ public class ReviewService : IReviewService
                 var reviewDto = _mapper.Map<Review, ReviewDto>(review);
                 
                 // Cache the review for future requests
-                await _cachingService.SetAsync(cacheKey, reviewDto, TimeSpan.FromMinutes(5)).ConfigureAwait(false);
+                await _reviewCachingService.SaveInCache(reviewDto).ConfigureAwait(false);
             }
 
             results.AddRange(_mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(dbResults));
-            return results; 
+
+            return results.OrderByDescending(x=>x.CreatedOn); 
         }
         catch (Exception ex)
         {

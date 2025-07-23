@@ -15,7 +15,12 @@ public static class IServiceCollectionExtension
         serviceCollection.AddScoped<IReviewService, ReviewService.Application.Services.Operations.ReviewService>();
 
         // Generic Services
-        serviceCollection.AddScoped<ICachingService, ReviewService.Application.Services.Services.CachingService>();
+        serviceCollection.AddScoped<ICachingService, ReviewService.Application.Services.Services.CachingService>(sp =>
+        {
+            var connectionMultiplexer = sp.GetRequiredService<IConnectionMultiplexer>();
+            var cacheOptions = sp.GetRequiredService<IOptions<CacheOptions>>().Value;
+            return new ReviewService.Application.Services.Services.CachingService(connectionMultiplexer, cacheOptions.ExpirationInMinutes);
+        });
 
         // Register initializers and providers
         RegisterInitializersAndProviders(serviceCollection);
