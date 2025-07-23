@@ -20,15 +20,6 @@ public class Program
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
         builder.Services.RegisterServices();
-        builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-        {
-            var cacheOptions = sp.GetRequiredService<IOptions<CacheOptions>>().Value;
-            if (cacheOptions.ConnectionString is null)
-            {
-                throw new InvalidOperationException("Redis connection string is not configured.");
-            }
-            return ConnectionMultiplexer.Connect(cacheOptions.ConnectionString);
-        });
         var app = builder.Build();
 
         app.MapDefaultEndpoints();

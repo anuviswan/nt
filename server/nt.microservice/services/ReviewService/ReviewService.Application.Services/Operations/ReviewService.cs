@@ -62,8 +62,18 @@ public class ReviewService : IReviewService
                 }
 
             }
-            var fromDbResults = await _reviewRepository.GetRecentReviewsForUsersAsync(nonCachedUsers, count);
-            results.AddRange(_mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(fromDbResults));
+            var dbResults = await _reviewRepository.GetRecentReviewsForUsersAsync(nonCachedUsers, count);
+
+            foreach (var review in dbResults)
+            {
+                var cacheKey = $"user:{review.Author}:recentReviews";
+                var reviewDto = _mapper.Map<Review, ReviewDto>(review);
+                
+                // Cache the review for future requests
+                await _cachingService.SetAsync(cacheKey, reviewDto, TimeSpan.FromMinutes(5)).ConfigureAwait(false);
+            }
+
+            results.AddRange(_mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(dbResults));
             return results; 
         }
         catch (Exception ex)
