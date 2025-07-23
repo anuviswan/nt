@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using ReviewService.Application.Interfaces.Operations;
 using ReviewService.Application.Interfaces.Services;
 using ReviewService.Presenation.Api.Options;
@@ -10,20 +11,52 @@ public static class IServiceCollectionExtension
 {
     public static void RegisterServices(this IServiceCollection serviceCollection)
     {
+        
+
         // Register your services here
         // Example: serviceCollection.AddSingleton<IReviewService, ReviewService>();
+        serviceCollection.AddAutoMapper(typeof(IServiceCollectionExtension));
+        
+
+        serviceCollection.AddSingleton<IMongoClient>(sp =>
+        {
+            var dbOptions = sp.GetRequiredService<DatabaseOptions>();
+            var connectionString = dbOptions.ConnectionString;
+            return new MongoClient(connectionString);
+        });
+
+        serviceCollection.AddSingleton<IMongoDatabase>(sp =>
+        {
+            var dbOptions = sp.GetRequiredService<DatabaseOptions>();
+            var client = sp.GetRequiredService<IMongoClient>();
+            var databaseName = dbOptions.DatabaseName;
+            return client.GetDatabase(databaseName);
+        });
+
+        
+        RegisterRepositories(serviceCollection);
+        // User Services
         serviceCollection.AddScoped<IReviewService, ReviewService.Application.Services.Operations.ReviewService>();
 
         // Generic Services
-        serviceCollection.AddScoped<ICachingService, ReviewService.Application.Services.Services.CachingService>(sp =>
+        serviceCollection.AddSingleton<ICachingService, ReviewService.Application.Services.Services.CachingService>(sp =>
         {
             var connectionMultiplexer = sp.GetRequiredService<IConnectionMultiplexer>();
             var cacheOptions = sp.GetRequiredService<IOptions<CacheOptions>>().Value;
             return new ReviewService.Application.Services.Services.CachingService(connectionMultiplexer, cacheOptions.ExpirationInMinutes);
         });
 
+        serviceCollection.AddSingleton<IReviewCachingService, ReviewService.Application.Services.Services.ReviewCachingService>();
+
         // Register initializers and providers
         RegisterInitializersAndProviders(serviceCollection);
+    }
+
+    private static void RegisterRepositories(IServiceCollection serviceCollection)
+    {
+        // Register your repositories here
+        // Example: serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
+        serviceCollection.AddScoped<Domain.Repositories.IReviewRepository, ReviewService.Infrastructure.Repository.Repositories.ReviewRepository>();
     }
     private static void RegisterInitializersAndProviders(IServiceCollection serviceCollection)
     {
