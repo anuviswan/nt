@@ -66,7 +66,8 @@ var mongoDbReview = builder.AddMongoDB(Constants.ReviewService.Database.Instance
             .WithDataVolume()
             .WithMongoExpress();
 
-var redisReview = builder.AddRedis(Constants.ReviewService.Cache.InstanceName, 6379)
+var redisPassword = builder.AddParameter(Constants.ReviewService.Cache.PasswordKey, "Password123", secret: true);
+var redisReview = builder.AddRedis(Constants.ReviewService.Cache.InstanceName, port: 6379, password: redisPassword)
             .WithEnvironment("Redis__Host", Constants.ReviewService.Cache.InstanceName) // Set in your app
             .WithEnvironment("Redis__Port", "6379")
             .WithContainerName(Constants.ReviewService.Cache.ContainerName)
@@ -189,7 +190,8 @@ var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
         .WithReference(mongoDbReview)
         .WaitFor(mongoDbReview)
-        .WaitFor(redisReview);
+        .WaitFor(redisReview)
+        .WithReference(redisReview);
 
 
 var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)

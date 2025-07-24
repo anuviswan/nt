@@ -76,6 +76,7 @@ public static class IServiceCollectionExtension
             options.AbortOnConnectFail = false;
             options.ConnectRetry = 5;
             options.ConnectTimeout = 10000;
+            options.SyncTimeout = 10000;
             return ConnectionMultiplexer.Connect(options);
         });
 
