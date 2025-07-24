@@ -5,6 +5,6 @@ namespace ReviewService.Application.Orchestration.Queries;
 
 public class GetRecentReviewsForUsersQuery : IRequest<IEnumerable<ReviewDto>>
 {
-    public IEnumerable<Guid> UserIds { get; set; } = [];
+    public IEnumerable<string> UserIds { get; set; } = [];
     public int Count { get; set; }
 }

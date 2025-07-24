@@ -8,7 +8,7 @@ public record CreateReviewRequest
     public string UserName { get; set; } = string.Empty;
 }
 
-public record GetRecentReviewsForUsersRequest(IEnumerable<Guid> UserIds, int Count = 3);
+public record GetRecentReviewsForUsersRequest(IEnumerable<string> UserIds, int Count = 3);
 
 public record GetRecentReviewsForUsersResponse
 {

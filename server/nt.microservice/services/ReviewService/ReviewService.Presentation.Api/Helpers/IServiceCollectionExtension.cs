@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using MediatR;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using ReviewService.Application.Interfaces.Operations;
 using ReviewService.Application.Interfaces.Services;
+using ReviewService.Domain.Entities;
 using ReviewService.Presenation.Api.Options;
 using StackExchange.Redis;
 
@@ -16,18 +18,18 @@ public static class IServiceCollectionExtension
         // Register your services here
         // Example: serviceCollection.AddSingleton<IReviewService, ReviewService>();
         serviceCollection.AddAutoMapper(typeof(IServiceCollectionExtension));
-        
+        serviceCollection.AddMediatR(typeof(ReviewService.Application.Orchestration.Commands.CreateReviewCommand).Assembly);
 
         serviceCollection.AddSingleton<IMongoClient>(sp =>
         {
-            var dbOptions = sp.GetRequiredService<DatabaseOptions>();
+            var dbOptions = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
             var connectionString = dbOptions.ConnectionString;
             return new MongoClient(connectionString);
         });
 
         serviceCollection.AddSingleton<IMongoDatabase>(sp =>
         {
-            var dbOptions = sp.GetRequiredService<DatabaseOptions>();
+            var dbOptions = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
             var client = sp.GetRequiredService<IMongoClient>();
             var databaseName = dbOptions.DatabaseName;
             return client.GetDatabase(databaseName);
@@ -69,7 +71,12 @@ public static class IServiceCollectionExtension
             {
                 throw new InvalidOperationException("Redis connection string is not configured.");
             }
-            return ConnectionMultiplexer.Connect(cacheOptions.ConnectionString);
+
+            var options = ConfigurationOptions.Parse(cacheOptions.ConnectionString);
+            options.AbortOnConnectFail = false;
+            options.ConnectRetry = 5;
+            options.ConnectTimeout = 10000;
+            return ConnectionMultiplexer.Connect(options);
         });
 
         serviceCollection.AddSingleton<DatabaseInitializer>();

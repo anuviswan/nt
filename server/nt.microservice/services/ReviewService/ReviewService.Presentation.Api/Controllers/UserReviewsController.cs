@@ -29,8 +29,9 @@ public class UserReviewsController : ControllerBase
         return default!;
     }
 
-
-    public async Task<GetRecentReviewsForUsersResponse> GetRecentReviewsForUsers(GetRecentReviewsForUsersRequest request)
+    [HttpPost]
+    [Route(@"GetRecentReviewsForUsers")]
+    public async Task<GetRecentReviewsForUsersResponse> GetRecentReviewsForUsers([FromBody]GetRecentReviewsForUsersRequest request)
     {
         try
         {

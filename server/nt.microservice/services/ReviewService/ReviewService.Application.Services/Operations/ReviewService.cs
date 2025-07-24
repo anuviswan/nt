@@ -41,17 +41,17 @@ public class ReviewService : IReviewService
         }
     }
 
-    public async Task<IEnumerable<ReviewDto>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 3)
+    public async Task<IEnumerable<ReviewDto>> GetRecentReviewsForUsersAsync(IEnumerable<string> userIds, int count = 3)
     {
         try
         {
             var results = new List<ReviewDto>();
-            var nonCachedUsers = new List<Guid>();
+            var nonCachedUsers = new List<string>();
 
             foreach(var id in userIds)
             {
                 var cacheKey = $"user:{id}:recentReviews";
-                var cachedReviews = await _reviewCachingService.ReadUserRecentReviews(id.ToString(),3).ConfigureAwait(false);
+                var cachedReviews = await _reviewCachingService.ReadUserRecentReviews(id,3).ConfigureAwait(false);
 
                 if (cachedReviews != null && cachedReviews.Any())
                 {

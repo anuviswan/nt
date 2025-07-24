@@ -8,7 +8,7 @@ namespace ReviewService.Infrastructure.Repository.Repositories;
 
 public class ReviewRepository(IMongoDatabase mongoDatabase,IMapper mapper) : GenericRepository<ReviewDocument,Review>(mongoDatabase,mapper, "Reviews"), IReviewRepository
 {
-    public async Task<IEnumerable<Review>> GetRecentReviewsForUsersAsync(IEnumerable<Guid> userIds, int count = 10)
+    public async Task<IEnumerable<Review>> GetRecentReviewsForUsersAsync(IEnumerable<string> userIds, int count = 10)
     {
         var filter = Builders<ReviewDocument>.Filter.In(r => r.Author, userIds.Select(u => u.ToString()));
         var result = await Collection

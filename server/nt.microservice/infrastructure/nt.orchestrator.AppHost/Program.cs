@@ -67,8 +67,8 @@ var mongoDbReview = builder.AddMongoDB(Constants.ReviewService.Database.Instance
             .WithMongoExpress();
 
 var redisReview = builder.AddRedis(Constants.ReviewService.Cache.InstanceName, 6379)
-            //.WithEnvironment(Constants.ReviewService.EnvironmentVariable.RedisHostKey, "host.docker.internal")
-            //.WithEnvironment(Constants.ReviewService.EnvironmentVariable.RedisPortKey, "6379")
+            .WithEnvironment("Redis__Host", Constants.ReviewService.Cache.InstanceName) // Set in your app
+            .WithEnvironment("Redis__Port", "6379")
             .WithContainerName(Constants.ReviewService.Cache.ContainerName)
             .WithHttpEndpoint(port: 8081, targetPort: 8081, isProxied: true)
             .WithRedisInsight()
