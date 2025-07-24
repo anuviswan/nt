@@ -6,15 +6,15 @@ using ReviewService.Infrastructure.Repository.Documents;
 
 namespace ReviewService.Infrastructure.Repository.Repositories;
 
-public class ReviewRepository(IMongoDatabase mongoDatabase,IMapper mapper) : GenericRepository<ReviewDocument,Review>(mongoDatabase,mapper, "Reviews"), IReviewRepository
+public class ReviewRepository(IMongoDatabase mongoDatabase,IMapper mapper) : GenericRepository<ReviewDocument,Review>(mongoDatabase,mapper, ReviewDocument.CollectionName), IReviewRepository
 {
     public async Task<IEnumerable<Review>> GetRecentReviewsForUsersAsync(IEnumerable<string> userIds, int count = 10)
     {
         var filter = Builders<ReviewDocument>.Filter.In(r => r.Author, userIds.Select(u => u.ToString()));
-        var result = await Collection
+        var query = Collection
             .Find(filter)
-            .SortByDescending(r => r.CreatedOn)
-            .Limit(count).ToCursorAsync().ConfigureAwait(false);
+            .SortByDescending(r => r.CreatedOn).Limit(count);
+        var result = await query.ToCursorAsync().ConfigureAwait(false);
         return Mapper.Map<IEnumerable<Review>>(result.ToEnumerable()) ?? throw new InvalidOperationException("No recent reviews found for the specified users.");
     }
 
