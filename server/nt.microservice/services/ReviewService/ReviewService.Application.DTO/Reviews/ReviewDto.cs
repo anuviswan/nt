@@ -10,4 +10,7 @@ public class  ReviewDto
     public string Author { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
+    public IEnumerable<string> UpvotedBy { get; set; } = [];
+    public IEnumerable<string> DownvotedBy { get; set; } = [];
+
 }

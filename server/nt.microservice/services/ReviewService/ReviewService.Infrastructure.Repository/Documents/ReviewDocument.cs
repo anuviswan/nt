@@ -28,4 +28,8 @@ public class ReviewDocument:Entity
     [BsonElement("createdOn")]
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
+    public IEnumerable<string> UpvotedBy { get; set; } = [];
+
+    public IEnumerable<string> DownvotedBy { get; set; } = [];
+
 }

@@ -1,5 +1,5 @@
 ﻿namespace ReviewService.Domain.Entities;
-public class Review : IEntity
+public class ReviewEntity : IEntity
 {
     public Guid Id { get; set; }
     public string MovieId { get; set; } = null!;

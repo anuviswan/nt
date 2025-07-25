@@ -31,7 +31,7 @@ public class ReviewService : IReviewService
     {
         try
         {
-            var review = await _reviewRepository.AddAsync(_mapper.Map<ReviewDto, Review>(reviewDto)).ConfigureAwait(false);
+            var review = await _reviewRepository.AddAsync(_mapper.Map<ReviewDto, ReviewEntity>(reviewDto)).ConfigureAwait(false);
             return review.Id;
         }
         catch (Exception ex)
@@ -68,13 +68,13 @@ public class ReviewService : IReviewService
             foreach (var review in dbResults)
             {
                 var cacheKey = $"user:{review.Author}:recentReviews";
-                var reviewDto = _mapper.Map<Review, ReviewDto>(review);
+                var reviewDto = _mapper.Map<ReviewEntity, ReviewDto>(review);
                 
                 // Cache the review for future requests
                 await _reviewCachingService.SaveInCache(reviewDto).ConfigureAwait(false);
             }
 
-            results.AddRange(_mapper.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(dbResults));
+            results.AddRange(_mapper.Map<IEnumerable<ReviewEntity>, IEnumerable<ReviewDto>>(dbResults));
 
             return results.OrderByDescending(x=>x.CreatedOn); 
         }
