@@ -17,7 +17,7 @@ public class ReviewCachingService(ICachingService cachingService, IMapper mapper
 
         // Cache the review for future requests
         await CachingService.StringSetAsync(reviewCacheKey, review).ConfigureAwait(false);
-        await CachingService.SortedSetAsync(sortedCacheKey, review, review.CreatedOn.ToUnixTimestamp()).ConfigureAwait(false);
+        await CachingService.SortedSetAsync(sortedCacheKey, reviewCacheKey, review.CreatedOn.ToUnixTimestamp()).ConfigureAwait(false);
     }
 
     public async Task<ReviewDto?> ReadCache(Guid reviewId)

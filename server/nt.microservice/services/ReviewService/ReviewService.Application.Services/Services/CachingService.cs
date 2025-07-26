@@ -31,8 +31,13 @@ public class CachingService(IConnectionMultiplexer connectionMultiplexer, int ti
 
     public async Task<IEnumerable<T>> SortedSetRangeByScoreAsync<T>(string key, int count) where T : class
     {
-        var g = Database.Ping();
         var values = await Database.SortedSetRangeByScoreAsync(key, order: Order.Descending, take: count);
-        return values.Select(value => JsonSerializer.Deserialize<T>(value!)).Where(value => value != null)!;
+        return values.Select(value => JsonSerializer.Deserialize<T>(value!.ToString())).Where(value => value != null)!;
+    }
+
+    public async Task<IEnumerable<string>> SortedSetRangeByScoreAsync(string key, int count)
+    {
+        var values = await Database.SortedSetRangeByScoreAsync(key, order: Order.Descending, take: count);
+        return values.Select(value => value.ToString()!);
     }
 }
