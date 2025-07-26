@@ -1,4 +1,5 @@
-﻿using MongoDB.Entities;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Entities;
 
 namespace ReviewService.Infrastructure.Repository.Documents;
 
@@ -8,22 +9,27 @@ public class ReviewDocument:Entity
     internal const string CollectionName = "reviews";
 
     
-    [Field("movieId")]
+    [BsonElement("movieId")]
     public Guid MovieId { get; set; }
 
-    [Field("title")]
+    [BsonElement("title")]
     public string Title { get; set; } = string.Empty;
 
-    [Field("content")]
+    [BsonElement("content")]
     public string Content { get; set; } = string.Empty;
 
-    [Field("rating")]
+    [BsonElement("rating")]
+
     public int Rating { get; set; }
 
-    [Field("author")]
+    [BsonElement("author")]
     public string Author { get; set; } = string.Empty;
 
-    [Field("createdOn")]
+    [BsonElement("createdOn")]
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+
+    public IEnumerable<string> UpvotedBy { get; set; } = [];
+
+    public IEnumerable<string> DownvotedBy { get; set; } = [];
 
 }

@@ -29,8 +29,9 @@ public class UserReviewsController : ControllerBase
         return default!;
     }
 
-
-    public async Task<GetRecentReviewsForUsersResponse> GetRecentReviewsForUsers(GetRecentReviewsForUsersRequest request)
+    [HttpPost]
+    [Route(@"GetRecentReviewsForUsers")]
+    public async Task<GetRecentReviewsForUsersResponse> GetRecentReviewsForUsers([FromBody]GetRecentReviewsForUsersRequest request)
     {
         try
         {
@@ -52,7 +53,7 @@ public class UserReviewsController : ControllerBase
                     MovieId = r.MovieId,
                     Content = r.Content,
                     Rating = r.Rating,
-                    UserName = r.UserName,
+                    UserName = r.Author,
                 }).ToList()
             };
         }
