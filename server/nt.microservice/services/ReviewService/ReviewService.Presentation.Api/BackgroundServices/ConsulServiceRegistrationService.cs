@@ -33,7 +33,7 @@ public class ConsulServiceRegistrationService : BackgroundService
                 HTTP = _serviceDiscoveryConfiguration.HealthCheckUrl,
                 Interval = TimeSpan.FromSeconds(10),
                 Timeout = TimeSpan.FromSeconds(5),
-                DeregisterCriticalServiceAfter = TimeSpan.FromMicroseconds(_serviceDiscoveryConfiguration.DeregisterAfterMinutes),
+                DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(3)
             }
         };
 

@@ -167,6 +167,20 @@
 
     },
 
+    {
+      "DownstreamPathTemplate": "/api/GetRecentReviewsForUsers",
+      "DownstreamScheme": "http",
+      "RouteIsCaseSensitive": false,
+      "UseServiceDiscovry": true,
+      "ServiceName": "nt.reviewservice.service",
+      "UpstreamPathTemplate": "/reviews/GetRecentReviewsForUsers",
+      "UpstreamHttpMethod": [ "POST" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      }
+    },
 
     {
       "DownstreamPathTemplate": "/{everything}",
