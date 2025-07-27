@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Aspire.StackExchange.Redis" Version="9.3.1" />
     <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Consul" Version="1.7.14.7" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\infrastructure\nt.orchestrator.ServiceDefaults\nt.orchestrator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\..\infrastructure\nt.shared.dto\nt.shared.dto.csproj" />
     <ProjectReference Include="..\ReviewService.Application.Interfaces\ReviewService.Application.Interfaces.csproj" />
     <ProjectReference Include="..\ReviewService.Application.Orchestration\ReviewService.Application.Orchestration.csproj" />
     <ProjectReference Include="..\ReviewService.Application.Services\ReviewService.Application.Services.csproj" />

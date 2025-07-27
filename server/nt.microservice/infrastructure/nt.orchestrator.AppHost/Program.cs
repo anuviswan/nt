@@ -1,4 +1,3 @@
-using Aspire.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using nt.orchestrator.AppHost.Settings;
@@ -109,13 +108,13 @@ var authServiceLoadBalancer = builder.AddContainer(Constants.AuthService.LoadBal
             .WaitForAll(authServiceInstances);
 
 var authServiceSideCar = builder.AddProject<Projects.AuthService_LoadBalancer_ServiceDiscoverySideCar>(Constants.AuthService.Sidecar.InstanceName)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.AuthService.ServiceRegistrationConfig.ServiceName)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.AuthService.ServiceRegistrationConfig.ServiceId)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.AuthService.ServiceRegistrationConfig.ServiceHost)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, serviceSettings.AuthService.ServiceRegistrationConfig.ServicePort.ToString())
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, serviceSettings.AuthService.ServiceRegistrationConfig.HealthCheckUrl)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.AuthService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceName, serviceSettings.AuthService.ServiceRegistrationConfig.ServiceName)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceId, serviceSettings.AuthService.ServiceRegistrationConfig.ServiceId)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceHost, serviceSettings.AuthService.ServiceRegistrationConfig.ServiceHost)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServicePort, serviceSettings.AuthService.ServiceRegistrationConfig.ServicePort.ToString())
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceHealthCheckUrl, serviceSettings.AuthService.ServiceRegistrationConfig.HealthCheckUrl)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.DeregisterAfter, serviceSettings.AuthService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
             .WaitFor(consulServiceDiscovery)
             .WaitFor(rabbitmq)
             .WaitFor(authServiceLoadBalancer);
@@ -126,11 +125,11 @@ var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserSer
             .WithEnvironment(Constants.UserService.Environment.RabbitMqHost, infrastructureSettings.RabbitMq.Host)
             .WithEnvironment(Constants.UserService.Environment.RabbitMqUserName, infrastructureSettings.RabbitMq.UserName)
             .WithEnvironment(Constants.UserService.Environment.RabbitMqPassword, infrastructureSettings.RabbitMq.Password)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.UserService.ServiceRegistrationConfig.ServiceName)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.UserService.ServiceRegistrationConfig.ServiceId)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.UserService.ServiceRegistrationConfig.ServiceHost)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.UserService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceName, serviceSettings.UserService.ServiceRegistrationConfig.ServiceName)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceId, serviceSettings.UserService.ServiceRegistrationConfig.ServiceId)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceHost, serviceSettings.UserService.ServiceRegistrationConfig.ServiceHost)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.DeregisterAfter, serviceSettings.UserService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
             .WithEnvironment("BlobConfig__ConnectionString", infrastructureSettings.BlobStorage.blobConfig.ConnectionString)
             .WithHttpEndpoint(name:"http")
             .WaitFor(blobStorage)
@@ -140,8 +139,8 @@ var userService = builder.AddProject<Projects.UserService_Api>(Constants.UserSer
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})"));
 
 
-userService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, ()=>userService.GetEndpoint("http").Port.ToString())
-           .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl, 
+userService.WithEnvironment(Constants.Infrastructure.Consul.Environment.ServicePort, ()=>userService.GetEndpoint("http").Port.ToString())
+           .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceHealthCheckUrl, 
                             ()=> $"http://host.docker.internal:{userService.GetEndpoint("http").Port}{serviceSettings.UserService.ServiceRegistrationConfig.HealthCheckUrl}");
 
 var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorService_Api>(Constants.AggregatorUserIdentityService.ServiceName)
@@ -151,11 +150,11 @@ var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorServic
             .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceMappingUserServiceName, serviceSettings.AggregateAuthUserService.ServiceMappingConfig.Services.Single(x => x.Key == "UserService").Name)
             .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceMappingAuthServiceKey, serviceSettings.AggregateAuthUserService.ServiceMappingConfig.Services.Single(x => x.Key == "AuthService").Key)
             .WithEnvironment(Constants.AggregatorUserIdentityService.ServiceMappingAuthServiceName, serviceSettings.AggregateAuthUserService.ServiceMappingConfig.Services.Single(x => x.Key == "AuthService").Name)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.ServiceName)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.ServiceId)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.ServiceHost)
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
-            .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceName, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.ServiceName)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceId, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.ServiceId)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceHost, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.ServiceHost)
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
+            .WithEnvironment(Constants.Infrastructure.Consul.Environment.DeregisterAfter, serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
             //.WithHttpEndpoint(name: "http")
             .WaitFor(consulServiceDiscovery)
             .WaitFor(authServiceLoadBalancer)
@@ -163,36 +162,42 @@ var aggregatorService = builder.AddProject<Projects.UserIdentityAggregatorServic
             .WaitFor(userService)
             .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")); ;
 
-aggregatorService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, () => aggregatorService.GetEndpoint("http").Port.ToString())
-           .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl,
+aggregatorService.WithEnvironment(Constants.Infrastructure.Consul.Environment.ServicePort, () => aggregatorService.GetEndpoint("http").Port.ToString())
+           .WithEnvironment(Constants.Infrastructure.Consul.Environment.ServiceHealthCheckUrl,
                             () => $"http://host.docker.internal:{aggregatorService.GetEndpoint("http").Port}{serviceSettings.AggregateAuthUserService.ServiceRegistrationConfig.HealthCheckUrl}");
 
 var movieService = builder.AddProject<Projects.MovieService_Api>(Constants.MovieService.ServiceName)
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
         .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbName, serviceSettings.MovieService.DbName)
         .WithEnvironment(Constants.MovieService.EnvironmentVariable.DbCollection, serviceSettings.MovieService.MovieCollectionName)
-        .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceName, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceName)
-        .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceId, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceId)
-        .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHost, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceHost)
-        .WithEnvironment(Constants.Infrastructure.Consul.Environement.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
-        .WithEnvironment(Constants.Infrastructure.Consul.Environement.DeregisterAfter, serviceSettings.MovieService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.ServiceName, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceName)
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.ServiceId, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceId)
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.ServiceHost, serviceSettings.MovieService.ServiceRegistrationConfig.ServiceHost)
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
+        .WithEnvironment(Constants.MovieService.EnvironmentVariable.DeregisterAfter, serviceSettings.MovieService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
         .WithReference(mongoDbMovie)
         .WaitFor(mongoDbMovie)
         .WaitFor(consulServiceDiscovery)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.Port})")); ;
 
-movieService.WithEnvironment(Constants.Infrastructure.Consul.Environement.ServicePort, () => movieService.GetEndpoint("http").Port.ToString())
-           .WithEnvironment(Constants.Infrastructure.Consul.Environement.ServiceHealthCheckUrl,
+movieService.WithEnvironment(Constants.MovieService.EnvironmentVariable.ServicePort, () => movieService.GetEndpoint("http").Port.ToString())
+           .WithEnvironment(Constants.MovieService.EnvironmentVariable.ServiceHealthCheckUrl,
                             () => $"http://host.docker.internal:{movieService.GetEndpoint("http").Port}{serviceSettings.MovieService.ServiceRegistrationConfig.HealthCheckUrl}");
 
-var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>("nt-reviewservice-service")
+var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>(Constants.ReviewService.ServiceName)
         .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
-        .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"))
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.DbName, serviceSettings.ReviewService.DbName)
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.DbCollection, serviceSettings.ReviewService.ReviewCollectionName)
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.ServiceName, serviceSettings.ReviewService.ServiceRegistrationConfig.ServiceName)
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.ServiceId, serviceSettings.ReviewService.ServiceRegistrationConfig.ServiceId)
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.ServiceHost, serviceSettings.ReviewService.ServiceRegistrationConfig.ServiceHost)
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.RegistryUri, consulServiceDiscovery.GetEndpoint("http"))
+        .WithEnvironment(Constants.ReviewService.EnvironmentVariable.DeregisterAfter, serviceSettings.MovieService.ServiceRegistrationConfig.DeregisterAfterMinutes.ToString())
         .WithReference(mongoDbReview)
         .WaitFor(mongoDbReview)
         .WaitFor(redisReview)
-        .WithReference(redisReview);
-
+        .WithReference(redisReview)
+        .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
 
 var gateway = builder.AddProject<Projects.nt_gateway>(Constants.Gateway.ServiceName, launchProfileName: Constants.Gateway.LaunchProfile)
            .WithEnvironment(Constants.Global.EnvironmentVariables.RunningWithVariable, Constants.Global.EnvironmentVariables.RunningWithValue)
