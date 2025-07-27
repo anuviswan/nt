@@ -9,7 +9,8 @@ export const useUserStore = defineStore('UserStore',()=>{
         userName : '',
         displayName : '',
         bio : '',
-        token : ''
+        token : '',
+        followers:[]
     });
 
     // getters
@@ -17,6 +18,7 @@ export const useUserStore = defineStore('UserStore',()=>{
     const DisplayName = computed(() => loggedInUser.value.displayName ? loggedInUser.value.displayName : loggedInUser.value.userName);
     const Bio = computed(()=> loggedInUser.value.bio ? loggedInUser.value.bio  : '');
     const Token = computed(( )=> loggedInUser.value.token)
+    const Followers = computed(()=> loggedInUser.value.followers);
 
     // methods
     const SaveUser = (user:LoggedInUser):void=>{
@@ -28,7 +30,8 @@ export const useUserStore = defineStore('UserStore',()=>{
             userName : '',
             displayName : '',
             bio : '',
-            token : ''
+            token : '',
+            followers:[]
         } as LoggedInUser;
     
     }
@@ -39,6 +42,7 @@ export const useUserStore = defineStore('UserStore',()=>{
         DisplayName,
         Bio,
         Token,
+        Followers,
         SaveUser,
         Reset
     };

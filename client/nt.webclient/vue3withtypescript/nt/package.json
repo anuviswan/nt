@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
+    "mock": "vite --mode mockoon",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.vue,.ts",
+    "lint:fix": "eslint . --ext .js,.vue,.ts --fix"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
@@ -21,8 +24,8 @@
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
@@ -30,9 +33,11 @@
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "prettier": "^3.3.3",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-vue": "^8.7.1",
+    "prettier": "^3.6.2",
     "prettier-plugin-vue": "^1.1.6",
     "typescript": "~4.5.5",
     "vite": "^5.4.8",

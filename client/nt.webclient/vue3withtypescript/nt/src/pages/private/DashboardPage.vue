@@ -1,10 +1,15 @@
 <template>
-<div class="container">
-    <div class="row justify-content-end">
-        <div class="col-4">
-            <div class="bg-light border p-2">
+<div class="container-fluid">
+    <div class="row">
+      <div class="col"></div>
+      
+    </div>
+</div>
+
+<!-- Recent Movie Sidebar -->
+<div class="position-fixed top-0 right-0 h-100 bg-light border p-2">
               <div v-if="recentMovies && recentMovies.length > 0">
-                <ul class="movie-flex list-unstyled">
+                <ul class="list-unstyled">
                   <li
                     v-for="(movie, index) in recentMovies"
                     :key="index"
@@ -16,10 +21,7 @@
               <div v-else>
                 <i>No movies found !</i>
               </div>
-            </div>
-        </div>
-    </div>
-</div>
+            </div>       
 </template>
 
 <script setup lang="ts">
@@ -51,18 +53,6 @@
 </script>
 
 <style scoped>
-.movie-flex {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 16px;
-  justify-content: flex-start;
-}
 
-.user-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  flex: 0 1 250px; /* Each card can shrink or grow but has a base width */
-}
+
 </style>

@@ -10,9 +10,9 @@ class HttpClient{
     
     constructor(){
         const headers = {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*", // this will allow all CORS requests
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
+           //"Access-Control-Allow-Origin": "*",
+            //"Access-Control-Allow-Headers": "*", // this will allow all CORS requests
+            //"Access-Control-Allow-Methods": "OPTIONS,POST,GET", // this states the allowed methods
             "Content-Type": "application/json", // this shows the expected content type
           };
 

@@ -36,6 +36,7 @@ export interface IValidateUserResponse extends IResponseBase {
     userName: string;
     displayName?: string;
     bio?: string;
+    followers:string[];
   };
 }
 

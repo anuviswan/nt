@@ -1,0 +1,148 @@
+{
+  "uuid": "909f1d54-2f9c-47f4-b4bc-bb703cf38706",
+  "lastMigration": 33,
+  "name": "Mockoon env",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "2bf1a054-0c56-4a9b-ba5b-bcead1c8df2b",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/User/ValidateUser",
+      "responses": [
+        {
+          "uuid": "f14297ec-c1a0-4de1-ade4-53fe38a3f3d1",
+          "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImppYS5hbnUiLCJhdWQiOlsibnQudXNlcnNlcnZpY2UuY29tIiwibnQuZ2F0ZXdheS5jb20iLCJudC5hdXRoc2VydmljZXMuY29tIl0sImV4cCI6MTc1MzU4ODE1OCwiaXNzIjoibnQuYXV0aHNlcnZpY2VzLmNvbSJ9.tSVidi03-msD_kQWBhoSoInIJiys_VZJsKoNravLWz8\",\n    \"isAuthenticated\": true,\n    \"loginTime\": \"0001-01-01T00:00:00\",\n    \"userName\": \"jia.anu\",\n    \"displayName\": \"Jia Anu\",\n    \"bio\": \"I am jia anu\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "6c9d107c-3a8f-4e12-8506-e06fb5731ebc",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "movies",
+      "responses": [
+        {
+          "uuid": "910bf483-f271-4caa-bc04-29e4df48f9fe",
+          "body": "{\n    \"data\": {\n        \"recentMovies\": [\n            {\n                \"title\": \"Ennu Ninte Moideen\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2023-08-07T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Prithviraj\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Parvathy\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Saikumar\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Argo\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2023-08-06T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Ben Affleck\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Bryan Cranston\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Alan Arkin\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"The Great Indian Kitchen\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2023-02-15T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Nimisha Sajayan\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Suraj Venjaramoodu\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Ajitha\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Cast Away\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2023-01-08T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Tom Hanks\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Helen Hunt\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Nick Searcy\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Premam\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2022-03-14T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Nivin Pauly\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Sai Pallavi\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Madonna Sebastian\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Bangalore Days\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2022-03-05T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Dulquer Salmaan\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Nivin Pauly\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Nazriya Nazim\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Forensic\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2022-03-03T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Tovino Thomas\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Mamta Mohandas\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Reba Monica John\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Arrival\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2022-01-08T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Amy Adams\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Jeremy Renner\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Forest Whitaker\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Puzhu\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2021-12-14T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Mammootty\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Parvathy\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Appunni Sasi\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Lincoln\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2021-08-17T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Daniel Day-Lewis\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Sally Field\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Tommy Lee Jones\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            }\n        ]\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "2bf1a054-0c56-4a9b-ba5b-bcead1c8df2b"
+    },
+    {
+      "type": "route",
+      "uuid": "6c9d107c-3a8f-4e12-8506-e06fb5731ebc"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With, access-control-allow-methods"
+    },
+    {
+      "key": "Access-Control-Allow-Credentials",
+      "value": "true"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "5d8372b2-c418-4fa0-be4d-6091fb918fc4",
+      "id": "yesl",
+      "name": "New data",
+      "documentation": "",
+      "value": "[\n  {\n  userName:\"jia.anu\",\n  password: \"mypass\"\n},\n]"
+    },
+    {
+      "uuid": "ce6f449d-b1a4-4826-b448-61a58e8c4aa5",
+      "id": "59rh",
+      "name": "New data",
+      "documentation": "",
+      "value": "[\n  {\"operationName\":\"recentMovieQuery\",\"variables\":{\"count\":10},\"query\":\"query recentMovieQuery($count: Int) {\\n  recentMovies(count: $count) {\\n    title\\n    movieLanguage\\n    releaseDate\\n    cast {\\n      name\\n      __typename\\n    }\\n    __typename\\n  }\\n}\"}\n]"
+    }
+  ],
+  "callbacks": []
+}

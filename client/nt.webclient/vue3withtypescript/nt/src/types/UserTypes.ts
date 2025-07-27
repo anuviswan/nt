@@ -9,4 +9,5 @@ export interface User {
   reviews?: Review;
   Uprated?: 0;
   Downrated?: 0;
+  followers:string[];
 }
