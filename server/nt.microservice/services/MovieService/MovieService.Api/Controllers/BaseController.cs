@@ -3,7 +3,7 @@ using Omu.ValueInjecter;
 
 namespace MovieService.Api.Controllers
 {
-    public abstract class BaseController : Controller
+    public abstract class BaseController : ControllerBase
     {
 
         public BaseController(ILogger logger)

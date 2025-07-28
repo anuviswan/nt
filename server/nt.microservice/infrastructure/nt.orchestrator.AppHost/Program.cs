@@ -200,7 +200,7 @@ var reviewService = builder.AddProject<Projects.ReviewService_Presenation_Api>(C
         .WithReference(redisReview)
         .WithUrls(c => c.Urls.ForEach(u => u.DisplayText = $"Open API ({u.Endpoint?.EndpointName})"));
 
-reviewService.WithEnvironment(Constants.ReviewService.EnvironmentVariable.ServicePort, () => movieService.GetEndpoint("http").Port.ToString())
+reviewService.WithEnvironment(Constants.ReviewService.EnvironmentVariable.ServicePort, () => reviewService.GetEndpoint("http").Port.ToString())
            .WithEnvironment(Constants.ReviewService.EnvironmentVariable.ServiceHealthCheckUrl,
                             () => $"http://host.docker.internal:{reviewService.GetEndpoint("http").Port}{serviceSettings.ReviewService.ServiceRegistrationConfig.HealthCheckUrl}");
 

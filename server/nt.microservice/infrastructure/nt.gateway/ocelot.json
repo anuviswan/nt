@@ -168,7 +168,7 @@
     },
 
     {
-      "DownstreamPathTemplate": "/api/GetRecentReviewsForUsers",
+      "DownstreamPathTemplate": "/api/UserReviews/GetRecentReviewsForUsers",
       "DownstreamScheme": "http",
       "RouteIsCaseSensitive": false,
       "UseServiceDiscovry": true,

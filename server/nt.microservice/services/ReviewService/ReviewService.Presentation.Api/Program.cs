@@ -14,6 +14,19 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
+
+        var corsPolicy = "_ntClientAppsOrigins";
+        builder.Services.AddCors(option => {
+            option.AddPolicy(name: corsPolicy,
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+        });
+
+
         builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection(nameof(DatabaseOptions)));
         builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection(nameof(CacheOptions)));
         builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
@@ -59,7 +72,8 @@ public class Program
             app.UseSwaggerUI();             // serves /swagger
         }
 
-        app.UseHttpsRedirection();
+       // app.UseHttpsRedirection();
+        app.UseCors(corsPolicy);
         app.UseAuthorization();
         app.MapControllers();
 
