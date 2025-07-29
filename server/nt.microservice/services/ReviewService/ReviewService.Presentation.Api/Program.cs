@@ -1,9 +1,10 @@
+using Consul;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+using nt.shared.dto.Configurations;
 using ReviewService.Presenation.Api;
+using ReviewService.Presenation.Api.BackgroundServices;
 using ReviewService.Presenation.Api.Helpers;
 using ReviewService.Presenation.Api.Options;
-using StackExchange.Redis;
 
 namespace ReviewService.Api;
 
@@ -13,9 +14,23 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
+
+        var corsPolicy = "_ntClientAppsOrigins";
+        builder.Services.AddCors(option => {
+            option.AddPolicy(name: corsPolicy,
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+        });
+
+
         builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection(nameof(DatabaseOptions)));
         builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection(nameof(CacheOptions)));
-        
+        builder.Services.Configure<ServiceRegistrationConfig>(builder.Configuration.GetSection(nameof(ServiceRegistrationConfig)));
+
         // Add services to the container.
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -23,6 +38,19 @@ public class Program
         builder.Services.RegisterServices();
         builder.Services.AddEndpointsApiExplorer(); // for minimal APIs
         builder.Services.AddSwaggerGen();           // generates the Swagger JSON
+
+        builder.Services.AddSingleton<IConsulClient, ConsulClient>(sp =>
+        {
+            var config = sp.GetRequiredService<IOptions<ServiceRegistrationConfig>>().Value;
+            var consulConfig = new ConsulClientConfiguration
+            {
+                Address = new Uri(config.RegistryUri)
+            };
+            return new ConsulClient(consulConfig);
+        });
+
+        builder.Services.AddHostedService<ConsulServiceRegistrationService>();
+
         var app = builder.Build();
 
         app.MapDefaultEndpoints();
@@ -44,7 +72,8 @@ public class Program
             app.UseSwaggerUI();             // serves /swagger
         }
 
-        app.UseHttpsRedirection();
+       // app.UseHttpsRedirection();
+        app.UseCors(corsPolicy);
         app.UseAuthorization();
         app.MapControllers();
 

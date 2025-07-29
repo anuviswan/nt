@@ -33,6 +33,8 @@ public record ServicesSettings
     public UserService UserService { get; set; } = null!;
 
     public MovieService MovieService { get; set; } = null!;
+
+    public ReviewService ReviewService { get; set; } = null!;
 }
 
 public record Gateway(string Host);
@@ -78,6 +80,11 @@ public record MovieService(string DbName,string MovieCollectionName)
 {
     public ServiceRegistrationConfig ServiceRegistrationConfig { get; set; } = null!;
 
+}
+
+public record ReviewService(string DbName, string ReviewCollectionName,string ConnectionString)
+{
+    public ServiceRegistrationConfig ServiceRegistrationConfig { get; set; } = null!;
 }
 
 public record ServiceRegistrationConfig

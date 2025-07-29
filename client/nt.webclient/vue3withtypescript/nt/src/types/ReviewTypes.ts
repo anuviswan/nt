@@ -1,4 +1,10 @@
 export interface Review{
     title:string,
-    description:string
+    content:string,
+    movieId:string,
+    movieTitle:string,
+    rating:number,
+    userName:string,
+    displayName:string
 }
+

@@ -24,3 +24,6 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+<script>
+console.log('Build timestamp:', import.meta.env.VITE_APP_MODE)
+</script>

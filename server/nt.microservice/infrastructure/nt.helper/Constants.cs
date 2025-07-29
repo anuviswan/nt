@@ -30,7 +30,7 @@ public static class Constants
             public const string ServiceName = "nt-common-servicediscovery";
             public const string ContainerName = "nt.common.servicediscovery";
 
-            public static class Environement
+            public static class Environment
             {
                 public const string Key = "ServiceRegistrationConfig";
                 public const string ServiceName = $"{Key}__serviceName";
@@ -129,6 +129,15 @@ public static class Constants
 
         public static class  EnvironmentVariable
         {
+            public const string Key = Constants.Infrastructure.Consul.Environment.Key;
+            public const string ServiceName = Constants.Infrastructure.Consul.Environment.ServiceName;
+            public const string ServiceId = Constants.Infrastructure.Consul.Environment.ServiceId;
+            public const string ServiceHost = Constants.Infrastructure.Consul.Environment.ServiceHost;
+            public const string ServicePort = Constants.Infrastructure.Consul.Environment.ServicePort; 
+            public const string ServiceHealthCheckUrl = Constants.Infrastructure.Consul.Environment.ServiceHealthCheckUrl;
+            public const string RegistryUri = Constants.Infrastructure.Consul.Environment.RegistryUri;
+            public const string DeregisterAfter = Constants.Infrastructure.Consul.Environment.DeregisterAfter;
+
             public const string DbUserNameKey = "MONGO_INITDB_ROOT_USERNAME";
             public const string DbPasswordKey = "MONGO_INITDB_ROOT_PASSWORD";
             public const string DbName = "MovieDatabase__DatabaseName";
@@ -139,7 +148,7 @@ public static class Constants
     public static class ReviewService
     {
         public const string ServiceName = "nt-reviewservice-service";
-
+        public const string ProfileName = Global.Common.LaunchProfile;
 
         public static class Cache
         {
@@ -159,6 +168,15 @@ public static class Constants
 
         public static class EnvironmentVariable
         {
+            public const string Key = Constants.Infrastructure.Consul.Environment.Key;
+            public const string ServiceName = Constants.Infrastructure.Consul.Environment.ServiceName;
+            public const string ServiceId = Constants.Infrastructure.Consul.Environment.ServiceId;
+            public const string ServiceHost = Constants.Infrastructure.Consul.Environment.ServiceHost;
+            public const string ServicePort = Constants.Infrastructure.Consul.Environment.ServicePort;
+            public const string ServiceHealthCheckUrl = Constants.Infrastructure.Consul.Environment.ServiceHealthCheckUrl;
+            public const string RegistryUri = Constants.Infrastructure.Consul.Environment.RegistryUri;
+            public const string DeregisterAfter = Constants.Infrastructure.Consul.Environment.DeregisterAfter;
+
             public const string DbUserNameKey = "MONGO_INITDB_ROOT_USERNAME";
             public const string DbPasswordKey = "MONGO_INITDB_ROOT_PASSWORD";
             public const string DbName = "ReviewDatabase__DatabaseName";

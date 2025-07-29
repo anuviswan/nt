@@ -153,6 +153,7 @@ const onSubmit = async (): Promise<void> => {
       displayName: response.displayName,
       bio: response.bio,
       token: response.token,
+      followers: ["naina.anu"]
     };
 
     userStoreInstance.SaveUser(loggedInUser);
