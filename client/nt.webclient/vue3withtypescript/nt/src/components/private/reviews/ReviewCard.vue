@@ -8,16 +8,44 @@
   const props = defineProps<Props>();
 </script>
 <template>
-  <div class="card">
-    <div class="card-body">
-      <div class="card-title">
-        <b>{{ review.title }}</b>
-      </div>
-      <div class="card-subtitle">
-        {{ review.movieTitle }}
-      </div>
-      <div class="card-body">
-        {{ review.content }}
+  <div class="">
+    <div class="card shadow-sm mb-4">
+      <div class="row g-0">
+        <!-- Image Section -->
+        <div class="col-md-2">
+          <img
+            src="https://t4.ftcdn.net/jpg/02/12/52/91/360_F_212529193_YRhcQCaJB9ugv5dFzqK25Uo9Ivm7B9Ca.jpg"
+            style="width: 200px"
+            class="img-fluid rounded-start h-100 object-fit-cover"
+            alt="Movie Poster"
+          />
+        </div>
+
+        <!-- Content Section -->
+        <div class="col-md-10">
+          <div class="card-body">
+            <h5 class="card-title text-primary">{{ review.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {{ review.movieTitle }}
+            </h6>
+
+            <p class="card-text mt-3">
+              {{ review.content }}
+            </p>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <div>
+                <span class="badge bg-warning text-dark"
+                  >⭐ {{ review.rating }}</span
+                >
+                <small class="text-muted ms-2"
+                  >by {{ review.displayName }}</small
+                >
+              </div>
+              <small class="text-muted">Reviewed on Jul 29, 2025</small>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -69,10 +69,10 @@
       title: review.title,
       content: review.content,
       movieId: review.movieId,
-      movieTitle: ' ',
+      movieTitle: 'Demo Title',
       userName: review.author,
       rating: review.rating,
-      displayName: ' ',
+      displayName: 'Demo User',
     }));
 
     console.log(reviews);
