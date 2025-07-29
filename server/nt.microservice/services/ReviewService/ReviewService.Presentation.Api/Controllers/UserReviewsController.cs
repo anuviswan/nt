@@ -8,7 +8,7 @@ using ReviewService.Presenation.Api.Models;
 namespace ReviewService.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserReviewsController : ControllerBase
 {
     private readonly ILogger<UserReviewsController> _logger;
