@@ -11,7 +11,7 @@
   <div class="card">
     <div class="card-body">
       <div class="card-title">
-        {{ review.title }}
+        <b>{{ review.title }}</b>
       </div>
       <div class="card-subtitle">
         {{ review.movieTitle }}
