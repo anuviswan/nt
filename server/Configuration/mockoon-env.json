@@ -69,6 +69,37 @@
       "responseMode": null,
       "streamingMode": null,
       "streamingInterval": 0
+    },
+    {
+      "uuid": "3007e39d-16f7-4e9b-99c6-48ef6ccc083c",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "reviews/GetRecentReviewsForUsers",
+      "responses": [
+        {
+          "uuid": "027fdcf0-fb7c-4af4-89bb-32a45e7598fa",
+          "body": "{\r\n    \"reviews\": [\r\n        {\r\n            \"reviewId\": \"e835b338-5cb2-472e-862b-69340c0ff53c\",\r\n            \"movieId\": \"bd4b80a0-1516-4b71-887b-714c52459f23\",\r\n            \"movieTitle\": \"\",\r\n            \"content\": \"Selfie gone wrong but in the best way possible. Loved the storytelling and humor.\",\r\n            \"rating\": 5,\r\n            \"userName\": \"jia.anu\"\r\n        },\r\n        {\r\n            \"reviewId\": \"cfe5521e-5e4a-454f-9fac-2e3066bd389a\",\r\n            \"movieId\": \"0003be11-f19a-4b9c-a1b2-b7e195b53d3e\",\r\n            \"movieTitle\": \"\",\r\n            \"content\": \"One of the best performances by Fahadh. Malik stays with you long after it ends.\",\r\n            \"rating\": 5,\r\n            \"userName\": \"jia.anu\"\r\n        },\r\n        {\r\n            \"reviewId\": \"9da3b3c6-37af-4bdf-87bc-27b091e597af\",\r\n            \"movieId\": \"6191e634-14c8-45d1-898f-191060cdbec1\",\r\n            \"movieTitle\": \"\",\r\n            \"content\": \"A heartwarming tale with mouthwatering visuals and a soulful story. Loved it!\",\r\n            \"rating\": 5,\r\n            \"userName\": \"jia.anu\"\r\n        }\r\n    ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "rootChildren": [
@@ -79,6 +110,10 @@
     {
       "type": "route",
       "uuid": "6c9d107c-3a8f-4e12-8506-e06fb5731ebc"
+    },
+    {
+      "type": "route",
+      "uuid": "3007e39d-16f7-4e9b-99c6-48ef6ccc083c"
     }
   ],
   "proxyMode": false,
@@ -132,16 +167,23 @@
     {
       "uuid": "5d8372b2-c418-4fa0-be4d-6091fb918fc4",
       "id": "yesl",
-      "name": "New data",
+      "name": "LoginInput",
       "documentation": "",
       "value": "[\n  {\n  userName:\"jia.anu\",\n  password: \"mypass\"\n},\n]"
     },
     {
       "uuid": "ce6f449d-b1a4-4826-b448-61a58e8c4aa5",
       "id": "59rh",
-      "name": "New data",
+      "name": "RecentMovieInput",
       "documentation": "",
       "value": "[\n  {\"operationName\":\"recentMovieQuery\",\"variables\":{\"count\":10},\"query\":\"query recentMovieQuery($count: Int) {\\n  recentMovies(count: $count) {\\n    title\\n    movieLanguage\\n    releaseDate\\n    cast {\\n      name\\n      __typename\\n    }\\n    __typename\\n  }\\n}\"}\n]"
+    },
+    {
+      "uuid": "20041464-4e89-4e85-bffb-b6ae3d3846de",
+      "id": "dxpa",
+      "name": "RecentReviewInput",
+      "documentation": "",
+      "value": "[\n  {\n  \"userIds\": [\n    \"jia.anu\"\n  ],\n  \"count\": 10\n}\n]"
     }
   ],
   "callbacks": []

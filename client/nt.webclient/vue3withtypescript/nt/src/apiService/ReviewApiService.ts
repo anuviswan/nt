@@ -6,12 +6,17 @@ import {
 
 class ReviewApiService extends ApiServiceBase {
   public async GetRecentReviewsForUsers(
-    userIds: IRecentReviewForUsersRequest
+    userIds: string[],
+    countOfReviews: number
   ): Promise<IRecentReviewsForUsersResponse> {
+    const request: IRecentReviewForUsersRequest = {
+      userIds: userIds,
+      count: countOfReviews,
+    };
     return await this.invoke<IRecentReviewsForUsersResponse>({
       method: 'post',
-      url: 'api/user/createuser',
-      data: userIds,
+      url: 'reviews/GetRecentReviewsForUsers',
+      data: request,
     });
   }
 }
