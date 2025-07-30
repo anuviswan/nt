@@ -10,6 +10,7 @@ export interface IRecentReviewsForUsersResponse extends IResponseBase {
 }
 
 export interface IRecentReviewsForUsersResponseItem {
+  title: string;
   reviewId: string;
   movieId: string;
   content: string;

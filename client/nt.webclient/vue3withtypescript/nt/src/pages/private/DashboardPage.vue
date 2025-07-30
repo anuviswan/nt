@@ -1,21 +1,28 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col"></div>
-    </div>
-  </div>
+      <!-- Recent Reviews -->
+      <div class="col-10">
+        <ul v-for="(review, index) in recentReviews" :key="index">
+          <li class="col list-unstyled">
+            <ReviewCard :review="review"></ReviewCard>
+          </li>
+        </ul>
+      </div>
 
-  <!-- Recent Movie Sidebar -->
-  <div class="position-fixed top-0 right-0 h-100 bg-light border p-2">
-    <div v-if="recentMovies && recentMovies.length > 0">
-      <ul class="list-unstyled">
-        <li v-for="(movie, index) in recentMovies" :key="index">
-          <MovieCardMini :movie="movie" />
-        </li>
-      </ul>
-    </div>
-    <div v-else>
-      <i>No movies found !</i>
+      <!-- Recent Movie Sidebar -->
+      <div class="col-2">
+        <div v-if="recentMovies && recentMovies.length > 0">
+          <ul class="list-unstyled">
+            <li v-for="(movie, index) in recentMovies" :key="index">
+              <MovieCardMini :movie="movie" />
+            </li>
+          </ul>
+        </div>
+        <div v-else>
+          <i>No movies found !</i>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +32,9 @@
   import { Movie } from '@/types/MovieTypes';
   import MovieCardMini from '@/components/private/movie/MovieMiniCard.vue';
   import { movieApiService } from '@/apiService/MovieApiService';
+  import { reviewApiService } from '@/apiService/ReviewApiService';
+  import { Review } from '@/types/ReviewTypes';
+  import ReviewCard from '@/components/private/reviews/ReviewCard.vue';
 
   const recentMovies = ref<Movie[]>([
     {
@@ -36,8 +46,11 @@
     },
   ]);
 
+  const recentReviews = ref<Review[]>([]);
+
   onMounted(async () => {
     await LoadRecentMovies();
+    await LoadTimeLine();
   });
 
   const LoadRecentMovies = async () => {
@@ -45,7 +58,25 @@
     recentMovies.value = movies;
   };
 
-  const LoadTimeLine = async () => {};
+  const LoadTimeLine = async () => {
+    const reviews = await reviewApiService.GetRecentReviewsForUsers(
+      ['jia.anu'],
+      10
+    );
+
+    recentReviews.value = reviews.reviews.map((review) => ({
+      reviewId: review.reviewId,
+      title: review.title,
+      content: review.content,
+      movieId: review.movieId,
+      movieTitle: 'Demo Title',
+      userName: review.author,
+      rating: review.rating,
+      displayName: 'Demo User',
+    }));
+
+    console.log(reviews);
+  };
 </script>
 
 <style scoped></style>
