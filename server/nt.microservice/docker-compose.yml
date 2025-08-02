@@ -52,6 +52,7 @@ services:
     depends_on:
       - "nt.authservice.service"
       - "nt.userservice.service" 
+      - "nt.common.servicediscovery"   
     ports:
       # - "8000-8099:80"
       - "8002:8080" 

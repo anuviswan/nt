@@ -14,6 +14,10 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables(); // <- This ensures env vars are considered
+
         var corsPolicy = "_ntClientAppsOrigins";
 
         builder.Services.AddCors(option => {
