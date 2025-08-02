@@ -26,7 +26,10 @@ services:
       nt.common.network:
     depends_on:
       - "nt.authservice.service"
-      - "nt.userservice.service" 
+      - "nt.userservice.service"
+      - "nt.movieservice.service"
+      - "nt.reviewservice.service"
+      - "nt.common.servicediscovery"  
     ports:
       - "8001:80" 
       # - "9001:443"
@@ -79,6 +82,7 @@ services:
     depends_on:
       - nt.authservice.db
       - nt.common.rabbitmq 
+      - "nt.common.servicediscovery"  
       #- "nt.authservice.log.db"
     expose: 
       - "80"
@@ -187,6 +191,7 @@ services:
     depends_on:
         - "nt.common.rabbitmq"
         - "nt.userservice.db"
+        - "nt.common.servicediscovery"  
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -244,6 +249,7 @@ services:
       nt.movieservice.network:
     depends_on:
         - "nt.movieservice.db"
+        - "nt.common.servicediscovery"  
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -293,11 +299,34 @@ services:
   # Review Service : Responsible for Reviews
   ###############################################################################################################
 
-  reviewservice.presenation.api:
+  nt.reviewservice.service:
     image: ${DOCKER_REGISTRY-}reviewservicepresenationapi
+    hostname: nt.reviewservice.service
+    container_name: nt.reviewservice.service
     build:
       context: .
       dockerfile: services/ReviewService/ReviewService.Presentation.Api/Dockerfile
+    networks:
+          nt.common.network:
+          nt.reviewservice.network:
+    depends_on:
+      - "nt.reviewservice.db"
+      - "nt.reviewservice.cache"
+      - "nt.reviewservice.cache.insight" 
+      - "nt.reviewservice.cache.commander"      
+      - "nt.common.servicediscovery" 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "8501:8080"
+      - "8502:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro 
 
   nt.reviewservice.db:
     image: mongo:latest
@@ -312,7 +341,7 @@ services:
     ports:
       - "27018:27017"
     volumes:
-         - nt.movieservice.db.volume:/data/db
+         - nt.reviewservice.db.volume:/data/db
  
   nt.reviewservice.db.manager:
     image: mongo-express
@@ -326,7 +355,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: mypass
       # ME_CONFIG_MONGODB_URL: mongodb://root:mypass@nt:27017/
       ME_CONFIG_BASICAUTH: false
-      ME_CONFIG_MONGODB_SERVER: nt.movieservice.db  # MongoDB service name
+      ME_CONFIG_MONGODB_SERVER: nt.reviewservice.db  # MongoDB service name
       ME_CONFIG_MONGODB_PORT: 27018  # MongoDB port
     networks:
       nt.reviewservice.network:
@@ -467,6 +496,8 @@ volumes:
     name: "nt.authservice.log.db.volume"
   nt.movieservice.db.volume:
     name: "nt.movieservice.db.volume"
+  nt.reviewservice.db.volume:
+    name: "nt.reviewservice.db.volume"
 
 networks:
   nt.authservice.network:
