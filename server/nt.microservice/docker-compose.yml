@@ -43,7 +43,7 @@ services:
         dockerfile: aggregatorservices/UserIdentityAggregatorService/UserIdentityAggregatorService.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+      - ASPNETCORE_URLS=http://+:8080;https://+:8079
     networks:
       nt.common.network:
     depends_on:
@@ -52,7 +52,7 @@ services:
     ports:
       # - "8000-8099:80"
       - "8002:8080" 
-      - "8003:8081" 
+      - "8003:8079" 
  
 
   ###############################################################################################################
@@ -269,10 +269,10 @@ services:
     # command: ["bash", "-c", "mongod --bind_ip_all & sleep 5 && bash /services/MovieService/MovieService.Data/Seed/init-mongo.sh"]
 
   # MovieService: Database Management Tool
-  mongo-express:
+  nt.movieservice.db.manager:
     image: mongo-express
-    hostname: nt.common.mongoexpress
-    container_name: nt.common.mongoexpress
+    hostname: nt.movieservice.db.manager
+    container_name: nt.movieservice.db.manager
     restart: always
     ports:
       - 8081:8081
@@ -313,6 +313,65 @@ services:
       - "27018:27017"
     volumes:
          - nt.movieservice.db.volume:/data/db
+ 
+  nt.reviewservice.db.manager:
+    image: mongo-express
+    hostname: nt.reviewservice.db.manager
+    container_name: nt.reviewservice.db.manager
+    restart: always
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mypass
+      # ME_CONFIG_MONGODB_URL: mongodb://root:mypass@nt:27017/
+      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_SERVER: nt.movieservice.db  # MongoDB service name
+      ME_CONFIG_MONGODB_PORT: 27018  # MongoDB port
+    networks:
+      nt.reviewservice.network:
+    depends_on:
+      - nt.reviewservice.db
+
+  nt.reviewservice.cache:
+    image: redis:latest
+    container_name: nt.reviewservice.cache
+    hostname: nt.reviewservice.cache
+    networks:
+      nt.reviewservice.network:
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", "Password123"]
+    environment:
+      - Redis__Host=review-redis
+      - Redis__Port=6379
+
+  nt.reviewservice.cache.insight:
+    image: redis/redisinsight:latest
+    container_name: redis-insight
+    ports:
+      - "8083:8081"
+    depends_on:
+      - nt.reviewservice.cache
+    environment:
+      - REDIS_HOST=review-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=Password123
+    networks:
+      nt.reviewservice.network: 
+
+  nt.reviewservice.cache.commander:
+    image: rediscommander/redis-commander:latest
+    container_name: nt.reviewservice.cache.commander
+    ports:
+      - "8084:8081"
+    environment:
+      - REDIS_HOSTS=local:review-redis:6379:Password123
+    depends_on:
+      - nt.reviewservice.cache 
+    networks:
+      nt.reviewservice.network:
+
 
   ###############################################################################################################
   # Infrastructure Services
@@ -359,6 +418,7 @@ services:
       - "8080:8000"
       - "9000:9000"
 
+  
 
   # # Prometheus 
   # nt.common.prometheus:
@@ -384,22 +444,6 @@ services:
 
 
 
-
-  ## Mongo Express to manage MongoDb
-  #nt.common.mongoexpress:
-  #  image: mongo-express
-  #  hostname: nt.common.mongoexpress
-  #  container_name: nt.common.mongoexpress
-  #  restart: always
-  #  environment:
-  #    ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #    ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-  #    ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
-  #  networks:
-  #    nt.authservice.network:
-  #    nt.common.network:
-  #  ports:
-  #    - 8081:8081
 
   nt.common.servicediscovery:
     image: hashicorp/consul
