@@ -256,7 +256,7 @@
     "BaseUrl": "http://localhost:8001",
     "ServiceDiscoveryProvider": {
       "Scheme": "http",
-      "Host": "localhost",
+      "Host": "host.docker.internal",
       "Port": 9500,
       "Type": "Consul"
     }

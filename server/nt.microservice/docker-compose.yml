@@ -46,7 +46,7 @@ services:
         dockerfile: aggregatorservices/UserIdentityAggregatorService/UserIdentityAggregatorService.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080;https://+:8079
+      - ASPNETCORE_URLS=http://+:80;https://+:8079
     networks:
       nt.common.network:
     depends_on:
@@ -55,7 +55,7 @@ services:
       - "nt.common.servicediscovery"   
     ports:
       # - "8000-8099:80"
-      - "8002:8080" 
+      - "8002:80" 
       - "8003:8079" 
  
 
@@ -314,14 +314,13 @@ services:
       - "nt.reviewservice.db"
       - "nt.reviewservice.cache"
       - "nt.reviewservice.cache.insight" 
-      - "nt.reviewservice.cache.commander"      
       - "nt.common.servicediscovery" 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTP_PORTS=80
       - ASPNETCORE_HTTPS_PORTS=8081
     ports:
-      - "8501:8080"
+      - "8501:80"
       - "8502:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
@@ -379,29 +378,29 @@ services:
 
   nt.reviewservice.cache.insight:
     image: redis/redisinsight:latest
-    container_name: redis-insight
+    container_name: nt.reviewservice.insight
     ports:
       - "8083:8081"
     depends_on:
       - nt.reviewservice.cache
     environment:
-      - REDIS_HOST=review-redis
+      - REDIS_HOST=nt.reviewservice.cache
       - REDIS_PORT=6379
       - REDIS_PASSWORD=Password123
     networks:
       nt.reviewservice.network: 
 
-  nt.reviewservice.cache.commander:
-    image: rediscommander/redis-commander:latest
-    container_name: nt.reviewservice.cache.commander
-    ports:
-      - "8084:8081"
-    environment:
-      - REDIS_HOSTS=local:review-redis:6379:Password123
-    depends_on:
-      - nt.reviewservice.cache 
-    networks:
-      nt.reviewservice.network:
+  # nt.reviewservice.cache.commander:
+  #   image: rediscommander/redis-commander:latest
+  #   container_name: nt.reviewservice.cache.commander
+  #   ports:
+  #     - "8084:8081"
+  #   environment:
+  #     - "REDIS_HOSTS=local:nt.reviewservice.cache:6379:Password123:0"
+  #   depends_on:
+  #     - nt.reviewservice.cache 
+  #   networks:
+  #     nt.reviewservice.network:
 
 
   ###############################################################################################################
