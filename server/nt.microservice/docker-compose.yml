@@ -272,7 +272,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-         - nt.movieservice.db.volume:/data/db
+      - nt.movieservice.db.volume:/data/db
     # command: ["bash", "-c", "mongod --bind_ip_all & sleep 5 && bash /services/MovieService/MovieService.Data/Seed/init-mongo.sh"]
 
   # MovieService: Database Management Tool
@@ -339,10 +339,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mypass
     networks:
       nt.reviewservice.network:
+      nt.common.network:
     ports:
       - "27018:27017"
     volumes:
-         - nt.reviewservice.db.volume:/data/db
+      - nt.reviewservice.db.volume:/data/db
  
   nt.reviewservice.db.manager:
     image: mongo-express
