@@ -26,7 +26,10 @@ services:
       nt.common.network:
     depends_on:
       - "nt.authservice.service"
-      - "nt.userservice.service" 
+      - "nt.userservice.service"
+      - "nt.movieservice.service"
+      - "nt.reviewservice.service"
+      - "nt.common.servicediscovery"  
     ports:
       - "8001:80" 
       # - "9001:443"
@@ -43,16 +46,17 @@ services:
         dockerfile: aggregatorservices/UserIdentityAggregatorService/UserIdentityAggregatorService.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+      - ASPNETCORE_URLS=http://+:80;https://+:8079
     networks:
       nt.common.network:
     depends_on:
       - "nt.authservice.service"
       - "nt.userservice.service" 
+      - "nt.common.servicediscovery"   
     ports:
       # - "8000-8099:80"
-      - "8002:8080" 
-      - "8003:8081" 
+      - "8002:80" 
+      - "8003:8079" 
  
 
   ###############################################################################################################
@@ -79,6 +83,7 @@ services:
     depends_on:
       - nt.authservice.db
       - nt.common.rabbitmq 
+      - "nt.common.servicediscovery"  
       #- "nt.authservice.log.db"
     expose: 
       - "80"
@@ -187,6 +192,7 @@ services:
     depends_on:
         - "nt.common.rabbitmq"
         - "nt.userservice.db"
+        - "nt.common.servicediscovery"  
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -244,6 +250,7 @@ services:
       nt.movieservice.network:
     depends_on:
         - "nt.movieservice.db"
+        - "nt.common.servicediscovery"  
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -265,14 +272,14 @@ services:
     ports:
       - "27017:27017"
     volumes:
-         - nt.movieservice.db.volume:/data/db
+      - nt.movieservice.db.volume:/data/db
     # command: ["bash", "-c", "mongod --bind_ip_all & sleep 5 && bash /services/MovieService/MovieService.Data/Seed/init-mongo.sh"]
 
   # MovieService: Database Management Tool
-  mongo-express:
+  nt.movieservice.db.manager:
     image: mongo-express
-    hostname: nt.common.mongoexpress
-    container_name: nt.common.mongoexpress
+    hostname: nt.movieservice.db.manager
+    container_name: nt.movieservice.db.manager
     restart: always
     ports:
       - 8081:8081
@@ -293,11 +300,33 @@ services:
   # Review Service : Responsible for Reviews
   ###############################################################################################################
 
-  reviewservice.presenation.api:
+  nt.reviewservice.service:
     image: ${DOCKER_REGISTRY-}reviewservicepresenationapi
+    hostname: nt.reviewservice.service
+    container_name: nt.reviewservice.service
     build:
       context: .
       dockerfile: services/ReviewService/ReviewService.Presentation.Api/Dockerfile
+    networks:
+          nt.common.network:
+          nt.reviewservice.network:
+    depends_on:
+      - "nt.reviewservice.db"
+      - "nt.reviewservice.cache"
+      - "nt.reviewservice.cache.insight" 
+      - "nt.common.servicediscovery" 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "8501:80"
+      - "8502:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro 
 
   nt.reviewservice.db:
     image: mongo:latest
@@ -309,10 +338,70 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: mypass
     networks:
       nt.reviewservice.network:
+      nt.common.network:
     ports:
       - "27018:27017"
     volumes:
-         - nt.movieservice.db.volume:/data/db
+      - nt.reviewservice.db.volume:/data/db
+ 
+  nt.reviewservice.db.manager:
+    image: mongo-express
+    hostname: nt.reviewservice.db.manager
+    container_name: nt.reviewservice.db.manager
+    restart: always
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mypass
+      # ME_CONFIG_MONGODB_URL: mongodb://root:mypass@nt:27017/
+      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_SERVER: nt.reviewservice.db  # MongoDB service name
+      ME_CONFIG_MONGODB_PORT: 27018  # MongoDB port
+    networks:
+      nt.reviewservice.network:
+    depends_on:
+      - nt.reviewservice.db
+
+  nt.reviewservice.cache:
+    image: redis:latest
+    container_name: nt.reviewservice.cache
+    hostname: nt.reviewservice.cache
+    networks:
+      nt.reviewservice.network:
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", "Password123"]
+    environment:
+      - Redis__Host=review-redis
+      - Redis__Port=6379
+
+  nt.reviewservice.cache.insight:
+    image: redis/redisinsight:latest
+    container_name: nt.reviewservice.insight
+    ports:
+      - "8083:8081"
+    depends_on:
+      - nt.reviewservice.cache
+    environment:
+      - REDIS_HOST=nt.reviewservice.cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=Password123
+    networks:
+      nt.reviewservice.network: 
+
+  # nt.reviewservice.cache.commander:
+  #   image: rediscommander/redis-commander:latest
+  #   container_name: nt.reviewservice.cache.commander
+  #   ports:
+  #     - "8084:8081"
+  #   environment:
+  #     - "REDIS_HOSTS=local:nt.reviewservice.cache:6379:Password123:0"
+  #   depends_on:
+  #     - nt.reviewservice.cache 
+  #   networks:
+  #     nt.reviewservice.network:
+
 
   ###############################################################################################################
   # Infrastructure Services
@@ -359,6 +448,7 @@ services:
       - "8080:8000"
       - "9000:9000"
 
+  
 
   # # Prometheus 
   # nt.common.prometheus:
@@ -385,22 +475,6 @@ services:
 
 
 
-  ## Mongo Express to manage MongoDb
-  #nt.common.mongoexpress:
-  #  image: mongo-express
-  #  hostname: nt.common.mongoexpress
-  #  container_name: nt.common.mongoexpress
-  #  restart: always
-  #  environment:
-  #    ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #    ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-  #    ME_CONFIG_MONGODB_URL: mongodb://root:admin123@authServiceLog:27017/
-  #  networks:
-  #    nt.authservice.network:
-  #    nt.common.network:
-  #  ports:
-  #    - 8081:8081
-
   nt.common.servicediscovery:
     image: hashicorp/consul
     container_name: nt.common.servicediscovery
@@ -423,6 +497,8 @@ volumes:
     name: "nt.authservice.log.db.volume"
   nt.movieservice.db.volume:
     name: "nt.movieservice.db.volume"
+  nt.reviewservice.db.volume:
+    name: "nt.reviewservice.db.volume"
 
 networks:
   nt.authservice.network:
