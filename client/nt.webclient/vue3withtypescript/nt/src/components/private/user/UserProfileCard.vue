@@ -126,80 +126,80 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-import { withDefaults, defineProps } from "vue";
-import { User } from "@/types/UserTypes";
-import { useUserStore } from "@/stores/userStore";
-import AvataarCard from "./AvataarCard.vue";
+  import { ref } from 'vue';
+  import { withDefaults, defineProps } from 'vue';
+  import { User } from '@/types/UserTypes';
+  import { useUserStore } from '@/stores/userStore';
+  import AvataarCard from './AvataarCard.vue';
 
-interface Props {
-  user: User;
-  isMiniCard: boolean;
-  isReadOnly: boolean;
-}
+  interface Props {
+    user: User;
+    isMiniCard: boolean;
+    isReadOnly: boolean;
+  }
 
-const store = useUserStore();
-const currentUserName = ref(store.UserName);
+  const store = useUserStore();
+  const currentUserName = ref(store.UserName);
 
-const props = withDefaults(defineProps<Props>(), {
-  user: () => {
-    return {
-      userName: "DefaultUser",
-      displayName: "Default User",
-      bio: "Hello, I am Default User",
-    };
-  },
-  isMiniCard: true,
-  isReadOnly: false,
-});
+  const props = withDefaults(defineProps<Props>(), {
+    user: () => {
+      return {
+        userName: 'DefaultUser',
+        displayName: 'Default User',
+        bio: 'Hello, I am Default User',
+      };
+    },
+    isMiniCard: true,
+    isReadOnly: false,
+  });
 
-const getValueOrDefault = (val: number | undefined) =>
-  val === null || val === undefined ? 0 : val;
+  const getValueOrDefault = (val: number | undefined) =>
+    val === null || val === undefined ? 0 : val;
 
-function canFollow(): boolean {
-  console.log("Props:" + props.user.userName);
-  console.log("Store:" + currentUserName.value);
-  return props.user.userName != currentUserName.value;
-}
+  function canFollow(): boolean {
+    console.log('Props:' + props.user.userName);
+    console.log('Store:' + currentUserName.value);
+    return props.user.userName != currentUserName.value;
+  }
 
-function followText(): string {
-  console.log(canFollow());
-  return canFollow() ? "Follow" : "Following";
-}
+  function followText(): string {
+    console.log(canFollow());
+    return canFollow() ? 'Follow' : 'Following';
+  }
 </script>
 <style scoped>
-.card {
-  width: 400px;
-  border: 10;
-  border-radius: 10px;
-  background-color: #fff;
-}
+  .card {
+    width: 400px;
+    border: 10;
+    border-radius: 10px;
+    background-color: #fff;
+  }
 
-.stats {
-  background: #f2f5f8 !important;
+  .stats {
+    background: #f2f5f8 !important;
 
-  color: #000 !important;
-}
+    color: #000 !important;
+  }
 
-.bio {
-  font-size: 12px;
-  font-style: italic;
-}
+  .bio {
+    font-size: 12px;
+    font-style: italic;
+  }
 
-.stat-heading {
-  font-size: 10px;
-  color: #6a6b6e;
-}
+  .stat-heading {
+    font-size: 10px;
+    color: #6a6b6e;
+  }
 
-.number1 {
-  font-weight: 500;
-}
+  .number1 {
+    font-weight: 500;
+  }
 
-.number2 {
-  font-weight: 500;
-}
+  .number2 {
+    font-weight: 500;
+  }
 
-.number3 {
-  font-weight: 500;
-}
+  .number3 {
+    font-weight: 500;
+  }
 </style>

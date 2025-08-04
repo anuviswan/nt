@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { Review } from '@/types/ReviewTypes';
   import { defineProps } from 'vue';
+  import AvataarCard from '@/components/private/user/AvataarCard.vue';
   interface Props {
     review: Review;
   }
@@ -34,13 +35,19 @@
             </p>
 
             <div class="d-flex justify-content-between align-items-center mt-4">
-              <div>
+              <div class="d-flex align-items-center">
                 <span class="badge bg-warning text-dark"
                   >⭐ {{ review.rating }}</span
                 >
-                <small class="text-muted ms-2"
-                  >by {{ review.displayName }}</small
+                <div
+                  class="d-inline-block rounded-circle border ms-2 bg-primary"
+                  style="width: 50px; height: 50px"
                 >
+                  <AvataarCard
+                    :userName="review.displayName"
+                    :isReadOnly="true"
+                  />
+                </div>
               </div>
               <small class="text-muted">Reviewed on Jul 29, 2025</small>
             </div>

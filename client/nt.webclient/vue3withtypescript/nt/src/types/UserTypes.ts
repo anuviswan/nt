@@ -1,4 +1,4 @@
-import { Review } from "@/types/ReviewTypes";
+import { Review } from '@/types/ReviewTypes';
 export interface User {
   userName: string;
   displayName?: string;
@@ -9,5 +9,5 @@ export interface User {
   reviews?: Review;
   Uprated?: 0;
   Downrated?: 0;
-  followers:string[];
+  followers: string[];
 }
