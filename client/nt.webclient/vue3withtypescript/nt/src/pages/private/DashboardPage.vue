@@ -70,7 +70,7 @@
       content: review.content,
       movieId: review.movieId,
       movieTitle: 'Demo Title',
-      userName: review.author,
+      userName: review.userName,
       rating: review.rating,
       displayName: 'Demo User',
     }));

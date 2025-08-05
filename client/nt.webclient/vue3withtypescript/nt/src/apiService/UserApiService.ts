@@ -92,10 +92,7 @@ class UserApiService extends ApiServiceBase {
   public async getUserProfile(userName: string): Promise<IGetProfileResponse> {
     return await this.invoke<IGetProfileResponse>({
       method: 'get',
-      url: '/user/api/Users/getuserprofile',
-      params: {
-        userName: userName,
-      },
+      url: `/user/api/Users/getuserprofile/${encodeURIComponent(userName)}`,
     });
   }
 

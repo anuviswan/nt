@@ -47,8 +47,9 @@
                   style="width: 50px; height: 50px"
                 >
                   <AvataarCard
-                    :userName="review.displayName"
+                    :userName="review.userName"
                     :isReadOnly="true"
+                    :showDisplayName="true"
                   />
                 </div>
               </div>

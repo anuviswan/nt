@@ -188,6 +188,7 @@
 
     },
 
+    // Get REcent Reviews
     {
       "DownstreamPathTemplate": "/api/UserReviews/GetRecentReviewsForUsers",
       "DownstreamScheme": "http",

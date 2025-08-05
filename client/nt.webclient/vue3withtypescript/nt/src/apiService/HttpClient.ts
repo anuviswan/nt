@@ -58,6 +58,7 @@ class HttpClient {
   }
   public async getBlob<T>(config: AxiosRequestConfig): Promise<T | null> {
     try {
+      console.log('Sending profile image request for:', config);
       const response = await this.axiosInstance.request<T>(config);
 
       if (response.status == 204) {
