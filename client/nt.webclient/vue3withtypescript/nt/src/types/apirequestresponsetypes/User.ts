@@ -36,7 +36,7 @@ export interface IValidateUserResponse extends IResponseBase {
     userName: string;
     displayName?: string;
     bio?: string;
-    followers:string[];
+    followers: string[];
   };
 }
 
@@ -68,4 +68,8 @@ export interface IGetProfileImageResponse extends IResponseBase {
 
 export interface ISearchUsersResponse extends IResponseBase {
   users: User[];
+}
+
+export interface IGetProfileResponse extends IResponseBase {
+  user: User;
 }

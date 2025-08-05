@@ -108,6 +108,27 @@
       }
     },
 
+    // Get User Profile Name
+    {
+      "DownstreamPathTemplate": "/api/usermanagement/SearchUserByUserName/{userName}",
+      "DownstreamSchema": "https",
+      "DownstreamHttpMethod": "GET",
+      "RouteIsCaseSensitive": false,
+      "ServiceName": "nt.userservice.service",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/user/api/Users/getuserprofile/{userName}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 10,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 3000
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationKey",
+        "AllowedScopes": []
+      }
+    },
+
     // Upload Profile Image
     {
       "DownstreamPathTemplate": "/api/users/uploadprofileimage",

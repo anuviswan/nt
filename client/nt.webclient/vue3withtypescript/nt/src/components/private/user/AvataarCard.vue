@@ -12,6 +12,7 @@
       class="avataar image-center rounded-circle card-img img-thumbnail mx-auto d-block"
       alt="Profile Image"
     />
+    <span v-if="props.showDisplayName">{{ userProfile.displayName }}</span>
     <div class="card-img-overlay d-flex" v-if="!props.isReadOnly">
       <div class="align-self-center mx-auto">
         <i
@@ -41,6 +42,11 @@
     showDisplayName: boolean;
   }
 
+  interface UserProfile {
+    userName: string;
+    displayName: string;
+  }
+
   const props = withDefaults(defineProps<Props>(), {
     isReadOnly: false,
     showUserName: false,
@@ -48,6 +54,10 @@
   });
 
   const currentUserName = ref(props.userName);
+  const userProfile = ref<UserProfile>({
+    userName: props.userName,
+    displayName: '',
+  });
 
   const fileUploader = ref<HTMLInputElement | null>(null);
 
@@ -60,6 +70,7 @@
   const canExecute = ref<boolean>(false);
   onMounted(() => {
     getProfileImage();
+    getUserProfile();
     // check if profile image exist in blob
     //imgSrc.value = defaultImage;
   });
@@ -78,6 +89,21 @@
       var path = URL.createObjectURL(response!);
       imgSrc.value = path;
     }
+  };
+
+  const getUserProfile = async (): Promise<void> => {
+    var response = await userApiService.getUserProfile(props.userName);
+
+    if (response.hasError) {
+      // TODO : Error Handling
+      return;
+    }
+
+    currentUserName.value = response.user.userName;
+    userProfile.value = {
+      userName: response.user.userName,
+      displayName: response.user.displayName ?? '',
+    };
   };
 
   const isValidBlob = (blob: Blob | null): boolean => {
