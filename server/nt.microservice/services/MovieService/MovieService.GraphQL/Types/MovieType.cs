@@ -4,6 +4,10 @@ namespace MovieService.GraphQL.Types;
 
 public class MovieType 
 {
+    [GraphQLName("id")]
+    [GraphQLDescription("Unique identifier for the movie.")]    
+    public string Id { get; set; } = null!; 
+
     [GraphQLName("title")]
     [GraphQLDescription("Title of movie.")]
     public string Title { get; set; } = null!;

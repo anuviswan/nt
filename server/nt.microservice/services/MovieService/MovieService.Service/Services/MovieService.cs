@@ -42,6 +42,8 @@ public class MovieService : ServiceBase, IMovieService
 
     }
 
+
+
     public async IAsyncEnumerable<MovieDto> GetRecentMovies(int count = 10)
     {
         if (count <= 0)
@@ -62,6 +64,25 @@ public class MovieService : ServiceBase, IMovieService
         await foreach (var movie in _movieCrudService.SearchAsync(searchTerm))
         {
             yield return Mapper.Map<MovieDto>(movie);
+        }
+    }
+
+    public async Task<MovieDto?> GetMovieById(string id)
+    {
+        try
+        {
+            var movie = await _movieCrudService.GetMovieByIdAsync(id).ConfigureAwait(false);
+            if(movie is not null)
+            {
+                return Mapper.Map<MovieDto>(movie);
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Unable to find movie with {Id}", id);
+            throw;
         }
     }
 }

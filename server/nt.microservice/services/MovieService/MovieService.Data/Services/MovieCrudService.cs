@@ -2,6 +2,7 @@
 using MongoDB.Entities;
 using MovieService.Data.Interfaces.Entities;
 using MovieService.Data.Interfaces.Services;
+using System.Net.Http.Headers;
 
 namespace MovieService.Data.Services;
 public class MovieCrudService : IMovieCrudService
@@ -20,6 +21,18 @@ public class MovieCrudService : IMovieCrudService
     {
         var cursor = await DB.Find<MovieEntity>()
                              .Match(Search.Full, searchTerm)
+                             .Project(movie => new MovieEntity
+                             {
+                                    ID = movie.ID,
+                                    Title = movie.Title,
+                                    MovieLanguage = movie.MovieLanguage,
+                                    ReleaseDate = movie.ReleaseDate,
+                                    Synopsis = movie.Synopsis,
+                                    Cast = movie.Cast.Select(c => new PersonEntity { Name = c.Name }).ToList(),
+                                    Crew = movie.Crew.ToDictionary(
+                                        kvp => kvp.Key,
+                                        kvp => kvp.Value.Select(p => new PersonEntity { Name = p.Name }).ToList()) 
+                             })
                              .ExecuteCursorAsync();
 
         while (await cursor.MoveNextAsync())
@@ -46,5 +59,15 @@ public class MovieCrudService : IMovieCrudService
                 yield return movie;
             }
         }
+    }
+
+    public async Task<MovieEntity?> GetMovieByIdAsync(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return await DB.Find<MovieEntity>()
+                       .Match(x => x.ID == id)
+                       .ExecuteFirstAsync();
     }
 }
