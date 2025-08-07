@@ -36,6 +36,7 @@ public class MovieQuery([Service]IMovieService movieService)
         {
             yield return new MovieType
             {
+                Id = dto?.Id?.ToString() ?? Guid.Empty.ToString(),
                 Title = dto.Title,
                 MovieLanguage = dto.MovieLanguage ?? "Unknown",
                 ReleaseDate = dto.ReleaseDate ?? DateTime.MinValue,
@@ -57,6 +58,7 @@ public class MovieQuery([Service]IMovieService movieService)
         }
         return new MovieType
         {
+            Id = dto?.Id?.ToString() ?? Guid.Empty.ToString(),
             Title = dto.Title,
             MovieLanguage = dto.MovieLanguage ?? "Unknown",
             ReleaseDate = dto.ReleaseDate ?? DateTime.MinValue,
