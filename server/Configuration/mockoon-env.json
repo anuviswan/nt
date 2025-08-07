@@ -100,6 +100,76 @@
       "responseMode": null,
       "streamingMode": null,
       "streamingInterval": 0
+    },
+    {
+      "uuid": "c2806155-56a8-4407-9e9b-b9530e2628b3",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "user/api/Users/getuserprofile/jia.anu",
+      "responses": [
+        {
+          "uuid": "64e9be30-9437-45a5-b8b3-745b8dc8c9b3",
+          "body": "{\n    \"user\": {\n        \"userName\": \"jia.anu\",\n        \"displayName\": \"Jia Anu\",\n        \"bio\": \"I am jia anu\",\n        \"followersCount\": 0,\n        \"isFollowing\": false\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "1be57320-243a-4175-a443-c9477ce5abc7",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "user/api/Users/getprofileimage",
+      "responses": [
+        {
+          "uuid": "a2556297-4e10-450a-bfd3-3895fc1a4633",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "C:\\Users\\anuvi\\Desktop\\images (9).jpg",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "userName",
+              "value": "jia.anu",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "rootChildren": [
@@ -114,6 +184,14 @@
     {
       "type": "route",
       "uuid": "3007e39d-16f7-4e9b-99c6-48ef6ccc083c"
+    },
+    {
+      "type": "route",
+      "uuid": "c2806155-56a8-4407-9e9b-b9530e2628b3"
+    },
+    {
+      "type": "route",
+      "uuid": "1be57320-243a-4175-a443-c9477ce5abc7"
     }
   ],
   "proxyMode": false,
@@ -132,7 +210,7 @@
   "headers": [
     {
       "key": "Content-Type",
-      "value": "application/json"
+      "value": "image/jpeg"
     },
     {
       "key": "Access-Control-Allow-Origin",

@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { Movie } from '@/types/MovieTypes';
   import MovieCardMini from '@/components/private/movie/MovieMiniCard.vue';
   import { movieApiService } from '@/apiService/MovieApiService';
@@ -54,8 +54,7 @@
   });
 
   const LoadRecentMovies = async () => {
-    const movies = await movieApiService.GetRecentMovies(10);
-    recentMovies.value = movies;
+    recentMovies.value = await movieApiService.GetRecentMovies(10);
   };
 
   const LoadTimeLine = async () => {

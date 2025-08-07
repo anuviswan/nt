@@ -1,7 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { Review } from '@/types/ReviewTypes';
   import { defineProps } from 'vue';
   import AvataarCard from '@/components/private/user/AvataarCard.vue';
+
   interface Props {
     review: Review;
   }
@@ -9,16 +10,16 @@
   const props = defineProps<Props>();
 </script>
 <template>
-  <div class="">
+  <div>
     <div class="card shadow-sm mb-4">
       <div class="row g-0">
         <!-- Image Section -->
         <div class="col-md-2">
           <img
+            alt="Movie Poster"
+            class="img-fluid rounded-start h-80 object-fit-cover"
             src="https://t4.ftcdn.net/jpg/02/12/52/91/360_F_212529193_YRhcQCaJB9ugv5dFzqK25Uo9Ivm7B9Ca.jpg"
             style="width: 200px"
-            class="img-fluid rounded-start h-80 object-fit-cover"
-            alt="Movie Poster"
           />
         </div>
 
@@ -47,9 +48,10 @@
                   style="width: 50px; height: 50px"
                 >
                   <AvataarCard
-                    :userName="review.userName"
                     :isReadOnly="true"
+                    :show-user-name="false"
                     :showDisplayName="true"
+                    :userName="review.userName"
                   />
                 </div>
               </div>
