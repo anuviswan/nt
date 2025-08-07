@@ -21,18 +21,7 @@ public class MovieCrudService : IMovieCrudService
     {
         var cursor = await DB.Find<MovieEntity>()
                              .Match(Search.Full, searchTerm)
-                             .Project(movie => new MovieEntity
-                             {
-                                    ID = movie.ID,
-                                    Title = movie.Title,
-                                    MovieLanguage = movie.MovieLanguage,
-                                    ReleaseDate = movie.ReleaseDate,
-                                    Synopsis = movie.Synopsis,
-                                    Cast = movie.Cast.Select(c => new PersonEntity { Name = c.Name }).ToList(),
-                                    Crew = movie.Crew.ToDictionary(
-                                        kvp => kvp.Key,
-                                        kvp => kvp.Value.Select(p => new PersonEntity { Name = p.Name }).ToList()) 
-                             })
+                             //.Project(movie =>movie)
                              .ExecuteCursorAsync();
 
         while (await cursor.MoveNextAsync())
