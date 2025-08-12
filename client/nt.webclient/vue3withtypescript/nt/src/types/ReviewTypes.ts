@@ -8,4 +8,5 @@ export interface Review {
   userName: string;
   displayName: string;
   posterUrl: string;
+  director: string;
 }

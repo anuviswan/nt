@@ -76,6 +76,8 @@
       userName: review.userName,
       rating: review.rating,
       displayName: 'Demo User',
+      posterUrl: '',
+      director: '',
     }));
 
     console.log(reviews);
