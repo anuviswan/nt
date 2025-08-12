@@ -7,4 +7,5 @@ export interface Review {
   rating: number;
   userName: string;
   displayName: string;
+  posterUrl: string;
 }
