@@ -18,7 +18,7 @@
 </script>
 <template>
   <!-- 3-column layout: poster | content | avatar -->
-  <div class="row gx-4 gy-0 align-items-start">
+  <div class="row gx-4 gy-0 align-items-start border m-1 shadow rounded-2">
     <!-- Poster -->
     <div class="col-auto d-flex align-items-start pe-3">
       <img
