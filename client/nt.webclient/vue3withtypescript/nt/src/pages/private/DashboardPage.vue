@@ -3,11 +3,15 @@
     <div class="row">
       <!-- Recent Reviews -->
       <div class="col-10">
-        <ul v-for="(review, index) in recentReviews" :key="index">
-          <li class="col list-unstyled">
-            <ReviewCard :review="review"></ReviewCard>
-          </li>
-        </ul>
+        <div class="row g-3">
+          <div
+            class="col-md-6"
+            v-for="(review, index) in recentReviews"
+            :key="index"
+          >
+            <ReviewCard :review="review" />
+          </div>
+        </div>
       </div>
 
       <!-- Recent Movie Sidebar -->
