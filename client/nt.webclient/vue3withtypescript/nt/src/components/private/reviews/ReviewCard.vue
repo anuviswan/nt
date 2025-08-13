@@ -93,7 +93,6 @@
             :show-user-name="false"
             :showDisplayName="true"
             :userName="review.userName"
-            n
           />
         </div>
       </div>
