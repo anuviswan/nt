@@ -57,11 +57,11 @@
     await LoadTimeLine();
   });
 
-  const LoadRecentMovies = async () => {
+  const LoadRecentMovies = async (): Promise<void> => {
     recentMovies.value = await movieApiService.GetRecentMovies(10);
   };
 
-  const LoadTimeLine = async () => {
+  const LoadTimeLine = async (): Promise<void> => {
     const reviews = await reviewApiService.GetRecentReviewsForUsers(
       ['jia.anu'],
       10
@@ -81,7 +81,15 @@
       language: review.movieLanguage,
     }));
 
+    recentReviews.value.map(async (review) => {
+      const movieInfo = await GetMovieInfo(review.movieId);
+      review.movieTitle = movieInfo.title;
+    });
     console.log(reviews);
+  };
+
+  const GetMovieInfo = async (movieId: string): Promise<Movie> => {
+    return await movieApiService.GetMovieById(movieId);
   };
 </script>
 
