@@ -139,7 +139,7 @@ public class UserController : BaseController
     [Route("getprofileimage")]
     [Authorize]
     [TechnicalDebt(DebtType.BadDesign,"Exception Handling has to improve when expected return type is image/jpeg")]
-    public async Task<IActionResult> GetProfileImage(string userName)
+    public async Task<IActionResult> GetProfileImage([FromQuery]string userName)
     {
         try
         {

@@ -1,51 +1,96 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { Review } from '@/types/ReviewTypes';
-  import { defineProps } from 'vue';
+  import { defineProps, computed, onMounted, ref } from 'vue';
+  import AvataarCard from '@/components/private/user/AvataarCard.vue';
+  import defaultImage from '@/assets/DefaultMoviePoster.png';
+  import { Movie } from '@/types/MovieTypes';
+  import { movieApiService } from '@/apiService/MovieApiService';
+
   interface Props {
     review: Review;
   }
 
   const props = defineProps<Props>();
+
+  const movie = ref<Movie>({
+    title: 'Source Code',
+    movieLanguage: 'English',
+    releaseDate: new Date('2024-12-05'),
+    cast: [],
+    crew: [],
+  });
+  const posterUrl = computed(() => {
+    return props.review.posterUrl?.trim().length
+      ? props.review.posterUrl
+      : defaultImage;
+  });
+
+  onMounted(() => {
+    console.log('Mounted');
+    GetMovieInfo(props.review.movieId).then((m) => {
+      console.log('found' + m);
+      movie.value = m;
+    });
+  });
+
+  const GetMovieInfo = async (movieId: string): Promise<Movie> => {
+    return await movieApiService.GetMovieById(movieId);
+  };
 </script>
 <template>
-  <div class="">
-    <div class="card shadow-sm mb-4">
-      <div class="row g-0">
-        <!-- Image Section -->
-        <div class="col-md-2">
-          <img
-            src="https://t4.ftcdn.net/jpg/02/12/52/91/360_F_212529193_YRhcQCaJB9ugv5dFzqK25Uo9Ivm7B9Ca.jpg"
-            style="width: 200px"
-            class="img-fluid rounded-start h-100 object-fit-cover"
-            alt="Movie Poster"
-          />
+  <!-- 3-column layout: poster | content | avatar -->
+  <div class="row gx-4 gy-0 align-items-start border m-1 shadow rounded-2 p-3">
+    <!-- Poster -->
+    <div class="col-auto d-flex align-items-start pe-3">
+      <img
+        :src="posterUrl"
+        alt="Movie Poster"
+        class="img-fluid rounded"
+        style="width: 150px; height: auto"
+      />
+    </div>
+
+    <!-- Content -->
+    <div class="col d-flex flex-column align-items-start">
+      <div class="text-start w-100">
+        <h5 class="fw-bold mb-1">
+          {{ review.title }}
+        </h5>
+        <h5 class="fw-bold mb-1">
+          {{ movie.title }}
+          <small class="fst-italic text-muted ms-1">
+            {{ movie.movieLanguage }}
+          </small>
+        </h5>
+        <blockquote class="fst-italic text-muted border-start ps-3">
+          {{ review.content }}
+        </blockquote>
+      </div>
+
+      <!-- Star Rating at Bottom -->
+      <div class="mt-auto pt-2 d-flex align-items-center">
+        <div
+          class="text-warning me-2"
+          style="font-size: 1.2rem; line-height: 1"
+        >
+          <span v-for="n in 5" :key="n">
+            {{ n <= review.rating ? '★' : '☆' }}
+          </span>
         </div>
+        <small class="text-muted">({{ review.rating }} / 5)</small>
+      </div>
+    </div>
 
-        <!-- Content Section -->
-        <div class="col-md-10">
-          <div class="card-body">
-            <h5 class="card-title text-primary">{{ review.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-              {{ review.movieTitle }}
-            </h6>
-
-            <p class="card-text mt-3">
-              {{ review.content }}
-            </p>
-
-            <div class="d-flex justify-content-between align-items-center mt-4">
-              <div>
-                <span class="badge bg-warning text-dark"
-                  >⭐ {{ review.rating }}</span
-                >
-                <small class="text-muted ms-2"
-                  >by {{ review.displayName }}</small
-                >
-              </div>
-              <small class="text-muted">Reviewed on Jul 29, 2025</small>
-            </div>
-          </div>
-        </div>
+    <!-- Avatar -->
+    <div class="col-auto text-center">
+      <div style="width: 56px; height: 56px">
+        <AvataarCard
+          :isReadOnly="true"
+          :show-user-name="false"
+          :showDisplayName="false"
+          :userName="review.userName"
+          :show-initials="true"
+        />
       </div>
     </div>
   </div>

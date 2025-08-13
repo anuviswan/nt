@@ -3,11 +3,15 @@
     <div class="row">
       <!-- Recent Reviews -->
       <div class="col-10">
-        <ul v-for="(review, index) in recentReviews" :key="index">
-          <li class="col list-unstyled">
-            <ReviewCard :review="review"></ReviewCard>
-          </li>
-        </ul>
+        <div class="row g-3">
+          <div
+            class="col-md-6"
+            v-for="(review, index) in recentReviews"
+            :key="index"
+          >
+            <ReviewCard :review="review" />
+          </div>
+        </div>
       </div>
 
       <!-- Recent Movie Sidebar -->
@@ -28,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { Movie } from '@/types/MovieTypes';
   import MovieCardMini from '@/components/private/movie/MovieMiniCard.vue';
   import { movieApiService } from '@/apiService/MovieApiService';
@@ -53,12 +57,11 @@
     await LoadTimeLine();
   });
 
-  const LoadRecentMovies = async () => {
-    const movies = await movieApiService.GetRecentMovies(10);
-    recentMovies.value = movies;
+  const LoadRecentMovies = async (): Promise<void> => {
+    recentMovies.value = await movieApiService.GetRecentMovies(10);
   };
 
-  const LoadTimeLine = async () => {
+  const LoadTimeLine = async (): Promise<void> => {
     const reviews = await reviewApiService.GetRecentReviewsForUsers(
       ['jia.anu'],
       10
@@ -69,13 +72,12 @@
       title: review.title,
       content: review.content,
       movieId: review.movieId,
-      movieTitle: 'Demo Title',
-      userName: review.author,
+      userName: review.userName,
       rating: review.rating,
-      displayName: 'Demo User',
+      posterUrl: '',
+      director: '',
+      language: review.movieLanguage,
     }));
-
-    console.log(reviews);
   };
 </script>
 

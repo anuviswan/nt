@@ -17,20 +17,55 @@
       "responses": [
         {
           "uuid": "f14297ec-c1a0-4de1-ade4-53fe38a3f3d1",
-          "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImppYS5hbnUiLCJhdWQiOlsibnQudXNlcnNlcnZpY2UuY29tIiwibnQuZ2F0ZXdheS5jb20iLCJudC5hdXRoc2VydmljZXMuY29tIl0sImV4cCI6MTc1MzU4ODE1OCwiaXNzIjoibnQuYXV0aHNlcnZpY2VzLmNvbSJ9.tSVidi03-msD_kQWBhoSoInIJiys_VZJsKoNravLWz8\",\n    \"isAuthenticated\": true,\n    \"loginTime\": \"0001-01-01T00:00:00\",\n    \"userName\": \"jia.anu\",\n    \"displayName\": \"Jia Anu\",\n    \"bio\": \"I am jia anu\"\n}",
+          "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImppYS5hbnUiLCJhdWQiOlsibnQudXNlcnNlcnZpY2UuY29tIiwibnQuZ2F0ZXdheS5jb20iLCJudC5hdXRoc2VydmljZXMuY29tIl0sImV4cCI6MTc1MzU4ODE1OCwiaXNzIjoibnQuYXV0aHNlcnZpY2VzLmNvbSJ9.tSVidi03-msD_kQWBhoSoInIJiys_VZJsKoNravLWz8\",\n    \"isAuthenticated\": true,\n    \"loginTime\": \"0001-01-01T00:00:00\",\n    \"userName\": \"naina.anu\",\n    \"displayName\": \"Naina Anu\",\n    \"bio\": \"I am Naina anu..\"\n}",
           "latency": 0,
           "statusCode": 200,
-          "label": "",
+          "label": "Login for naina.anu",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "userName",
+              "value": "naina.anu",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "15443495-ac26-4f85-8ead-dcdde4e24c9f",
+          "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImppYS5hbnUiLCJhdWQiOlsibnQudXNlcnNlcnZpY2UuY29tIiwibnQuZ2F0ZXdheS5jb20iLCJudC5hdXRoc2VydmljZXMuY29tIl0sImV4cCI6MTc1MzU4ODE1OCwiaXNzIjoibnQuYXV0aHNlcnZpY2VzLmNvbSJ9.tSVidi03-msD_kQWBhoSoInIJiys_VZJsKoNravLWz8\",\n    \"isAuthenticated\": true,\n    \"loginTime\": \"0001-01-01T00:00:00\",\n    \"userName\": \"jia.anu\",\n    \"displayName\": \"Jia Anu\",\n    \"bio\": \"I am jia anu..\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "login for jia.anu",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "userName",
+              "value": "jia.anu",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -51,6 +86,145 @@
           "body": "{\n    \"data\": {\n        \"recentMovies\": [\n            {\n                \"title\": \"Ennu Ninte Moideen\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2023-08-07T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Prithviraj\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Parvathy\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Saikumar\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Argo\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2023-08-06T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Ben Affleck\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Bryan Cranston\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Alan Arkin\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"The Great Indian Kitchen\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2023-02-15T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Nimisha Sajayan\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Suraj Venjaramoodu\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Ajitha\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Cast Away\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2023-01-08T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Tom Hanks\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Helen Hunt\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Nick Searcy\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Premam\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2022-03-14T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Nivin Pauly\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Sai Pallavi\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Madonna Sebastian\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Bangalore Days\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2022-03-05T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Dulquer Salmaan\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Nivin Pauly\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Nazriya Nazim\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Forensic\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2022-03-03T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Tovino Thomas\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Mamta Mohandas\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Reba Monica John\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Arrival\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2022-01-08T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Amy Adams\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Jeremy Renner\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Forest Whitaker\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Puzhu\",\n                \"movieLanguage\": \"Malayalam\",\n                \"releaseDate\": \"2021-12-14T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Mammootty\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Parvathy\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Appunni Sasi\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            },\n            {\n                \"title\": \"Lincoln\",\n                \"movieLanguage\": \"English\",\n                \"releaseDate\": \"2021-08-17T18:30:00.000Z\",\n                \"cast\": [\n                    {\n                        \"name\": \"Daniel Day-Lewis\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Sally Field\",\n                        \"__typename\": \"PersonType\"\n                    },\n                    {\n                        \"name\": \"Tommy Lee Jones\",\n                        \"__typename\": \"PersonType\"\n                    }\n                ],\n                \"__typename\": \"MovieType\"\n            }\n        ]\n    }\n}",
           "latency": 0,
           "statusCode": 200,
+          "label": "Get Recent Movies",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "operationName",
+              "value": "recentMovieQuery",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "03de1183-aae4-4b59-9966-397a74381097",
+          "body": "{\r\n  \"data\": {\r\n    \"movieById\": {\r\n      \"id\": \"33333333-3333-3333-3333-333333333333\",\r\n      \"title\": \"Oru Vadakkan Selfie\",\r\n      \"description\": \"Synopsis not provided\",\r\n      \"movieLanguage\": \"Malayalam\",\r\n      \"releaseDate\": \"2007-11-25T18:30:00.000Z\",\r\n      \"cast\": [\r\n        {\r\n          \"name\": \"Nivin Pauly\"\r\n        },\r\n        {\r\n          \"name\": \"Manjima Mohan\"\r\n        },\r\n        {\r\n          \"name\": \"Aju Varghese\"\r\n        }\r\n      ],\r\n      \"crew\": [\r\n        {\r\n          \"key\": \"Director\",\r\n          \"value\": [\r\n            {\r\n              \"name\": \"G. Prajith\"\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"key\": \"Music Director\",\r\n          \"value\": [\r\n            {\r\n              \"name\": \"Shaan Rahman\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Get Movie Details - Oru Vadakkan Selfie",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "operationName",
+              "value": "movieByIdQuery",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "variables.id",
+              "value": "33333333-3333-3333-3333-333333333333",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0eb97706-34bf-4ecf-8424-8fbaf4111950",
+          "body": "{\r\n  \"data\": {\r\n    \"movieById\": {\r\n      \"id\": \"44444444-4444-4444-4444-444444444444\",\r\n      \"title\": \"Malik\",\r\n      \"description\": \"Synopsis not provided\",\r\n      \"movieLanguage\": \"Malayalam\",\r\n      \"releaseDate\": \"2021-02-24T18:30:00.000Z\",\r\n      \"cast\": [\r\n        {\r\n          \"name\": \"Fahadh Faasil\"\r\n        },\r\n        {\r\n          \"name\": \"Nimisha Sajayan\"\r\n        },\r\n        {\r\n          \"name\": \"Joju George\"\r\n        }\r\n      ],\r\n      \"crew\": [\r\n        {\r\n          \"key\": \"Director\",\r\n          \"value\": [\r\n            {\r\n              \"name\": \"Mahesh Narayanan\"\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"key\": \"Music Director\",\r\n          \"value\": [\r\n            {\r\n              \"name\": \"Sushin Shyam\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "GetMovieById - Malik",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "operationName",
+              "value": "movieByIdQuery",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "variables.id",
+              "value": "44444444-4444-4444-4444-444444444444",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "064a67b0-5cc8-4e73-aef4-031686b211ff",
+          "body": "{\r\n  \"data\": {\r\n    \"movieById\": {\r\n      \"id\": \"55555555-5555-5555-5555-555555555555\",\r\n      \"title\": \"The Great Indian Kitchen\",\r\n      \"description\": \"Synopsis not provided\",\r\n      \"movieLanguage\": \"Malayalam\",\r\n      \"releaseDate\": \"2023-02-15T18:30:00.000Z\",\r\n      \"cast\": [\r\n        {\r\n          \"name\": \"Nimisha Sajayan\"\r\n        },\r\n        {\r\n          \"name\": \"Suraj Venjaramoodu\"\r\n        },\r\n        {\r\n          \"name\": \"Ajitha\"\r\n        }\r\n      ],\r\n      \"crew\": [\r\n        {\r\n          \"key\": \"Director\",\r\n          \"value\": [\r\n            {\r\n              \"name\": \"Jeo Baby\"\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"key\": \"Music Director\",\r\n          \"value\": [\r\n            {\r\n              \"name\": \"Sooraj S. Kurup\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Get Movie By Id Default",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "operationName",
+              "value": "movieByIdQuery",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "3007e39d-16f7-4e9b-99c6-48ef6ccc083c",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "reviews/GetRecentReviewsForUsers",
+      "responses": [
+        {
+          "uuid": "027fdcf0-fb7c-4af4-89bb-32a45e7598fa",
+          "body": "{\r\n  \"reviews\": [\r\n    {\r\n      \"title\": \"Emotional Ride\",\r\n      \"reviewId\": \"3ac668c2-063c-4496-b50d-b0bf9731e3af\",\r\n      \"movieId\": \"11111111-1111-1111-1111-111111111111\",\r\n      \"content\": \"Dulquer and Thilakan make this movie a beautiful emotional ride. Music was perfect.\",\r\n      \"rating\": 4,\r\n      \"userName\": \"jia.anu\",\r\n      \"movieLanguage\":\"Malayalam\"\r\n    },\r\n    {\r\n      \"title\": \"Fafa magic\",\r\n      \"reviewId\": \"58e11685-308e-4d3a-a2db-8393b44e5e46\",\r\n      \"movieId\": \"22222222-2222-2222-2222-222222222222\",\r\n      \"content\": \"Minimal dialogues, maximum impact. Joji is a masterclass in modern Malayalam cinema.\",\r\n      \"rating\": 5,\r\n      \"userName\": \"jia.anu\",\r\n      \"movieLanguage\":\"Malayalam\"\r\n    },\r\n    {\r\n      \"title\": \"Fun ride\",\r\n      \"reviewId\": \"e835b338-5cb2-472e-862b-69340c0ff53c\",\r\n      \"movieId\": \"33333333-3333-3333-3333-333333333333\",\r\n      \"content\": \"Selfie gone wrong but in the best way possible. Loved the storytelling and humor.\",\r\n      \"rating\": 3,\r\n      \"userName\": \"jia.anu\",\r\n      \"movieLanguage\":\"Malayalam\"\r\n    },\r\n    {\r\n      \"title\": \"Fahad back again\",\r\n      \"reviewId\": \"cfe5521e-5e4a-454f-9fac-2e3066bd389a\",\r\n      \"movieId\": \"44444444-4444-4444-4444-444444444444\",\r\n      \"content\": \"One of the best performances by Fahadh. Malik stays with you long after it ends.\",\r\n      \"rating\": 5,\r\n      \"userName\": \"jia.anu\",\r\n      \"movieLanguage\":\"Malayalam\"\r\n    },\r\n    {\r\n      \"title\": \"Best of Nivin\",\r\n      \"reviewId\": \"258842c2-d5fa-4054-9eee-db7324f4953d\",\r\n      \"movieId\": \"55555555-5555-5555-5555-555555555555\",\r\n      \"content\": \"Great music, wonderful performances. Premam is a modern Malayalam classic.\",\r\n      \"rating\": 5,\r\n      \"userName\": \"jia.anu\",\r\n      \"movieLanguage\":\"Malayalam\"\r\n    },\r\n    {\r\n      \"title\": \"Fahad steals shows, yet again\",\r\n      \"reviewId\": \"6191fdeb-ab80-492c-b6ee-8f03c107a01f\",\r\n      \"movieId\": \"44444444-4444-4444-4444-444444444444\",\r\n      \"content\": \"Powerful script and solid performances. Worth watching more than once.\",\r\n      \"rating\": 5,\r\n      \"userName\": \"jia.anu\"\r\n    },\r\n    {\r\n      \"title\": \"wow\",\r\n      \"reviewId\": \"9da3b3c6-37af-4bdf-87bc-27b091e597af\",\r\n      \"movieId\": \"66666666-6666-6666-6666-666666666666\",\r\n      \"content\": \"A heartwarming tale with mouthwatering visuals and a soulful story. Loved it!\",\r\n      \"rating\": 4,\r\n      \"userName\": \"jia.anu\",\r\n      \"movieLanguage\":\"Malayalam\"\r\n    }\r\n  ]\r\n}",
+          "latency": 0,
+          "statusCode": 200,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",
@@ -71,15 +245,15 @@
       "streamingInterval": 0
     },
     {
-      "uuid": "3007e39d-16f7-4e9b-99c6-48ef6ccc083c",
+      "uuid": "c2806155-56a8-4407-9e9b-b9530e2628b3",
       "type": "http",
       "documentation": "",
-      "method": "post",
-      "endpoint": "reviews/GetRecentReviewsForUsers",
+      "method": "get",
+      "endpoint": "user/api/Users/getuserprofile/jia.anu",
       "responses": [
         {
-          "uuid": "027fdcf0-fb7c-4af4-89bb-32a45e7598fa",
-          "body": "{\r\n    \"reviews\": [\r\n        {\r\n            \"reviewId\": \"e835b338-5cb2-472e-862b-69340c0ff53c\",\r\n            \"movieId\": \"bd4b80a0-1516-4b71-887b-714c52459f23\",\r\n            \"title\":\"Oru Vadakkan Selfie - Humourous\",\r\n            \"content\": \"Selfie gone wrong but in the best way possible. Loved the storytelling and humor.\",\r\n            \"rating\": 5,\r\n            \"userName\": \"jia.anu\"\r\n        },\r\n        {\r\n            \"reviewId\": \"cfe5521e-5e4a-454f-9fac-2e3066bd389a\",\r\n            \"movieId\": \"0003be11-f19a-4b9c-a1b2-b7e195b53d3e\",\r\n            \"title\":\"Fafa Magic\",\r\n            \"content\": \"One of the best performances by Fahadh. Malik stays with you long after it ends.\",\r\n            \"rating\": 5,\r\n            \"userName\": \"jia.anu\"\r\n        },\r\n        {\r\n            \"reviewId\": \"9da3b3c6-37af-4bdf-87bc-27b091e597af\",\r\n            \"movieId\": \"6191e634-14c8-45d1-898f-191060cdbec1\",\r\n            \"title\" : \"Visual Magic\",\r\n            \"content\": \"A heartwarming tale with mouthwatering visuals and a soulful story. Loved it!\",\r\n            \"rating\": 5,\r\n            \"userName\": \"jia.anu\"\r\n        }\r\n    ]\r\n}",
+          "uuid": "64e9be30-9437-45a5-b8b3-745b8dc8c9b3",
+          "body": "{\n    \"user\": {\n        \"userName\": \"jia.anu\",\n        \"displayName\": \"Jia Anu\",\n        \"bio\": \"I am jia anu\",\n        \"followersCount\": 0,\n        \"isFollowing\": false\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -89,6 +263,45 @@
           "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "1be57320-243a-4175-a443-c9477ce5abc7",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "user/api/Users/getprofileimage",
+      "responses": [
+        {
+          "uuid": "a2556297-4e10-450a-bfd3-3895fc1a4633",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "FILE",
+          "filePath": "C:\\Users\\anuvi\\Desktop\\images (9).jpg",
+          "databucketID": "",
+          "sendFileAsBody": true,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "userName",
+              "value": "jia.anu",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -114,6 +327,14 @@
     {
       "type": "route",
       "uuid": "3007e39d-16f7-4e9b-99c6-48ef6ccc083c"
+    },
+    {
+      "type": "route",
+      "uuid": "c2806155-56a8-4407-9e9b-b9530e2628b3"
+    },
+    {
+      "type": "route",
+      "uuid": "1be57320-243a-4175-a443-c9477ce5abc7"
     }
   ],
   "proxyMode": false,
@@ -132,7 +353,7 @@
   "headers": [
     {
       "key": "Content-Type",
-      "value": "application/json"
+      "value": "image/jpeg"
     },
     {
       "key": "Access-Control-Allow-Origin",
@@ -164,13 +385,6 @@
     }
   ],
   "data": [
-    {
-      "uuid": "5d8372b2-c418-4fa0-be4d-6091fb918fc4",
-      "id": "yesl",
-      "name": "LoginInput",
-      "documentation": "",
-      "value": "[\n  {\n  userName:\"jia.anu\",\n  password: \"mypass\"\n},\n]"
-    },
     {
       "uuid": "ce6f449d-b1a4-4826-b448-61a58e8c4aa5",
       "id": "59rh",

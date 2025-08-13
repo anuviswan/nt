@@ -5,4 +5,5 @@ public interface IMovieCrudService
     Task CreateAsync(MovieEntity newBook);
     IAsyncEnumerable<MovieEntity> SearchAsync(string searchTerm);
     IAsyncEnumerable<MovieEntity> GetRecentMovies(int count = 10);
+    Task<MovieEntity?> GetMovieByIdAsync(string id);
 }

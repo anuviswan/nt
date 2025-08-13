@@ -1,5 +1,6 @@
 import { ApiServiceBase } from './ApiServiceBase';
 import {
+  IGetMovieInfoResponse,
   IRecentMoviesResponse,
   ISearchMoviesResponse,
   MovieResponse,
@@ -61,6 +62,37 @@ class MovieApiService extends ApiServiceBase {
       ConvertToMovieDto(movieResponse)
     );
     return movies;
+  }
+
+  public async GetMovieById(id: string): Promise<Movie> {
+    console.log('query recent movie');
+    const movieById: DocumentNode = gql`
+      query movieByIdQuery($id: String) {
+        movieById(id: $id) {
+          id
+          title
+          description
+          movieLanguage
+          releaseDate
+          cast {
+            name
+          }
+          crew {
+            key
+            value {
+              name
+            }
+          }
+        }
+      }
+    `;
+
+    const response = await this.queryGraphQl<IGetMovieInfoResponse>(movieById, {
+      id,
+    });
+
+    console.log(response);
+    return ConvertToMovieDto(response.movieById);
   }
 }
 

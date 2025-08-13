@@ -18,6 +18,8 @@ public static class ValueInjectorMapper
             // Use InjectFrom to copy the base properties
             dto.InjectFrom(src);
 
+            dto.Id = src.ID; // Ensure the ID is set correctly from the Entity
+
             // Map the CastAndCrew dictionary
             if (src.Crew?.Any() == true)
             {

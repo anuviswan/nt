@@ -1,12 +1,15 @@
-import {  IGraphQlResponseBase } from '@/types/apirequestresponsetypes/Response';
+import { IGraphQlResponseBase } from '@/types/apirequestresponsetypes/Response';
 
 export interface ISearchMoviesResponse extends IGraphQlResponseBase {
-  findMovie: MovieResponse[]
-  
+  findMovie: MovieResponse[];
 }
 
-export interface IRecentMoviesResponse extends IGraphQlResponseBase{
-  recentMovies : MovieResponse[]
+export interface IRecentMoviesResponse extends IGraphQlResponseBase {
+  recentMovies: MovieResponse[];
+}
+
+export interface IGetMovieInfoResponse extends IGraphQlResponseBase {
+  movieById: MovieResponse;
 }
 
 export interface MovieResponse {
@@ -14,14 +17,14 @@ export interface MovieResponse {
   movieLanguage: string;
   releaseDate: Date;
   cast: PersonResponse[];
-  crew: KeyValuePair<string,PersonResponse[]>[];
+  crew: KeyValuePair<string, PersonResponse[]>[];
 }
 
-export interface CastResponse{
-  Person : PersonResponse[]
+export interface CastResponse {
+  Person: PersonResponse[];
 }
 
-export interface KeyValuePair<TKey,TValue> {
+export interface KeyValuePair<TKey, TValue> {
   key: TKey;
   value: TValue;
 }
@@ -29,4 +32,3 @@ export interface KeyValuePair<TKey,TValue> {
 export interface PersonResponse {
   name: string;
 }
-
