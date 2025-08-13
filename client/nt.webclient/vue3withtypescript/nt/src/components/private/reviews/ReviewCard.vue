@@ -1,8 +1,10 @@
 <script lang="ts" setup>
   import { Review } from '@/types/ReviewTypes';
-  import { defineProps, computed } from 'vue';
+  import { defineProps, computed, onMounted, ref } from 'vue';
   import AvataarCard from '@/components/private/user/AvataarCard.vue';
   import defaultImage from '@/assets/DefaultMoviePoster.png';
+  import { Movie } from '@/types/MovieTypes';
+  import { movieApiService } from '@/apiService/MovieApiService';
 
   interface Props {
     review: Review;
@@ -10,11 +12,30 @@
 
   const props = defineProps<Props>();
 
+  const movie = ref<Movie>({
+    title: 'Source Code',
+    movieLanguage: 'English',
+    releaseDate: new Date('2024-12-05'),
+    cast: [],
+    crew: [],
+  });
   const posterUrl = computed(() => {
     return props.review.posterUrl?.trim().length
       ? props.review.posterUrl
       : defaultImage;
   });
+
+  onMounted(() => {
+    console.log('Mounted');
+    GetMovieInfo(props.review.movieId).then((m) => {
+      console.log('found' + m);
+      movie.value = m;
+    });
+  });
+
+  const GetMovieInfo = async (movieId: string): Promise<Movie> => {
+    return await movieApiService.GetMovieById(movieId);
+  };
 </script>
 <template>
   <!-- 3-column layout: poster | content | avatar -->
@@ -36,9 +57,9 @@
           {{ review.title }}
         </h5>
         <h5 class="fw-bold mb-1">
-          {{ review.movieTitle }}
+          {{ movie.title }}
           <small class="fst-italic text-muted ms-1">
-            {{ review.language }}
+            {{ movie.movieLanguage }}
           </small>
         </h5>
         <blockquote class="fst-italic text-muted border-start ps-3">

@@ -67,31 +67,17 @@
       10
     );
 
-    console.log('review is ' + reviews.reviews);
-
     recentReviews.value = reviews.reviews.map((review) => ({
       reviewId: review.reviewId,
       title: review.title,
       content: review.content,
       movieId: review.movieId,
-      movieTitle: 'Demo Title',
       userName: review.userName,
       rating: review.rating,
-      displayName: 'Demo User',
       posterUrl: '',
       director: '',
       language: review.movieLanguage,
     }));
-
-    recentReviews.value.map(async (review) => {
-      const movieInfo = await GetMovieInfo(review.movieId);
-      review.movieTitle = movieInfo.title;
-    });
-    console.log(reviews);
-  };
-
-  const GetMovieInfo = async (movieId: string): Promise<Movie> => {
-    return await movieApiService.GetMovieById(movieId);
   };
 </script>
 
