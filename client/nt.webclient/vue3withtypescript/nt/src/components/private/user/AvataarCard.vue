@@ -13,6 +13,9 @@
       alt="Profile Image"
     />
     <span v-if="props.showDisplayName">{{ userProfile.displayName }}</span>
+    <span v-if="props.showInitials">{{
+      getInitials(userProfile.displayName)
+    }}</span>
     <div class="card-img-overlay d-flex" v-if="!props.isReadOnly">
       <div class="align-self-center mx-auto">
         <i
@@ -40,6 +43,7 @@
     isReadOnly: boolean;
     showUserName: boolean;
     showDisplayName: boolean;
+    showInitials: false;
   }
 
   interface UserProfile {
@@ -51,6 +55,7 @@
     isReadOnly: false,
     showUserName: false,
     showDisplayName: false,
+    showInitials: false,
   });
 
   const currentUserName = ref(props.userName);
@@ -145,6 +150,18 @@
       var response = await userApiService.uploadProfileImage(fileInfo);
 
       console.log(response);
+    }
+  };
+
+  const getInitials = (name: string): string | null => {
+    if (name && name.length > 0) {
+      return name
+        .split(' ') // split into ["John", "Doe"]
+        .map((part) => part[0]) // take first letter of each
+        .join('') // join them back together
+        .toUpperCase(); // make sure it's uppercase
+    } else {
+      return name;
     }
   };
 </script>

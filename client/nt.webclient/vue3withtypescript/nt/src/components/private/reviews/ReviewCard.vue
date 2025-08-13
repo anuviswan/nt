@@ -39,7 +39,7 @@
 </script>
 <template>
   <!-- 3-column layout: poster | content | avatar -->
-  <div class="row gx-4 gy-0 align-items-start border m-1 shadow rounded-2">
+  <div class="row gx-4 gy-0 align-items-start border m-1 shadow rounded-2 p-3">
     <!-- Poster -->
     <div class="col-auto d-flex align-items-start pe-3">
       <img
@@ -83,20 +83,15 @@
 
     <!-- Avatar -->
     <div class="col-auto text-center">
-      <div
-        class="avatar-top position-absolute"
-        style="top: 12px; right: 12px; width: 56px; height: 56px; z-index: 1100"
-      >
-        <div class="avatar-box">
-          <AvataarCard
-            :isReadOnly="true"
-            :show-user-name="false"
-            :showDisplayName="true"
-            :userName="review.userName"
-          />
-        </div>
+      <div style="width: 56px; height: 56px">
+        <AvataarCard
+          :isReadOnly="true"
+          :show-user-name="false"
+          :showDisplayName="false"
+          :userName="review.userName"
+          :show-initials="true"
+        />
       </div>
-      <div>{{ review.author }}</div>
     </div>
   </div>
 </template>
