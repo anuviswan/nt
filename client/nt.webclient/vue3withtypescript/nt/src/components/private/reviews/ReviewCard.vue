@@ -30,21 +30,17 @@
     </div>
 
     <!-- Content -->
-    <div class="col d-flex flex-column">
-      <div>
+    <div class="col d-flex flex-column align-items-start">
+      <div class="text-start w-100">
         <h5 class="fw-bold mb-1">
           {{ review.title }}
+        </h5>
+        <h5 class="fw-bold mb-1">
+          {{ review.movieTitle }}
           <small class="fst-italic text-muted ms-1">
             {{ review.language }}
           </small>
         </h5>
-
-        <p class="mb-1">
-          <strong>Directed By:</strong> {{ review.director || 'Unknown' }}
-        </p>
-        <p class="mb-1"><strong>Story:</strong> {{ review.story }}</p>
-        <p class="mb-3"><strong>Cast:</strong> {{ review.cast }}</p>
-
         <blockquote class="fst-italic text-muted border-start ps-3">
           {{ review.content }}
         </blockquote>

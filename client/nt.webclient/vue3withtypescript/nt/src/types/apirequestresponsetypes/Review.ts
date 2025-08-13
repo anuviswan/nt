@@ -16,4 +16,5 @@ export interface IRecentReviewsForUsersResponseItem {
   content: string;
   rating: number;
   userName: string;
+  movieLanguage: string;
 }

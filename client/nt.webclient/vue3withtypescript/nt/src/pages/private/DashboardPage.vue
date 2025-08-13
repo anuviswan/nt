@@ -78,6 +78,7 @@
       displayName: 'Demo User',
       posterUrl: '',
       director: '',
+      language: review.movieLanguage,
     }));
 
     console.log(reviews);
