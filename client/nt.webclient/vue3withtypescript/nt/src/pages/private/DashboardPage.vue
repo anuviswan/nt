@@ -67,6 +67,8 @@
       10
     );
 
+    console.log('review is ' + reviews.reviews);
+
     recentReviews.value = reviews.reviews.map((review) => ({
       reviewId: review.reviewId,
       title: review.title,
