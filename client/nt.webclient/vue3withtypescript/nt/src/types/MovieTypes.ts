@@ -4,6 +4,7 @@ export interface Movie {
   releaseDate: Date;
   cast: Person[];
   crew: KeyValuePair<string, Person[]>[];
+  posterUrl?: string;
 }
 
 export interface KeyValuePair<TKey, TValue> {

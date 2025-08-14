@@ -1,12 +1,19 @@
 <script setup lang="ts">
   import { Movie, Person } from '@/types/MovieTypes';
   import CrewCard from './CrewCard.vue';
-  import { defineProps } from 'vue';
+  import { computed, defineProps } from 'vue';
+  import defaultImage from '@/assets/DefaultMoviePoster.png';
 
   interface Props {
     movie: Movie;
   }
   const props = defineProps<Props>();
+
+  const posterUrl = computed(() => {
+    return props.movie.posterUrl?.trim().length
+      ? props.movie.posterUrl
+      : defaultImage;
+  });
 
   function findCrewMembers(
     currentMovie: Movie,
@@ -36,6 +43,16 @@
         <p class="small">({{ movie.movieLanguage }})</p>
         <p class="small">Released on : {{ formatDate(movie.releaseDate) }}</p>
       </div>
+    </div>
+
+    <!-- Poster -->
+    <div class="col-auto d-flex align-items-start pe-3">
+      <img
+        :src="posterUrl"
+        alt="Movie Poster"
+        class="img-fluid rounded"
+        style="width: 150px; height: auto"
+      />
     </div>
 
     <!-- Director Section Below Language -->
