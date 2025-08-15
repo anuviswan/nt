@@ -18,7 +18,7 @@
       <div class="col-2">
         <div v-if="recentMovies && recentMovies.length > 0">
           <ul class="list-unstyled">
-            <li v-for="(movie, index) in recentMovies" :key="index">
+            <li v-for="(movie, index) in recentMovies" :key="index" class="m-2">
               <MovieCardMini :movie="movie" />
             </li>
           </ul>

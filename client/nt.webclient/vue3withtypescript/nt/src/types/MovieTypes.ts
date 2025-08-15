@@ -3,11 +3,11 @@ export interface Movie {
   movieLanguage: string;
   releaseDate: Date;
   cast: Person[];
-  crew: KeyValuePair<string,Person[]>[];
+  crew: KeyValuePair<string, Person[]>[];
+  posterUrl?: string;
 }
 
-
-export interface KeyValuePair<TKey,TValue> {
+export interface KeyValuePair<TKey, TValue> {
   key: TKey;
   value: TValue;
 }

@@ -50,6 +50,12 @@ class MovieApiService extends ApiServiceBase {
           cast {
             name
           }
+          crew {
+            key
+            value {
+              name
+            }
+          }
         }
       }
     `;
@@ -67,7 +73,7 @@ class MovieApiService extends ApiServiceBase {
   public async GetMovieById(id: string): Promise<Movie> {
     console.log('query recent movie');
     const movieById: DocumentNode = gql`
-      query movieByIdQuery($id: String) {
+      query movieByIdQuery($id: String!) {
         movieById(id: $id) {
           id
           title
