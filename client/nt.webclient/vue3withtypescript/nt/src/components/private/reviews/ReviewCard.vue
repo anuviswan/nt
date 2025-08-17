@@ -5,6 +5,7 @@
   import defaultImage from '@/assets/DefaultMoviePoster.png';
   import { Movie } from '@/types/MovieTypes';
   import { movieApiService } from '@/apiService/MovieApiService';
+  import Votes from '@/components/private/reviews/Votes.vue';
 
   interface Props {
     review: Review;
@@ -39,7 +40,9 @@
 </script>
 <template>
   <!-- 3-column layout: poster | content | avatar -->
-  <div class="row gx-4 gy-0 align-items-start border m-1 shadow rounded-2 p-3">
+  <div
+    class="row gx-4 gy-0 align-items-start border m-1 shadow rounded-2 p-3 h-100"
+  >
     <!-- Poster -->
     <div class="col-auto d-flex align-items-start pe-3">
       <img
@@ -67,22 +70,37 @@
         </blockquote>
       </div>
 
-      <!-- Star Rating at Bottom -->
-      <div class="mt-auto pt-2 d-flex align-items-center">
-        <div
-          class="text-warning me-2"
-          style="font-size: 1.2rem; line-height: 1"
-        >
-          <span v-for="n in 5" :key="n">
-            {{ n <= review.rating ? '★' : '☆' }}
-          </span>
+      <div
+        class="mt-auto pt-2 d-flex align-items-center w-100 justify-content-between"
+      >
+        <!-- Left rating -->
+        <div class="d-flex align-items-center">
+          <div
+            class="text-warning me-2"
+            style="font-size: 1.2rem; line-height: 1"
+          >
+            <span v-for="n in 5" :key="n">{{
+              n <= review.rating ? '★' : '☆'
+            }}</span>
+          </div>
+          <small class="text-muted">({{ review.rating }} / 5)</small>
         </div>
-        <small class="text-muted">({{ review.rating }} / 5)</small>
+
+        <!-- Right rating -->
+        <div class="d-flex align-items-center ms-auto">
+          <Votes
+            :alignment="Right"
+            :is-upvote="false"
+            count="322"
+            :is-selected="false"
+            :text="Upvoted"
+          />
+        </div>
       </div>
     </div>
 
     <!-- Avatar -->
-    <div class="col-auto text-center">
+    <div class="col-auto text-center h-100">
       <div style="width: 56px; height: 56px">
         <AvataarCard
           :isReadOnly="true"
