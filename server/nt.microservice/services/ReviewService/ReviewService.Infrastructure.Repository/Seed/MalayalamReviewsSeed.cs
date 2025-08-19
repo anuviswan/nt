@@ -21,7 +21,7 @@ public static class MalayalamReviewsSeed
         Rating = 4,
         Title = "Beautiful Blend",
         Author = "jia.anu",
-        UpvotedBy = ["sreena.anu"],
+        UpvotedBy = ["sreena.anu","anu.viswan"],
     },
     new() {
         Content = "Joji is an intense, slow burn thriller. Brilliant acting by Fahadh as always.",
