@@ -73,7 +73,7 @@
       <div
         class="mt-auto pt-2 d-flex align-items-center w-100 justify-content-between"
       >
-        <!-- Left rating -->
+        <!-- Rating -->
         <div class="d-flex align-items-center">
           <div
             class="text-warning me-2"
@@ -86,14 +86,22 @@
           <small class="text-muted">({{ review.rating }} / 5)</small>
         </div>
 
-        <!-- Right rating -->
-        <div class="d-flex align-items-center ms-auto">
+        <!-- Votes -->
+
+        <div class="d-flex gap-5">
           <Votes
-            :alignment="Right"
-            :is-upvote="false"
-            count="322"
-            :is-selected="false"
-            :text="Upvoted"
+            Alignment="Right"
+            :IsUpvote="true"
+            :Count="review.upvotedBy?.length ?? 0"
+            :IsSelected="false"
+            :Text="Upvoted"
+          />
+          <Votes
+            Alignment="Left"
+            :IsUpvote="false"
+            :Count="review.downvotedBy?.length ?? 0"
+            :IsSelected="false"
+            Text="Downvoted"
           />
         </div>
       </div>

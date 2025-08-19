@@ -7,4 +7,6 @@ export interface Review {
   userName: string;
   posterUrl: string;
   language: string;
+  upvotedBy?: string[];
+  downvotedBy?: string[];
 }

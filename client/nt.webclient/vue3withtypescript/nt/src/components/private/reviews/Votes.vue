@@ -32,18 +32,18 @@
 <template>
   <div>
     <div
-      v-if="Alignment == 'Left'"
-      class="d-flex flex-column align-items-start text-muted"
+      v-if="Alignment == 'Right'"
+      class="d-flex flex-row align-items-end text-muted"
     >
+      <span> {{ Count }} </span>
       <i :class="iconClass"></i>
-      <span>{{ Count }} {{ Text }}</span>
     </div>
     <div
-      v-if="Alignment == 'Right'"
-      class="d-flex flex-column align-items-end text-muted"
+      v-if="Alignment == 'Left'"
+      class="d-flex flex-row align-items-start text-muted"
     >
       <i :class="iconClass"></i>
-      <span>{{ Count }} {{ Text }}</span>
+      <span>{{ Count }}</span>
     </div>
   </div>
 </template>

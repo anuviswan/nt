@@ -249,7 +249,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "user/api/Users/getuserprofile/jia.anu",
+      "endpoint": "user/api/Users/getuserprofile/:userName",
       "responses": [
         {
           "uuid": "64e9be30-9437-45a5-b8b3-745b8dc8c9b3",
@@ -262,11 +262,46 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "userName",
+              "value": "jia.anu",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "e87a76eb-795a-43a3-af87-0013b7ef88f1",
+          "body": "{\n    \"user\": {\n        \"userName\": \"naina.anu\",\n        \"displayName\": \"Naina Anu\",\n        \"bio\": \"I am nain anu\",\n        \"followersCount\": 0,\n        \"isFollowing\": false\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "userName",
+              "value": "naina.anu",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -290,7 +325,7 @@
           "label": "",
           "headers": [],
           "bodyType": "FILE",
-          "filePath": "C:\\Users\\anuvi\\Desktop\\images (9).jpg",
+          "filePath": "D:\\Source\\User.png",
           "databucketID": "",
           "sendFileAsBody": true,
           "rules": [
