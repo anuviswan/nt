@@ -11,7 +11,8 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("6191e634-14c8-45d1-898f-191060cdbec1"),
         Rating = 5,
         Title = "Ustad Hotel Feels",
-        Author = "jia.anu"
+        Author = "jia.anu",
+        UpvotedBy = ["naina.anu","jia.anu"],
     },
     new() {
         Content = "Dulquer and Thilakan make this movie a beautiful emotional ride. Music was perfect.",
@@ -19,7 +20,8 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("6191e634-14c8-45d1-898f-191060cdbec1"),
         Rating = 4,
         Title = "Beautiful Blend",
-        Author = "jia.anu"
+        Author = "jia.anu",
+        UpvotedBy = ["sreena.anu","anu.viswan"],
     },
     new() {
         Content = "Joji is an intense, slow burn thriller. Brilliant acting by Fahadh as always.",
@@ -51,7 +53,9 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("bd4b80a0-1516-4b71-887b-714c52459f23"),
         Rating = 5,
         Title = "Smart Comedy",
-        Author = "jia.anu"
+        Author = "jia.anu",
+        DownvotedBy = ["jia.anu"],
+        UpvotedBy = ["naina.anu"]
     },
     new() {
         Content = "Malik is powerful. A political saga with gripping performances. Fahadh nailed it!",
@@ -67,7 +71,8 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("0003be11-f19a-4b9c-a1b2-b7e195b53d3e"),
         Rating = 5,
         Title = "Brilliant Execution",
-        Author = "jia.anu"
+        Author = "jia.anu",
+        UpvotedBy = ["jia.anu", "sreena.anu", "naina.anu"]
     },
     new() {
         Content = "Premam is nostalgic, fun, and full of charm. Every phase of love was shown beautifully.",
@@ -75,7 +80,8 @@ public static class MalayalamReviewsSeed
         MovieId = Guid.Parse("af3e9bed-3e04-4f06-856d-3c572605bf4d"),
         Rating = 5,
         Title = "Love Story Goals",
-        Author = "naina.anu"
+        Author = "naina.anu",
+        UpvotedBy = ["jia.anu", "sreena.anu", "naina.anu"]
     },
     new() {
         Content = "Great music, wonderful performances. Premam is a modern Malayalam classic.",

@@ -77,6 +77,8 @@
       posterUrl: '',
       director: '',
       language: review.movieLanguage,
+      upvotedBy: review.upvotedBy,
+      downvotedBy: review.downvotedBy,
     }));
   };
 </script>

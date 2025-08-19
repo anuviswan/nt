@@ -4,6 +4,7 @@ import router from './router';
 import { createPinia } from 'pinia';
 import { provideApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apolloClient';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const pinia = createPinia();
 const app = createApp({

@@ -54,6 +54,8 @@ public class UserReviewsController : ControllerBase
                     Content = r.Content,
                     Rating = r.Rating,
                     UserName = r.Author,
+                    UpvotedBy  = r.UpvotedBy,
+                    DownvotedBy = r.DownvotedBy,
                 }).ToList()
             };
         }

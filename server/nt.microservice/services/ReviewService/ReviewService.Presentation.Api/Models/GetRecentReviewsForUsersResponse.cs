@@ -13,4 +13,6 @@ public record GetRcentReviewsForUserReviewItem
     public string Content { get; init; } = string.Empty;
     public int Rating { get; init; }
     public string UserName { get; init; } = string.Empty;
+    public IEnumerable<string> UpvotedBy { get; set; } = [];
+    public IEnumerable<string> DownvotedBy { get; set; } = [];
 }
