@@ -6,12 +6,14 @@
   import { Movie } from '@/types/MovieTypes';
   import { movieApiService } from '@/apiService/MovieApiService';
   import Votes from '@/components/private/reviews/Votes.vue';
+  import { useUserStore } from '@/stores/userStore';
 
   interface Props {
     review: Review;
   }
 
   const props = defineProps<Props>();
+  const userStore = useUserStore();
 
   const movie = ref<Movie>({
     title: 'Source Code',
@@ -37,6 +39,10 @@
   const GetMovieInfo = async (movieId: string): Promise<Movie> => {
     return await movieApiService.GetMovieById(movieId);
   };
+
+  const HasVoted = computed(() => {
+    return userStore.loggedInUser.userName == props.review.userName;
+  });
 </script>
 <template>
   <!-- 3-column layout: poster | content | avatar -->
@@ -93,14 +99,14 @@
             Alignment="Right"
             :IsUpvote="true"
             :Count="review.upvotedBy?.length ?? 0"
-            :IsSelected="false"
+            :IsSelected="HasVoted"
             :Text="Upvoted"
           />
           <Votes
             Alignment="Left"
             :IsUpvote="false"
             :Count="review.downvotedBy?.length ?? 0"
-            :IsSelected="false"
+            :IsSelected="HasVoted"
             Text="Downvoted"
           />
         </div>
