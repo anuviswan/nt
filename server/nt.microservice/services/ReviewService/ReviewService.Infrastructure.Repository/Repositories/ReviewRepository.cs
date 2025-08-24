@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MongoDB.Driver;
 using ReviewService.Domain.Entities;
-using ReviewService.Domain.Repositories;
+using ReviewService.Application.Interfaces.Repositories;
 using ReviewService.Infrastructure.Repository.Documents;
 
 namespace ReviewService.Infrastructure.Repository.Repositories;

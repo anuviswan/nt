@@ -58,7 +58,7 @@ public static class IServiceCollectionExtension
     {
         // Register your repositories here
         // Example: serviceCollection.AddScoped<IReviewRepository, ReviewRepository>();
-        serviceCollection.AddScoped<Domain.Repositories.IReviewRepository, ReviewService.Infrastructure.Repository.Repositories.ReviewRepository>();
+        serviceCollection.AddScoped<Application.Interfaces.Repositories.IReviewRepository, ReviewService.Infrastructure.Repository.Repositories.ReviewRepository>();
     }
     private static void RegisterInitializersAndProviders(IServiceCollection serviceCollection)
     {

@@ -5,7 +5,7 @@ using ReviewService.Application.Interfaces.Operations;
 using ReviewService.Application.Interfaces.Services;
 using ReviewService.Application.Services.Extensions;
 using ReviewService.Domain.Entities;
-using ReviewService.Domain.Repositories;
+using ReviewService.Application.Interfaces.Repositories;
 
 namespace ReviewService.Application.Services.Operations;
 
