@@ -1,6 +1,6 @@
 ﻿using ReviewService.Domain.Entities;
 
-namespace ReviewService.Domain.Repositories;
+namespace ReviewService.Application.Interfaces.Repositories;
 
 public interface IGenericRepository<TEntity> where TEntity : class, IEntity, new()
 {
